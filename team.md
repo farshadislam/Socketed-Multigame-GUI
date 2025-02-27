@@ -21,8 +21,8 @@
 | Hamma Asad, |
 
 | *♘ Leaderboard-matchmaking ♘* |
-|-------------| 
-| Harris Jan,  |
+|-------------------------------| 
+| Harris Jan, Taha Malik          |
 
 | *♘ Integration ♘* |
 |-------------|
