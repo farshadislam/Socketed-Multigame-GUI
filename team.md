@@ -1,8 +1,11 @@
 # *♔ Team Organization ♔*:
-| *♘ Game-Logic ♘*   | 
-|--------------------|
-| Cassandra Rodberg, |
-| Hamzi El-Jundi     |
+| *♘ Game-Logic ♘*         | 
+|--------------------------|
+| Cassandra Rodberg,       |
+| Hamzi El-Jundi,          |
+| Enkhbayasgalan Bayarkhuu |
+| Brittney Ha              |
+| Kallista Sieu            |
  
 
 | *♘ GUI ♘* | 
