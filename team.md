@@ -1,7 +1,9 @@
 # *♔ Team Organization ♔*:
-| *♘ Game-Logic ♘* | 
-|-------------|
-| Cassandra Rodberg,  |
+| *♘ Game-Logic ♘*   | 
+|--------------------|
+| Cassandra Rodberg, |
+| Hamzi El-Jundi     |
+ 
 
 | *♘ GUI ♘* | 
 |-------------|
