@@ -1,3 +1,32 @@
+# *♔ Team Organization ♔*:
+| *♘ Game-Logic ♘* | 
+|-------------|
+| Cassandra Rodberg,  |
+
+| *♘ GUI ♘* | 
+|-------------|
+| Syed Sohaib, |
+
+| *♘ Networking ♘* |
+|-------------|
+| Ronakh Shariff, Ali Almishri, |
+
+| *♘ Authentication-profile ♘* |
+|-------------|
+| Hamma Asad, |
+
+| *♘ Leaderboard-matchmaking ♘* |
+|-------------| 
+| Harris Jan,  |
+
+| *♘ Integration ♘* |
+|-------------|
+|Igor Juhas, Rehan Ahmed, Syed Omar, Jashan Bhinder|
+
+## *♕ Team Members ♕*:
+
+
+
 | Name                          | UCID      | Email                           |
 |--------------------------------|-----------|--------------------------------|
 | Cassandra Rodberg             | 30207735  | cassandra.rodberg@ucalgary.ca  |
@@ -24,3 +53,4 @@
 | Wissal Chibani                | 30212688  | wissal.chibani@ucalgary.ca     |
 | Bobby Brar                    | 30187738  | bobby.brar@ucalgary.ca         |
 | Hamzi El-Jundi                | 30204305  | hamzi.eljundi@ucalgary.ca      |
+| Igor Juhas                    | 30092357  | igor.juhas@ucalgary.ca         |
