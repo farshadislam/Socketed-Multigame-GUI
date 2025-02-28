@@ -5,7 +5,7 @@
 
 | *♘ GUI ♘* | 
 |-------------|
-| Syed Sohaib, Talha Zafar, Hira Asad, Kwathar Aroua |
+| Syed Sohaib Haider, Talha Zafar, Hira Asad, Kwathar Aroua |
 
 | *♘ Networking ♘* |
 |-------------|
