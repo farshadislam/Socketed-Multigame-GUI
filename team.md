@@ -5,7 +5,7 @@
 
 | *♘ GUI ♘* | 
 |-------------|
-| Syed Sohaib Haider, Talha Zafar, Hira Asad, Kwathar Aroua |
+| Syed Sohaib Haider, Talha Zafar, Hira Asad, Kawthar Aroua |
 
 | *♘ Networking ♘* |
 |-------------|
@@ -13,7 +13,7 @@
 
 | *♘ Authentication-profile ♘* |
 |-------------|
-| Hamma Asad, Maham Mir, Wissal Chibani, Varisha Tauseef |
+| Hamna Asad, Maham Mir, Wissal Chibani, Varisha Tauseef |
 
 | *♘ Leaderboard-matchmaking ♘* |
 |-------------| 
