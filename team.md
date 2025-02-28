@@ -20,9 +20,9 @@
 |-------------|
 | Hamma Asad, |
 
-| *♘ Leaderboard-matchmaking ♘* |
-|-------------------------------| 
-| Harris Jan, Taha Malik          |
+| *♘ Leaderboard-matchmaking ♘*      |
+|------------------------------------| 
+| Harris Jan, Taha Malik, Bobby Brar |
 
 | *♘ Integration ♘* |
 |-------------|
