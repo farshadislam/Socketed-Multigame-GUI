@@ -1,0 +1,2 @@
+This use case description invloves the person logging into the where they will see the main page which includes buttons that lead to
+settings or buttons that lead to playing games
