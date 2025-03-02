@@ -1,0 +1,55 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Safari/605.1.15" version="26.0.16">
+  <diagram name="Page-1" id="W2f_J5WgSorGnW319K0U">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="MqIKwr3-grkIqsavMlgK-17" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="217.5" y="32.5" width="795" height="795" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-1" value="Player" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="140" y="220" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-5" value="JoinGame" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="130" y="10" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-6" value="Attempt to join game" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="290" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-7" value="Choose between existing game or new game&amp;nbsp;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="290" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-8" value="New game" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="240" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-9" value="Create game lobby" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="650" y="160" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-10" value="player joins match" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="80" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-11" value="other players join match" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="850" y="140" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-12" value="existing game" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="360" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-13" value="join search queue" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="410" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-14" value="find existing game lobby" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="740" y="460" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-15" value="join game&amp;nbsp;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="830" y="520" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-19" value="Update status" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="820" y="590" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MqIKwr3-grkIqsavMlgK-20" value="Update status" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="820" y="40" width="110" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
