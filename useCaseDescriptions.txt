@@ -98,7 +98,7 @@ Preconditions:
 Trigger:
 - The player navigates to the leaderboard interface.
 
-Main Flow:
+Situation:
 1. The player selects the **Leaderboard** option from the main menu or interface.
 2. The system retrieves the **latest ranking data** from the database.
 3. The system displays the leaderboard with rankings based on MMR, including:
