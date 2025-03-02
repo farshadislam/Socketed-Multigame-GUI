@@ -1,0 +1,5 @@
+Use case 1: login (player must create account or login first)
+Use case 2: play solo (player has option to play solo with a computer opponenet)
+Use case 3: play with friend (player has option to play with friend)
+Use case 4: get support/ report bug (player has option to give feedback or report bugs)
+
