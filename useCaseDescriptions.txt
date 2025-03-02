@@ -81,3 +81,69 @@ Channel to secondary actors: When connected to the Gaming Dashboard via network
 
 Open issues:
 END OF USE CASE DESCRIPTION
+
+
+Use Case: Leaderboard Display
+
+
+Actors:
+- Primary Actor: Player (User interacting with the leaderboard UI)
+- Secondary Actor: System (Retrieves and displays rank data dynamically)
+
+Preconditions:
+- The player must be logged into the system.
+- The system must have access to the rank data.
+- The leaderboard UI must be accessible.
+
+Trigger:
+- The player navigates to the leaderboard interface.
+
+Main Flow:
+1. The player selects the **Leaderboard** option from the main menu or interface.
+2. The system retrieves the **latest ranking data** from the database.
+3. The system displays the leaderboard with rankings based on MMR, including:
+    - **Top-ranked players** sorted by MMR.
+    - **Rank tiers** displayed for each player:
+      - BRONZE = 1
+      - SILVER = 2
+      - GOLD = 3
+      - PLATINUM = 4
+      - DIAMOND = 5
+      - MASTER = 6
+      - GRANDMASTER = 7
+      - *MMR ranges dynamically adjusted based on the min and max MMR caps of the game.*
+    - **Player statistics**, such as wins, losses, and total score.
+    - **User’s own rank** highlighted within the leaderboard.
+4. The player can:
+    - Search for specific players.
+    - Filter leaderboard results (Global, Friends-Only, Ranked Mode, etc.).
+    - View a player’s profile for more details.
+5. The player can exit the leaderboard and return to the previous screen.
+
+Postconditions:
+- The system successfully displays the **ranked leaderboard** with the latest data.
+- If an error occurs, the player is informed through an appropriate message.
+
+Exceptions:
+- If the leaderboard data is **unavailable**, the system displays an error message.
+- If the **database is down**, the system logs an error and provides a retry option.
+- If the **player’s rank cannot be determined**, a placeholder message is displayed.
+
+Priority:
+- High
+
+When Available:
+- First iteration
+
+Frequency of Use:
+- Multiple times a day, every session
+
+Channel to Actor:
+- Graphical User Interface (GUI)
+
+Channel to Secondary Actors:
+- System backend and database
+
+Open Issues:
+- Should players be able to see historical rankings?
+- Should rank progression trends be visualized?
