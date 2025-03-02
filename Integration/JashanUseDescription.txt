@@ -1,2 +1,7 @@
 This use case description invloves the person logging into the where they will see the main page which includes buttons that lead to
 settings or buttons that lead to playing games
+
+Another important thing i s to make sure to integrate the different teams, and possibly adding where things could go wrong, for example logging in with a wrong idea
+could lead us to creating a forgot password section (stub in the project) or access the leaderboard could glitch visually
+it will also be important to create a use case for the actual developers as well, something along the lines of either editing the code, or
+even possibly editing the details of the database, however we will first need to discuss it a little more
