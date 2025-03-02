@@ -36,3 +36,48 @@ Channel to secondary actors:
 Open issues:
 Should similar games be listed under categories?
 END OF USE CASE DESCRIPTION
+
+
+START OF USE CASE DESCRIPTION
+Use case: Welcome Page
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: To initially welcome the player to the gaming dashboard and encourage them to interact with the system.
+
+Preconditions:
+System must be powered on
+The system must be in initial state and connected to the Gaming Dashboard
+Game Dashboard is functional
+
+Trigger: Connected to the Gaming Dashboard: Once connected the system will present the initial welcome screen,
+
+Scenario:
+Player connects to the gaming dashboard via network
+System loads Gaming dashboard server, where the welcome screen is initially presented.
+
+Post conditions:
+
+Exceptions:
+System is powered off
+Unable to connect to the gaming dashboard server.
+System fails to load the Welcome page, therefore an error message will be displayed,
+
+
+
+Priority: low
+
+When available: second iteration iteration
+
+Frequency of use: Once per session
+
+Channel to actor: Through Graphical User Interface, the Welcome screen can be presented to the player.
+
+Secondary actors: System
+
+Channel to secondary actors: When connected to the Gaming Dashboard via network
+
+Open issues:
+END OF USE CASE DESCRIPTION
