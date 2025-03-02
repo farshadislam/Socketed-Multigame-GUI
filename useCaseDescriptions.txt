@@ -82,9 +82,8 @@ Channel to secondary actors: When connected to the Gaming Dashboard via network
 Open issues:
 END OF USE CASE DESCRIPTION
 
-
+START OF USE CASE DESCRIPTION
 Use Case: Leaderboard Display
-
 
 Actors:
 - Primary Actor: Player (User interacting with the leaderboard UI)
@@ -147,3 +146,4 @@ Channel to Secondary Actors:
 Open Issues:
 - Should players be able to see historical rankings?
 - Should rank progression trends be visualized?
+END OF USE CASE DESCRIPTION
