@@ -1,0 +1,38 @@
+START OF USE CASE DESCRIPTION
+Use case: Game Dashboard
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: To let the player see the games available in the game dashboard
+
+Preconditions:
+The player is logged into the system
+The system is running and showing the games in the game dashboard
+
+Trigger: The player has access to the game board after logging in(NOT SURE)
+
+Scenario:
+
+Post conditions:
+
+Exceptions:
+The games are not available/showing up
+System is down, fails to retrieve the games
+
+Priority: High
+
+When available: First iteration
+
+Frequency of use: Multiple times a day, every session
+
+Channel to actor: via GUI (NOT SURE)
+
+Secondary actors: System
+
+Channel to secondary actors:
+
+Open issues:
+Should similar games be listed under categories?
+END OF USE CASE DESCRIPTION
