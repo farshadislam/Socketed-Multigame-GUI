@@ -3,3 +3,30 @@ Use case 2: play solo (player has option to play solo with a computer opponenet)
 Use case 3: play with friend (player has option to play with friend)
 Use case 4: get support/ report bug (player has option to give feedback or report bugs)
 
+Use case: Player chooses to login or create account
+Iteration: 1
+Primary actor: Player
+Goal in Context: Player is able to successfully login or create new account to access the homepage where all games and other information is located.
+Preconditions:
+1. PLayer has internet on device
+2. PLayer has valid account information which matches database
+3. website is up and running (online)
+Trigger:
+Player chooses login or create new account in order to access homepage where games are
+Scenario:
+- Create Account:
+    1. Player selects create account option
+    2. System shows form requiring user to enter a username and password.
+    3. Player submits the registration form.
+    4. system checks if password is strong and if username is not already taken.
+    5. system adds player information into database.
+    6. system sends player to homepage and notifies player that account has successfully been made.
+- Login:
+    1. Player selects login option.
+    2. System shows form requiring user to enter their username and password.
+    3. Player clicks login button on form after entering information.
+    4. System verifies username is in database and password associated with username matches.
+        1. If username
+
+
+
