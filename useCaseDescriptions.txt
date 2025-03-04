@@ -89,6 +89,64 @@ Open issues:
 END OF USE CASE DESCRIPTION
 
 START OF USE CASE DESCRIPTION
+
+START OF USE CASE DESCRIPTION
+Use case: Quit Option
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: To allow the player to quit the game whenever the player wishes.
+
+Preconditions:
+1. There must be an active game.
+2. The player must be able to access the quit option.
+
+Trigger: The player presses the quit option when they choose to quit the game.
+
+Scenario:
+1. Player wishes to confirm to quit.
+    a. Player is currently in an active game and wishes to quite
+    b. Player chooses the quit option on the screen.
+    c. PLayer confirms their selection when prompted with "Are you sure?"
+    d. PLayer loses the game and successfully quits.
+2. Player does not confirm to quit
+    a. Player is currently in an active game and wishes to quite
+    b. Player chooses the quit option on the screen.
+    c. PLayer changes their mind and selects "no" when prompted with "Are you sure?"
+    d. PLayer continues the game normally.
+
+Post conditions:
+1. Player must confirm their selection when prompted with "Are you sure?"
+2. If the player declines the game continues normally.
+
+Exceptions:
+1. If the game crashes during the game session.
+2. Player loses network connection during the game session.
+3. The system fails to register teh quit function.
+
+Priority: High
+
+When available: first iteration
+
+Frequency of use: once per session
+
+Channel to actor: Through Graphical User Interface, the quit option will be a button for the player to click.
+
+Secondary actors: System
+
+Channel to secondary actors: When connected to a game in the gaming dashboard.
+
+Open issues:
+1. How are we going to deal with the opponents game becoming disrupted?
+2. Should we allow the player to quit when the game is about to end?
+3. Should the player be banned from quitting after certain amount of quits?
+END OF USE CASE DESCRIPTION
+
+START OF USE CASE DESCRIPTION
+
+
 Use Case: Leaderboard Display
 
 Actors:
