@@ -11,11 +11,16 @@ Preconditions:
 The player is logged into the system
 The system is running and showing the games in the game dashboard
 
-Trigger: The player has access to the game board after logging in(NOT SURE)
+Trigger: The player has access to the game board after logging in (NOT SURE)
 
 Scenario:
+The player reaches the game dashboard after logging in and seeing the welcome page
+The system shows the available games in the game dashboard
+The player looks at all the available games in the game dashboard.
 
-Post conditions:
+Post conditions: (COME BACK)
+The player can successfully see the lists of games available in the dashboard.
+The system is waiting and ready for further interaction, for example, selecting a game from the available games in the dashboard.
 
 Exceptions:
 The games are not available/showing up
@@ -27,11 +32,11 @@ When available: First iteration
 
 Frequency of use: Multiple times a day, every session
 
-Channel to actor: via GUI (NOT SURE)
+Channel to actor: via GUI
 
 Secondary actors: System
 
-Channel to secondary actors:
+Channel to secondary actors: via the system (NOT SURE)
 
 Open issues:
 Should similar games be listed under categories?
@@ -147,4 +152,51 @@ Channel to Secondary Actors:
 Open Issues:
 - Should players be able to see historical rankings?
 - Should rank progression trends be visualized?
+END OF USE CASE DESCRIPTION
+
+
+START OF USE CASE DESCRIPTION
+Use case: Display Leaderboard
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: The player can successfully see the leaderboard rankings.
+
+Preconditions:
+The player is logged into the system
+The player has finished playing the game
+The system records the player’s results
+The results are then stored in the system and can be accessed
+
+
+Trigger: The player selects the “Leaderboard” button.
+
+Scenario:
+The player makes their way to the leaderboard area
+The system retrieves the data of the leaderboard
+The leaderboard shows the rankings, wins, and losses.
+
+Post conditions: (COME BACK)
+The player can view the leaderboard and scroll through it successfully
+
+Exceptions:
+There is no data available in leaderboard
+System is down, fails to retrieve the data for leaderboard
+
+Priority: Medium
+
+When available: Second iteration
+
+Frequency of use: Multiple times a day, every session
+
+Channel to actor: via GUI
+
+Secondary actors: System
+
+Channel to secondary actors: via the system (NOT SURE)
+
+Open issues:
+Should the leaderboard show everyone’s rankings publicly?
 END OF USE CASE DESCRIPTION
