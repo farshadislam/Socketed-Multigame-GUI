@@ -48,28 +48,27 @@ Primary Actor: Player
 Goal in context: To initially welcome the player to the gaming dashboard and encourage them to interact with the system.
 
 Preconditions:
-System must be powered on
-The system must be in initial state and connected to the Gaming Dashboard
-Game Dashboard is functional
+1. System must be powered on
+2. The system must be in initial state and connected to the Gaming Dashboard
+3. Game Dashboard is functional
 
 Trigger: Connected to the Gaming Dashboard: Once connected the system will present the initial welcome screen,
 
 Scenario:
-Player connects to the gaming dashboard via network
-System loads Gaming dashboard server, where the welcome screen is initially presented.
+1. Player connects to the gaming dashboard via network
+2. System loads Gaming dashboard server, where the welcome screen is initially presented.
 
 Post conditions:
+1. The customer will be prompted to input their password and user.
 
 Exceptions:
-System is powered off
-Unable to connect to the gaming dashboard server.
-System fails to load the Welcome page, therefore an error message will be displayed,
-
-
+1. System is powered off
+2. Unable to connect to the gaming dashboard server.
+3. System fails to load the Welcome page, therefore an error message will be displayed,
 
 Priority: low
 
-When available: second iteration iteration
+When available: second iteration
 
 Frequency of use: Once per session
 
@@ -80,6 +79,8 @@ Secondary actors: System
 Channel to secondary actors: When connected to the Gaming Dashboard via network
 
 Open issues:
+1. Should there be an option to proceed as a guest?
+2. Will there be accommodations for people with disabilities (i.e. Color blind, blind)
 END OF USE CASE DESCRIPTION
 
 START OF USE CASE DESCRIPTION
