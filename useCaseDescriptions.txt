@@ -145,6 +145,71 @@ Open issues:
 END OF USE CASE DESCRIPTION
 
 START OF USE CASE DESCRIPTION
+Use case: Placing/Moving Pieces
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: Allows players to place or move pieces around in order for them to play the game. It gives functionality to Tic-Tac-To, Checkers, and Connect 4.
+
+Preconditions:
+1. There must be an active game (i.e Tic-Tac-To, Checkers, and Connect 4)
+2. Moving or placing of the piece must be a valid play:
+    a. Player move must be on the game grid.
+    b. PLayer move must obey game rules (how the pieces can be moved).
+3. It is players turn to move the piece.
+4. Network is connected for the game to register the player move.
+
+Trigger: The player selects the spot they would like to move the piece to.
+
+Scenario:
+1. Player makes a move:
+    a. Player is playing Tic-Tac-To:
+        i. Players turn to place their piece.
+        ii. Player selects an empty space on the grid.
+        iii. The system places "X" or "O" to register the players choice.
+    b. Player is playing Connect 4:
+        i. Players turn to place their piece.
+        ii. Player selects a column that has empty spaces.
+        iii. Players piece (either blue or red) gets placed into the lowest available row in that column.
+    c. Player is playing Checkers:
+        i. It is the players turn to move a piece.
+        ii. Player selects one of their pieces and selects a valid diagonal move.
+        iii. If the player jumps over the opponents piece(s), their pieces are removed.
+        iv. If the piece is moved to the opponents end of the grid, their piece gets promoted to "King".
+2. If the move is valid the board gets updated, otherwise the player is prompted to make a valid move.
+3. Once the player has made their move, the system checks if the player won or drawn the game, otherwise control switches to the opponent.
+
+Post conditions:
+1. Game must update after player has successfully made a move.
+2. If the game has een won or drawn, the system should display the results
+3. Control should shift to the opponent if the game has not ended after the players move.
+
+Exceptions:
+1. Invalid moves should not be accepted by the system (i.e. Placing outside the grid, Placement does not align with game rules, placing in a occupied space).
+2. If the player has quit upon their turn, they should not be eligible to make a move.
+3. Network connection is unstable to register the move.
+
+Priority: High
+
+When available: first iteration
+
+Frequency of use: many times per session
+
+Channel to actor: Through Graphical User Interface, the player can select where they would like to make their move by selecting the piece and the spot, or by simply selecting the spot.
+
+Secondary actors: System
+
+Channel to secondary actors: When player selects the spot they would like to make their move.
+
+Open issues:
+1. Should there be a penalty if the player selects too many invalid moves?
+2. Should their be a time limit on how long a player can take to make their move?
+3. Should their be hints/recommendations given to the player on where they should make their move?
+END OF USE CASE DESCRIPTION
+
+START OF USE CASE DESCRIPTION
 
 
 Use Case: Leaderboard Display
