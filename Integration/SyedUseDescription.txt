@@ -3,44 +3,45 @@ Iteration: 1
 Last Modification Data: March 1
 Primary Actor: Player
 Goal in context: The two players take turns making chess moves, and the moves follow the rules of chess.
+
 Preconditions:
 1. Both players are able to connect to the network for a multiplayer session.
 2. Both players agreed to play together for at least a few turns
-Trigger: The customer chooses to connect with another player to start a new game.
+Trigger: The player chooses to connect with another player to start a new game.
+
 Scenario:
-1. Customer arrives at the self-checkout station.
-2. The system, displaying the welcome screen, prompts the customer to select their language of preference.
-3. The customer selects their preferred language and starts their session.
-4. The customer uses the barcode scanner to scan the items they wish to purchase.
-5. The system processes the barcodes scanned and displays the information of the item on the screen.
-6. The customer places the scanned item in the bagging area, where the system confirms the item’s weight matches with
-the record in the database.
-Steps 4 – 6 are repeated until all items are scanned
-7. If the customer wants to remove an item, they select it on the screen. The system removes the item’s cost and weight
-from the order.
-8. The customer, having completed scanning their items, is prompted to select a payment option.
-9. Once the transaction is successful, the system asks if the customer wants a receipt of the session, thanks the
-customer and ends the session.
-10. The self-checkout system defaults back to the welcome screen.
+1. The player launches the chess application.
+2. The player selects "Multiplayer Mode."
+3. The system searches for available opponents or allows the player to invite a friend.
+4. The second player accepts the invitation or joins a matchmaking lobby.
+5. The system initializes a new chess game and assigns colors (white or black).
+6. The player with the white pieces makes the first move.
+7. The second player responds by making a move.
+8. The players continue to take turns making legal chess moves.
+9. The system validates each move according to chess rules.
+10. The game continues until a checkmate, stalemate, draw, or resignation occurs.
+11. The system updates the game result (win/loss/draw) and player statistics.
+12.The players may choose to start a new game or exit the session.
+
 Post conditions:
-1. The order is completed, and the customer has a receipt if they wanted one.
-2. The system has reverted to its initial state in which it displays a welcome screen and is ready for another checkout
-session.
+1. The game is completed, and the system updates the players’ records/statistics.
+2. The game session ends, and both players can either start a new game or exit.
+
 Exceptions:
-1. Discrepancy in weight – The session is blocked, and either the customer corrects the error, or an attendant overrides
-the issue after verifying the items.
-2. Transaction failed – The system prompts the customer to retry payment or select another method.
-3. Item not found in database – an attendant resolves the issue by adding the item manually.
+1. Lost Connection: If either player loses network connectivity, the game may pause, offer reconnection, or result in a forfeit.
+2. Illegal Moves: If a player attempts an illegal move, the system prevents the move and notifies the player.
+3. Player Abandons Game: If one player leaves or does not respond within a time limit, the other player wins by forfeit.
+4. System Crash: If the application crashes or an unexpected error occurs, the game may be lost unless it supports auto-save or reconnection.
+
 Priority: High
-When available: The system should be implemented and fully operational as early as possible as to maximize
-customer experience.
-Frequency of use: Continuous throughout the day, during the store’s operational hours.
-Channel to actor: Self-checkout station including an interactable touchscreen for the customer, audio response and
-optional voice input available to customer.
-Secondary actors: Attendant, Checkout Database
-Channel to secondary actors: Attendant station with a keyboard and touchscreen for the Attendant. Self-checkout
-system API to obtain product data and prices for the Checkout Database.
+Priority: Medium
+When Available: When both players are online and in a multiplayer session
+Frequency of Use: Depends on player activity (can be used multiple times per session)
+Channel to Actor: Chess game interface (app or web interface)
+Secondary Actors: Game server, matchmaking system, ranking/statistics system
+Channel to Secondary Actors: Network connection (server communication)
+
 Open issues:
-Optimal implementation of cryptocurrency payment methods.
-Outlining configurations for payment limitations across different locations.
-Managing how to handle items too large / heavy to bag automatically
+1. Should there be a time limit for each move?
+2. How does the system handle ties in case of a sudden disconnection?
+3. Should there be a built-in chat or reaction system for player communication?
