@@ -151,10 +151,10 @@ Iteration: First
 
 Primary Actor: Player
 
-Goal in context: Allows players to place or move pieces around in order for them to play the game. It gives functionality to Tic-Tac-To, Checkers, and Connect 4.
+Goal in context: Allows players to place or move pieces around in order for them to play the game. It gives functionality to Tic-Tac-Toe, Checkers, and Connect 4.
 
 Preconditions:
-1. There must be an active game (i.e Tic-Tac-To, Checkers, and Connect 4)
+1. There must be an active game (i.e Tic-Tac-Toe, Checkers, and Connect 4)
 2. Moving or placing of the piece must be a valid play:
     a. Player move must be on the game grid.
     b. PLayer move must obey game rules (how the pieces can be moved).
@@ -165,7 +165,7 @@ Trigger: The player selects the spot they would like to move the piece to.
 
 Scenario:
 1. Player makes a move:
-    a. Player is playing Tic-Tac-To:
+    a. Player is playing Tic-Tac-Toe:
         i. Players turn to place their piece.
         ii. Player selects an empty space on the grid.
         iii. The system places "X" or "O" to register the players choice.
