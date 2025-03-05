@@ -1,5 +1,5 @@
 START OF USE CASE DESCRIPTION
-Use case: Game Dashboard hi
+Use case: Game Dashboard
 
 Iteration: First
 
