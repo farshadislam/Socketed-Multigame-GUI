@@ -253,8 +253,8 @@ Channel to secondary actors: Registers through the system that the player wants 
 
 Open issues:
 1. Should one player be allowed to make multiple accounts
-2. Should their be a email verification.
-3. What if someone who a=is not fluent in English cannot read the requirements of "Create Account"
+2. Should their be an email verification.
+3. What if someone who a is not fluent in English cannot read the requirements of "Create Account"
 END OF USE CASE DESCRIPTION
 
 START OF USE CASE DESCRIPTION
