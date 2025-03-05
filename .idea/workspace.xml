@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ad87460-eb5f-4b7d-9b9e-3d71287717ac" name="Changes" comment="" />
+    <list default="true" id="4ad87460-eb5f-4b7d-9b9e-3d71287717ac" name="Changes" comment="Finished use case description for player profile">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,6 +59,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.gitlab.GitLabSettingsConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -71,10 +74,28 @@
       <workItem from="1740875580508" duration="4000" />
       <workItem from="1740875589717" duration="85000" />
       <workItem from="1740875676051" duration="877000" />
+      <workItem from="1740896093178" duration="68000" />
+      <workItem from="1740896166647" duration="26000" />
+      <workItem from="1741155938370" duration="282000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Finished use case description for player profile" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished use case description for player profile" />
   </component>
 </project>
