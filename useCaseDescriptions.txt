@@ -209,57 +209,11 @@ Open issues:
 3. Should their be hints/recommendations given to the player on where they should make their move?
 END OF USE CASE DESCRIPTION
 
-START OF USE CASE DESCRIPTION
-Use case: Create account
 
-Iteration: First
 
-Primary Actor: Player
 
-Goal in context: Option to allow players to create an account in the game dashboard.
-
-Preconditions:
-1. System is connected with the internet.
-2. Player is currently on the welcome page.
-
-Trigger: Clicking the create account option on the welcome page.
-
-Scenario:
-1. Player connects with the Game Dashboard.
-2. Player wants to make an account
-3. Player selects "Create Account".
-
-Post conditions:
-1. Player must input correct information
-2. Player must not already have an account with the same information.
-3.
-
-Exceptions:
-1. If the network is unstable.
-2. Player is on the Game Dashboard.
-3. Player already has an account with the same account information.
-
-Priority: High
-
-When available: first iteration
-
-Frequency of use: once
-
-Channel to actor: Option to select from on the graphical user interface.
-
-Secondary actors: System
-
-Channel to secondary actors: Registers through the system that the player wants to create an account
-
-Open issues:
-1. Should one player be allowed to make multiple accounts
-2. Should their be a email verification.
-3. What if someone who a=is not fluent in English cannot read the requirements of "Create Account"
-END OF USE CASE DESCRIPTION
 
 START OF USE CASE DESCRIPTION
-
-
 Use Case: Leaderboard Display
 
 Actors:
@@ -369,3 +323,54 @@ Channel to Secondary Actors:
 Open Issues:
 - Should players be able to select the same game many times in one session?
 - Can players select more than one game to play?
+END OF USE CASE DESCRIPTION
+
+
+
+
+
+
+START OF USE CASE DESCRIPTION
+Use case: In-game chat
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: The player can successfully type and send messages in the in-game chat during the match
+
+Preconditions:
+The player is logged into the system
+The player has joined a game
+
+Trigger: The player selects the “In-game chat” from the Menu
+
+Scenario:
+The player joins a game
+The player clicks on the “Menu option”
+The player selects the “In-game Chat” option.
+The player types a message
+The player sends the message
+
+Post conditions:
+The player’s message is shown in the chat window
+The opponent can see the message.
+
+Exceptions:
+The player is playing against a bot.
+
+Priority: Medium
+
+When available: Second iteration
+
+Frequency of use: Multiple times a day, every session
+
+Channel to actor: via GUI
+
+Secondary actors: System
+
+Channel to secondary actors: The system handles message sending, receiving, and displaying via in-game communication protocols
+
+Open issues:
+Should the system have a filter, in order to make sure no mean comments are made?
+END OF USE CASE DESCRIPTION
