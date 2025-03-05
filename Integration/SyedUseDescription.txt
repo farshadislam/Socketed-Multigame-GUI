@@ -1,27 +1,28 @@
-Use case: Player plays a game of chess with another player
+Use case: Player plays a game of checkers with another player
 Iteration: 1
 Last Modification Data: March 1
 Primary Actor: Player
-Goal in context: The two players take turns making chess moves, and the moves follow the rules of chess.
+Goal in context: The two players take turns making moves, and the moves follow the rules of checkers.
 
 Preconditions:
 1. Both players are able to connect to the network for a multiplayer session.
 2. Both players agreed to play together for at least a few turns
+
 Trigger: The player chooses to connect with another player to start a new game.
 
 Scenario:
-1. The player launches the chess application.
+1. The player chooses to play checkers in the game selection screen.
 2. The player selects "Multiplayer Mode."
 3. The system searches for available opponents or allows the player to invite a friend.
 4. The second player accepts the invitation or joins a matchmaking lobby.
-5. The system initializes a new chess game and assigns colors (white or black).
-6. The player with the white pieces makes the first move.
+5. The system initializes a new checkers game and assigns colors (red or black).
+6. The player with the red checkers makes the first move.
 7. The second player responds by making a move.
-8. The players continue to take turns making legal chess moves.
-9. The system validates each move according to chess rules.
-10. The game continues until a checkmate, stalemate, draw, or resignation occurs.
+8. The players continue to take turns making valid checkers moves.
+9. The system validates each move according to checkers rules.
+10. The game continues until one player wins by capturing all of their opponent's checkers or blocking them, or it results in a draw in which case neither player can move.
 11. The system updates the game result (win/loss/draw) and player statistics.
-12.The players may choose to start a new game or exit the session.
+12. The players may choose to start a new game or exit the session.
 
 Post conditions:
 1. The game is completed, and the system updates the players’ records/statistics.
@@ -34,10 +35,9 @@ Exceptions:
 4. System Crash: If the application crashes or an unexpected error occurs, the game may be lost unless it supports auto-save or reconnection.
 
 Priority: High
-Priority: Medium
 When Available: When both players are online and in a multiplayer session
 Frequency of Use: Depends on player activity (can be used multiple times per session)
-Channel to Actor: Chess game interface (app or web interface)
+Channel to Actor: Checkers game interface (app or web interface)
 Secondary Actors: Game server, matchmaking system, ranking/statistics system
 Channel to Secondary Actors: Network connection (server communication)
 
