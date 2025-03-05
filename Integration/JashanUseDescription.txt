@@ -1,7 +1,58 @@
-This use case description invloves the person logging into the where they will see the main page which includes buttons that lead to
-settings or buttons that lead to playing games
+Use Case: External Database Interaction with the System
+Iteration: Iteration 1
+Primary Actor: External Database
+Goal in Context: Ensure synchronization as actions are made and storage of user and game data with the Online Multiplayer board Game platform (OMG).
+Preconditions:
+    1. The system is connected to the database.
+    2. A user has an active account and is interacting with the platform online.
+Trigger: A user performs an action that requires data retrieval or storage, such as logging in, updating settings, or participating in a game.
+Scenario:
+1. The user logs into the system.
+2. The database verifies credentials and retrieves user profile data.
+3. The system updates the user's last login timestamp.
+4. The user updates their profile settings.
+5. The new settings are validated and stored in the database.
+6. The user searches for another player’s profile.
+7. The database retrieves the requested player's profile, including stats, rank, and match history.
+8. The user joins a matchmaking queue.
+9. The system queries the database to find potential opponents based on skill level and availability.
+10. A match is found, and the game begins.
+11. The database updates both players’ statuses to "in-game".
+12. The game progresses with turn-based actions.
+13. The database logs every move in real-time for match history tracking.
+14. The game ends, and results are recorded.
+15. The database updates player stats, including wins, losses, and leaderboard rankings.
+16. The user reviews match history.
+17. The system fetches and displays past game records from the database.
+18. The leaderboard is updated.
+19. The database recalculates rankings based on recent match results.
+20. The user logs out.
+21. The system updates session data and stores the logout timestamp.
+Post Conditions:
+The database reflects all changes made during user interactions.
+Player stats and leaderboard rankings are up to date.
+Match history is accessible for review.
+Exceptions:
+Database Connection Failure:
 
-Another important thing i s to make sure to integrate the different teams, and possibly adding where things could go wrong, for example logging in with a wrong idea
-could lead us to creating a forgot password section (stub in the project) or access the leaderboard could glitch visually
-it will also be important to create a use case for the actual developers as well, something along the lines of either editing the code, or
-even possibly editing the details of the database, however we will first need to discuss it a little more
+The system notifies the user and prompts reconnection.
+Cached data is used if available.
+Invalid Login Credentials:
+
+The system denies access and provides an error message.
+Game Data Corruption or Desync:
+
+The system rolls back to the last valid game state.
+Leaderboard Update Delay:
+
+The system temporarily displays cached rankings until the next update.
+Priority: High (Critical for platform functionality).
+Additional Details:
+When Available: Always online, with real-time updates.
+Frequency of Use: Constant during platform interactions.
+Channel to Actor: API calls between the system and the database.
+Secondary Actors: Users, matchmaking system, game session manager.
+Channel to Secondary Actors: UI, matchmaking logic, and game engine API.
+Open Issues:
+Handling of simultaneous updates to player stats.
+Ensuring database integrity under heavy load conditions.
