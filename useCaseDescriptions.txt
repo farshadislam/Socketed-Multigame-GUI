@@ -369,3 +369,94 @@ Channel to Secondary Actors:
 Open Issues:
 - Should players be able to select the same game many times in one session?
 - Can players select more than one game to play?
+
+
+
+START OF USE CASE DESCRIPTION
+Use case: In-game chat
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: The player can successfully type and send messages in the in-game chat during the match
+
+Preconditions:
+The player is logged into the system
+The player has joined a game
+
+Trigger: The player selects the “In-game chat” from the Menu
+
+Scenario:
+The player joins a game
+The player clicks on the “Menu option”
+The player selects the “In-game Chat” option.
+The player types a message
+The player sends the message
+
+Post conditions:
+The player’s message is shown in the chat window
+The opponent can see the message.
+
+Exceptions:
+The player is playing against a bot.
+
+Priority: Medium
+
+When available: Second iteration
+
+Frequency of use: Multiple times a day, every session
+
+Channel to actor: via GUI
+
+Secondary actors: System(might remove)
+
+Channel to secondary actors: The system handles message sending, receiving, and displaying via in-game communication protocols (might remove)
+
+Open issues:
+Should the system have a filter, in order to make sure no mean comments are made?
+END OF USE CASE DESCRIPTION
+
+
+
+
+START OF USE CASE DESCRIPTION
+Use case: Menu Option
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: The player can successfully access the different options such as quit and in-game chat from the menu option
+
+Preconditions:
+The player is logged into the system
+The player has joined a game
+
+Trigger: The player selects the “Menu Option” in the game
+
+Scenario:
+The player joins a game
+The player clicks on the “Menu option”
+
+Post conditions:
+The player can see further options after clicking on “Menu Option”
+
+Exceptions:
+The menu fails to open
+
+Priority: High
+
+When available: First iteration
+
+Frequency of use: Multiple times a day, every session
+
+Channel to actor: via GUI
+
+Secondary actors:
+
+Channel to secondary actors:
+
+Open issues:
+Should the game be paused when the player clicks on the menu option?
+END OF USE CASE DESCRIPTIONS
