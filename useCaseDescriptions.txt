@@ -215,23 +215,21 @@ START OF USE CASE DESCRIPTION
 Use Case: Leaderboard Display
 
 Actors:
-- Primary Actor: Player (User interacting with the leaderboard UI)
-- Secondary Actor: System (Retrieves and displays rank data dynamically)
+- Primary Actor: Player
+- Secondary Actor: System
 
 Preconditions:
-- The player must be logged into the system.
-- The system must have access to the rank data.
-- The leaderboard UI must be accessible.
+- The player must be logged into the system and in Game Dashboard Page.
 
 Trigger:
 - The player navigates to the leaderboard interface.
 
 Situation:
-1. The player selects the **Leaderboard** option from the main menu or interface.
-2. The system retrieves the **latest ranking data** from the database.
+1. The player selects the Leaderboard option from the main menu or interface.
+2. The system retrieves the latest ranking data from the database.
 3. The system displays the leaderboard with rankings based on MMR, including:
-    - **Top-ranked players** sorted by MMR.
-    - **Rank tiers** displayed for each player:
+    -Top-ranked players sorted by MMR.
+    - Rank tiers displayed for each player:
       - BRONZE = 1
       - SILVER = 2
       - GOLD = 3
@@ -239,9 +237,9 @@ Situation:
       - DIAMOND = 5
       - MASTER = 6
       - GRANDMASTER = 7
-      - *MMR ranges dynamically adjusted based on the min and max MMR caps of the game.*
-    - **Player statistics**, such as wins, losses, and total score.
-    - **User’s own rank** highlighted within the leaderboard.
+      - MMR ranges dynamically adjusted based on the min and max MMR caps of the game.
+    - Player statistics, such as wins, losses, and total score.
+    - User’s own rank highlighted within the leaderboard.
 4. The player can:
     - Search for specific players.
     - Filter leaderboard results (Global, Friends-Only, Ranked Mode, etc.).
@@ -253,9 +251,9 @@ Postconditions:
 - If an error occurs, the player is informed through an appropriate message.
 
 Exceptions:
-- If the leaderboard data is **unavailable**, the system displays an error message.
-- If the **database is down**, the system logs an error and provides a retry option.
-- If the **player’s rank cannot be determined**, a placeholder message is displayed.
+- If the leaderboard data is unavailable, the system displays an error message.
+- If the database is down, the system logs an error and provides a retry option.
+- If the *player’s rank cannot be determined**, a placeholder message is displayed.
 
 Priority:
 - High
@@ -277,49 +275,49 @@ Open Issues:
 - Should rank progression trends be visualized?
 END OF USE CASE DESCRIPTION
 
-
 START OF USE CASE DESCRIPTION
-Use case: Display Leaderboard
+Use case: Selecting games from available library
 
-Iteration: First
-
-Primary Actor: Player
-
-Goal in context: The player can successfully see the leaderboard rankings.
+Actors:
+- Primary Actor: Player
+- Secondary Actor: System
 
 Preconditions:
-The player is logged into the system
-The player has finished playing the game
-The system records the player’s results
-The results are then stored in the system and can be accessed
+- The player must be logged into the system and in Game Dashboard Page.
 
+Trigger:
+- The player navigates to game dashboard.
 
-Trigger: The player selects the “Leaderboard” button.
+Situation:
+1. Player is logged into their game account.
+2. Player can view available games
+    Tic Tac Toe
+    Checkers
+    Connect4
+3. Play has the option to select one  or multiple games
 
-Scenario:
-The player makes their way to the leaderboard area
-The system retrieves the data of the leaderboard
-The leaderboard shows the rankings, wins, and losses.
-
-Post conditions: (COME BACK)
-The player can view the leaderboard and scroll through it successfully
+Postconditions:
+- The system successfully runs selected game.
 
 Exceptions:
-There is no data available in leaderboard
-System is down, fails to retrieve the data for leaderboard
+- if the game does not run, player has to refresh or choose another game.
+- Players are limited to three different games.
 
-Priority: Medium
+Priority:
+- High
 
-When available: Second iteration
+When Available:
+- First iteration
 
-Frequency of use: Multiple times a day, every session
+Frequency of Use:
+- Multiple times a day, every session
 
-Channel to actor: via GUI
+Channel to Actor:
+- Graphical User Interface (GUI)
 
-Secondary actors: System
+Channel to Secondary Actors:
+- System backend and database
 
-Channel to secondary actors: via the system (NOT SURE)
-
-Open issues:
-Should the leaderboard show everyone’s rankings publicly?
-END OF USE CASE DESCRIPTION
+Open Issues:
+- Should players be able to select the same game many times in one session?
+- Can players select more than one game to play?
