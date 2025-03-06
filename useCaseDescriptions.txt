@@ -259,6 +259,52 @@ END OF USE CASE DESCRIPTION
 
 START OF USE CASE DESCRIPTION
 
+START OF USE CASE DESCRIPTION
+Use case: Login
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: Allows the user to access an option to log in.
+
+Preconditions:
+1. Player must be on welcome page.
+2. PLayer must be connected to network.
+
+Trigger: Clicking the login account option on the welcome page.
+
+Scenario:
+1. Player connects with the Game Dashboard.
+2. Player wants to Login to their account
+3. Player selects "Login".
+
+Post conditions:
+1. Player must input correct username and password
+2. Player must not already have an account with the same information.
+
+Exceptions:
+1. If the network is unstable.
+2. Player is on the Game Dashboard.
+3. Field(s) are left empty by the player.
+
+Priority: High
+
+When available: first iteration
+
+Frequency of use: once per session
+
+Channel to actor: Option to select login from on the graphical user interface.
+
+Secondary actors: System
+
+Channel to secondary actors: Registers through the system that the player wants to login.
+
+Open issues:
+1. Do we block the player from entering the wrong username password?
+2. Do we have an option for forget password?
+END OF USE CASE DESCRIPTION
+
 
 Use Case: Leaderboard Display
 
