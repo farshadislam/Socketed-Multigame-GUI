@@ -460,3 +460,48 @@ Channel to secondary actors:
 Open issues:
 Should the game be paused when the player clicks on the menu option?
 END OF USE CASE DESCRIPTIONS
+
+
+
+START OF USE CASE DESCRIPTION
+Use case: Manage Account
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: To allow the player to manage their account by updating their account details, such as notifications or privacy settings, language preferences, and changing their username or password
+
+Preconditions:
+The player is logged into the system
+The player is in “Game Dashboard”
+
+Trigger: The player clicks on “Manage Account”
+
+Scenario:
+The player is in the Game Dashboard
+The player clicks on the “Settings Option”
+The player selects the “Manage Account” option
+The player selects an option and does the appropriate details required by the option they selected.
+
+Post conditions:
+The player’s account gets updated from the changes made.
+
+Exceptions:
+The new information entered by the player is not valid
+Fail to save changes due to a server error
+
+Priority: Medium
+
+When available: First iteration
+
+Frequency of use: Multiple times a day, every session
+
+Channel to actor: via GUI
+
+Secondary actors: System (NOT SURE)
+
+Channel to secondary actors: via system database (NOT SURE)
+
+Open issues: N/A
+END OF USE CASE DESCRIPTION
