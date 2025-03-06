@@ -38,10 +38,55 @@ Priority: High
 When Available: When both players are online and in a multiplayer session
 Frequency of Use: Depends on player activity (can be used multiple times per session)
 Channel to Actor: Checkers game interface (app or web interface)
-Secondary Actors: Game server, matchmaking system, ranking/statistics system
-Channel to Secondary Actors: Network connection (server communication)
+Secondary Actors: Game server, leaderboard matchmaking system
+Channel to Secondary Actors: UI, Network connection (server communication)
 
 Open issues:
 1. Should there be a time limit for each move?
 2. How does the system handle ties in case of a sudden disconnection?
 3. Should there be a built-in chat or reaction system for player communication?
+
+Use case: Player plays a game of singleplayer connect 4
+Iteration: 1
+Last Modification Data: March 6
+Primary Actor: Player
+Goal in context: The player and AI take turns making moves, and the moves follow the rules of connect 4.
+
+Preconditions:
+1. Players is able to connect to the network for the session.
+2. Players play the game until it ends
+
+Trigger: The player chooses to connect with AI bot to start a new game.
+
+Scenario:
+1. The player chooses to play connect 4 in the game selection screen.
+2. The player selects “Singleplayer Mode."
+3. The system initializes a new connect 4 game and assigns color(blue or yellow).
+4. The player makes the first move.
+5. The AI bot responds by making a move.
+6. The player and AI continue to take turns making valid connect 4 moves.
+9. The system validates each move according to connect 4 rules.
+10. The game continues either side wins by managing to connect four discs, or it results in a draw because all spaces have been filled with discs.
+11. The system updates the game result(win/loss/draw) and player statistics.
+12. The players may choose to start a new game or exit the session.
+
+Post conditions:
+1. The game is completed, and the system updates the player’s records/statistics.
+2. The game session ends, and the players can either start a new game or exit.
+
+Exceptions:
+1. Lost Connection: If the player loses network connectivity, the game may pause, offer reconnection, or result in a forfeit.
+2. Illegal Moves: If a player attempts an illegal move, the system prevents the move and notifies the player.
+3. System Crash: If the application crashes or an unexpected error occurs, the game may be lost unless it supports auto-save or reconnection.
+
+Priority: High
+When Available: When players is online and in the singleplayer session
+Frequency of Use: Depends on player activity(can be used multiple times per session)
+Channel to Actor: Connect 4 game interface (app or web interface)
+Secondary Actors: Game server, leaderboard matchmaking system
+Channel to Secondary Actors: UI, Network connection (server communication)
+
+Open issues:
+1. How does the system handle ties in case of a sudden disconnection?
+2. Should there be a built-in chat or reaction system for player communication?
+3. Should there be choices for how challenging the AI bot should be?
