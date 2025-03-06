@@ -505,3 +505,48 @@ Channel to secondary actors: via system database (NOT SURE)
 
 Open issues: N/A
 END OF USE CASE DESCRIPTION
+
+
+
+
+START OF USE CASE DESCRIPTION
+Use case: Log out
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: To allow the player to log out of the game platform
+
+Preconditions:
+The player is logged into the system
+The player is in “Game Dashboard”
+
+Trigger: The player selects the “Log out” option from the settings
+
+Scenario:
+The player is in the Game Dashboard
+The player clicks on the “Settings Option”
+The player selects the “Log out” option
+
+Post conditions:
+The player is successfully logged out of the game platform
+The session is closed
+
+Exceptions:
+The player fails to log out due to a server error
+
+Priority: High
+
+When available: First iteration
+
+Frequency of use: Multiple times a day, every session
+
+Channel to actor: via GUI
+
+Secondary actors: System
+
+Channel to secondary actors: ????
+
+Open issues: N/A
+END OF USE CASE DESCRIPTION
