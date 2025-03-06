@@ -770,6 +770,43 @@ Channel to secondary actors: ????
 Open issues: N/A
 END OF USE CASE DESCRIPTION
 
+Use Case: View Profiles
+Iteration: First
+Primary Actor: Player
+Goal in Context: To allow a player to view another player's profile and check their game statistics, ranking, and match history.
+Preconditions:
+The player must be logged into the system.
+The profile being viewed must exist in the database.
+The system must be connected to the game server or data storage.
+Trigger: The player selects a profile from the leaderboard, match history, or search function.
+Scenario:
+The player navigates to a list of players (e.g., leaderboard, recent matches, or search results).
+The player selects a player’s profile from the list
+The system retrieves the player’s profile data from the database.
+The system displays the profile, showing:
+Username and avatar
+Games played
+Win/Loss record
+Current ranking
+Recent match history
+The player views the profile and may navigate back or challenge the player
+Postconditions:
+The system successfully displays the requested profile.
+If an error occurs, the system informs the user through an appropriate message.
+Exceptions:
+Profile data fails to load → The system displays a “Profile could not be loaded” message with a retry option.
+User profile does not exist → The system returns a “User not found” error.
+Database is unreachable → An error message is shown, and the system attempts to reconnect.
+Priority: High
+When Available: First iteration
+Frequency of Use: Multiple times per session
+Channel to Actor: Via GUI
+Secondary Actors: N/A
+Open Issues:
+Should users be able to send messages from the profile screen?
+Should profiles display a player’s online status?
+Should there be privacy settings to limit profile visibility?
+
 Use Case: Winning Page
 Iteration: First Iteration
 Primary Actor: Player
@@ -919,5 +956,42 @@ Channel to Actor: Graphical User Interface (GUI)
 Open Issues:
 Should players be able to select the same game many times in one session?
 
+
+Use Case: View Profiles
+Iteration: First
+Primary Actor: Player
+Goal in Context: To allow a player to view another player's profile and check their game statistics, ranking, and match history.
+Preconditions:
+The player must be logged into the system.
+The profile being viewed must exist in the database.
+The system must be connected to the game server or data storage.
+Trigger: The player selects a profile from the leaderboard, match history, or search function.
+Scenario:
+The player navigates to a list of players (e.g., leaderboard, recent matches, or search results).
+The player selects a player’s profile from the list
+The system retrieves the player’s profile data from the database.
+The system displays the profile, showing:
+Username and avatar
+Games played
+Win/Loss record
+Current ranking
+Recent match history
+The player views the profile and may navigate back or challenge the player
+Postconditions:
+The system successfully displays the requested profile.
+If an error occurs, the system informs the user through an appropriate message.
+Exceptions:
+Profile data fails to load → The system displays a “Profile could not be loaded” message with a retry option.
+User profile does not exist → The system returns a “User not found” error.
+Database is unreachable → An error message is shown, and the system attempts to reconnect.
+Priority: High
+When Available: First iteration
+Frequency of Use: Multiple times per session
+Channel to Actor: Via GUI
+Secondary Actors: N/A
+Open Issues:
+Should users be able to send messages from the profile screen?
+Should profiles display a player’s online status?
+Should there be privacy settings to limit profile visibility?
 
 
