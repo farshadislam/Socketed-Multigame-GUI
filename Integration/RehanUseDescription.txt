@@ -1,32 +1,51 @@
-Use case 1: login (player must create account or login first)
-Use case 2: play solo (player has option to play solo with a computer opponenet)
-Use case 3: play with friend (player has option to play with friend)
-Use case 4: get support/ report bug (player has option to give feedback or report bugs)
-
-Use case: Player chooses to login or create account
+Use Case: Player Interacting with social features
 Iteration: 1
-Primary actor: Player
-Goal in Context: Player is able to successfully login or create new account to access the homepage where all games and other information is located.
+Last Modification Date: March 5
+Primary Actor: Player
+Goal in Context: player is able to interact with social features, such as adding friends, inviting friends to game, and sending messages to other players.
+
 Preconditions:
-1. PLayer has internet on device
-2. PLayer has valid account information which matches database
-3. website is up and running (online)
+1. The player is logged into the system.
+2. The player has stable network connection.
+3. social features such as friends list, game invitations, messages are enabled.
 Trigger:
-Player chooses login or create new account in order to access homepage where games are
+The player chooses to interact with a social feature such as adding a friend, inviting another player to a game, or sending a message.
+
 Scenario:
-- Create Account:
-    1. Player selects create account option
-    2. System shows form requiring user to enter a username and password.
-    3. Player submits the registration form.
-    4. system checks if password is strong and if username is not already taken.
-    5. system adds player information into database.
-    6. system sends player to homepage and notifies player that account has successfully been made.
-- Login:
-    1. Player selects login option.
-    2. System shows form requiring user to enter their username and password.
-    3. Player clicks login button on form after entering information.
-    4. System verifies username is in database and password associated with username matches.
-        1. If username
+1. Player selects social menu from home page of app or during game.
+2. System displays the player's friends list and other social features such as send message or add friend.
+3. Player then selects an action to perform
+    - Add friend: player searches for another player by username and sends a friend request.
+    - Accept or reject friend request: player reviews pending requests and accepts or decline them.
+    - Send game invite: player selects a friend from friend list and invites them to a session.
+    - Send message: player selects a friend and sends a message.
+4. System processes and responds to selected action:
+    - Friend requests: other player receives a notification.
+    - Game invites: other player receives request to join session.
+    - chat messages: system delivers message.
+5. The recipient (another player) responds to the action by:
+    - Accepting or declining a friend request.
+    - Joining or declining game invitation.
+    - Replying to a message.
+6. If friend request is accepted system updates both players friend lists.
+7. If a game invitation is accepted system moves players into a game session.
+8. If a message is received system displays message in a chat box near the corner of screen.
+9. Player uses more social features or quits social menu.
+
+Postconditions:
+1. system updates friend list, chat messages, or game session status based on interactions.
+2. If the app were to crash then pending friend requests or messages will be stored in some place and delivered once player joins game again.
+
+Priority: Medium
+When Available: Whenever player is in app and social features are also active.
+Frequency of Use: high to low depending on how much players engage with social menu.
+Channel to Actor: Social features menu (friend list, chat box, game invites) within the app.
+Secondary Actors: Other players, game server, messaging system, matchmaking system.
+Channel to Secondary Actors: Network connection (server communication).
+
+
+
+
 
 
 
