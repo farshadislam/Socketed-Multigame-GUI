@@ -1,4 +1,4 @@
-Use case: Player plays a game of checkers with another player
+Use case 1: Player plays a game of checkers with another player
 Iteration: 1
 Last Modification Data: March 1
 Primary Actor: Player
@@ -46,7 +46,9 @@ Open issues:
 2. How does the system handle ties in case of a sudden disconnection?
 3. Should there be a built-in chat or reaction system for player communication?
 
-Use case: Player plays a game of singleplayer connect 4
+
+
+Use case 2: Player plays a game of singleplayer connect 4
 Iteration: 1
 Last Modification Data: March 6
 Primary Actor: Player
