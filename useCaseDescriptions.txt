@@ -79,9 +79,9 @@ Frequency of use: Once per session
 
 Channel to actor: Through Graphical User Interface, the Welcome screen can be presented to the player.
 
-Secondary actors: System
+Secondary actors: N/A
 
-Channel to secondary actors: When connected to the Gaming Dashboard via network
+Channel to secondary actors: N/A
 
 Open issues:
 1. Should there be an option to proceed as a guest?
@@ -296,9 +296,9 @@ Frequency of use: once per session
 
 Channel to actor: Option to select login from on the graphical user interface.
 
-Secondary actors: System
+Secondary actors: N/A
 
-Channel to secondary actors: Registers through the system that the player wants to login.
+Channel to secondary actors: N/A
 
 Open issues:
 1. Do we block the player from entering the wrong username password?
