@@ -134,9 +134,9 @@ Frequency of use: once per session
 
 Channel to actor: Through Graphical User Interface, the quit option will be a button for the player to click.
 
-Secondary actors: System
+Secondary actors: N/A
 
-Channel to secondary actors: When connected to a game in the gaming dashboard.
+Channel to secondary actors: N/A
 
 Open issues:
 1. How are we going to deal with the opponents game becoming disrupted?
@@ -199,9 +199,9 @@ Frequency of use: many times per session
 
 Channel to actor: Through Graphical User Interface, the player can select where they would like to make their move by selecting the piece and the spot, or by simply selecting the spot.
 
-Secondary actors: System
+Secondary actors: N/A
 
-Channel to secondary actors: When player selects the spot they would like to make their move.
+Channel to secondary actors: N/A
 
 Open issues:
 1. Should there be a penalty if the player selects too many invalid moves?
@@ -247,14 +247,14 @@ Frequency of use: once
 
 Channel to actor: Option to select from on the graphical user interface.
 
-Secondary actors: System
+Secondary actors: N/A
 
-Channel to secondary actors: Registers through the system that the player wants to create an account
+Channel to secondary actors: N/A
 
 Open issues:
 1. Should one player be allowed to make multiple accounts
 2. Should their be an email verification.
-3. What if someone who a is not fluent in English cannot read the requirements of "Create Account"
+3. What if someone who is not fluent in English cannot read the requirements of "Create Account"
 END OF USE CASE DESCRIPTION
 
 START OF USE CASE DESCRIPTION
