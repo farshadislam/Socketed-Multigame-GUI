@@ -1,0 +1,29 @@
+User Stories for Tic-Tac-Toe, Connect Four, and Checkers
+
+Tic-Tac-Toe (1)
+
+1. As a player, I want to play against an AI so that I can have a fun challenge.
+
+2. As a player, I want to see my wins and losses tracked so that I can show off my skills on the leaderboard.
+
+3. As a player, I want to start a new game easily so that I can play again right after finishing.
+
+4. As a player, I want to know if the game is a tie so that I can decide to play again or end the game.
+
+Connect Four (2)
+
+1. As a player, I want to see whose turn it is so that I know when to make my move in a two player game.
+
+2. As a player, I want my game stats saved so that I can track my progress.
+
+3. As a player, I want to know when the grid is full so that I can end the game if no one wins.
+
+4. As a player, I want to pick my disc color.
+
+Checkers (3)
+
+1. As a player, I want to jump over enemy pieces so that I can clear the board faster.
+
+2. As a player, I want to know my ranking.
+
+3. As a player, I want to see which pieces are mine so that I don’t mix them up during the game.
