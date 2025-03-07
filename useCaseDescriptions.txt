@@ -11,14 +11,15 @@ Preconditions:
 The player is logged into the system
 The system is running and showing the games in the game dashboard
 
-Trigger: The player has access to the game board after logging in (NOT SURE)
+Trigger: The player has access to the game board after logging in
 
 Scenario:
-The player reaches the game dashboard after logging in and seeing the welcome page
-The system shows the available games in the game dashboard
-The player looks at all the available games in the game dashboard.
+The player logs into the system
+The system directs the player to the game dashboard
+The system shows all the available games to the player
+The player views the games available in the game dashboard
 
-Post conditions: (COME BACK)
+Post conditions:
 The player can successfully see the lists of games available in the dashboard.
 The system is waiting and ready for further interaction, for example, selecting a game from the available games in the dashboard.
 
@@ -34,9 +35,9 @@ Frequency of use: Multiple times a day, every session
 
 Channel to actor: via GUI
 
-Secondary actors: System
+Secondary actors: N/A
 
-Channel to secondary actors: via the system (NOT SURE)
+Channel to secondary actors: N/A
 
 Open issues:
 Should similar games be listed under categories?
@@ -604,11 +605,11 @@ Preconditions:
 The player is logged into the system
 The player has joined a game
 
-Trigger: The player selects the “In-game chat” from the Menu
+Trigger: The player selects the “In-game chat” from the Game-Menu
 
 Scenario:
 The player joins a game
-The player clicks on the “Menu option”
+The player clicks on the “Game-Menu option”
 The player selects the “In-game Chat” option.
 The player types a message
 The player sends the message
@@ -628,9 +629,10 @@ Frequency of use: Multiple times a day, every session
 
 Channel to actor: via GUI
 
-Secondary actors: System(might remove)
+Secondary actors: N/A
 
-Channel to secondary actors: The system handles message sending, receiving, and displaying via in-game communication protocols (might remove)
+Channel to secondary actors: N/A
+
 
 Open issues:
 Should the system have a filter, in order to make sure no mean comments are made?
@@ -640,29 +642,29 @@ END OF USE CASE DESCRIPTION
 
 
 START OF USE CASE DESCRIPTION
-Use case: Menu Option
+Use case: Game-Menu Option
 
 Iteration: First
 
 Primary Actor: Player
 
-Goal in context: The player can successfully access the different options such as quit and in-game chat from the menu option
+Goal in context: The player can successfully access the different options such as quit and in-game chat from the Game-menu option
 
 Preconditions:
 The player is logged into the system
 The player has joined a game
 
-Trigger: The player selects the “Menu Option” in the game
+Trigger: The player selects the “Game-Menu Option” in the game
 
 Scenario:
 The player joins a game
-The player clicks on the “Menu option”
+The player clicks on the “Game-Menu option”
 
 Post conditions:
-The player can see further options after clicking on “Menu Option”
+The player can see further options after clicking on “Game-Menu Option”
 
 Exceptions:
-The menu fails to open
+The Game-menu fails to open
 
 Priority: High
 
@@ -672,12 +674,12 @@ Frequency of use: Multiple times a day, every session
 
 Channel to actor: via GUI
 
-Secondary actors:
+Secondary actors: N/A
 
-Channel to secondary actors:
+Channel to secondary actors: N/A
 
 Open issues:
-Should the game be paused when the player clicks on the menu option?
+Should the game be paused when the player clicks on the Game-menu option?
 END OF USE CASE DESCRIPTIONS
 
 
@@ -695,7 +697,7 @@ Preconditions:
 The player is logged into the system
 The player is in “Game Dashboard”
 
-Trigger: The player clicks on “Manage Account”
+Trigger: The player clicks on “Manage Account” from the settings
 
 Scenario:
 The player is in the Game Dashboard
@@ -718,9 +720,9 @@ Frequency of use: Multiple times a day, every session
 
 Channel to actor: via GUI
 
-Secondary actors: System (NOT SURE)
+Secondary actors: N/A
 
-Channel to secondary actors: via system database (NOT SURE)
+Channel to secondary actors: N/A
 
 Open issues: N/A
 END OF USE CASE DESCRIPTION
@@ -763,9 +765,9 @@ Frequency of use: Multiple times a day, every session
 
 Channel to actor: via GUI
 
-Secondary actors: System
+Secondary actors: N/A
 
-Channel to secondary actors: ????
+Channel to secondary actors: N/A
 
 Open issues: N/A
 END OF USE CASE DESCRIPTION
