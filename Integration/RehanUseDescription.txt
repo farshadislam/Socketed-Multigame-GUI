@@ -35,7 +35,7 @@ Postconditions:
 2. system updates profile details such as wins, loses, and more after multiplayer sessions.
 
 Priority: High
-When Available: Whenever player has stable network connection and is in app on homepage. Messages however can be accessed
+When Available: Whenever player has stable network connection and is in app on homepage. Messages however can be accessed in game.
 Frequency of Use: Varying (depends on how many social interactions take place).
 Channel to Actor: friends list (friend requests, chat menu, game invites) within the app.
 Secondary Actors: Other players, game server, database.
