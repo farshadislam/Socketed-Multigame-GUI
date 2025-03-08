@@ -1,8 +1,7 @@
 Use Case: Player Interacting with social features
 Iteration: 1
-Last Modification Date: March 5
 Primary Actor: Player
-Goal in Context: player is able to interact with social features, such as adding friends, inviting friends to game, and sending messages to other players.
+Goal in Context: player is able to interact with social features, such as adding friends, removing friends, and inviting friends to game.
 
 Preconditions:
 1. The player is logged into the system.
@@ -21,9 +20,9 @@ Scenario:
     - Send message: player selects a friend and sends a message.
 4. System processes and responds to selected action:
     - Friend requests: other player receives a notification.
-    - Game invites: other player receives request to join session.
+    - Game invites: other player receives request to join a session.
     - chat messages: system delivers message.
-5. The recipient (another player) responds to the action by:
+5. The other player responds to the action by:
     - Accepting or declining a friend request.
     - Joining or declining game invitation.
     - Replying to a message.
