@@ -1,24 +1,23 @@
 Team: Bravo
 Document: Project Timeline Authentication
-
 - created separate timelines for each sub team but did not include an overall timeline
 that accounts for how each team work will integrate together
 - had more than 5 use case descriptions that were not accounted for in the planning document
 
 Document: Project Timeline Networking
-
 - set goals to evaluate other teams' work and start drafting coding functionality all within
 week 2 which might be unrealistic
 - didn't mention anything about class structure diagrams in their planning
 
 Document: Project Timeline Game Logic
+- didn't mention anything about creating the planning documents
+- didn't specify about use case descriptions
+- could have specified which three games were chosen for the deliverables
 
 Document: Project Timeline Integration
-
 - demonstration videos mentioned in week 2?
 
 Document: Project Timeline GUI
-
 - set week 2 March 10-14 for designing the GUI but did not account for the the main purpose
 of iteration 2 which was to review another team's project
 - set all of iteration 1's deliverables (use case diagrams, use case descriptions, class diagrams,
