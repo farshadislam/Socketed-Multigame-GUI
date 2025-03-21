@@ -1,5 +1,34 @@
-| Name                          | UCID      | Email                           |
-|--------------------------------|-----------|--------------------------------|
+# *♔ Team Organization ♔*:
+| *♘ Game-Logic ♘*         | 
+|--------------------------|
+| Cassandra Rodberg, Hamzi El-Jundi, Enkhbayasgalan Bayarkhuu, Brittney Ha, Kallista Sieu |
+
+| *♘ GUI ♘* | 
+|-------------|
+| Syed Sohaib Haider, Talha Zafar, Hira Asad, Kawthar Aroua |
+
+| *♘ Networking ♘* |
+|-------------|
+| Ronakh Shariff, Ali Almishri, Farshad Islam, Farhad Alizada |
+
+| *♘ Authentication-profile ♘* |
+|-------------|
+| Hamna Asad, Maham Mir, Wissal Chibani, Varisha Tauseef |
+
+| *♘ Leaderboard-matchmaking ♘* |
+|-------------| 
+| Harris Jan, Taha Malik, Arham Tahir, Bobby Brar |
+
+| *♘ Integration ♘* |
+|-------------|
+| Igor Juhas, Rehan Ahmed, Syed Omar, Jashan Bhinder |
+
+## *♕ Team Members ♕*:
+
+
+
+| Name                          | UCID      | Email                          |
+|-------------------------------|-----------|--------------------------------|
 | Cassandra Rodberg             | 30207735  | cassandra.rodberg@ucalgary.ca  |
 | Kawthar Aroua                 | 30174638  | kawthar.aroua1@ucalgary.ca     |
 | Ronakh Shariff                | 30229481  | ronakh.shariff@ucalgary.ca     |
@@ -24,3 +53,4 @@
 | Wissal Chibani                | 30212688  | wissal.chibani@ucalgary.ca     |
 | Bobby Brar                    | 30187738  | bobby.brar@ucalgary.ca         |
 | Hamzi El-Jundi                | 30204305  | hamzi.eljundi@ucalgary.ca      |
+| Igor Juhas                    | 30092357  | igor.juhas@ucalgary.ca         |
