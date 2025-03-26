@@ -1,0 +1,999 @@
+START OF USE CASE DESCRIPTION
+Use case: Game Dashboard
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: To let the player see the games available in the game dashboard
+
+Preconditions:
+The player is logged into the system
+The system is running and showing the games in the game dashboard
+
+Trigger: The player has access to the game board after logging in
+
+Scenario:
+The player logs into the system
+The system directs the player to the game dashboard
+The system shows all the available games to the player
+The player views the games available in the game dashboard
+
+Post conditions:
+The player can successfully see the lists of games available in the dashboard.
+The system is waiting and ready for further interaction, for example, selecting a game from the available games in the dashboard.
+
+Exceptions:
+The games are not available/showing up
+System is down, fails to retrieve the games
+
+Priority: High
+
+When available: First iteration
+
+Frequency of use: Multiple times a day, every session
+
+Channel to actor: via GUI
+
+Secondary actors: N/A
+
+Channel to secondary actors: N/A
+
+Open issues:
+Should similar games be listed under categories?
+END OF USE CASE DESCRIPTION
+
+
+START OF USE CASE DESCRIPTION
+Use case: Welcome Page
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: To initially welcome the player to the gaming dashboard and encourage them to interact with the system.
+
+Preconditions:
+1. System must be powered on
+2. The system must be in initial state and connected to the Gaming Dashboard
+3. Game Dashboard is functional
+
+Trigger: Connected to the Gaming Dashboard: Once connected the system will present the initial welcome screen,
+
+Scenario:
+1. Player connects to the gaming dashboard via network
+2. System loads Gaming dashboard server, where the welcome screen is initially presented.
+
+Post conditions:
+1. The customer will be prompted to input their password and user.
+
+Exceptions:
+1. System is powered off
+2. Unable to connect to the gaming dashboard server.
+3. System fails to load the Welcome page, therefore an error message will be displayed,
+
+Priority: low
+
+When available: second iteration
+
+Frequency of use: Once per session
+
+Channel to actor: Through Graphical User Interface, the Welcome screen can be presented to the player.
+
+Secondary actors: N/A
+
+Channel to secondary actors: N/A
+
+Open issues:
+1. Should there be an option to proceed as a guest?
+2. Will there be accommodations for people with disabilities (i.e. Color blind, blind)
+END OF USE CASE DESCRIPTION
+
+START OF USE CASE DESCRIPTION
+
+START OF USE CASE DESCRIPTION
+Use case: Quit Option
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: To allow the player to quit the game whenever the player wishes.
+
+Preconditions:
+1. There must be an active game.
+2. The player must be able to access the quit option.
+
+Trigger: The player presses the quit option when they choose to quit the game.
+
+Scenario:
+1. Player wishes to confirm to quit.
+    a. Player is currently in an active game and wishes to quite
+    b. Player chooses the quit option on the screen.
+    c. PLayer confirms their selection when prompted with "Are you sure?"
+    d. PLayer loses the game and successfully quits.
+2. Player does not confirm to quit
+    a. Player is currently in an active game and wishes to quite
+    b. Player chooses the quit option on the screen.
+    c. PLayer changes their mind and selects "no" when prompted with "Are you sure?"
+    d. PLayer continues the game normally.
+
+Post conditions:
+1. Player must confirm their selection when prompted with "Are you sure?"
+2. If the player declines the game continues normally.
+
+Exceptions:
+1. If the game crashes during the game session.
+2. Player loses network connection during the game session.
+3. The system fails to register teh quit function.
+
+Priority: High
+
+When available: first iteration
+
+Frequency of use: once per session
+
+Channel to actor: Through Graphical User Interface, the quit option will be a button for the player to click.
+
+Secondary actors: N/A
+
+Channel to secondary actors: N/A
+
+Open issues:
+1. How are we going to deal with the opponents game becoming disrupted?
+2. Should we allow the player to quit when the game is about to end?
+3. Should the player be banned from quitting after certain amount of quits?
+END OF USE CASE DESCRIPTION
+
+START OF USE CASE DESCRIPTION
+Use case: Placing/Moving Pieces
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: Allows players to place or move pieces around in order for them to play the game. It gives functionality to Tic-Tac-Toe, Checkers, and Connect 4.
+
+Preconditions:
+1. There must be an active game (i.e Tic-Tac-Toe, Checkers, and Connect 4)
+2. Moving or placing of the piece must be a valid play:
+    a. Player move must be on the game grid.
+    b. PLayer move must obey game rules (how the pieces can be moved).
+3. It is players turn to move the piece.
+4. Network is connected for the game to register the player move.
+
+Trigger: The player selects the spot they would like to move the piece to.
+
+Scenario:
+1. Player makes a move:
+    a. Player is playing Tic-Tac-Toe:
+        i. Players turn to place their piece.
+        ii. Player selects an empty space on the grid.
+        iii. The system places "X" or "O" to register the players choice.
+    b. Player is playing Connect 4:
+        i. Players turn to place their piece.
+        ii. Player selects a column that has empty spaces.
+        iii. Players piece (either blue or red) gets placed into the lowest available row in that column.
+    c. Player is playing Checkers:
+        i. It is the players turn to move a piece.
+        ii. Player selects one of their pieces and selects a valid diagonal move.
+        iii. If the player jumps over the opponents piece(s), their pieces are removed.
+        iv. If the piece is moved to the opponents end of the grid, their piece gets promoted to "King".
+2. If the move is valid the board gets updated, otherwise the player is prompted to make a valid move.
+3. Once the player has made their move, the system checks if the player won or drawn the game, otherwise control switches to the opponent.
+
+Post conditions:
+1. Game must update after player has successfully made a move.
+2. If the game has een won or drawn, the system should display the results
+3. Control should shift to the opponent if the game has not ended after the players move.
+
+Exceptions:
+1. Invalid moves should not be accepted by the system (i.e. Placing outside the grid, Placement does not align with game rules, placing in a occupied space).
+2. If the player has quit upon their turn, they should not be eligible to make a move.
+3. Network connection is unstable to register the move.
+
+Priority: High
+
+When available: first iteration
+
+Frequency of use: many times per session
+
+Channel to actor: Through Graphical User Interface, the player can select where they would like to make their move by selecting the piece and the spot, or by simply selecting the spot.
+
+Secondary actors: N/A
+
+Channel to secondary actors: N/A
+
+Open issues:
+1. Should there be a penalty if the player selects too many invalid moves?
+2. Should their be a time limit on how long a player can take to make their move?
+3. Should their be hints/recommendations given to the player on where they should make their move?
+END OF USE CASE DESCRIPTION
+
+START OF USE CASE DESCRIPTION
+Use case: Create account
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: Option to allow players to create an account in the game dashboard.
+
+Preconditions:
+1. System is connected with the internet.
+2. Player is currently on the welcome page.
+
+Trigger: Clicking the create account option on the welcome page.
+
+Scenario:
+1. Player connects with the Game Dashboard.
+2. Player wants to make an account
+3. Player selects "Create Account".
+
+Post conditions:
+1. Player must input correct information
+2. Player must not already have an account with the same information.
+3.
+
+Exceptions:
+1. If the network is unstable.
+2. Player is on the Game Dashboard.
+3. Player already has an account with the same account information.
+
+Priority: High
+
+When available: first iteration
+
+Frequency of use: once
+
+Channel to actor: Option to select from on the graphical user interface.
+
+Secondary actors: N/A
+
+Channel to secondary actors: N/A
+
+Open issues:
+1. Should one player be allowed to make multiple accounts
+2. Should their be an email verification.
+3. What if someone who is not fluent in English cannot read the requirements of "Create Account"
+END OF USE CASE DESCRIPTION
+
+START OF USE CASE DESCRIPTION
+
+START OF USE CASE DESCRIPTION
+Use case: Login
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: Allows the user to access an option to log in.
+
+Preconditions:
+1. Player must be on welcome page.
+2. PLayer must be connected to network.
+
+Trigger: Clicking the login account option on the welcome page.
+
+Scenario:
+1. Player connects with the Game Dashboard.
+2. Player wants to Login to their account
+3. Player selects "Login".
+
+Post conditions:
+1. Player must input correct username and password
+2. Player must not already have an account with the same information.
+
+Exceptions:
+1. If the network is unstable.
+2. Player is on the Game Dashboard.
+3. Field(s) are left empty by the player.
+
+Priority: High
+
+When available: first iteration
+
+Frequency of use: once per session
+
+Channel to actor: Option to select login from on the graphical user interface.
+
+Secondary actors: N/A
+
+Channel to secondary actors: N/A
+
+Open issues:
+1. Do we block the player from entering the wrong username password?
+2. Do we have an option for forget password?
+END OF USE CASE DESCRIPTION
+
+
+Use Case: Leaderboard Display
+
+Actors:
+- Primary Actor: Player
+- Secondary Actor: System
+
+Preconditions:
+- The player must be logged into the system and in Game Dashboard Page.
+
+Trigger:
+- The player navigates to the leaderboard interface.
+
+Situation:
+1. The player selects the Leaderboard option from the main menu or interface.
+2. The system retrieves the latest ranking data from the database.
+3. The system displays the leaderboard with rankings based on MMR, including:
+    -Top-ranked players sorted by MMR.
+    - Rank tiers displayed for each player:
+      - BRONZE = 1
+      - SILVER = 2
+      - GOLD = 3
+      - PLATINUM = 4
+      - DIAMOND = 5
+      - MASTER = 6
+      - GRANDMASTER = 7
+      - MMR ranges dynamically adjusted based on the min and max MMR caps of the game.
+    - Player statistics, such as wins, losses, and total score.
+    - User’s own rank highlighted within the leaderboard.
+4. The player can:
+    - Search for specific players.
+    - Filter leaderboard results (Global, Friends-Only, Ranked Mode, etc.).
+    - View a player’s profile for more details.
+5. The player can exit the leaderboard and return to the previous screen.
+
+Postconditions:
+- The system successfully displays the **ranked leaderboard** with the latest data.
+- If an error occurs, the player is informed through an appropriate message.
+
+Exceptions:
+- If the leaderboard data is unavailable, the system displays an error message.
+- If the database is down, the system logs an error and provides a retry option.
+- If the *player’s rank cannot be determined**, a placeholder message is displayed.
+
+Priority:
+- High
+
+When Available:
+- First iteration
+
+Frequency of Use:
+- Multiple times a day, every session
+
+Channel to Actor:
+- Graphical User Interface (GUI)
+
+Channel to Secondary Actors:
+- System backend and database
+
+Open Issues:
+- Should players be able to see historical rankings?
+- Should rank progression trends be visualized?
+END OF USE CASE DESCRIPTION
+
+START OF USE CASE DESCRIPTION
+Use case: Selecting games from available library
+
+Actors:
+- Primary Actor: Player
+- Secondary Actor: System
+
+Preconditions:
+- The player must be logged into the system and in Game Dashboard Page.
+
+Trigger:
+- The player navigates to game dashboard.
+
+Situation:
+1. Player is logged into their game account.
+2. Player can view available games
+    Tic Tac Toe
+    Checkers
+    Connect4
+3. Play has the option to select one  or multiple games
+
+Postconditions:
+- The system successfully runs selected game.
+
+Exceptions:
+- if the game does not run, player has to refresh or choose another game.
+- Players are limited to three different games.
+
+Priority:
+- High
+
+When Available:
+- First iteration
+
+Frequency of Use:
+- Multiple times a day, every session
+
+Channel to Actor:
+- Graphical User Interface (GUI)
+
+Channel to Secondary Actors:
+- System backend and database
+
+Open Issues:
+- Should players be able to select the same game many times in one session?
+- Can players select more than one game to play?
+
+
+
+Use Case: Winning Page
+Iteration: First Iteration
+Primary Actor: Player
+Goal in Context: To show the winning page after the player has won the game played.
+Preconditions:
+The player is logged into the system.
+The game has been played with an opponent.
+Trigger: The player has made a move that leads to victory in the game.
+Scenario:
+The player plays the last move, leading to the end of the game, or the player makes a move that results in victory.
+The game page changes to display that the player has won.
+Postconditions:
+The winning page returns to the main game library dashboard.
+Points have been added to the player's stats.
+The player's profile for games-won stats has been updated.
+Exceptions:
+The system is powered off.
+System fails to load the Welcome page; an error message will be displayed.
+Priority: High
+When Available: First Iteration
+Frequency of Use: Every game, depending on the outcome.
+Channel to Actor: Via GUI
+Secondary Actors: System
+Channel to Secondary Actors: Via the system
+Open Issues:
+Should there be an option for a rematch?
+Should there be an option to review the match?
+
+END OF USE CASE DESCRIPTION
+
+--------------------------------------------------------------------------------
+Use Case: Losing Page
+Iteration: First Iteration
+Primary Actor: Player
+Goal in Context: To show the losing page after the player has lost the game played.
+Preconditions:
+The player is logged into the system.
+The game has been played with an opponent.
+Trigger: The opponent has made a move that leads to victory in the game, making the player lose the game.
+Scenario:
+The opponent plays the last move, leading to the end of the game, or the opponent makes a move that results in their victory.
+The player cannot make another move.
+The game page changes to display that the player has lost.
+Postconditions:
+Losing page returns to the main game library dashboard.
+Points have been added to the opponent's stats.
+The player's profile of games-lost stats has been updated.
+Exceptions:
+System is powered off.
+System fails to load the Welcome page; an error message will be displayed.
+Priority: High
+When Available: First Iteration
+Frequency of Use: Every game, depending on the outcome.
+Channel to Actor: Via GUI
+Secondary Actors: System
+Channel to Secondary Actors: Via the system
+Open Issues:
+Should there be an option for a rematch?
+Should there be an option to review the match?
+
+END OF USE CASE DESCRIPTION
+
+--------------------------------------------------------------------
+
+Use Case: Joining Game
+Iteration: First Iteration
+Primary Actor: Player
+Goal in Context: Join a game from the game library.
+Preconditions:
+The player is logged into the system.
+The player selects a game to play.
+Trigger: The player has selected a game.
+Scenario:
+The player has logged into the game dashboard.
+The player selects Connect4, Checkers, or Tic-Tac-Toe.
+The selected game opens for the player to play.
+Postconditions:
+The player begins to play one of the games.
+Exceptions:
+The system is powered off.
+System fails to load the game options page; an error message will be displayed.
+Priority: High
+When Available: First Iteration
+Frequency of Use: Often
+Channel to Actor: Via GUI
+Secondary Actors: System
+Channel to Secondary Actors: Via the system
+Open Issues:
+Is there an option to view all players currently playing that game?
+Is there a level/difficulty option?
+
+END OF USE CASE DESCRIPTION
+
+
+Use Case: Leaderboard Display
+Iteration: First Iteration
+Primary Actor: Player
+Secondary Actor: System
+Preconditions:
+The player must be logged into the system and in the Game Dashboard Page.
+Trigger:
+The player navigates to the leaderboard interface.
+Scenario:
+The player selects the Leaderboard option from the main menu or interface.
+The system retrieves the latest ranking data from the database.
+The system displays the leaderboard with rankings based on MMR, including:
+Top-ranked players sorted by MMR.
+Rank tiers displayed for each player:
+BRONZE = 1
+SILVER = 2
+GOLD = 3
+PLATINUM = 4
+DIAMOND = 5
+MASTER = 6
+GRANDMASTER = 7
+Player statistics, such as wins, losses, and total score.
+The user’s own rank is highlighted within the leaderboard.
+The player can:
+Search for specific players.
+Filter leaderboard results (Global, Friends-Only, Ranked Mode, etc.).
+View a player’s profile for more details.
+The player can exit the leaderboard and return to the previous screen.
+Postconditions:
+The system successfully displays the ranked leaderboard with the latest data.
+If an error occurs, the player is informed through an appropriate message.
+Exceptions:
+If the leaderboard data is unavailable, the system displays an error message.
+If the database is down, the system logs an error and provides a retry option.
+If the player’s rank cannot be determined, a placeholder message is displayed.
+Priority: High
+When Available: First Iteration
+Frequency of Use: Multiple times a day, every session
+Channel to Actor: Graphical User Interface (GUI)
+Channel to Secondary Actors: System backend and database
+Open Issues:
+Should players be able to see historical rankings?
+Should rank progression trends be visualized?
+
+END OF USE CASE DESCRIPTION
+
+START OF USE CASE DESCRIPTION
+Use Case: Selecting Games from Available Library
+Iteration: First Iteration
+Primary Actor: Player
+Secondary Actor: System
+Preconditions:
+The player must be logged into the system and in the Game Dashboard Page.
+Trigger:
+The player navigates to the game dashboard.
+Scenario:
+The player is logged into their game account.
+The player can view available games:
+Tic-Tac-Toe
+Checkers
+Connect4
+The player has the option to select one or multiple games.
+Postconditions:
+The system successfully runs the selected game.
+Exceptions:
+If the game does not run, the player has to refresh or choose another game.
+Players are limited to three different games.
+Priority: High
+When Available: First Iteration
+Frequency of Use: Multiple times a day, every session
+Channel to Actor: Graphical User Interface (GUI)
+Channel to Secondary Actors: System backend and database
+Open Issues:
+Should players be able to select the same game many times in one session?
+Can players select more than one game to play?
+
+
+
+
+START OF USE CASE DESCRIPTION
+Use case: In-game chat
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: The player can successfully type and send messages in the in-game chat during the match
+
+Preconditions:
+The player is logged into the system
+The player has joined a game
+
+Trigger: The player selects the “In-game chat” from the Game-Menu
+
+Scenario:
+The player joins a game
+The player clicks on the “Game-Menu option”
+The player selects the “In-game Chat” option.
+The player types a message
+The player sends the message
+
+Post conditions:
+The player’s message is shown in the chat window
+The opponent can see the message.
+
+Exceptions:
+The player is playing against a bot.
+
+Priority: Medium
+
+When available: Second iteration
+
+Frequency of use: Multiple times a day, every session
+
+Channel to actor: via GUI
+
+Secondary actors: N/A
+
+Channel to secondary actors: N/A
+
+
+Open issues:
+Should the system have a filter, in order to make sure no mean comments are made?
+END OF USE CASE DESCRIPTION
+
+
+
+
+START OF USE CASE DESCRIPTION
+Use case: Game-Menu Option
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: The player can successfully access the different options such as quit and in-game chat from the Game-menu option
+
+Preconditions:
+The player is logged into the system
+The player has joined a game
+
+Trigger: The player selects the “Game-Menu Option” in the game
+
+Scenario:
+The player joins a game
+The player clicks on the “Game-Menu option”
+
+Post conditions:
+The player can see further options after clicking on “Game-Menu Option”
+
+Exceptions:
+The Game-menu fails to open
+
+Priority: High
+
+When available: First iteration
+
+Frequency of use: Multiple times a day, every session
+
+Channel to actor: via GUI
+
+Secondary actors: N/A
+
+Channel to secondary actors: N/A
+
+Open issues:
+Should the game be paused when the player clicks on the Game-menu option?
+END OF USE CASE DESCRIPTIONS
+
+
+
+START OF USE CASE DESCRIPTION
+Use case: Manage Account
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: To allow the player to manage their account by updating their account details, such as notifications or privacy settings, language preferences, and changing their username or password
+
+Preconditions:
+The player is logged into the system
+The player is in “Game Dashboard”
+
+Trigger: The player clicks on “Manage Account” from the settings
+
+Scenario:
+The player is in the Game Dashboard
+The player clicks on the “Settings Option”
+The player selects the “Manage Account” option
+The player selects an option and does the appropriate details required by the option they selected.
+
+Post conditions:
+The player’s account gets updated from the changes made.
+
+Exceptions:
+The new information entered by the player is not valid
+Fail to save changes due to a server error
+
+Priority: Medium
+
+When available: First iteration
+
+Frequency of use: Multiple times a day, every session
+
+Channel to actor: via GUI
+
+Secondary actors: N/A
+
+Channel to secondary actors: N/A
+
+Open issues: N/A
+END OF USE CASE DESCRIPTION
+
+
+
+
+START OF USE CASE DESCRIPTION
+Use case: Log out
+
+Iteration: First
+
+Primary Actor: Player
+
+Goal in context: To allow the player to log out of the game platform
+
+Preconditions:
+The player is logged into the system
+The player is in “Game Dashboard”
+
+Trigger: The player selects the “Log out” option from the settings
+
+Scenario:
+The player is in the Game Dashboard
+The player clicks on the “Settings Option”
+The player selects the “Log out” option
+
+Post conditions:
+The player is successfully logged out of the game platform
+The session is closed
+
+Exceptions:
+The player fails to log out due to a server error
+
+Priority: High
+
+When available: First iteration
+
+Frequency of use: Multiple times a day, every session
+
+Channel to actor: via GUI
+
+Secondary actors: N/A
+
+Channel to secondary actors: N/A
+
+Open issues: N/A
+END OF USE CASE DESCRIPTION
+
+Use Case: View Profiles
+Iteration: First
+Primary Actor: Player
+Goal in Context: To allow a player to view another player's profile and check their game statistics, ranking, and match history.
+Preconditions:
+The player must be logged into the system.
+The profile being viewed must exist in the database.
+The system must be connected to the game server or data storage.
+Trigger: The player selects a profile from the leaderboard, match history, or search function.
+Scenario:
+The player navigates to a list of players (e.g., leaderboard, recent matches, or search results).
+The player selects a player’s profile from the list
+The system retrieves the player’s profile data from the database.
+The system displays the profile, showing:
+Username and avatar
+Games played
+Win/Loss record
+Current ranking
+Recent match history
+The player views the profile and may navigate back or challenge the player
+Postconditions:
+The system successfully displays the requested profile.
+If an error occurs, the system informs the user through an appropriate message.
+Exceptions:
+Profile data fails to load → The system displays a “Profile could not be loaded” message with a retry option.
+User profile does not exist → The system returns a “User not found” error.
+Database is unreachable → An error message is shown, and the system attempts to reconnect.
+Priority: High
+When Available: First iteration
+Frequency of Use: Multiple times per session
+Channel to Actor: Via GUI
+Secondary Actors: N/A
+Open Issues:
+Should users be able to send messages from the profile screen?
+Should profiles display a player’s online status?
+Should there be privacy settings to limit profile visibility?
+
+Use Case: Winning Page
+Iteration: First Iteration
+Primary Actor: Player
+Goal in Context: To show the winning page after the player has won the game played.
+Preconditions:
+The player is logged into the system.
+The game has been played with an opponent.
+Trigger: The player has made a move that leads to victory in the game.
+Scenario:
+The player plays the last move, leading to the end of the game, or the player makes a move that results in victory.
+The game page changes to display that the player has won.
+Postconditions:
+The winning page returns to the main game library dashboard.
+Points have been added to the player's stats.
+The player's profile for games-won stats has been updated.
+Exceptions:
+The system is powered off.
+The system fails to load the Welcome page; an error message will be displayed.
+Priority: High
+When Available: First Iteration
+Frequency of Use: Every game, depending on the outcome.
+Channel to Actor: Via GUI
+Secondary Actors: N/A
+Open Issues:
+Should there be an option for a rematch?
+Should there be an option to review the match?
+Use Case: Losing Page
+Iteration: First Iteration
+Primary Actor: Player
+Goal in Context: To show the losing page after the player has lost the game played.
+Preconditions:
+The player is logged into the system.
+The game has been played with an opponent.
+Trigger: The opponent has made a move that leads to victory in the game, making the player lose the game.
+Scenario:
+The opponent plays the last move, leading to the end of the game, or the opponent makes a move that results in their victory.
+The player cannot make another move.
+The game page changes to display that the player has lost.
+Postconditions:
+The losing page returns to the main game library dashboard.
+Points have been added to the opponent's stats.
+The player's profile of games-lost stats has been updated.
+Exceptions:
+The system is powered off.
+The system fails to load the Welcome page; an error message will be displayed.
+Priority: High
+When Available: First Iteration
+Frequency of Use: Every game, depending on the outcome.
+Channel to Actor: Via GUI
+Secondary Actors: N/A
+Open Issues:
+Should there be an option for a rematch?
+Should there be an option to review the match?
+
+Use Case: Joining Game
+Iteration: First Iteration
+Primary Actor: Player
+Goal in Context: Join a game from the game library.
+Preconditions:
+The player is logged into the system.
+The player selects a game to play.
+Trigger: The player has selected a game.
+Scenario:
+The player has logged into the game dashboard.
+The player selects Connect4, Checkers, or Tic-Tac-Toe.
+The selected game opens for the player to play.
+Postconditions:
+The player begins to play one of the games.
+Exceptions:
+The system is powered off.
+The system fails to load the game options page; an error message will be displayed.
+Priority: High
+When Available: First Iteration
+Frequency of Use: Often
+Channel to Actor: Via GUI
+Secondary Actors: N/A
+Open Issues:
+Is there an option to view all players currently playing that game?
+Is there a level/difficulty option?
+Use Case: Leaderboard Display
+Iteration: First Iteration
+Primary Actor: Player
+Secondary Actors: System
+Preconditions:
+The player must be logged into the system and in the Game Dashboard Page.
+Trigger:
+The player navigates to the leaderboard interface.
+Scenario:
+The player selects the Leaderboard option from the main menu or interface.
+The system retrieves the latest ranking data from the database.
+The system displays the leaderboard with rankings based on MMR, including:
+Top-ranked players sorted by MMR.
+Rank tiers displayed for each player:
+BRONZE = 1
+SILVER = 2
+GOLD = 3
+PLATINUM = 4
+DIAMOND = 5
+MASTER = 6
+GRANDMASTER = 7
+Player statistics, such as wins, losses, and total score.
+The user’s own rank highlighted within the leaderboard.
+The player can:
+Search for specific players.
+Filter leaderboard results (Global, Friends-Only, Ranked Mode, etc.).
+View a player’s profile for more details.
+The player can exit the leaderboard and return to the previous screen.
+Postconditions:
+The system successfully displays the ranked leaderboard with the latest data.
+If an error occurs, the player is informed through an appropriate message.
+Exceptions:
+If the leaderboard data is unavailable, the system displays an error message.
+If the database is down, the system logs an error and provides a retry option.
+If the player’s rank cannot be determined, a placeholder message is displayed.
+Priority: High
+When Available: First Iteration
+Frequency of Use: Multiple times a day, every session
+Channel to Actor: Graphical User Interface (GUI)
+Channel to Secondary Actors: System backend and database
+Open Issues:
+Should players be able to see historical rankings?
+Should rank progression trends be visualized?
+Use Case: Selecting Games from Available Library
+Iteration: First Iteration
+Primary Actor: Player
+Secondary Actors: N/A
+Preconditions:
+The player must be logged into the system and in the Game Dashboard Page.
+Trigger:
+The player navigates to the game dashboard.
+Scenario:
+The player is logged into their game account.
+The player can view available games:
+Tic-Tac-Toe
+Checkers
+Connect4
+The player has the option to select one or multiple games.
+Postconditions:
+The system successfully runs the selected game.
+Exceptions:
+If the game does not run, the player has to refresh or choose another game.
+Players are limited to three different games.
+Priority: High
+When Available: First Iteration
+Frequency of Use: Multiple times a day, every session
+Channel to Actor: Graphical User Interface (GUI)
+Open Issues:
+Should players be able to select the same game many times in one session?
+
+
+Use Case: View Profiles
+Iteration: First
+Primary Actor: Player
+Goal in Context: To allow a player to view another player's profile and check their game statistics, ranking, and match history.
+Preconditions:
+The player must be logged into the system.
+The profile being viewed must exist in the database.
+The system must be connected to the game server or data storage.
+Trigger: The player selects a profile from the leaderboard, match history, or search function.
+Scenario:
+The player navigates to a list of players (e.g., leaderboard, recent matches, or search results).
+The player selects a player’s profile from the list
+The system retrieves the player’s profile data from the database.
+The system displays the profile, showing:
+Username and avatar
+Games played
+Win/Loss record
+Current ranking
+Recent match history
+The player views the profile and may navigate back or challenge the player
+Postconditions:
+The system successfully displays the requested profile.
+If an error occurs, the system informs the user through an appropriate message.
+Exceptions:
+Profile data fails to load → The system displays a “Profile could not be loaded” message with a retry option.
+User profile does not exist → The system returns a “User not found” error.
+Database is unreachable → An error message is shown, and the system attempts to reconnect.
+Priority: High
+When Available: First iteration
+Frequency of Use: Multiple times per session
+Channel to Actor: Via GUI
+Secondary Actors: N/A
+Open Issues:
+Should users be able to send messages from the profile screen?
+Should profiles display a player’s online status?
+Should there be privacy settings to limit profile visibility?
+
+
