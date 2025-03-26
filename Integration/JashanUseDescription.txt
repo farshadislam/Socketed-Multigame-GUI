@@ -1,0 +1,65 @@
+Use Case: External Database Interaction with the System
+Iteration: Iteration 1
+Primary Actor: External Database
+Goal in Context: Ensure synchronization as actions are made and storage of data within the Online Multiplayer Board Game (OMG) platform.
+
+Preconditions:
+ 1. The system is connected to the database.
+ 2. An active account and database exists and interactions occur within the platform.
+
+Trigger:
+An action is performed that requires data retrieval or storage, such as logging in, updating settings, searching profiles, joining a queue, or participating in a game.
+
+Scenario:
+    1. Login is initiated.
+    2. The database verifies credentials and retrieves profile data.
+    3. The system updates the last login timestamp.
+    4. Profile settings are updated.
+    5. The new settings are validated and stored in the database.
+    6. A profile search is performed.
+    7. The database retrieves the requested profile and includes stats, rank, and match history.
+    8. The matchmaking queue is created.
+    9. The system queries the database to find potential opponents based on skill level and availability.
+    10. A match is found, and the game begins.
+    11. The database updates player statuses to "in-game".
+    12. The game progresses with turn-based actions.
+    13. The database logs every move in real-time for match history tracking.
+    14. The game ends, and results are recorded.
+    15. The database updates player stats, including wins, losses, and leaderboard rankings.
+    16. Match history is reviewed.
+    17. The system fetches and displays past game records from the database.
+    18. The leaderboard is updated.
+    19. The database recalculates rankings based on recent match results.
+    20. A friend is added to the friends list.
+    21. The system updates the friends list in the database.
+    22. Logout occurs.
+    23. The system updates session data and stores the logout timestamp.
+
+Post Conditions:
+ 1. The database reflects all changes made during interactions.
+ 2. Player stats, matchmaking data, and leaderboard rankings are up to date.
+ 3. Match history is accessible for review.
+ 4. Friends list updates are stored.
+
+Exceptions:
+ 1. Database Connection Failure:
+ 2. The system notifies and tries to.
+
+Invalid Login Credentials:
+ 1. Access is denied with an error message.
+
+Priority:
+High (Critical for platform functionality).
+
+Additional Details:
+
+When Available: Always online, with real-time updates.
+Frequency of Use: Constant during platform interactions.
+Channel to Actor: API calls between the system and the database.
+Secondary Actors: Matchmaking system, game session manager.
+Channel to Secondary Actors: Matchmaking logic and game engine API.
+
+Open Issues:
+Handling of simultaneous updates to player stats.
+Ensuring database integrity under heavy load conditions.
+Managing real-time updates of the friends list and profile searches.

@@ -1,0 +1,52 @@
+Use Case: Player Interacting with social features
+Iteration: 1
+Primary Actor: Player
+Goal in Context: player is able to interact with social features, such as adding friends, removing friends, and inviting friends to game.
+Preconditions:
+1. The player is logged into the system.
+2. The player has stable network connection.
+3. social features such as friends list, game invitations, messages are available.
+4. player is online (pre-condition only for invite to game)
+Trigger:
+The player chooses friends list and interacts with a social feature such as searching and adding a friend, inviting another player to a game, or sending a message.
+Scenario:
+1. Player selects friends list from home page of app or during game.
+2. System displays the player's friends list and other social features such as send message or add friend.
+3. Player then selects an action to perform
+    - Add friend: player searches for another player by username and sends a friend request.
+    - Accept or reject friend request: player reviews pending requests and accepts or decline them.
+    - Send game invite: player selects a friend from friend list and invites them to a session.
+    - Send message: player selects a friend and sends a message.
+4. System processes and responds to selected action:
+    - Friend requests: other player receives a notification.
+    - Game invites: other player receives request to join a session.
+    - chat messages: system delivers message.
+5. The other player responds to the action by:
+    - Accepting or declining a friend request.
+    - Joining or declining game invitation.
+    - Replying to a message.
+6. If friend request is accepted system updates both players friend lists.
+7. If a game invitation is accepted system moves players into a game session.
+8. If a message is received system displays message in a chat box of some sort.
+9. Player uses more social features or quits social menu.
+
+Postconditions:
+1. system updates friend list, messages, or game session status based on interactions.
+2. system updates profile details such as wins, loses, and more after multiplayer sessions.
+
+Priority: High
+When Available: Whenever player has stable network connection and is in app on homepage. Messages however can be accessed in game.
+Frequency of Use: Varying (depends on how many social interactions take place).
+Channel to Actor: friends list (friend requests, chat menu, game invites) within the app.
+Secondary Actors: Other players, game server, database.
+Channel to Secondary Actors: Network connection (for communication with server and database).
+Open issues:
+    - What action should be taken by system if during a multiplayer session one player's game were to crash?
+    - To what degree should messages be censored?
+
+
+
+
+
+
+

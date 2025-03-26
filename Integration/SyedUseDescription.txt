@@ -1,0 +1,147 @@
+Use case 1: Player plays a game of checkers with another player
+Iteration: 1
+Last Modification Data: March 1
+Primary Actor: Player
+Goal in context: The two players take turns making moves, and the moves follow the rules of checkers.
+
+Preconditions:
+1. Both players are able to connect to the network for a multiplayer session.
+2. Both players agreed to play together for at least a few turns
+
+Trigger: The player chooses to connect with another player to start a new game.
+
+Scenario:
+1. The player chooses to play checkers in the game selection screen.
+2. The player selects "Multiplayer Mode."
+3. The system searches for available opponents or allows the player to invite a friend.
+4. The second player accepts the invitation or joins a matchmaking lobby.
+5. The system initializes a new checkers game and assigns colors (red or black).
+6. The player with the red checkers makes the first move.
+7. The second player responds by making a move.
+8. The players continue to take turns making valid checkers moves.
+9. The system validates each move according to checkers rules.
+10. The game continues until one player wins by capturing all of their opponent's checkers or blocking them, or it results in a draw in which case neither player can move.
+11. The system updates the game result (win/loss/draw) and player statistics.
+12. The players may choose to start a new game or exit the session.
+
+Post conditions:
+1. The game is completed, and the system updates the players’ records/statistics.
+2. The game session ends, and both players can either start a new game or exit.
+
+Exceptions:
+1. Lost Connection: If either player loses network connectivity, the game may pause, offer reconnection, or result in a forfeit.
+2. Illegal Moves: If a player attempts an illegal move, the system prevents the move and notifies the player.
+3. Player Abandons Game: If one player leaves or does not respond within a time limit, the other player wins by forfeit.
+4. System Crash: If the application crashes or an unexpected error occurs, the game may be lost unless it supports auto-save or reconnection.
+
+Priority: High
+When Available: When both players are online and in a multiplayer session
+Frequency of Use: Depends on player activity (can be used multiple times per session)
+Channel to Actor: Checkers game interface (app or web interface)
+Secondary Actors: Game server, leaderboard matchmaking system
+Channel to Secondary Actors: UI, Network connection (server communication)
+
+Open issues:
+1. Should there be a time limit for each move?
+2. How does the system handle ties in case of a sudden disconnection?
+3. Should there be a built-in chat or reaction system for player communication?
+
+
+
+Use case 2: Player plays a game of singleplayer Connect 4
+Iteration: 1
+Last Modification Data: March 6
+Primary Actor: Player
+Goal in context: The player and AI take turns making moves, and the moves follow the rules of connect 4.
+
+Preconditions:
+1. Players is able to connect to the network for the session.
+2. Players play the game until it ends
+
+Trigger: The player chooses to connect with AI bot to start a new game.
+
+Scenario:
+1. The player chooses to play connect 4 in the game selection screen.
+2. The player selects “Singleplayer Mode."
+3. The system initializes a new connect 4 game and assigns color(blue or yellow).
+4. The player makes the first move.
+5. The AI bot responds by making a move.
+6. The player and AI continue to take turns making valid connect 4 moves.
+9. The system validates each move according to connect 4 rules.
+10. The game continues either side wins by managing to connect four discs, or it results in a draw because all spaces have been filled with discs.
+11. The system updates the game result(win/loss/draw) and player statistics.
+12. The players may choose to start a new game or exit the session.
+
+Post conditions:
+1. The game is completed, and the system updates the player’s records/statistics.
+2. The game session ends, and the players can either start a new game or exit.
+
+Exceptions:
+1. Lost Connection: If the player loses network connectivity, the game may pause, offer reconnection, or result in a forfeit.
+2. Illegal Moves: If a player attempts an illegal move, the system prevents the move and notifies the player.
+3. System Crash: If the application crashes or an unexpected error occurs, the game may be lost unless it supports auto-save or reconnection.
+
+Priority: High
+When Available: When players is online and in the singleplayer session
+Frequency of Use: Depends on player activity(can be used multiple times per session)
+Channel to Actor: Connect 4 game interface (app or web interface)
+Secondary Actors: Game server, leaderboard matchmaking system
+Channel to Secondary Actors: UI, Network connection (server communication)
+
+Open issues:
+1. How does the system handle ties in case of a sudden disconnection?
+2. Should there be a built-in chat or reaction system for player communication?
+3. Should there be choices for how challenging the AI bot should be?
+
+Use Case 3: Game Synchronization
+Iteration: 1
+Primary Actor: Game Client
+Goal in Context:
+Ensure that all players experience a synchronized game state in real-time, preventing desynchronization issues and maintaining a smooth multiplayer experience across devices and platforms.
+
+Preconditions:
+1. The player is connected to the internet.
+2. The game client has established a connection with the game server.
+3. The player's session is active, and game data is available for synchronization.
+
+Possible Triggers:
+1. A player starts or joins a game session.
+2. A player's action (e.g., movement, interaction, or event) requires synchronization.
+3. A game state change (e.g., match progress, world events) needs to be broadcasted to all participants.
+
+Scenario (Main Flow):
+1. The player initiates or joins a game session.
+2. The game client establishes a connection with the game server.
+3. The game client sends player actions and game state updates to the server.
+4. The server processes the incoming data and updates the global game state.
+5. The server distributes updated game state information to all connected clients.
+6. Each game client applies the synchronized game state locally.
+7. The process continues in real-time to maintain synchronization.
+
+Postconditions:
+1. The game state is synchronized across all players.
+2. Player actions are consistently reflected in the game world.
+3. The game session is stored for future access (if applicable).
+
+Exceptions:
+1. Network Interruption: The client attempts to reconnect and retrieve the latest game state.
+2. Desynchronization: If inconsistencies are detected, the game client requests a state reset from the server.
+3. High Latency: Lag compensation techniques are applied to minimize delays.
+4. Server Downtime: Players receive a notification, and the game may switch to offline mode if supported.
+5. Data Corruption: The server restores the last known good state.
+
+Priority: High – Critical for a seamless multiplayer experience.
+Channel to Actor:
+Game Client → Game Server (via WebSocket, HTTP, or UDP)
+Game Server → Game Client (via push notifications, real-time updates)
+Secondary Actors:
+Game Server
+Third-Party Multiplayer Services (e.g., cloud save services, matchmaking systems)
+Channel to Secondary Actors:
+Game Server → Third-Party Services (via API calls, database synchronization)
+Third-Party Services → Game Server (via event triggers, webhooks)
+
+Open Issues:
+1. How to handle synchronization for low-bandwidth players effectively?
+2. What is the ideal threshold for detecting and correcting desynchronization?
+3. How to minimize server costs while ensuring low-latency synchronization?
