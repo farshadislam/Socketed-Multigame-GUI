@@ -1,8 +1,9 @@
 package leaderboard_matchmaking;
+import java.util.ArrayList;
+import java.util.List;
 
 // A generic Queue implementation using a singly linked list.
-// Supports enqueue (add to end), dequeue (remove from front), peek, size, and isEmpty.
-
+// Supports enqueue (add to end), dequeue (remove from front), peek, size, remove, isEmpty, contains, and toList
 public class Queue<T> {
 
     // Node class representing each element in the queue
@@ -118,6 +119,17 @@ public class Queue<T> {
     public void clear() {
         front = rear = null;
         size = 0;
+    }
+
+    // Returns all items in the queue as a List
+    public List<T> toList() {
+        List<T> list = new ArrayList<>();
+        Node<T> current = front;
+        while (current != null) {
+            list.add(current.data);
+            current = current.next;
+        }
+        return list;
     }
 
 }
