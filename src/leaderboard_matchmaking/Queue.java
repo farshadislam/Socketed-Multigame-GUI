@@ -61,6 +61,23 @@ public class Queue<T> {
         return front.data;
     }
 
+
+    // Removes a specific item from the queue (not just front)
+    public boolean remove(T target) {
+        if (isEmpty()) return false;
+
+        // Special case: removing from front
+        if (front.data.equals(target)) {
+            dequeue(); // reuse existing method
+            return true;
+        }
+
+        
+        // Target not found
+        return false;
+    }
+
+
     // Checks if the queue is empty
     public boolean isEmpty() {
         return size == 0;
