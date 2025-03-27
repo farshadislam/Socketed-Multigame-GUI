@@ -72,7 +72,24 @@ public class Queue<T> {
             return true;
         }
 
-        
+        // Traverse to find the target
+        Node<T> current = front;
+        while (current.next != null) {
+            if (current.next.data.equals(target)) {
+                // Found it! Skip over the node
+                current.next = current.next.next;
+
+                // If we just removed the rear node, update rear pointer
+                if (current.next == null) {
+                    rear = current;
+                }
+
+                size--;
+                return true;
+            }
+            current = current.next;
+        }
+
         // Target not found
         return false;
     }
