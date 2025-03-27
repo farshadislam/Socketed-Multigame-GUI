@@ -39,13 +39,36 @@ public class Queue<T> {
         size++;
     }
 
+    // Removes and returns the item at the front of the queue
+    public T dequeue() {
+        if (isEmpty()) throw new IllegalStateException("Queue is empty");
 
+        T data = front.data;
+        front = front.next;
+
+        // If queue becomes empty after dequeue, set rear to null
+        if (front == null) {
+            rear = null;
+        }
+
+        size--;
+        return data;
+    }
+
+    // Returns the item at the front of the queue without removing it
+    public T peek() {
+        if (isEmpty()) throw new IllegalStateException("Queue is empty");
+        return front.data;
+    }
 
     // Checks if the queue is empty
     public boolean isEmpty() {
         return size == 0;
     }
 
-
+    // Returns the number of items in the queue
+    public int size() {
+        return size;
+    }
 }
 
