@@ -55,12 +55,6 @@ public class Queue<T> {
         return data;
     }
 
-    // Returns the item at the front of the queue without removing it
-    public T peek() {
-        if (isEmpty()) throw new IllegalStateException("Queue is empty");
-        return front.data;
-    }
-
 
     // Removes a specific item from the queue (not just front)
     public boolean remove(T target) {
@@ -94,6 +88,21 @@ public class Queue<T> {
         return false;
     }
 
+    // Returns the item at the front of the queue without removing it
+    public T peek() {
+        if (isEmpty()) throw new IllegalStateException("Queue is empty");
+        return front.data;
+    }
+
+    // Checks if the queue contains a specific item
+    public boolean contains(T target) {
+        Node<T> current = front;
+        while (current != null) {
+            if (current.data.equals(target)) return true;
+            current = current.next;
+        }
+        return false;
+    }
 
     // Checks if the queue is empty
     public boolean isEmpty() {
@@ -104,5 +113,12 @@ public class Queue<T> {
     public int size() {
         return size;
     }
+
+    // Clears the entire queue
+    public void clear() {
+        front = rear = null;
+        size = 0;
+    }
+
 }
 
