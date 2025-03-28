@@ -1,8 +1,9 @@
 public class Player {
-    public String username;
-    public String email;
-    public String password;
-    public Rank rank;
+    private String username;
+    private String email;
+    private String password;
+    private Rank rank;
+    //public String playerID;
     public Connect4Stats connect4Stats;
     public TicTacToeStats ticTacToeStats;
     public CheckerStats checkerStats;
@@ -17,6 +18,20 @@ public class Player {
     public boolean updateEmail(String username, String newEmail) {
         if (this.username.equals(username)){
             this.email = newEmail;
+            return true;
+        }
+        return false;
+    }
+    public boolean updatePassword(String username, String newPassword) {
+        if (this.username.equals(username)){
+            this.password = newPassword;
+            return true;
+        }
+        return false;
+    }
+    public boolean updateUsername(String username, String newUsername) {
+        if (this.username.equals(username)){
+            this.username = newUsername;
             return true;
         }
         return false;
@@ -52,15 +67,6 @@ public class Player {
 
     public void setRank(Rank rank) {
         this.rank = rank;
-    }
-
-
-    public boolean updatePassword(String username, String newPassword) {
-        if (this.username.equals(username)){
-            this.email = newPassword;
-            return true;
-        }
-        return false;
     }
 
     public GeneralStats getStats(String gameType) {
