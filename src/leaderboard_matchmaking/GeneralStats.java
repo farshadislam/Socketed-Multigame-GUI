@@ -40,6 +40,27 @@ public abstract class GeneralStats {
 
     // Abstract class for updating player's rank based on current mmr
     protected void updateRank() {
+        if (mmr <= 28){
+            rank = Rank.BRONZE;
+        }
+        else if (29 <= mmr && mmr <= 57){
+            rank = Rank.SILVER;
+        }
+        else if (58 <= mmr && mmr <= 85){
+            rank = Rank.GOLD;
+        }
+        else if (86 <= mmr && mmr <= 114){
+            rank = Rank.PLATINUM;
+        }
+        else if (115 <= mmr && mmr <= 142){
+            rank = Rank.DIAMOND;
+        }
+        else if (143 <= mmr && mmr <= 171){
+            rank = rank.MASTER;
+        }
+        else if (172 <= mmr && mmr <= 200){
+            rank = rank.GRANDMASTER;
+        }
     }
 
     // Default MMR update for a tie.
