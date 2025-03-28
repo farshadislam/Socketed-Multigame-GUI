@@ -8,21 +8,17 @@ public class checkersStats extends GeneralStats {
 
     public checkersStats(String playerID) {
         super(playerID);
-        // Initialize checkers-specific MMR.
         this.checkersmmr = 0;
     }
 
     @Override
     protected void updateMMR(boolean win){
         if (win){
-            // Gain one rank step on win
             checkersmmr += (int) Math.round(RANK_STEP);
         }
         else {
-            // Lose half a rank step on loss
             checkersmmr -= (int) Math.round(RANK_STEP);
         }
-        // Enforcing mmr to stay within boundaries of min and max mmr
         if (checkersmmr < MIN_MMR){
             checkersmmr = MIN_MMR;
         }
@@ -42,7 +38,6 @@ public class checkersStats extends GeneralStats {
         if (rankIndex < 0) rankIndex = 0;
         if (rankIndex >= TOTAL_RANKS) rankIndex = TOTAL_RANKS - 1;
 
-        // Map rankIndex to the corresponding Rank enum.
         switch (rankIndex) {
             case 0 -> rank = Rank.BRONZE;
             case 1 -> rank = Rank.SILVER;
@@ -51,7 +46,7 @@ public class checkersStats extends GeneralStats {
             case 4 -> rank = Rank.DIAMOND;
             case 5 -> rank = Rank.MASTER;
             case 6 -> rank = Rank.GRANDMASTER;
-            default -> rank = Rank.BRONZE; // Fallback
+            default -> rank = Rank.BRONZE;
         }
     }
 

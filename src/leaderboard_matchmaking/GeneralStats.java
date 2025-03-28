@@ -11,7 +11,6 @@ public abstract class GeneralStats {
     protected int tictactoemmr;
     protected Rank rank;
 
-    // Constructor: initializes the fields.
     public GeneralStats(String playerID) {
         this.playerID = playerID;
         this.gamesPlayed = 0;
@@ -21,12 +20,6 @@ public abstract class GeneralStats {
         this.rank = Rank.BRONZE;    // Default starting rank.
     }
 
-    /*
-     * Recording game results.
-     * If win is true, the game was won.
-     * If tie is true, the game ended in a tie.
-     * Otherwise, it was a loss.
-     */
     public void recordResult(boolean win, boolean tie) {
         gamesPlayed++;
         if (win) {
@@ -42,19 +35,14 @@ public abstract class GeneralStats {
         updateRank();
     }
 
-    // Updates the player's rank based on the current MMR.
     protected void updateRank() {
     }
 
-    // Default MMR update for a tie; child classes can override if needed.
     protected void updateMMRTies() {
-        // Default: no change in MMR on a tie.
     }
 
-    // Abstract method for updating MMR based on game result.
     protected abstract void updateMMR(boolean win);
 
-    // Getter methods.
     public int getGamesPlayed() { return gamesPlayed; }
     public int getWins() { return wins; }
     public int getLosses() { return losses; }

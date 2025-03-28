@@ -9,4 +9,3 @@ public enum Rank {
     MASTER,
     GRANDMASTER;
 }
-

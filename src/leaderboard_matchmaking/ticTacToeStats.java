@@ -8,7 +8,6 @@ public class ticTacToeStats extends GeneralStats{
 
     public ticTacToeStats(String playerID) {
         super(playerID);
-
         this.tictactoemmr = 0;
     }
 
