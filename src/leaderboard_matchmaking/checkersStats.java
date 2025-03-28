@@ -12,5 +12,26 @@ public class checkersStats extends GeneralStats {
         this.checkersmmr = 0;
     }
 
+    @Override
+    protected void updateMMR(boolean win){
+        if (win){
+            // Gain one rank step on win
+            checkersmmr += (int) Math.round(RANK_STEP);
+        }
+        else {
+            // Lose half a rank step on loss
+            checkersmmr -= (int) Math.round(RANK_STEP);
+        }
+        // Enforcing mmr to stay within boundaries of min and max mmr
+        if (checkersmmr < MIN_MMR){
+            checkersmmr = MIN_MMR;
+        }
+        else if (checkersmmr > MAX_MMR){
+            checkersmmr = MAX_MMR;
+        }
+    }
+
+
+
 }
 
