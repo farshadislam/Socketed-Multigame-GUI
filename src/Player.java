@@ -1,4 +1,5 @@
 public class Player {
+    // create fields
     private String username;
     private String email;
     private String password;
@@ -8,6 +9,7 @@ public class Player {
     public TicTacToeStats ticTacToeStats;
     public CheckerStats checkerStats;
 
+    // create constructor
     public Player(String username) {
         this.username = username;
         this.connect4Stats = new Connect4Stats();
