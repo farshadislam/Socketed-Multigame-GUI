@@ -1,7 +1,8 @@
 package leaderboard_matchmaking.matchmaking;
-
 import java.util.*;
 import leaderboard_matchmaking.*;
+import leaderboard_matchmaking.Rank;
+
 
 public class Matchmaking {
 
@@ -17,11 +18,17 @@ public class Matchmaking {
         random = new Random();
 
         // Initialize queues for each game type
+
+        // 3 Games
         for (GameType game : GameType.values()) {
             Map<Integer, Queue<Player>[]> gameQueues = new HashMap<>();
 
+            // 7 Ranks
             for (int rank = 1; rank <= RANK_COUNT; rank++) {
+
+                // 2 Pairs
                 Queue<Player>[] pair = new Queue[QUEUE_PAIRS_PER_RANK];
+
                 for (int i = 0; i < QUEUE_PAIRS_PER_RANK; i++) {
                     pair[i] = new Queue<>();
                 }
@@ -38,6 +45,7 @@ public class Matchmaking {
      * and places the player in the less populated queue within that pair.
      */
     public void addPlayerToQueue(Player player, GameType game) {
+
         int rank = player.getRank(game).ordinal() + 1; // Convert Enum to 1-based rank
         Queue<Player>[] pair = queuesPerGame.get(game).get(rank);
 
@@ -46,17 +54,55 @@ public class Matchmaking {
         Queue<Player> queueB = pair[(pairIndex + 1) % 2];
 
         // Pick the queue with fewer players or random if equal
+        // A is Smaller
         if (queueA.size() < queueB.size()) {
             queueA.enqueue(player);
-        } else if (queueB.size() < queueA.size()) {
+        }
+        // B is Smaller
+        else if (queueB.size() < queueA.size()) {
             queueB.enqueue(player);
-        } else {
+        }
+        // Same size, randomly choose
+        else {
             if (random.nextBoolean()) {
                 queueA.enqueue(player);
-            } else {
+            }
+            else {
                 queueB.enqueue(player);
             }
         }
+    }
+
+    /**
+     * Removes a player from the correct queue based on game and rank.
+     */
+    public void removePlayer(Player player, GameType game) {
+        int rank = player.getRank(game).ordinal() + 1;
+        Queue<Player>[] pair = queuesPerGame.get(game).get(rank);
+        for (Queue<Player> q : pair) {
+            q.remove(player);
+        }
+    }
+
+    /**
+     * Matches players in all queues of the given game.
+     */
+    public List<List<Player>> matchPlayers(GameType game) {
+        List<List<Player>> matches = new ArrayList<>();
+        Map<Integer, Queue<Player>[]> gameQueues = queuesPerGame.get(game);
+
+        for (int rank = 1; rank <= RANK_COUNT; rank++) {
+            Queue<Player>[] pair = gameQueues.get(rank);
+            for (Queue<Player> q : pair) {
+                while (q.size() >= 2) {
+                    Player p1 = q.dequeue();
+                    Player p2 = q.dequeue();
+                    matches.add(List.of(p1, p2));
+                }
+            }
+        }
+
+        return matches;
     }
 
 
