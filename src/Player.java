@@ -4,7 +4,6 @@ public class Player {
     private String email;
     private String password;
     private Rank rank;
-    //public String playerID;
     public Connect4Stats connect4Stats;
     public TicTacToeStats ticTacToeStats;
     public CheckerStats checkerStats;
