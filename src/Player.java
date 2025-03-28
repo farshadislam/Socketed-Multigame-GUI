@@ -38,6 +38,30 @@ public class Player {
         return false;
     }
 
+    public Connect4Stats getConnect4Stats() {
+        return connect4Stats;
+    }
+
+    public void setConnect4Stats(Connect4Stats connect4Stats) {
+        this.connect4Stats = connect4Stats;
+    }
+
+    public TicTacToeStats getTicTacToeStats() {
+        return ticTacToeStats;
+    }
+
+    public void setTicTacToeStats(TicTacToeStats ticTacToeStats) {
+        this.ticTacToeStats = ticTacToeStats;
+    }
+
+    public CheckerStats getCheckerStats() {
+        return checkerStats;
+    }
+
+    public void setCheckerStats(CheckerStats checkerStats) {
+        this.checkerStats = checkerStats;
+    }
+
     public String getUsername() {
         return username;
     }

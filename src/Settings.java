@@ -59,6 +59,7 @@ public class Settings {
     public boolean logout(){
         database.saveDatabase();
         // go back to login page
-        return false;
+        // create a logout
+        return new LoginPage(database);
     }
 }
