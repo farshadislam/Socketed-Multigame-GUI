@@ -1,35 +1,63 @@
 package leaderboard_matchmaking.matchmaking;
 
 import java.util.*;
+import leaderboard_matchmaking.*;
 
 public class Matchmaking {
 
-    // Total number of ranks (e.g., BRONZE to GRANDMASTER)
     private static final int RANK_COUNT = 7;
-
-    // Number of queue pairs per rank (2 per rank, each with 2 queues => 28 total queues)
     private static final int QUEUE_PAIRS_PER_RANK = 2;
 
-    // Map of queues for each rank (1-based rank index)
-    // Each rank contains 2 queues stored in an array: queues.get(rank)[0] and queues.get(rank)[1]
-    private final Map<Integer, Queue<Player>[]> queues;
-
-    // Random generator for pair/queue selection
+    // Maps each game to its own set of rank queues
+    private final Map<GameType, Map<Integer, Queue<Player>[]>> queuesPerGame;
     private final Random random;
 
-    // Constructor initializes queues for each rank
     public Matchmaking() {
-        queues = new HashMap<>();
+        queuesPerGame = new HashMap<>();
         random = new Random();
 
-        // Create 2 queues for each rank
-        for (int rank = 1; rank <= RANK_COUNT; rank++) {
-            Queue<Player>[] pair = new Queue[QUEUE_PAIRS_PER_RANK];
-            for (int i = 0; i < QUEUE_PAIRS_PER_RANK; i++) {
-                pair[i] = new Queue<>();
+        // Initialize queues for each game type
+        for (GameType game : GameType.values()) {
+            Map<Integer, Queue<Player>[]> gameQueues = new HashMap<>();
+
+            for (int rank = 1; rank <= RANK_COUNT; rank++) {
+                Queue<Player>[] pair = new Queue[QUEUE_PAIRS_PER_RANK];
+                for (int i = 0; i < QUEUE_PAIRS_PER_RANK; i++) {
+                    pair[i] = new Queue<>();
+                }
+                gameQueues.put(rank, pair);
             }
-            queues.put(rank, pair);
+
+            queuesPerGame.put(game, gameQueues);
         }
     }
+
+    /**
+     * Adds a player to the proper queue for the given game.
+     * Uses the player's rank in that game, chooses a random pair,
+     * and places the player in the less populated queue within that pair.
+     */
+    public void addPlayerToQueue(Player player, GameType game) {
+        int rank = player.getRank(game).ordinal() + 1; // Convert Enum to 1-based rank
+        Queue<Player>[] pair = queuesPerGame.get(game).get(rank);
+
+        int pairIndex = random.nextInt(2); // Pick a pair randomly
+        Queue<Player> queueA = pair[pairIndex];
+        Queue<Player> queueB = pair[(pairIndex + 1) % 2];
+
+        // Pick the queue with fewer players or random if equal
+        if (queueA.size() < queueB.size()) {
+            queueA.enqueue(player);
+        } else if (queueB.size() < queueA.size()) {
+            queueB.enqueue(player);
+        } else {
+            if (random.nextBoolean()) {
+                queueA.enqueue(player);
+            } else {
+                queueB.enqueue(player);
+            }
+        }
+    }
+
 
 }
