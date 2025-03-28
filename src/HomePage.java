@@ -10,4 +10,10 @@ public class HomePage {
         this.database = database;
         this.accountSettings = new Settings(player, database);
     }
+
+    // created method to view logged-in player's record
+    public PlayerStats viewYourOwnRecords(){
+        PlayerStats playerStats = new PlayerStats(player);
+        return playerStats;
+    }
 }
