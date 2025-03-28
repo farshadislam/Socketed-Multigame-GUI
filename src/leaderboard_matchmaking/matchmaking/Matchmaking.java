@@ -84,26 +84,19 @@ public class Matchmaking {
         }
     }
 
+// GOING TO ADD IN MATCHMAKING, CONNECTING PLAYERS, STARTING MATCH, ETC, AND ALSO MOVING QUEUES AFTER WAIT TOMORROW
+
     /**
-     * Matches players in all queues of the given game.
+     * Prints the number of players in each queue of the specified game.
      */
-    public List<List<Player>> matchPlayers(GameType game) {
-        List<List<Player>> matches = new ArrayList<>();
+    public void printQueueStatus(GameType game) {
         Map<Integer, Queue<Player>[]> gameQueues = queuesPerGame.get(game);
 
+        System.out.println("Queue Status for " + game.name());
         for (int rank = 1; rank <= RANK_COUNT; rank++) {
             Queue<Player>[] pair = gameQueues.get(rank);
-            for (Queue<Player> q : pair) {
-                while (q.size() >= 2) {
-                    Player p1 = q.dequeue();
-                    Player p2 = q.dequeue();
-                    matches.add(List.of(p1, p2));
-                }
-            }
+            System.out.println("Rank " + rank + " Queue A: " + pair[0].size() + " players");
+            System.out.println("Rank " + rank + " Queue B: " + pair[1].size() + " players");
         }
-
-        return matches;
     }
-
-
 }
