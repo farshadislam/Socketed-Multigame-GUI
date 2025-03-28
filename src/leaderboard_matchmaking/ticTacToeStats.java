@@ -11,4 +11,21 @@ public class ticTacToeStats extends GeneralStats{
         // Initialize Tic Tac Toe–specific MMR.
         this.tictactoemmr = 0;
     }
+
+    @Override
+    protected void updateMMR(boolean win) {
+        if (win) {
+            // Gain one rank step on a win.
+            tictactoemmr += (int) Math.round(RANK_STEP);
+        } else {
+            // Lose half a rank step on a loss.
+            tictactoemmr -= (int) Math.round(RANK_STEP / 2.0);
+        }
+        // Clamp tictactoemmr within the allowed range.
+        if (tictactoemmr < MIN_MMR) {
+            tictactoemmr = MIN_MMR;
+        } else if (tictactoemmr > MAX_MMR) {
+            tictactoemmr = MAX_MMR;
+        }
+    }
 }
