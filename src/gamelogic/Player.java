@@ -44,5 +44,8 @@ public ArrayList<GamePiece> getHand() {
         return hand;
 }
 
+public abstract char getSymbol();
+
+public abstract void setSymbol(char symbol);
 
 }
