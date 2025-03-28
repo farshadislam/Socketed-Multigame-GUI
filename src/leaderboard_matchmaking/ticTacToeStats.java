@@ -8,20 +8,17 @@ public class ticTacToeStats extends GeneralStats{
 
     public ticTacToeStats(String playerID) {
         super(playerID);
-        // Initialize Tic Tac Toe–specific MMR.
+
         this.tictactoemmr = 0;
     }
 
     @Override
     protected void updateMMR(boolean win) {
         if (win) {
-            // Gain one rank step on a win.
             tictactoemmr += (int) Math.round(RANK_STEP);
         } else {
-            // Lose half a rank step on a loss.
             tictactoemmr -= (int) Math.round(RANK_STEP / 2.0);
         }
-        // Clamp tictactoemmr within the allowed range.
         if (tictactoemmr < MIN_MMR) {
             tictactoemmr = MIN_MMR;
         } else if (tictactoemmr > MAX_MMR) {
@@ -31,5 +28,23 @@ public class ticTacToeStats extends GeneralStats{
 
     @Override
     protected void updateMMRTies() {
+    }
+
+    @Override
+    protected void updateRank() {
+        double relativeMMR = tictactoemmr - MIN_MMR;
+        int rankIndex = (int) (relativeMMR / RANK_STEP);
+        if (rankIndex < 0) rankIndex = 0;
+        if (rankIndex >= TOTAL_RANKS) rankIndex = TOTAL_RANKS - 1;
+        switch (rankIndex) {
+            case 0 -> rank = Rank.BRONZE;
+            case 1 -> rank = Rank.SILVER;
+            case 2 -> rank = Rank.GOLD;
+            case 3 -> rank = Rank.PLATINUM;
+            case 4 -> rank = Rank.DIAMOND;
+            case 5 -> rank = Rank.MASTER;
+            case 6 -> rank = Rank.GRANDMASTER;
+            default -> rank = Rank.BRONZE;
+        }
     }
 }
