@@ -12,6 +12,11 @@ public class checkersStats extends GeneralStats {
     }
 
     @Override
+    public int getMMR() {
+        return checkersmmr;
+    }
+
+    @Override
     protected void updateMMR(boolean win){
         if (win){
             checkersmmr += (int) Math.round(RANK_STEP);

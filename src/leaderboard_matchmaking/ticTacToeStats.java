@@ -12,6 +12,11 @@ public class ticTacToeStats extends GeneralStats{
     }
 
     @Override
+    public int getMMR() {
+        return checkersmmr;
+    }
+
+    @Override
     protected void updateMMR(boolean win) {
         if (win) {
             tictactoemmr += (int) Math.round(RANK_STEP);

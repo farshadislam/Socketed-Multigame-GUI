@@ -20,6 +20,8 @@ public abstract class GeneralStats {
         this.rank = Rank.BRONZE;    // Default starting rank.
     }
 
+    public abstract int getMMR();
+
     public void recordResult(boolean win, boolean tie) {
         gamesPlayed++;
         if (win) {
