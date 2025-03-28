@@ -35,4 +35,31 @@ public class connect4Stats extends GeneralStats {
         }
     }
 
+    /**
+     *
+     */
+    @Override
+    protected void updateRank() {
+        // Compute rank index based on how many "steps" into the range the player is.
+        double relativeMMR = connect4mmr - MIN_MMR;
+        int rankIndex = (int) (relativeMMR / RANK_STEP);
+        // rankIndex will go from 0 to (TOTAL_RANKS-1)
+
+        // Ensure rankIndex stays in [0, TOTAL_RANKS-1]
+        if (rankIndex < 0) rankIndex = 0;
+        if (rankIndex >= TOTAL_RANKS) rankIndex = TOTAL_RANKS - 1;
+
+        // Convert rankIndex into one of our 7 ranks (BRONZE to GRANDMASTER)
+        switch (rankIndex) {
+            case 0 -> rank = Rank.BRONZE;
+            case 1 -> rank = Rank.SILVER;
+            case 2 -> rank = Rank.GOLD;
+            case 3 -> rank = Rank.PLATINUM;
+            case 4 -> rank = Rank.DIAMOND;
+            case 5 -> rank = Rank.MASTER;
+            case 6 -> rank = Rank.GRANDMASTER;
+            default -> rank = Rank.BRONZE; // fallback
+        }
+    }
+
 }
