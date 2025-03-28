@@ -28,4 +28,8 @@ public class ticTacToeStats extends GeneralStats{
             tictactoemmr = MAX_MMR;
         }
     }
+
+    @Override
+    protected void updateMMRTies() {
+    }
 }
