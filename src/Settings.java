@@ -1,4 +1,8 @@
 public class Settings {
+
+    Player player;
+    CredentialsDatabase database;
+
     public Settings(Player player, CredentialsDatabase database){
         this.player = player;
         this.database = database;
