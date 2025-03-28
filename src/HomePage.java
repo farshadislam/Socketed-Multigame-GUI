@@ -22,4 +22,9 @@ public class HomePage {
         PlayerStats playerStats = new PlayerStats(otherPlayer);
         return playerStats;
     }
+
+    // created method to view account settings
+    public Settings viewSettings(){
+        return accountSettings;
+    }
 }
