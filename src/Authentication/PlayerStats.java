@@ -1,10 +1,10 @@
 package Authentication;
 
 public class PlayerStats {
-    // defining instance variable
+    // defined instance variable
     private Player player;
 
-    // creating the constructor to initialize the player in the PlayerStats class
+    // created the constructor to initialize the player in the PlayerStats class
     public PlayerStats(Player player) {
         this.player = player;
     }
