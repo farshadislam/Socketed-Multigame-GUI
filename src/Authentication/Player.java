@@ -1,3 +1,5 @@
+package Authentication;
+
 public class Player {
     // create fields
     private String username;

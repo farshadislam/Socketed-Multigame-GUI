@@ -1,3 +1,5 @@
+package Authentication;
+
 public enum Rank {
     BRONZE,
     SILVER,
