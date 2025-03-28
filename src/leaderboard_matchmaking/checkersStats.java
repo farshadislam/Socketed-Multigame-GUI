@@ -31,6 +31,32 @@ public class checkersStats extends GeneralStats {
         }
     }
 
+    @Override
+    protected void updateMMRTies() {
+    }
+
+    /**
+     * Update the player's rank based on checkersmmr.
+     */
+    @Override
+    protected void updateRank() {
+        double relativeMMR = checkersmmr - MIN_MMR;
+        int rankIndex = (int) (relativeMMR / RANK_STEP);
+        if (rankIndex < 0) rankIndex = 0;
+        if (rankIndex >= TOTAL_RANKS) rankIndex = TOTAL_RANKS - 1;
+
+        // Map rankIndex to the corresponding Rank enum.
+        switch (rankIndex) {
+            case 0 -> rank = Rank.BRONZE;
+            case 1 -> rank = Rank.SILVER;
+            case 2 -> rank = Rank.GOLD;
+            case 3 -> rank = Rank.PLATINUM;
+            case 4 -> rank = Rank.DIAMOND;
+            case 5 -> rank = Rank.MASTER;
+            case 6 -> rank = Rank.GRANDMASTER;
+            default -> rank = Rank.BRONZE; // Fallback
+        }
+    }
 
 
 }
