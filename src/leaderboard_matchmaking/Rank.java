@@ -7,6 +7,6 @@ public enum Rank {
     PLATINUM,
     DIAMOND,
     MASTER,
-    GRAMDMASTER;
+    GRANDMASTER;
 }
 
