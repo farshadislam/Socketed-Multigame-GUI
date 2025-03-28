@@ -107,4 +107,13 @@ public class Player {
         return null;
     }
 
+    @Override
+    // compare the usernames instead of the reference
+
+
+    @Override
+    public boolean equals(Object obj) {
+        Player player = (Player)obj;
+        return Object.equals(username, player.username);
+    }
 }
