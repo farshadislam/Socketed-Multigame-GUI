@@ -12,10 +12,6 @@ public class connect4Stats extends GeneralStats {
         this.connect4mmr = 0;
     }
 
-    /**
-     * Update MMR for Connect 4 when a game ends.
-     * @param win true if the player won, false if the player lost
-     */
     @Override
     protected void updateMMR(boolean win) {
         // we add one rank step on a win, and subtract half a rank step on a loss.
@@ -35,9 +31,6 @@ public class connect4Stats extends GeneralStats {
         }
     }
 
-    /**
-     *
-     */
     @Override
     protected void updateRank() {
         // Compute rank index based on how many "steps" into the range the player is.
@@ -73,5 +66,4 @@ public class connect4Stats extends GeneralStats {
                 + ", rank=" + rank
                 + "]";
     }
-
 }
