@@ -1,21 +1,29 @@
 package Authentication;
 
+
+import leaderboard_matchmaking.GeneralStats;
+import leaderboard_matchmaking.checkersStats;
+import leaderboard_matchmaking.connect4Stats;
+import leaderboard_matchmaking.ticTacToeStats;
+
+import java.util.Objects;
+
 public class Player {
     // create fields
     private String username;
     private String email;
     private String password;
     private Rank rank;
-    public Connect4Stats connect4Stats;
-    public TicTacToeStats ticTacToeStats;
-    public CheckerStats checkerStats;
+    public connect4Stats Connect4Stats;
+    public ticTacToeStats TicTacToeStats;
+    public checkersStats CheckersStats;
 
     // create constructor
     public Player(String username) {
         this.username = username;
-        this.connect4Stats = new Connect4Stats();
-        this.ticTacToeStats = new TicTacToeStats();
-        this.checkerStats = new CheckerStats();
+        this.Connect4Stats = new connect4Stats();
+        this.TicTacToeStats = new ticTacToeStats();
+        this.CheckersStats = new checkersStats();
     }
 
     public boolean updateEmail(String username, String newEmail) {
@@ -40,28 +48,28 @@ public class Player {
         return false;
     }
 
-    public Connect4Stats getConnect4Stats() {
-        return connect4Stats;
+    public connect4Stats getConnect4Stats() {
+        return Connect4Stats;
     }
 
-    public void setConnect4Stats(Connect4Stats connect4Stats) {
-        this.connect4Stats = connect4Stats;
+    public void setConnect4Stats(connect4Stats connect4Stats) {
+        Connect4Stats = connect4Stats;
     }
 
-    public TicTacToeStats getTicTacToeStats() {
-        return ticTacToeStats;
+    public ticTacToeStats getTicTacToeStats() {
+        return TicTacToeStats;
     }
 
-    public void setTicTacToeStats(TicTacToeStats ticTacToeStats) {
-        this.ticTacToeStats = ticTacToeStats;
+    public void setTicTacToeStats(ticTacToeStats ticTacToeStats) {
+        TicTacToeStats = ticTacToeStats;
     }
 
-    public CheckerStats getCheckerStats() {
-        return checkerStats;
+    public checkersStats getCheckersStats() {
+        return CheckersStats;
     }
 
-    public void setCheckerStats(CheckerStats checkerStats) {
-        this.checkerStats = checkerStats;
+    public void setCheckersStats(checkersStats checkersStats) {
+        CheckersStats = checkersStats;
     }
 
     public String getUsername() {
@@ -103,7 +111,7 @@ public class Player {
             case  "tictactoe":
                 return ticTacToeStats;
             case "checkers":
-                return checkerStats;
+                return checkersStats;
         }
 
         return null;
@@ -115,7 +123,12 @@ public class Player {
 
     @Override
     public boolean equals(Object obj) {
+        if (this==obj){
+            return true;
+            // if both reference point to the same object, automatically true
+        }
         Player player = (Player)obj;
-        return Object.equals(username, player.username);
+        // cast obj into Player object
+        return Objects.equals(username, player.username);
     }
 }
