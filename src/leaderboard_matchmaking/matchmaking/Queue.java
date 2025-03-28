@@ -1,4 +1,4 @@
-package leaderboard_matchmaking;
+package leaderboard_matchmaking.matchmaking;
 import java.util.ArrayList;
 import java.util.List;
 
