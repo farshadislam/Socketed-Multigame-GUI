@@ -1,6 +1,4 @@
 package Authentication;
-
-
 import leaderboard_matchmaking.GeneralStats;
 import leaderboard_matchmaking.checkersStats;
 import leaderboard_matchmaking.connect4Stats;
