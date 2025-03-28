@@ -16,4 +16,10 @@ public class HomePage {
         PlayerStats playerStats = new PlayerStats(player);
         return playerStats;
     }
+
+    // created method to view another player's records
+    public PlayerStats viewOtherPlayerRecords(Player otherPlayer){
+        PlayerStats playerStats = new PlayerStats(otherPlayer);
+        return playerStats;
+    }
 }
