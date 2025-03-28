@@ -65,11 +65,9 @@ public class CredentialsDatabase {
                                 + player.getStats("connect4") + ","
                                 + player.getStats("tictactoe" + ",")
                                 + player.getStats("checkers") );
-
+                // Waiting for Stats classes to be finished to continue with the implementation
+                writer.newLine();
             }
-
-
-
 
         } catch (IOException e) {
             e.printStackTrace();
