@@ -32,6 +32,10 @@ public class connect4Stats extends GeneralStats {
     }
 
     @Override
+    protected void updateMMRTies() {
+    }
+
+    @Override
     protected void updateRank() {
         // Compute rank index based on how many "steps" into the range the player is.
         double relativeMMR = connect4mmr - MIN_MMR;
