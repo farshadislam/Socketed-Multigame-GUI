@@ -1,5 +1,4 @@
 public class Player {
-    public int playerID;
     public String username;
     public String email;
     public String password;
@@ -11,21 +10,16 @@ public class Player {
     public Player(String username) {
         this.username = username;
         this.connect4Stats = new Connect4Stats();
-        this.rank = Rank.BRONZE;
         this.ticTacToeStats = new TicTacToeStats();
         this.checkerStats = new CheckerStats();
     }
 
-    public void updateEmail(String username, String email) {
-        //
-    }
-
-    public int getPlayerID() {
-        return playerID;
-    }
-
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID;
+    public boolean updateEmail(String username, String newEmail) {
+        if (this.username.equals(username)){
+            this.email = newEmail;
+            return true;
+        }
+        return false;
     }
 
     public String getUsername() {
@@ -61,12 +55,25 @@ public class Player {
     }
 
 
-    public void updatePassword(String username, String password) {
-        //
+    public boolean updatePassword(String username, String newPassword) {
+        if (this.username.equals(username)){
+            this.email = newPassword;
+            return true;
+        }
+        return false;
     }
 
     public GeneralStats getStats(String gameType) {
+        switch (gameType.toLowerCase()){
+            case "connect4":
+                return connect4Stats;
+            case  "tictactoe":
+                return ticTacToeStats;
+            case "checkers":
+                return checkerStats;
+        }
 
         return null;
     }
+
 }
