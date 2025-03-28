@@ -6,70 +6,67 @@ public abstract class GeneralStats {
     protected int wins;
     protected int losses;
     protected int ties;
-    protected int mmr;
+    protected int connect4mmr;
+    protected int checkersmmr;
+    protected int tictactoemmr;
     protected Rank rank;
 
-    public void stats (String playerID){
+    // Constructor: initializes the fields.
+    public GeneralStats(String playerID) {
         this.playerID = playerID;
         this.gamesPlayed = 0;
         this.wins = 0;
         this.losses = 0;
         this.ties = 0;
-        this.mmr = 0;               // Default starting mmr
-        this.rank = Rank.BRONZE;    // Default starting rank
+        this.rank = Rank.BRONZE;    // Default starting rank.
     }
 
     /*
-    Recording game results.
-    If win is true, game was won
-    If tie is true, game ended in a tie
-    Otherwise, it was a loss
+     * Recording game results.
+     * If win is true, the game was won.
+     * If tie is true, the game ended in a tie.
+     * Otherwise, it was a loss.
      */
-    public void recordResult(boolean win, boolean tie){
+    public void recordResult(boolean win, boolean tie) {
         gamesPlayed++;
-        if (win){
+        if (win) {
             wins++;
             updateMMR(true);
-        }
-        else if (tie) {
+        } else if (tie) {
             ties++;
             updateMMRTies();
+        } else {
+            losses++;
+            updateMMR(false);
         }
         updateRank();
     }
 
-    // Abstract class for updating player's rank based on current mmr
+    // Updates the player's rank based on the current MMR.
     protected void updateRank() {
-        if (mmr <= 28){
-            rank = Rank.BRONZE;
-        }
-        else if (29 <= mmr && mmr <= 57){
-            rank = Rank.SILVER;
-        }
-        else if (58 <= mmr && mmr <= 85){
-            rank = Rank.GOLD;
-        }
-        else if (86 <= mmr && mmr <= 114){
-            rank = Rank.PLATINUM;
-        }
-        else if (115 <= mmr && mmr <= 142){
-            rank = Rank.DIAMOND;
-        }
-        else if (143 <= mmr && mmr <= 171){
-            rank = rank.MASTER;
-        }
-        else if (172 <= mmr && mmr <= 200){
-            rank = rank.GRANDMASTER;
-        }
     }
 
-    // Default MMR update for a tie.
+    // Default MMR update for a tie; child classes can override if needed.
     protected void updateMMRTies() {
-        // No change in mmr on a tie
+        // Default: no change in MMR on a tie.
     }
 
-    // Abstract method for updating MMR based on game result
-    protected void updateMMR(boolean win) {
+    // Abstract method for updating MMR based on game result.
+    protected abstract void updateMMR(boolean win);
+
+    // Getter methods.
+    public int getGamesPlayed() { return gamesPlayed; }
+    public int getWins() { return wins; }
+    public int getLosses() { return losses; }
+    public int getTies() { return ties; }
+    public Rank getRank() { return rank; }
+
+    @Override
+    public String toString() {
+        return "GeneralStats [playerID=" + playerID + ", gamesPlayed=" + gamesPlayed +
+                ", wins=" + wins + ", losses=" + losses + ", ties=" + ties +
+                ", rank=" + rank + "]";
     }
 }
+
 
