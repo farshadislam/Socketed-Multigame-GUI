@@ -47,4 +47,15 @@ public class ticTacToeStats extends GeneralStats{
             default -> rank = Rank.BRONZE;
         }
     }
+    @Override
+    public String toString() {
+        return "TicTacToeStats [playerID=" + playerID +
+                ", gamesPlayed=" + gamesPlayed +
+                ", wins=" + wins +
+                ", losses=" + losses +
+                ", ties=" + ties +
+                ", tictactoemmr=" + tictactoemmr +
+                ", rank=" + rank +
+                "]";
+    }
 }
