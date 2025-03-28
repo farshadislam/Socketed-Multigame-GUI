@@ -3,6 +3,8 @@ public class Settings {
     // create fields
     Player player;
 
+    CredentialsDatabase database;
+
     public Player getPlayer() {
         return player;
     }
@@ -11,8 +13,13 @@ public class Settings {
         this.player = player;
     }
 
+    public CredentialsDatabase getDatabase() {
+        return database;
+    }
 
-    CredentialsDatabase database;
+    public void setDatabase(CredentialsDatabase database) {
+        this.database = database;
+    }
 
     // create constructor
     public Settings(Player player, CredentialsDatabase database){
@@ -29,28 +36,29 @@ public class Settings {
 
     public boolean changeUsername(String newUsername){
         if (newUsername!=null && !(newUsername.isEmpty())){
-            // for loop for values in database to confirm username is not taken
-            // replace username
+            player.setUsername(newUsername);
 
         }
         return false;
     }
 
     public boolean changeEmail(String newEmail) {
-        // if email is not null and not empty
-        // for loop to ensure email is not associated with another acc in database
-        //update email
+        if (newEmail!=null && !(newEmail.isEmpty())){
+            player.setEmail(newEmail);
+        }
         return false;
     }
 
     public boolean changePassword(String oldPassword, String newPassword) {
-        // if password is not empty and not null
-        // for loop if password already does not exist in the database
-        // update password
+        if (newPassword!=null && !(newPassword.isEmpty())){
+            player.setPassword(newPassword);
+        }
         return false;
     }
 
     public boolean logout(){
+        database.saveDatabase();
+        // go back to login page
         return false;
     }
 }
