@@ -35,9 +35,6 @@ public class checkersStats extends GeneralStats {
     protected void updateMMRTies() {
     }
 
-    /**
-     * Update the player's rank based on checkersmmr.
-     */
     @Override
     protected void updateRank() {
         double relativeMMR = checkersmmr - MIN_MMR;
@@ -58,6 +55,16 @@ public class checkersStats extends GeneralStats {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "CheckersStats [playerID=" + playerID
+                + ", gamesPlayed=" + gamesPlayed
+                + ", wins=" + wins
+                + ", losses=" + losses
+                + ", ties=" + ties
+                + ", checkersmmr=" + checkersmmr
+                + ", rank=" + rank
+                + "]";
+    }
 }
 
