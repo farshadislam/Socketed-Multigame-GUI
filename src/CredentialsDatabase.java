@@ -1,12 +1,15 @@
+import java.io.File;
 import java.util.HashMap;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class CredentialsDatabase {
 
     // Creating a HashMap field that will store the information of the player
     HashMap<String, Player> playerCredentials;
+    private static final String FILE_PATH = "database.txt";
 
     // Creating a constructor
     public CredentialsDatabase() {
@@ -53,8 +56,15 @@ public class CredentialsDatabase {
             BufferedWriter writer = new BufferedWriter(new FileWriter("database.txt"));
 
             // Iterating over the HashMap
-            for (String key : playerCredentials.keySet()) {
-
+            for (String username : playerCredentials.keySet()) {
+                Player player = playerCredentials.get(username);
+                writer.write(player.getUsername() + ","
+                                + player.getEmail() + ","
+                                + player.getPassword() + ","
+                                + player.getRank() + ","
+                                + player.getStats("connect4") + ","
+                                + player.getStats("tictactoe" + ",")
+                                + player.getStats("checkers") );
 
             }
 
@@ -65,7 +75,7 @@ public class CredentialsDatabase {
             e.printStackTrace();
         }
     }
-    public void loadDatabase(){
+    public void loadDatabase(String fileName){
         //(It will load all the information from the database.txt file into the hashmap
         //everytime main is run and main creates a new instance of Database class
         //→ take all the fields stored in database.txt file and create a new player
