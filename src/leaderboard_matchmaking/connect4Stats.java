@@ -1,57 +1,67 @@
 package leaderboard_matchmaking;
 
-public class connect4Stats {
-    private String playerId;
-    private int gamesPlayed;
-    private int wins;
-    private int losses;
-    private int ties;
-    private int mmr;
-    private Rank rank;
+public class connect4Stats extends GeneralStats {
+    private static final int MAX_MMR = 200;
+    private static final int MIN_MMR = 0;
+    private static final int TOTAL_RANKS = 7;
+    private static final double RANK_STEP = (MAX_MMR - MIN_MMR) / (double) TOTAL_RANKS;
 
-    public connect4Stats(String playerId) {
-        this.playerId = playerId;
-        this.gamesPlayed = 0;
-        this.wins = 0;
-        this.losses = 0;
-        this.ties = 0;
-        this.mmr = 0;
-        this.rank = Rank.BRONZE;
+    public connect4Stats(String playerID) {
+        super(playerID);
+        this.connect4mmr = 0;
     }
-
-    public void updateStats(boolean win, boolean tie) {
-        gamesPlayed++;
-        if (win) {
-            wins++;
-            // mmr gain logic
-        }
-        else if (tie) {
-            ties++;
-            // mmr tie logic
-        }
-        else {
-            losses++;
-            // mmr lose logic
-        }
-        updateRank();
-    }
-
-    private void updateRank() {
-        // mmr thresholds to update rank
-        // (if mmr > x) rank = Rank.x
-    }
-
-    public int getGamesPlayed() { return gamesPlayed; }
-    public int getWins() { return wins; }
-    public int getLosses() { return losses; }
-    public int getTies() { return ties; }
-    public int getMMR() { return mmr; }
-    public Rank getRank() { return rank; }
 
     @Override
+    public int getMMR() {
+        return checkersmmr;
+    }
+
+    @Override
+    protected void updateMMR(boolean win) {
+        if (win) {
+            connect4mmr += (int) Math.round(RANK_STEP);
+        } else {
+            connect4mmr -= (int) Math.round(RANK_STEP / 2.0);
+        }
+        if (connect4mmr < MIN_MMR) {
+            connect4mmr = MIN_MMR;
+        } else if (connect4mmr > MAX_MMR) {
+            connect4mmr = MAX_MMR;
+        }
+    }
+
+    @Override
+    protected void updateMMRTies() {
+    }
+
+    @Override
+    protected void updateRank() {
+        double relativeMMR = connect4mmr - MIN_MMR;
+        int rankIndex = (int) (relativeMMR / RANK_STEP);
+
+        if (rankIndex < 0) rankIndex = 0;
+        if (rankIndex >= TOTAL_RANKS) rankIndex = TOTAL_RANKS - 1;
+
+        switch (rankIndex) {
+            case 0 -> rank = Rank.BRONZE;
+            case 1 -> rank = Rank.SILVER;
+            case 2 -> rank = Rank.GOLD;
+            case 3 -> rank = Rank.PLATINUM;
+            case 4 -> rank = Rank.DIAMOND;
+            case 5 -> rank = Rank.MASTER;
+            case 6 -> rank = Rank.GRANDMASTER;
+            default -> rank = Rank.BRONZE;
+        }
+    }
+    @Override
     public String toString() {
-        return "Connect4Stats -> Games: " + gamesPlayed + ", Wins: " + wins +
-                ", Losses: " + losses + ", Ties: " + ties +
-                ", MMR: " + mmr + ", Rank: " + rank;
+        return "Connect4Stats [playerID=" + playerID
+                + ", gamesPlayed=" + gamesPlayed
+                + ", wins=" + wins
+                + ", losses=" + losses
+                + ", ties=" + ties
+                + ", connect4mmr=" + connect4mmr
+                + ", rank=" + rank
+                + "]";
     }
 }
