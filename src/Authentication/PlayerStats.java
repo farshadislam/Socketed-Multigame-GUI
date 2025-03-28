@@ -1,3 +1,5 @@
+package Authentication;
+
 public class PlayerStats {
     // defining instance variable
     private Player player;

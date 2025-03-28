@@ -1,9 +1,9 @@
-import java.io.File;
+package Authentication;
+
 import java.util.HashMap;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class CredentialsDatabase {
 
