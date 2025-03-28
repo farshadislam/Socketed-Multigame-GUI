@@ -1,3 +1,5 @@
+package Authentication;
+
 public class Settings {
 
     // create fields

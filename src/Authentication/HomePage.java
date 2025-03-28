@@ -1,3 +1,5 @@
+package Authentication;
+
 public class HomePage {
     // defining instance variables
     private Player player;

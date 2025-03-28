@@ -1,3 +1,5 @@
+package Authentication;
+
 public class LoginPage {
     private CredentialsDatabase database;
 
