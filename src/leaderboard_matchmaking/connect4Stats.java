@@ -61,5 +61,17 @@ public class connect4Stats extends GeneralStats {
             default -> rank = Rank.BRONZE; // fallback
         }
     }
+    @Override
+    public String toString() {
+        // You can add Connect 4–specific details here if desired.
+        return "Connect4Stats [playerID=" + playerID
+                + ", gamesPlayed=" + gamesPlayed
+                + ", wins=" + wins
+                + ", losses=" + losses
+                + ", ties=" + ties
+                + ", connect4mmr=" + connect4mmr
+                + ", rank=" + rank
+                + "]";
+    }
 
 }
