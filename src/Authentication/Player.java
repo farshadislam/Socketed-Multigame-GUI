@@ -12,36 +12,42 @@ public class Player {
     private String email;
     private String password;
     private Rank rank;
-    public connect4Stats Connect4Stats;
-    public ticTacToeStats TicTacToeStats;
-    public checkersStats CheckersStats;
+    private connect4Stats Connect4Stats;
+    private ticTacToeStats TicTacToeStats;
+    private checkersStats CheckersStats;
 
     // create constructor
     public Player(String username) {
         this.username = username;
-        this.Connect4Stats = new connect4Stats();
-        this.TicTacToeStats = new ticTacToeStats();
-        this.CheckersStats = new checkersStats();
+        this.Connect4Stats = new connect4Stats(username);
+        this.TicTacToeStats = new ticTacToeStats(username);
+        this.CheckersStats = new checkersStats(username);
     }
 
     public boolean updateEmail(String username, String newEmail) {
         if (this.username.equals(username)){
-            this.email = newEmail;
-            return true;
+            if (!(newEmail==null) && !newEmail.isEmpty()){
+                this.email = newEmail;
+                return true;
+            }
         }
         return false;
     }
     public boolean updatePassword(String username, String newPassword) {
         if (this.username.equals(username)){
-            this.password = newPassword;
-            return true;
+            if (!(newPassword==null) && !newPassword.isEmpty()) {
+                this.password = newPassword;
+                return true;
+            }
         }
         return false;
     }
     public boolean updateUsername(String username, String newUsername) {
         if (this.username.equals(username)){
-            this.username = newUsername;
-            return true;
+            if (!(newUsername==null) && !newUsername.isEmpty()) {
+                this.username = newUsername;
+                return true;
+            }
         }
         return false;
     }
@@ -103,30 +109,27 @@ public class Player {
     }
 
     public GeneralStats getStats(String gameType) {
-        switch (gameType.toLowerCase()){
-            case "connect4":
-                return connect4Stats;
-            case  "tictactoe":
-                return ticTacToeStats;
-            case "checkers":
-                return checkersStats;
-        }
+        return switch (gameType.toLowerCase()) {
+            case "connect4" -> Connect4Stats;
+            case "tictactoe" -> TicTacToeStats;
+            case "checkers" -> CheckersStats;
+            default -> null;
+        };
 
-        return null;
     }
 
     @Override
-    // compare the usernames instead of the reference
-
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this==obj){
+    public boolean equals(Object object) {
+        if (this == object){
             return true;
-            // if both reference point to the same object, automatically true
+            // if both references point to the same object (itself), true
         }
-        Player player = (Player)obj;
-        // cast obj into Player object
+        if (object == null || getClass() != object.getClass()){
+            return false;
+            // if one object is null or a different class (not a player), false
+        }
+        Player player = (Player) object;
+        // cast object into Player object and compare
         return Objects.equals(username, player.username);
     }
 }
