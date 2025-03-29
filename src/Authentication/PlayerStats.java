@@ -24,4 +24,18 @@ public class PlayerStats {
     public Rank getRankForConnect4() {
         return player.getStats("Connect4").getRank();
     }
+
+    // created Methods for Tic-Tac-Toe game
+    public int getWinsForTicTacToe(){
+        return player.getStats("TicTacToe").getWins();
+    }
+    public int getLossesForTicTacToe() {
+        return player.getStats("TicTacToe").getLosses();
+    }
+    public int getTiesForTicTacToe() {
+        return player.getStats("TicTacToe").getTies();
+    }
+    public Rank getRankForTicTacToe() {
+        return player.getStats("TicTacToe").getRank();
+    }
 }
