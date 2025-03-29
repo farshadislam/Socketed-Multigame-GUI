@@ -1,3 +1,5 @@
+package gamelogic;
+
 public class CheckersBoard {
 
     public static final int BOARD_SIZE = 8;
@@ -7,7 +9,7 @@ public class CheckersBoard {
 
     }
 
-    private Piece [][] board;
+    private Piece[][] board;
 
     public CheckersBoard() {
         board = new Piece[BOARD_SIZE][BOARD_SIZE];
@@ -23,7 +25,7 @@ public class CheckersBoard {
                 } else if (row > 4) {
                     board[row][col] = Piece.RED;
                 }
-            }  else {
+            } else {
                 board[row][col] = Piece.EMPTY;
             }
         }
