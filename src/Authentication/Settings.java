@@ -60,6 +60,11 @@ public class Settings {
         return false;
     }
 
+//    public LoginPage logout(){
+//        database.saveDatabase();
+//        return new LoginPage(database);
+//    }
+
     public boolean logout(){
         database.saveDatabase();
         return true;
