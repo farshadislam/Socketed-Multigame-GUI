@@ -51,17 +51,17 @@ public class Settings {
         return false;
     }
 
-    public boolean changePassword(String oldPassword, String newPassword) {
-        if (newPassword!=null && !(newPassword.isEmpty())){
-            player.setPassword(newPassword);
+    public boolean changePassword(String password, String newPassword) {
+        if (player.getPassword().equals(password)) {
+            if (newPassword != null && !(newPassword.isEmpty())) {
+                player.setPassword(newPassword);
+            }
         }
         return false;
     }
 
     public boolean logout(){
         database.saveDatabase();
-        // go back to login page
-        // create a logout
-        return new LoginPage(database);
+        return true;
     }
 }
