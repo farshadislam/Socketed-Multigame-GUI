@@ -3,6 +3,6 @@ module org.example.gui {
     requires javafx.fxml;
 
 
-    opens org.example.gui to javafx.fxml;
-    exports org.example.gui;
+    opens org.seng.gui to javafx.fxml;
+    exports org.seng.gui;
 }
