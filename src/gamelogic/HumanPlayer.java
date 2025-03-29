@@ -1,6 +1,6 @@
 package gamelogic;
 
-public class HumanPlayer {
+public class HumanPlayer extends Player {
     private int playerRank;
 
     public HumanPlayer(int playerRank) {
