@@ -51,3 +51,20 @@ public class CheckersBoard {
             default: return '.';
         }
     }
+    public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
+        return false;
+    }
+
+    public boolean makeMove(int fromRow, int fromCol, int toRow, int toCol) {
+        return false;
+    }
+
+    public Piece getPieceAt(int row, int col) {
+        return board[row][col];
+    }
+
+    public void setPieceAt(int row, int col, Piece piece) {
+        board[row][col] = piece;
+    }
+
+}
