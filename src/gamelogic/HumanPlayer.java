@@ -1,10 +1,12 @@
 package gamelogic;
-
 public class HumanPlayer extends Player {
     private int playerRank;
+    private char symbol;
 
-    public HumanPlayer(int playerRank) {
+    public HumanPlayer(String name, int accountID, int level, int plays, int score, int playerRank, char symbol) {
+        super(name, accountID, level, plays, score);
         this.playerRank = playerRank;
+        this.symbol = symbol;
     }
 
     public int getRank() {
@@ -12,7 +14,17 @@ public class HumanPlayer extends Player {
     }
 
     public boolean readyStart() {
+        // Implement logic here
+        return true; // Placeholder return value
+    }
 
-        return true;
+    @Override
+    public char getSymbol() {
+        return symbol;
+    }
+
+    @Override
+    public void setSymbol(char symbol) {
+        this.symbol = symbol;
     }
 }
