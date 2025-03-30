@@ -1,4 +1,4 @@
-package gamelogic;
+package gamelogic.connectfour;
 
 public class ConnectFourPiece {
 }
