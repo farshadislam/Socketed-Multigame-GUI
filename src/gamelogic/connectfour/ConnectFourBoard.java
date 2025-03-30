@@ -1,4 +1,5 @@
-package gamelogic;
+package gamelogic.connectfour;
+import gamelogic.Player;
 
 public class ConnectFourBoard {
 

@@ -1,18 +1,18 @@
-package gamelogic;
-
-import java.util.List;
+package gamelogic.connectfour;
+import gamelogic.Player;
+import java.util.ArrayList;
 
 // Do we need to extend or implement from GameGUI class?
 public class ConnectFourGame {
 
-    public Board board;
+    public ConnectFourBoard board;
     public Player[] players;  // 2 players
     public Player currentPlayer;
     public int gameID;
     public String status;
-    public List<String> chatLog;
+    public ArrayList<String> chatLog;
 
-    public ConnectFourGame(Board board, Player[] players, int gameID) {
+    public ConnectFourGame(ConnectFourBoard board, Player[] players, int gameID) {
         this.board = board;
         this.players = players;
         this.gameID = gameID;
@@ -57,7 +57,7 @@ public class ConnectFourGame {
 
     // called at end of game? We can add a visual display for this (GUI).
     public Player checkWinner() {
-        Player winner = Player[0]; // placeholder. Can be Player[0] or Player[1]
+        Player winner = players[0]; // placeholder. Can be Player[0] or Player[1]
         return winner;
     }
 
