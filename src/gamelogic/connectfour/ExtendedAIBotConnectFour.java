@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.Random;
 
 public class ExtendedAIBotConnectFour extends AIBot {
-    private ConnectFourBoard game;
+    private ConnectFourGame game;
     private char symbol;
     private ConnectFourBoard boardRef;
 
-    public ExtendedAIBotConnectFour(String name, int accountID, ConnectFourBoard game) {
+    public ExtendedAIBotConnectFour(String name, int accountID, ConnectFourGame game) {
         super(name, accountID, 0, 0, 0);
         this.symbol = ' ';
         this.game = game;
-        this.boardRef = (ConnectFourBoard) game;
+        this.boardRef = (ConnectFourBoard) boardRef;
     }
     @Override
     public boolean makeMove(Object board, Object move) {
