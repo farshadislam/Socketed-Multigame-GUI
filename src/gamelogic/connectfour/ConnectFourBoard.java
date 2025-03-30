@@ -26,7 +26,30 @@ public class ConnectFourBoard {
     }
 
     public boolean dropPiece(int col, Player player) {
-        return true;
+        if (columnFull(col)) {
+            return false;
+        } else {
+            for (int row = 0; row < ROW_COUNT; row++) {
+                if (grid[row][col] != Chip.EMPTY) {
+                    if (player.getSymbol() == 'b') {
+                        grid[row - 1][col] = Chip.BLUE;
+                        return true;
+                    } else {
+                        grid[row - 1][col] = Chip.YELLOW;
+                        return true;
+                    }
+                } else if (row == ROW_COUNT - 1) {
+                    if (player.getSymbol() == 'b') {
+                        grid[row][col] = Chip.BLUE;
+                        return true;
+                    } else {
+                        grid[row][col] = Chip.YELLOW;
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public boolean columnFull(int col) {
