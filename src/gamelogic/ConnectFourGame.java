@@ -50,12 +50,12 @@ public class ConnectFourGame {
         return true;
     }
 
-    // made after move is made. We can also add a "skip turn" functionality if we have time
+    // made after move is made. We can also add a "skip turn" functionality if we have time, work with GUI/integration.
     public void switchTurn() {
 
     }
 
-    // called at end of game?
+    // called at end of game? We can add a visual display for this (GUI).
     public Player checkWinner() {
         Player winner = Player[0]; // placeholder. Can be Player[0] or Player[1]
         return winner;
