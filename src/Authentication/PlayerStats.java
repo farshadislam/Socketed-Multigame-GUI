@@ -38,4 +38,18 @@ public class PlayerStats {
     public Rank getRankForTicTacToe() {
         return player.getStats("TicTacToe").getRank();
     }
+
+    // created Methods for Checkers game
+    public int getWinsForChecker(){
+        return player.getStats("Checker").getWins();
+    }
+    public int getLossesForChecker() {
+        return player.getStats("Checker").getLosses();
+    }
+    public int getTiesForChecker() {
+        return player.getStats("Checker").getTies();
+    }
+    public Rank getRankForChecker(){
+        return player.getStats("Checker").getRank();
+    }
 }
