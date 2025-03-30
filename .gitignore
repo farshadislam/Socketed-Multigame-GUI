@@ -4,7 +4,6 @@ out/
 !**/src/test/**/out/
 .idea/
 *.iml
-*.xml
 lib/
 
 ### Eclipse ###
@@ -31,3 +30,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+**/target
