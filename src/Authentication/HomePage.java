@@ -29,4 +29,19 @@ public class HomePage {
     public Settings viewSettings(){
         return accountSettings;
     }
+
+    // created method to play Connect4
+    public void playConnect4(){
+        System.out.println("Starting Connect4 game");
+    }
+
+    // created method to play TicTacToe
+    public void playTicTacToe(){
+        System.out.println("Starting TicTacToe game");
+    }
+
+    // created method to play Checkers
+    public void playCheckers(){
+        System.out.println("Starting Checkers game");
+    }
 }
