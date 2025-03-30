@@ -9,6 +9,8 @@ public class HelloController {
 
     @FXML
     protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+        welcomeText.setText("   Hello there! Welcome aboard to the OMG Platform - your gateway to endless fun! \n" +
+                "                            Whether you're here to play alone or with friends, we got you! \n" +
+                "                               And remember there's only one rule: that is to HAVE FUN!    ");
     }
 }
