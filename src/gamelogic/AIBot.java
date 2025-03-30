@@ -6,4 +6,12 @@ public abstract class AIBot extends Player {
         super(name, accountID, level, plays, score);
     }
 
+    public abstract boolean makeMove(Object board, Object move);
+
+
+    public abstract Object nextMove(Object board);
+
+
+
+
 }
