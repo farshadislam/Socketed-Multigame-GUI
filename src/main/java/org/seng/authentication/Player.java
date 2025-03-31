@@ -18,13 +18,16 @@ public class Player {
     private connect4Stats Connect4Stats;
     private ticTacToeStats TicTacToeStats;
     private checkersStats CheckersStats;
+    private String verificationCode;
 
     /**
      * constructor for player class
      * @param username username of the player
      */
-    public Player(String username) {
+    public Player(String username, String email, String password) {
         this.username = username;
+        this.email = email;
+        this.password = password;
         this.rank = Rank.BRONZE; // default rank
         this.Connect4Stats = new connect4Stats(username);
         this.TicTacToeStats = new ticTacToeStats(username);
@@ -141,6 +144,13 @@ public class Player {
 
     public void setRank(Rank rank) {
         this.rank = rank;
+    }
+
+    public void setVerificationCode(String verificationCode){
+        this.verificationCode = verificationCode;
+    }
+    public String getVerificationCode(){
+        return this.verificationCode;
     }
 
     /**

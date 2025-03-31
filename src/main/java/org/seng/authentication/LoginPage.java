@@ -35,7 +35,7 @@ public class LoginPage {
     }
 
 
-    public State register(String username, String password, String email){
+    public State register(String username, String email, String password){
         if(username.isEmpty()){
             return State.EMPTY_USERNAME;
         }
@@ -48,13 +48,15 @@ public class LoginPage {
         if (!verifyEmailFormat(email)){
             return State.EMAIL_FORMAT_WRONG;
         }
-        Player newPlayer = new Player(username);
+        Player newPlayer = new Player(username,email,password);
+
         newPlayer.setPassword(password);
         newPlayer.setEmail(email);
         newPlayer.setRank(null);
         newPlayer.setCheckersStats(null);
         newPlayer.setConnect4Stats(null);
         newPlayer.setTicTacToeStats(null);
+
         TemporaryPlayerStorage.addPlayer(username, newPlayer);
         return State.VERIFICATION_CODE_SENT;
 
