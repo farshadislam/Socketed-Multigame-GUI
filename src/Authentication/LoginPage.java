@@ -54,7 +54,7 @@ public class LoginPage {
         newPlayer.setCheckersStats(null);
         newPlayer.setConnect4Stats(null);
         newPlayer.setTicTacToeStats(null);
-        //Yet to implement the code
+        TemporaryPlayerStorage.addPlayer(username, newPlayer);
         return State.VERIFICATION_CODE_SENT;
 
     }
