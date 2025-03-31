@@ -72,7 +72,7 @@ public class LoginPage {
         return true;
     }
 
-    public boolean verifyEmailCode(String email, String code){
+    public boolean verifyEmailCode(String username, String code){
         Player newPlayer = TemporaryPlayerStorage.getPlayer(username);
         if(newPlayer == null){
             return false;
@@ -81,7 +81,7 @@ public class LoginPage {
             return false;
         }
         database.addNewPlayer(newPlayer.getUsername(), newPlayer);
-        TemporaryPlayerStorage.remove(newPlayer);
+        TemporaryPlayerStorage.removePlayer(username);
         return true;
     }
 }
