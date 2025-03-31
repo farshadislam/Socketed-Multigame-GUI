@@ -1,7 +1,5 @@
 package gamelogic.checkers;
 
-import gamelogic.CheckersBoard;
-
 import java.util.Scanner;
 
 public class CheckersGame {
