@@ -96,7 +96,7 @@ public class LoginPage {
     public boolean verifyEmailCodeForgotPassword(String code){
         return code.length() == 4 && code.matches("\\d{4}");
     }
-    //needs to finish implementation of forgot password
+
 
 
 
