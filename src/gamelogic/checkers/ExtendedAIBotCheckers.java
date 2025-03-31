@@ -1,7 +1,7 @@
 package gamelogic.checkers;
 
 import gamelogic.AIBot;
-import gamelogic.CheckersBoard;
+import gamelogic.checkers.CheckersBoard;
 
 public class ExtendedAIBotCheckers extends AIBot {
     private CheckersGame game;

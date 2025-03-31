@@ -1,4 +1,4 @@
-package gamelogic;
+package gamelogic.tictactoe;
 
 public class TicTacToeBoard {
 
