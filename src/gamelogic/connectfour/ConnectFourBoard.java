@@ -3,20 +3,36 @@ import gamelogic.Player;
 
 public class ConnectFourBoard {
 
+    /**
+     * Constant variables required for the length and height of the board
+     */
     public static final int ROW_COUNT = 6;
     public static final int COL_COUNT = 7;
 
+    /**
+     * Enum for Chip types that the board is built out of
+     * Chips can either be blue, yellow, or empty
+     */
     public enum Chip {
         EMPTY, BLUE, YELLOW
     }
 
+    /**
+     * Creates the grid setup for the Connect Four board
+     */
     private Chip[][] grid;
 
+    /**
+     * Initializes the Connect Four board through creating a grid and calling the initialize function
+     */
     public ConnectFourBoard () {
         grid = new Chip[ROW_COUNT][COL_COUNT];
         initalizeBoard();
     }
 
+    /**
+     * Ensures each chip on a grid is assigned the value Empty
+     */
     private void initalizeBoard() {
         for (int row = 0; row < ROW_COUNT; row ++){
             for (int col = 0; col < COL_COUNT; col ++){
@@ -25,11 +41,20 @@ public class ConnectFourBoard {
         }
     }
 
+    /**
+     * Allows a player to drop a Chip onto the grid
+     * @param col the column the player would like to drop a chip onto
+     * @param player the player that is playing the chip, which determines the color of the dropped chip
+     * @return true if the chip was successfully dropped, false otherwise
+     */
     public boolean dropPiece(int col, Player player) {
+        // Checks if the column has room for a chip to be added
         if (columnFull(col)) {
             return false;
         } else {
+            // Cycles down each row of the grid
             for (int row = 0; row < ROW_COUNT; row++) {
+                // If the current row has a Chip other than Empty, places a chip in the row above
                 if (grid[row][col] != Chip.EMPTY) {
                     if (player.getSymbol() == 'b') {
                         grid[row - 1][col] = Chip.BLUE;
@@ -38,6 +63,7 @@ public class ConnectFourBoard {
                         grid[row - 1][col] = Chip.YELLOW;
                         return true;
                     }
+                // If the current row is the last row of the board, places the chip
                 } else if (row == ROW_COUNT - 1) {
                     if (player.getSymbol() == 'b') {
                         grid[row][col] = Chip.BLUE;
@@ -49,9 +75,15 @@ public class ConnectFourBoard {
                 }
             }
         }
+        // If an alternate error occurs, returns false
         return false;
     }
 
+    /**
+     * Checks whether a column is full when called
+     * @param col the column to be checked for space to drop a chip
+     * @return true if there is room in the column for a chip to be placed, false otherwise
+     */
     public boolean columnFull(int col) {
         if (grid[0][col] == Chip.EMPTY) {
             return false;
@@ -60,6 +92,9 @@ public class ConnectFourBoard {
         }
     }
 
+    /**
+     * Resets the board layout so that all Chips are marked as Empty by calling the initialize function
+     */
     public void resetBoard() {
         initalizeBoard();
     }

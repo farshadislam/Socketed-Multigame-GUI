@@ -1,6 +1,6 @@
 package gamelogic.tictactoe;
-import gamelogic.TicTacToeBoard;
-import gamelogic.TicTacToeBoard.Mark;
+import gamelogic.tictactoe.TicTacToeBoard;
+import gamelogic.tictactoe.TicTacToeBoard.Mark;
 
 public class TicTacToeGame {
 
