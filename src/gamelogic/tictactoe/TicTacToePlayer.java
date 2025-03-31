@@ -2,11 +2,12 @@ package gamelogic.tictactoe;
 import gamelogic.HumanPlayer;
 
 public class TicTacToePlayer extends HumanPlayer {
-
+    private String pieceColor;
     // Not really sure how the constructor is going to exactly work, but this is just a skeleton code so whatever
     // Everything under this is theoretical code however im not entirely sure this is correct
-    public TicTacToePlayer(String playerName, int playerID, int playerRank, char symbol, String pieceColour) {
-        super(name, accountID, symbol, rank);
+    public TicTacToePlayer(String name, int playerID, char symbol, int rank, String pieceColour) {
+        super(name, playerID, symbol, rank, pieceColour);
+        this.pieceColor = pieceColour;
     }
 
     @Override

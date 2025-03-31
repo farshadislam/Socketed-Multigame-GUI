@@ -31,13 +31,16 @@ public abstract class Player {
     }
 
     public void setSymbol(char symbol) {
+        this.symbol = symbol;
     }
 
     public int getRank() {
             return rank;
     }
 
-    public void setRank(int rank) {}
+    public void setRank(int rank) {
+
+    }
 
     public void exitGame() {}
 
