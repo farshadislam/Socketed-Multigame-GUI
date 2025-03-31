@@ -8,16 +8,15 @@ import java.util.Random;
 
 public class ExtendedAIBotConnectFour extends AIBot {
     private ConnectFourGame game;
-    private char symbol;
     private ConnectFourBoard boardRef;
 
-    public ExtendedAIBotConnectFour(String name, int accountID, ConnectFourGame game) {
-        super(name, accountID, 0, 0, 0);
+    public ExtendedAIBotConnectFour(String name, int accountID, char symbol, int rank, ConnectFourGame game) {
+        super(name, accountID, symbol, rank);
         this.symbol = ' ';
         this.game = game;
         this.boardRef = (ConnectFourBoard) boardRef;
     }
-    @Override
+
     public boolean makeMove(Object board, Object move) {
         ConnectFourBoard connectFourBoard = (ConnectFourBoard) board;
         if (connectFourBoard != boardRef){
