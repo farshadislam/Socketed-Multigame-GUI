@@ -1,5 +1,5 @@
-package Authentication;
-import leaderboard_matchmaking.Rank;
+package org.seng.authentication;
+import org.seng.leaderboard.Rank;
 
 
 public class PlayerStats {
