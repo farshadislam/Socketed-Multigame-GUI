@@ -15,7 +15,6 @@ public class LoginPage {
         EMPTY_PASSWORD,
         EMAIL_FORMAT_WRONG,
         VERIFICATION_CODE_SENT,
-        REGISTRATION_SUCCESS,
     }
 
     /**
@@ -73,7 +72,16 @@ public class LoginPage {
         return true;
     }
 
-    public void verifyEmailCode(String email, String code){
-        // Yet to implement the code
+    public boolean verifyEmailCode(String email, String code){
+        Player newPlayer = TemporaryPlayerStorage.getPlayer(username);
+        if(newPlayer == null){
+            return false;
+        }
+        if (code.length() != 4 || !code.matches("\\d{4}")) {
+            return false;
+        }
+        database.addNewPlayer(newPlayer.getUsername(), newPlayer);
+        TemporaryPlayerStorage.remove(newPlayer);
+        return true;
     }
 }
