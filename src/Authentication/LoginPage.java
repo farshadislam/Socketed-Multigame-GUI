@@ -15,6 +15,7 @@ public class LoginPage {
         EMPTY_PASSWORD,
         EMAIL_FORMAT_WRONG,
         VERIFICATION_CODE_SENT,
+        USERNAME_NOT_FOUND
     }
 
     /**
@@ -72,7 +73,7 @@ public class LoginPage {
         return true;
     }
 
-    public boolean verifyEmailCode(String username, String code){
+    public boolean verifyEmailCodeForRegister(String username, String code){
         Player newPlayer = TemporaryPlayerStorage.getPlayer(username);
         if(newPlayer == null){
             return false;
@@ -84,4 +85,19 @@ public class LoginPage {
         TemporaryPlayerStorage.removePlayer(username);
         return true;
     }
+
+    public boolean forgotPassword(String username){
+        if(!database.usernameLookup(username)){
+            return false; //username not found
+        }
+        return true;
+    }
+
+    public boolean verifyEmailCodeForgotPassword(String code){
+        return code.length() == 4 && code.matches("\\d{4}");
+    }
+    //needs to finish implementation of forgot password
+
+
+
 }
