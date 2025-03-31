@@ -1,4 +1,4 @@
-package leaderboard_matchmaking;
+package org.seng.leaderboard;
 
 import java.util.ArrayList;
 import java.util.Comparator;

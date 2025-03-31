@@ -1,10 +1,11 @@
-package Authentication;
-import leaderboard_matchmaking.GeneralStats;
-import leaderboard_matchmaking.checkersStats;
-import leaderboard_matchmaking.connect4Stats;
-import leaderboard_matchmaking.ticTacToeStats;
-import leaderboard_matchmaking.Rank;
-import leaderboard_matchmaking.Leaderboard;
+package org.seng.authentication;
+import org.seng.leaderboard.GeneralStats;
+import org.seng.leaderboard.checkersStats;
+import org.seng.leaderboard.connect4Stats;
+import org.seng.leaderboard.ticTacToeStats;
+import org.seng.authentication.Rank;
+//import org.seng.leaderboard.Rank;
+//import org.seng.leaderboard;
 import java.util.Objects;
 
 public class Player {

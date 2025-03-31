@@ -1,4 +1,4 @@
-package leaderboard_matchmaking;
+package org.seng.leaderboard;
 
 public abstract class GeneralStats {
     protected String playerID;

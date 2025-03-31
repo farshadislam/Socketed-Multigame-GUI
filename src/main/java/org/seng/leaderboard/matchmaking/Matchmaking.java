@@ -1,8 +1,6 @@
-package leaderboard_matchmaking.matchmaking;
+package org.seng.leaderboard.matchmaking;
 
 import java.util.*;
-import leaderboard_matchmaking.*;
-import leaderboard_matchmaking.Rank;
 
 public class Matchmaking {
 

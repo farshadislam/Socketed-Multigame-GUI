@@ -1,4 +1,4 @@
-package leaderboard_matchmaking;
+package org.seng.leaderboard;
 
 public class checkersStats extends GeneralStats {
     private static final int MAX_MMR = 200;

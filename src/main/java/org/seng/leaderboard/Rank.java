@@ -1,4 +1,4 @@
-package leaderboard_matchmaking;
+package org.seng.leaderboard;
 
 // create rank enum with all the tiers
 public enum Rank {

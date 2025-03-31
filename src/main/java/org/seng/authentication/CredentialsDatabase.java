@@ -1,9 +1,13 @@
-package Authentication;
+package org.seng.authentication;
 
 import java.util.HashMap;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import org.seng.leaderboard.GeneralStats;
+import org.seng.leaderboard.checkersStats;
+import org.seng.leaderboard.connect4Stats;
+import org.seng.leaderboard.ticTacToeStats;
 
 public class CredentialsDatabase {
 
@@ -55,9 +59,17 @@ public class CredentialsDatabase {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("database.txt"));
 
+
+
             // Iterating over the HashMap
             for (String username : playerCredentials.keySet()) {
+
                 Player player = playerCredentials.get(username);
+                connect4Stats connect4stats = (connect4Stats) player.getStats("connect4");
+                checkersStats checkersstats = (checkersStats) player.getStats("checkers");
+                ticTacToeStats ticTacToestats = (ticTacToeStats) player.getStats("tictactoe");
+
+
                 writer.write(player.getUsername() + ","
                                 + player.getEmail() + ","
                                 + player.getPassword() + ","

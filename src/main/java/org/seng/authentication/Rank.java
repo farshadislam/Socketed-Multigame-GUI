@@ -1,4 +1,4 @@
-package Authentication;
+package org.seng.authentication;
 
 public enum Rank {
     BRONZE,
