@@ -23,3 +23,4 @@ public class HumanPlayer extends Player {
         this.symbol = symbol;
     }
 }
+//some classes extend off of this
