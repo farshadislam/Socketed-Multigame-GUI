@@ -1,23 +1,25 @@
 package gamelogic.checkers;
 
 import gamelogic.AIBot;
-import gamelogic.CheckersBoard;
-import gamelogic.connectfour.ConnectFourBoard;
+import gamelogic.checkers.CheckersBoard;
 
 public class ExtendedAIBotCheckers extends AIBot {
-    private char symbol;
     private CheckersGame game;
     private CheckersBoard boardRef;
 
-    public ExtendedAIBotCheckers(String name, int accountID, CheckersGame game) {
-        super(name, accountID, 0, 0, 0);
-        this.symbol = ' ';
+    public ExtendedAIBotCheckers(String name, int playerID, char symbol, int rank, CheckersGame game) {
+        super(name, playerID, symbol, rank);
         this.game = game;
         this.boardRef = (CheckersBoard) boardRef;
     }
-    @Override
-    public boolean makeMove(Object board, Object move){
 
+    public boolean makeMove(Object board, Object move){
+        return true;
+    }
+
+    @Override
+    public Object nextMove(Object board) {
+        return board; // placeholder
     }
 
     @Override
