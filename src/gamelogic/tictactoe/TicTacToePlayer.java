@@ -1,4 +1,5 @@
 package gamelogic.tictactoe;
+import gamelogic.HumanPlayer;
 
 public class TicTacToePlayer extends HumanPlayer {
 
@@ -18,12 +19,13 @@ public class TicTacToePlayer extends HumanPlayer {
         return symbol;
     }
 
-    // play the chip
     @Override
     public void setSymbol(char symbol) {
         this.symbol = symbol;
     }
 
+
+    //this is a personal addition for the game however plase review if its correc (im using the class diagram
     public boolean makeMove(Board board, Move move) {
         return board.placeMove(move.getRow(), move.getCol(), this.symbol);
     }
