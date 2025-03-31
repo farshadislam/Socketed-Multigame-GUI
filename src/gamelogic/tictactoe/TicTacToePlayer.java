@@ -26,7 +26,7 @@ public class TicTacToePlayer extends HumanPlayer {
 
 
     //this is a personal addition for the game however plase review if its correc (im using the class diagram
-    public boolean makeMove(Board board, Move move) {
+    public boolean makeMove(TicTacToeBoard board, TicTacToeMove move) {
         return board.placeMove(move.getRow(), move.getCol(), this.symbol);
     }
 }

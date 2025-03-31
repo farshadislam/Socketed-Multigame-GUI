@@ -10,7 +10,7 @@ public class CheckersPlayer extends HumanPlayer {
         super(name, playerID, symbol, rank);
 
     }
-    @Override
+
     public boolean makeMove(Move move) {
         return false;
     }
