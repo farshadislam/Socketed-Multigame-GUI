@@ -4,8 +4,8 @@ import gamelogic.HumanPlayer;
 public class ConnectFourPlayer extends HumanPlayer {
 
     // constructor
-    public ConnectFourPlayer(String name, int accountID, int rank, char symbol) {
-        super(name, accountID, symbol, rank);
+    public ConnectFourPlayer(String name, int playerID, char symbol, int rank) {
+        super(name, playerID, symbol, rank);
     }
 
     @Override
@@ -23,7 +23,5 @@ public class ConnectFourPlayer extends HumanPlayer {
     public void setSymbol(char symbol) {
         this.symbol = symbol;
     }
-    {
 
-    }
 }
