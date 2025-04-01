@@ -20,7 +20,7 @@
 }
 
 .login-box {
-    -fx-background-color: rgba(255, 255, 255, 0.85); /* Semi-opaque white */
+    -fx-background-color: rgba(255, 255, 255, 0.85);
     -fx-padding: 20px;
     -fx-border-radius: 12px;
     -fx-background-radius: 12px;
