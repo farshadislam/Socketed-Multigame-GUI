@@ -1,1 +1,15 @@
-kjlsdkfj
+#board {
+    -fx-background-color: blue;
+}
+.circular-button {
+
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-min-width: 50px;
+    -fx-min-height: 50px;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 50px;
+    -fx-background-color: #3498db; /* You can change this to any color */
+    -fx-text-fill: white; /* Optional: to change the text color */
+    -fx-font-size: 14px; /* Optional: to adjust the font size */
+}
