@@ -11,3 +11,9 @@
 .red-square {
     -fx-background-color: #e74c3c;
 }
+
+.wood-background {
+    -fx-background-image: url("/org/seng/gui/images/woody.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
