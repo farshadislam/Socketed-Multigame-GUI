@@ -11,53 +11,53 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-       <FlowPane id="board" hgap="5" layoutX="302.0" layoutY="188.0" orientation="HORIZONTAL" prefHeight="295.0" prefWidth="395.0" vgap="5">
+       <FlowPane id="board" hgap="5" layoutX="302.0" layoutY="188.0" orientation="HORIZONTAL" prefHeight="295.0" prefWidth="395.0" vgap="5" >
            <padding>
                <Insets bottom="7" left="7" right="7" top="7" />
            </padding>
            <children>
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
-               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" text="Button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
+               <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="circular-button" />
 
            </children>
       </FlowPane>

@@ -2,14 +2,17 @@
     -fx-background-color: blue;
 }
 .circular-button {
-
+    -fx-background-color: white;
     -fx-background-radius: 50%;
-    -fx-border-radius: 50%;
+    -fx-border-color: black; /* Keep the border */
+    -fx-border-width: 2px; /* Set thickness */
+    -fx-border-insets: 0px 0 -1px 0; /* Move border down */
+    -fx-padding: 0; /* Prevent extra space */
+    -fx-shape: "M 25 0 A 25 25 0 1 1 24.9999 0 Z"; /* Ensures a perfect circle */
     -fx-min-width: 50px;
     -fx-min-height: 50px;
-    -fx-pref-width: 50px;
-    -fx-pref-height: 50px;
-    -fx-background-color: #3498db; /* You can change this to any color */
-    -fx-text-fill: white; /* Optional: to change the text color */
-    -fx-font-size: 14px; /* Optional: to adjust the font size */
+    -fx-max-width: 50px;
+    -fx-max-height: 50px;
 }
+
+
