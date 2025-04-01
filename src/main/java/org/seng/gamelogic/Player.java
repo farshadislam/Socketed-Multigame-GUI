@@ -42,6 +42,7 @@ public abstract class Player {
 
     }
 
-    public void exitGame() {}
+    public void exitGame() {
+    }
 
 }
