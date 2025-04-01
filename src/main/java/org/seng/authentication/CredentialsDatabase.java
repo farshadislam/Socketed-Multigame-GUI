@@ -56,10 +56,7 @@ public class CredentialsDatabase {
     }
 
     public void saveDatabase() {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("database.txt"));
-
-
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("database.txt"))) {
 
             // Iterating over the HashMap
             for (String username : playerCredentials.keySet()) {
@@ -69,22 +66,38 @@ public class CredentialsDatabase {
                 checkersStats checkersstats = (checkersStats) player.getStats("checkers");
                 ticTacToeStats ticTacToestats = (ticTacToeStats) player.getStats("tictactoe");
 
-
                 writer.write(player.getUsername() + ","
-                                + player.getEmail() + ","
-                                + player.getPassword() + ","
-                                + player.getRank() + ","
-                                + player.getStats("connect4") + ","
-                                + player.getStats("tictactoe" + ",")
-                                + player.getStats("checkers") );
-                // Waiting for Stats classes to be finished to continue with the implementation
+                        + player.getEmail() + ","
+                        + player.getPassword() + ","
+                        // Stats of Tic Tac Toe
+                        + ticTacToestats.getGamesPlayed() + ","
+                        + ticTacToestats.getWins() + ","
+                        + ticTacToestats.getLosses() + ","
+                        + ticTacToestats.get_ties() + ","
+                        + ticTacToestats.getRank().name() + ","  // Store enum as name
+                        + ticTacToestats.getMMR() + ","
+                        // Stats of Connect 4
+                        + connect4stats.getGamesPlayed() + ","
+                        + connect4stats.getWins() + ","
+                        + connect4stats.getLosses() + ","
+                        + connect4stats.get_ties() + ","
+                        + connect4stats.getRank().name() + ","  // Store enum as name
+                        + connect4stats.getMMR() + ","
+                        // Stats for Checkers
+                        + checkersstats.getGamesPlayed() + ","
+                        + checkersstats.getWins() + ","
+                        + checkersstats.getLosses() + ","
+                        + checkersstats.get_ties() + ","
+                        + checkersstats.getRank().name() + ","  // Store enum as name
+                        + checkersstats.getMMR());
                 writer.newLine();
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
     public void loadDatabase(String fileName){
         //(It will load all the information from the database.txt file into the hashmap
         //everytime main is run and main creates a new instance of Database class
