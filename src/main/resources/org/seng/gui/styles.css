@@ -14,3 +14,7 @@
     -fx-font-weight: bold;
     -fx-alignment: center;
 }
+
+.controller-icon {
+    -fx-opacity: 0.15;
+}
