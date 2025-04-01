@@ -85,14 +85,13 @@ public class Settings {
         return false;
     }
 
-//    public LoginPage logout(){
-//        database.saveDatabase();
-//        return new LoginPage(database);
-//    }
-
-    // method for logging out
-    public boolean logout(){
+    /**
+     * method for logging out
+     * @return the login page
+     */
+    public LoginPage logout(){
         database.saveDatabase();
-        return true;
+        return new LoginPage(database);
     }
+
 }
