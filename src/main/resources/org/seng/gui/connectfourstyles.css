@@ -1,6 +1,6 @@
 
 .board {
-    -fx-background-color: blue;
+    -fx-background-color: white;
     -fx-background-radius: 30;  /* Rounds the edges */
     -fx-border-radius: 30;
     -fx-border-color: black;  /* Optional border */
@@ -10,7 +10,7 @@
 }
 
 .circular-button {
-    -fx-background-color: white;
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #5f579b, #4915d0);
     -fx-background-radius: 50%;
     -fx-border-color: black; /* Keep the border */
     -fx-border-width: 3px; /* Set thickness */
@@ -21,6 +21,14 @@
     -fx-min-height: 50px;
     -fx-max-width: 50px;
     -fx-max-height: 50px;
+}
+
+.gradient-background {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #5f579b, #4915d0);
+}
+
+.controller-icon {
+    -fx-opacity: 0.15;
 }
 
 
