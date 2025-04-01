@@ -14,7 +14,7 @@ public class ExtendedAIBotConnectFour extends AIBot {
         super(username, accountID, symbol, rank);
         this.symbol = ' ';
         this.game = game;
-        this.boardRef = game.getBoard();
+        this.boardRef = (ConnectFourBoard) boardRef;
     }
 
     public boolean makeMove(Object board, Object move) {
