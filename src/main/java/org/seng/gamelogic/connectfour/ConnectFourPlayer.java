@@ -4,8 +4,8 @@ import gamelogic.HumanPlayer;
 public class ConnectFourPlayer extends HumanPlayer {
 
     // constructor
-    public ConnectFourPlayer(String name, int playerID, char symbol, int rank) {
-        super(name, playerID, symbol, rank);
+    public ConnectFourPlayer(String username, int playerID, char symbol, int rank) {
+        super(username, playerID, symbol, rank);
     }
 
     @Override

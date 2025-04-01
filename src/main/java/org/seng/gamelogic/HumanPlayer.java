@@ -1,10 +1,10 @@
 package gamelogic;
 
-public class HumanPlayer extends Player {
+public class HumanPlayer extends gamelogic.Player {
 
 //constructor for HumanPlayer
-    public HumanPlayer(String name, int playerID, char symbol, int rank) {
-        super(name, playerID, symbol, rank);
+    public HumanPlayer(String username, int playerID, char symbol, int rank) {
+        super(username, playerID, symbol, rank);
     }
 
     public boolean readyStart() {

@@ -6,8 +6,8 @@ import gamelogic.Board;
 public class CheckersPlayer extends HumanPlayer {
 
     // Constructor
-    public CheckersPlayer(String name, int playerID, char symbol, int rank) {
-        super(name, playerID, symbol, rank);
+    public CheckersPlayer(String username, int playerID, char symbol, int rank) {
+        super(username, playerID, symbol, rank);
 
     }
 
