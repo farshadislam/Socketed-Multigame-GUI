@@ -1,6 +1,6 @@
 package org.seng.gamelogic.checkers;
 
-import main.java.org.seng.gamelogic.HumanPlayer;
+import org.seng.gamelogic.HumanPlayer;
 import org.seng.gamelogic.checkers.CheckersMove;
 import org.seng.gamelogic.checkers.CheckersBoard;
 

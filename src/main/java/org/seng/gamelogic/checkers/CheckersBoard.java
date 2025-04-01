@@ -67,4 +67,6 @@ public class CheckersBoard {
         board[row][col] = piece;
     }
 
+
+
 }
