@@ -15,6 +15,7 @@ public class Player {
     private String email;
     private String password;
     private Rank rank;
+    private char symbol;
     private connect4Stats Connect4Stats;
     private ticTacToeStats TicTacToeStats;
     private checkersStats CheckersStats;
@@ -28,7 +29,6 @@ public class Player {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.rank = Rank.BRONZE; // default rank
         this.Connect4Stats = new connect4Stats(username);
         this.TicTacToeStats = new ticTacToeStats(username);
         this.CheckersStats = new checkersStats(username);
@@ -84,6 +84,14 @@ public class Player {
 
 
     // setters and getters
+    public char getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(char symbol) {
+        this.symbol = symbol;
+    }
+
     public connect4Stats getConnect4Stats() {
         return Connect4Stats;
     }
@@ -160,7 +168,6 @@ public class Player {
      */
     public GeneralStats getStats(String gameType) {
         return switch (gameType.toLowerCase()) {
-            // change
             case "connect4" -> Connect4Stats;
             case "tictactoe" -> TicTacToeStats;
             case "checkers" -> CheckersStats;
@@ -195,5 +202,8 @@ public class Player {
         Player player = (Player) object;
         // cast object into Player object and compare
         return Objects.equals(username, player.username);
+    }
+
+    public void exitGame(){
     }
 }
