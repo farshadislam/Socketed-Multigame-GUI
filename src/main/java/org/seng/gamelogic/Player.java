@@ -1,25 +1,26 @@
 package main.java.org.seng.gamelogic;
 
+import java.util.Objects;
 import java.util.ArrayList;
 
 public class Player {
     public int playerID;
 
-    public String name;
+    public String username;
 
     public char symbol;
 
     private int rank;
 
-    public Player(String name, int playerID, char symbol, int rank) {
-        this.name = name;
+    public Player(String username, int playerID, char symbol, int rank) {
+        this.username = username;
         this.playerID = playerID;
         this.symbol = symbol;
         this.rank = rank;
     }
 
     public String getName(){
-        return name;
+        return username;
     }
 
     public int getPlayerID(){
@@ -35,7 +36,7 @@ public class Player {
     }
 
     public int getRank() {
-            return rank;
+        return rank;
     }
 
     public void setRank(int rank) {

@@ -10,8 +10,8 @@ public class ExtendedAIBotConnectFour extends AIBot {
     private ConnectFourGame game;
     private ConnectFourBoard boardRef;
 
-    public ExtendedAIBotConnectFour(String name, int accountID, char symbol, int rank, ConnectFourGame game) {
-        super(name, accountID, symbol, rank);
+    public ExtendedAIBotConnectFour(String username, int accountID, char symbol, int rank, ConnectFourGame game) {
+        super(username, accountID, symbol, rank);
         this.symbol = ' ';
         this.game = game;
         this.boardRef = (ConnectFourBoard) boardRef;

@@ -7,8 +7,8 @@ public class ExtendedAIBotCheckers extends AIBot {
     private CheckersGame game;
     private CheckersBoard boardRef;
 
-    public ExtendedAIBotCheckers(String name, int playerID, char symbol, int rank, CheckersGame game) {
-        super(name, playerID, symbol, rank);
+    public ExtendedAIBotCheckers(String username, int playerID, char symbol, int rank, CheckersGame game) {
+        super(username, playerID, symbol, rank);
         this.game = game;
         this.boardRef = (CheckersBoard) boardRef;
     }
