@@ -1,3 +1,10 @@
 .gradient-background {
     -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #5f579b, #4915d0);
 }
+
+.title-label {
+    -fx-font-size: 64px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
