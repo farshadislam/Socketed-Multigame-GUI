@@ -5,6 +5,7 @@ public class TicTacToeMove {
     public int col;
     public char symbol; // symbol is either 'X' or 'O' for tictactoe
 
+    // will want to change order of column/row/symbol argument input for all 3 move classes to avoid future confusion
     public TicTacToeMove(int column, int row, char symbol) {
         this.row = row;
         this.col = column;
