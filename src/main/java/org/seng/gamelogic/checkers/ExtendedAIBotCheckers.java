@@ -1,7 +1,7 @@
-package gamelogic.checkers;
+package main.java.org.seng.gamelogic.checkers;
 
-import gamelogic.AIBot;
-import gamelogic.checkers.CheckersBoard;
+import main.java.org.seng.gamelogic.AIBot;
+import main.java.org.seng.gamelogic.checkers.CheckersBoard;
 
 public class ExtendedAIBotCheckers extends AIBot {
     private CheckersGame game;

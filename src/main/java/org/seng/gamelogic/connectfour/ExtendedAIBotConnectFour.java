@@ -1,7 +1,7 @@
-package gamelogic.connectfour;
-import gamelogic.AIBot;
-import gamelogic.connectfour.ConnectFourBoard;
-import gamelogic.connectfour.ConnectFourGame;
+package main.java.org.seng.gamelogic.connectfour;
+import main.java.org.seng.gamelogic.AIBot;
+import main.java.org.seng.gamelogic.connectfour.ConnectFourBoard;
+import main.java.org.seng.gamelogic.connectfour.ConnectFourGame;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

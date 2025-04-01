@@ -1,8 +1,8 @@
-package gamelogic;
+package main.java.org.seng.gamelogic;
 
 import java.util.ArrayList;
 
-public abstract class Player {
+public class Player {
     public int playerID;
 
     public String name;

@@ -1,8 +1,9 @@
-package gamelogic.checkers;
+package main.java.org.seng.gamelogic.checkers;
 
-import gamelogic.HumanPlayer;
-import gamelogic.Move;
-import gamelogic.Board;
+import main.java.org.seng.gamelogic.HumanPlayer;
+import main.java.org.seng.gamelogic.checkers.CheckersMove;
+import main.java.org.seng.gamelogic.checkers.CheckersBoard;
+
 public class CheckersPlayer extends HumanPlayer {
 
     // Constructor

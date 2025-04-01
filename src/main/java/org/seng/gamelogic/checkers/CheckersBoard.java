@@ -1,4 +1,4 @@
-package gamelogic.checkers;
+package main.java.org.seng.gamelogic.checkers;
 
 public class CheckersBoard {
 

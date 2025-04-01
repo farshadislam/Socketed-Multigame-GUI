@@ -1,5 +1,5 @@
-package gamelogic.connectfour;
-import gamelogic.Player;
+package main.java.org.seng.gamelogic.connectfour;
+import main.java.org.seng.gamelogic.Player;
 
 public class ConnectFourBoard {
 

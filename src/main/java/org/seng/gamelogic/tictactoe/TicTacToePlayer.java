@@ -1,5 +1,5 @@
-package gamelogic.tictactoe;
-import gamelogic.HumanPlayer;
+package main.java.org.seng.gamelogic.tictactoe;
+import main.java.org.seng.gamelogic.HumanPlayer;
 
 public class TicTacToePlayer extends HumanPlayer {
     private String pieceColor;
