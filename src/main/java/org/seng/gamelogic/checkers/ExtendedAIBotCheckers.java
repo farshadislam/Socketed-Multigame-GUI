@@ -1,4 +1,4 @@
-package main.java.org.seng.gamelogic.checkers;
+package org.seng.gamelogic.checkers;
 
 import main.java.org.seng.gamelogic.AIBot;
 import main.java.org.seng.gamelogic.checkers.CheckersBoard;
