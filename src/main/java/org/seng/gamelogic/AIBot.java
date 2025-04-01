@@ -1,9 +1,10 @@
-package main.java.org.seng.gamelogic;
+package org.seng.gamelogic.connectfour;
 
-public class AIBot extends Player {
 
-    public AIBot(String name, int playerID, char symbol, int rank) {
-        super(name, playerID, symbol, rank);
+public class AIBot extends main.java.org.seng.gamelogic.Player {
+
+    public AIBot(String username, int playerID, char symbol, int rank) {
+        super(username, playerID, symbol, rank);
     }
 
     public Object nextMove(Object board) {

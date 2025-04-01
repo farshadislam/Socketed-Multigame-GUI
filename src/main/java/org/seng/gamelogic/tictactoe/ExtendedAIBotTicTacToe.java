@@ -1,4 +1,4 @@
-package main.java.org.seng.gamelogic.tictactoe;
+package org.seng.gamelogic.tictactoe;
 import main.java.org.seng.gamelogic.AIBot;
 import main.java.org.seng.gamelogic.Player;
 import main.java.org.seng.gamelogic.tictactoe.TicTacToeMove;
