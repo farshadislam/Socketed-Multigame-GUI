@@ -1,4 +1,4 @@
-package org.seng.gamelogic.tictactoe;
+package main.java.org.seng.gamelogic.tictactoe;
 import main.java.org.seng.gamelogic.AIBot;
 import main.java.org.seng.gamelogic.Player;
 import main.java.org.seng.gamelogic.tictactoe.TicTacToeMove;
@@ -12,14 +12,13 @@ public class ExtendedAIBotTicTacToe extends AIBot {
     private TicTacToeGame game;
 
     public ExtendedAIBotTicTacToe(String name, int accountID, char symbol, int rank, TicTacToeGame game) {
-        super(name, accountID, 0, 0);
+        super(name, accountID, symbol, rank);
         this.boardRef = (TicTacToeBoard) boardRef;
         this.game = game;
         this.symbol = ' ';
 
     }
 
-    @Override
     public boolean makeMove(Object board, Object move) {
         TicTacToeBoard ticTacToeBoard = (TicTacToeBoard) board;
         if (ticTacToeBoard != boardRef) {

@@ -1,4 +1,4 @@
-package org.seng.gamelogic.tictactoe;
+package main.java.org.seng.gamelogic.tictactoe;
 import main.java.org.seng.gamelogic.tictactoe.TicTacToeBoard;
 import main.java.org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
 
@@ -20,7 +20,7 @@ public class TicTacToeGame {
 
             if (checkWinner(currPlayer)) {
                 status = currPlayer + " Wins";
-            } else if (isBoardFull()) {
+            } else if (boardFull()) {
                 status = "Draw";
             } else {
                 switchTurn();

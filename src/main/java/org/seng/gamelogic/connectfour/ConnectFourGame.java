@@ -1,4 +1,4 @@
-package org.seng.gamelogic.connectfour;
+package main.java.org.seng.gamelogic.connectfour;
 import main.java.org.seng.gamelogic.Player;
 import java.util.ArrayList;
 

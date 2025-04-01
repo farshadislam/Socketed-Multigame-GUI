@@ -1,4 +1,4 @@
-package org.seng.gamelogic.connectfour;
+package main.java.org.seng.gamelogic;
 
 
 public class AIBot extends main.java.org.seng.gamelogic.Player {

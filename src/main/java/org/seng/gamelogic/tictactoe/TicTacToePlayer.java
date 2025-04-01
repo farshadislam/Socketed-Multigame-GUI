@@ -1,4 +1,4 @@
-package org.seng.gamelogic.tictactoe;
+package main.java.org.seng.gamelogic.tictactoe;
 import main.java.org.seng.gamelogic.HumanPlayer;
 
 public class TicTacToePlayer extends HumanPlayer {

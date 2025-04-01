@@ -1,4 +1,4 @@
-package org.seng.gamelogic;
+package main.java.org.seng.gamelogic;
 
 import java.util.Objects;
 import java.util.ArrayList;

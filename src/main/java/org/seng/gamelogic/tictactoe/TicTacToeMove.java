@@ -1,4 +1,4 @@
-package org.seng.gamelogic.tictactoe;
+package main.java.org.seng.gamelogic.tictactoe;
 
 public class TicTacToeMove {
     public int row;

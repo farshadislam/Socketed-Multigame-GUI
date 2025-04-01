@@ -1,4 +1,4 @@
-package org.seng.gamelogic.connectfour;
+package main.java.org.seng.gamelogic.connectfour;
 import main.java.org.seng.gamelogic.HumanPlayer;
 
 public class ConnectFourPlayer extends HumanPlayer {

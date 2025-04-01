@@ -1,7 +1,7 @@
-package org.seng.gamelogic;
+package main.java.org.seng.gamelogic;
 
 
-public class HumanPlayer extends gamelogic.Player {
+public class HumanPlayer extends Player {
 
 //constructor for HumanPlayer
     public HumanPlayer(String username, int playerID, char symbol, int rank) {
