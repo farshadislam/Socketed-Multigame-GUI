@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-       <FlowPane id="board" hgap="5" layoutX="302.0" layoutY="188.0" orientation="HORIZONTAL" prefHeight="295.0" prefWidth="395.0" vgap="5" >
+       <FlowPane id="board" hgap="5" layoutX="171.0" layoutY="153.0" orientation="HORIZONTAL" prefHeight="219.0" prefWidth="406.0" styleClass="board" vgap="5">
            <padding>
                <Insets bottom="7" left="7" right="7" top="7" />
            </padding>

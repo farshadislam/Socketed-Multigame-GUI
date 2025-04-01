@@ -1,11 +1,19 @@
-#board {
+
+.board {
     -fx-background-color: blue;
+    -fx-background-radius: 30;  /* Rounds the edges */
+    -fx-border-radius: 30;
+    -fx-border-color: black;  /* Optional border */
+    -fx-border-width: 3;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 2, 2);
 }
+
 .circular-button {
     -fx-background-color: white;
     -fx-background-radius: 50%;
     -fx-border-color: black; /* Keep the border */
-    -fx-border-width: 2px; /* Set thickness */
+    -fx-border-width: 3px; /* Set thickness */
     -fx-border-insets: 0px 0 -1px 0; /* Move border down */
     -fx-padding: 0; /* Prevent extra space */
     -fx-shape: "M 25 0 A 25 25 0 1 1 24.9999 0 Z"; /* Ensures a perfect circle */
@@ -14,5 +22,6 @@
     -fx-max-width: 50px;
     -fx-max-height: 50px;
 }
+
 
 
