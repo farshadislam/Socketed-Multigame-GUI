@@ -1,1 +1,13 @@
-css file for syed
+.button {
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+}
+
+.black-square {
+    -fx-background-color: #050301;
+}
+
+.red-square {
+    -fx-background-color: #e74c3c;
+}
