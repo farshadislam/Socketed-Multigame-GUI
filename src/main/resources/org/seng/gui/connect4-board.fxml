@@ -62,7 +62,7 @@
       </FlowPane>
       <Label layoutX="16.0" layoutY="12.0" styleClass="connect4-label" text="Connect 4" />
       <Button layoutX="765.0" layoutY="550.0" mnemonicParsing="false" styleClass="option-button" text="In-Game Chat" textFill="WHITE" />
-      <MenuButton layoutX="763.0" layoutY="23.0" mnemonicParsing="false" styleClass="option-button" text="Settings" textFill="#eee7e7">
+      <MenuButton layoutX="763.0" layoutY="23.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="121.0" styleClass="option-button" text="Settings" textFill="#eee7e7">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
