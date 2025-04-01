@@ -17,10 +17,23 @@
           AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
 
-    <Label fx:id="titleLabel" text="OMG Games"
+    <Label fx:id="titleLabel" text="OMG GAMES"
            styleClass="title-label"
            AnchorPane.leftAnchor="0.0"
            AnchorPane.rightAnchor="0.0"
            AnchorPane.topAnchor="50.0"
            alignment="center"/>
+
+    <VBox fx:id="loginBox" spacing="10"
+          alignment="center"
+          styleClass="login-box"
+          AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0"
+          AnchorPane.topAnchor="200.0">
+        <TextField fx:id="usernameField" promptText="Username" styleClass="input-field"/>
+        <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>
+        <HBox spacing="10" alignment="center">
+            <Button fx:id="loginButton" text="Login" styleClass="auth-button"/>
+            <Button fx:id="createAccountButton" text="Create Account" styleClass="auth-button"/>
+        </HBox>
+    </VBox>
 </AnchorPane>

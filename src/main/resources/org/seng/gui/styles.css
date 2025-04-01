@@ -18,3 +18,34 @@
 .controller-icon {
     -fx-opacity: 0.15;
 }
+
+.login-box {
+    -fx-background-color: rgba(255, 255, 255, 0.85); /* Semi-opaque white */
+    -fx-padding: 20px;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);
+}
+
+.input-field {
+    -fx-pref-width: 200px;
+    -fx-padding: 8px;
+    -fx-font-size: 16px;
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.auth-button {
+    -fx-background-color: #6c63ff;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 12px;
+    -fx-background-radius: 8px;
+}
+
+.auth-button:hover {
+    -fx-background-color: #5750cc;
+}

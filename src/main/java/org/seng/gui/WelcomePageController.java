@@ -8,12 +8,25 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
-
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class WelcomePageController {
+    @FXML
+    private TextField usernameField;
+
+    @FXML
+    private PasswordField passwordField;
+
+    @FXML
+    private Button loginButton;
+
+    @FXML
+    private Button createAccountButton;
 
     @FXML
     private Label titleLabel;
@@ -51,6 +64,12 @@ public class WelcomePageController {
         // adding controller icons
         iconPane.widthProperty().addListener((obs, oldVal, newVal) -> addControllerIcons());
         iconPane.heightProperty().addListener((obs, oldVal, newVal) -> addControllerIcons());
+
+        // handle login button click
+        loginButton.setOnAction(e -> handleLogin());
+
+        // handle create account button click
+        createAccountButton.setOnAction(e -> handleCreateAccount());
     }
 
     private void addControllerIcons() {
@@ -132,5 +151,17 @@ public class WelcomePageController {
 
             iconPane.getChildren().add(icon);
         }
+    }
+
+    // login button click handler
+    private void handleLogin() {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        System.out.println("Login Attempt: Username - " + username + ", Password - " + password);
+    }
+
+    // create account button click handler
+    private void handleCreateAccount() {
+        System.out.println("Create Account Clicked");
     }
 }
