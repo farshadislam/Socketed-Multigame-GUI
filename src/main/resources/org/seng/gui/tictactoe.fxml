@@ -36,7 +36,7 @@
 
       <!-- Chat & Settings -->
       <Button fx:id="inGameChatButton" layoutX="822.0" layoutY="551.0" onAction="#openChat" text="Chat" />
-      <MenuButton fx:id="SettingMenu" layoutX="763.0" layoutY="24.0" mnemonicParsing="false" text="Setting">
+      <MenuButton fx:id="SettingMenu" layoutX="797.0" layoutY="24.0" mnemonicParsing="false" text="Setting">
         <items>
           <MenuItem mnemonicParsing="false" text="Quit" />
           <MenuItem mnemonicParsing="false" text="Reload" />
