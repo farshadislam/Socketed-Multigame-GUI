@@ -41,7 +41,7 @@
 }
 
 .option-button {
-    -fx-background-color: white;
+    -fx-background-color: white
     -fx-text-fill: white !important;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
