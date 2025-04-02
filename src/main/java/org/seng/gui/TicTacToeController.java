@@ -1,24 +1,18 @@
 package org.seng.gui;
-
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.collections.FXCollections;
+
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
-import org.w3c.dom.Text;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-
-import javax.swing.*;
-import java.awt.*;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class TicTacToeController {
 
@@ -33,6 +27,28 @@ public class TicTacToeController {
     @FXML private Button button9;
     @FXML private Button inGameChatButton;
     @FXML public void initialize() {}
+
+    private final String CHAT_LOG_PATH = "chatlog.txt";
+
+    private void saveMessage(String message) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
+            writer.write(message);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String loadChatHistory() {
+        try {
+            return Files.readString(Paths.get(CHAT_LOG_PATH));
+        } catch (IOException e) {
+            return "";
+        }
+    }
+
+    private StringBuilder chatHistory = new StringBuilder();
+
     @FXML
     private void openChat() {
         Stage chatStage = new Stage();
@@ -47,6 +63,7 @@ public class TicTacToeController {
         chatDisplay.setWrapText(true);
         chatDisplay.setPrefHeight(200);
         chatDisplay.getStyleClass().add("chat-display");
+        chatDisplay.setText(loadChatHistory());
 
         TextField messageField = new TextField();
         messageField.setPromptText("Type your message...");
@@ -58,11 +75,12 @@ public class TicTacToeController {
         sendButton.setOnAction(e -> {
             String msg = messageField.getText().trim();
             if (!msg.isEmpty()) {
-                chatDisplay.appendText("You: " + msg + "\n");
+                String formatted = "You: " + msg + "\n";
+                chatDisplay.appendText(formatted);
+                saveMessage(formatted);
                 messageField.clear();
             }
         });
-
         messageField.setOnAction(e -> sendButton.fire());
         chatBox.getChildren().addAll(chatDisplay, messageField, sendButton);
 
@@ -70,6 +88,8 @@ public class TicTacToeController {
         scene.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
         chatStage.setScene(scene);
         chatStage.show();
+
+
     }
 }
 
