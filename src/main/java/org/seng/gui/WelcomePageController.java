@@ -43,6 +43,8 @@ public class WelcomePageController {
 
     @FXML
     private Pane iconPane;
+    @FXML
+    private Label errorLabel;
 
     private final int ICON_SIZE = 50; // width and height of each icon
     private final int BUFFER = ICON_SIZE; // buffer equal to size of the icon
@@ -173,12 +175,47 @@ public class WelcomePageController {
     private void handleLogin() {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        System.out.println("Login Attempt: Username - " + username + ", Password - " + password);
+
+        // hardcoded credentials for testing
+        String storedUsername = "baka";
+        String storedPassword = "123";
+
+        if (username.equals(storedUsername) && password.equals(storedPassword)) {
+            openGameDashboard();
+        } else {
+            displayErrorMessage("Invalid username or password");
+        }
+    }
+    private void displayErrorMessage(String message) {
+        errorLabel.setText(message);
+        errorLabel.setVisible(true);
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(e -> errorLabel.setVisible(false));
+        pause.play();
     }
 
     // create account button click handler
     private void handleCreateAccount() {
         System.out.println("Create Account Clicked");
+    }
+
+    private void openGameDashboard() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setTitle("Game Dashboard");
+            stage.setScene(scene);
+            stage.show();
+
+            // Close the login window
+            Stage currentStage = (Stage) loginButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     // open forgot password window

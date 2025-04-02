@@ -95,3 +95,24 @@
     -fx-alignment: center;
     -fx-padding: 5px;
 }
+
+.dashboard-hbox {
+    -fx-spacing: 10;
+    -fx-padding: 10;
+}
+
+.dashboard-pane {
+    -fx-background-color: rgb(242, 241, 255);
+    -fx-background-radius: 12px;
+    -fx-padding: 20px;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 255, 0.6), 15, 0.3, 0, 0);
+}
+
+.dashboard-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1d0e4d;
+}
+
+
