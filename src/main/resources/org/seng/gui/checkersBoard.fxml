@@ -81,8 +81,8 @@
       <ButtonBar layoutX="59.0" layoutY="28.0" prefHeight="40.0" prefWidth="200.0" />
       <MenuButton layoutX="752.0" layoutY="14.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="134.0" styleClass="option-button" text="Settings" textFill="WHITE">
         <items>
+          <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" text="Help" />
           <MenuItem mnemonicParsing="false" text="Quit" />
-          <MenuItem mnemonicParsing="false" text="Action 2" />
         </items>
       </MenuButton>
    </children>

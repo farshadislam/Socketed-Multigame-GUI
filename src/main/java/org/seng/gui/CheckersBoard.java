@@ -1,10 +1,9 @@
 package org.seng.gui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -216,6 +215,9 @@ public class CheckersBoard {
     private Button inGameChatButton;
 
     @FXML
+    private MenuItem helpOption;
+
+    @FXML
     public void initialize() {
         setupPieces();
     }
@@ -226,12 +228,12 @@ public class CheckersBoard {
         Image redPiece = new Image(getClass().getResourceAsStream("/org/seng/gui/images/redpiece.png"));
         Image blackPiece = new Image(getClass().getResourceAsStream("/org/seng/gui/images/blackpiece.png"));
 
-        // Place red pieces on the top 3 rows
+        // Place red pieces
         placePiece(a1, blackPiece); placePiece(c1, blackPiece); placePiece(e1, blackPiece); placePiece(g1, blackPiece);
         placePiece(b2, blackPiece); placePiece(d2, blackPiece); placePiece(f2, blackPiece); placePiece(h2, blackPiece);
         placePiece(a3, blackPiece); placePiece(c3, blackPiece); placePiece(e3, blackPiece); placePiece(g3, blackPiece);
 
-        // Place black pieces on the bottom 3 rows
+        // Place black
         placePiece(b6, redPiece); placePiece(d6, redPiece); placePiece(f6, redPiece); placePiece(h6, redPiece);
         placePiece(a7, redPiece); placePiece(c7, redPiece); placePiece(e7, redPiece); placePiece(g7, redPiece);
         placePiece(b8, redPiece); placePiece(d8, redPiece); placePiece(f8, redPiece); placePiece(h8, redPiece);
@@ -239,7 +241,7 @@ public class CheckersBoard {
 
     private void placePiece(Button button, Image pieceImage) {
         ImageView imageView = new ImageView(pieceImage);
-        imageView.setFitWidth(33);  // Adjust size as needed
+        imageView.setFitWidth(33);
         imageView.setFitHeight(33);
         button.setGraphic(imageView);
 
@@ -248,14 +250,12 @@ public class CheckersBoard {
 
     private void selectedPiece(Button button){
         if (selectPiece != null) {
-            selectPiece.setEffect(null);  // Remove highlight from previously selected piece
+            selectPiece.setEffect(null);  // the previously selected piece is removed
         }
 
         if (selectPiece == button) {
-            // Deselect if the same button is clicked again
             selectPiece = null;
         } else {
-            // Highlight the selected piece
             DropShadow highlight = new DropShadow();
             highlight.setColor(Color.GREENYELLOW);
             highlight.setRadius(40);
@@ -325,6 +325,34 @@ public class CheckersBoard {
         scene.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
         chatStage.setScene(scene);
         chatStage.show();
+    }
+
+    // how to play rules
+    @FXML
+    void howToPlayDescription(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.NONE); // No default icon
+
+        alert.setTitle("Help");
+        alert.setHeaderText("How to Play");
+
+        // Set the content
+        alert.setContentText(
+                "1. Players take turns moving their pieces diagonally forward.\n\n"
+                        + "2. Regular pieces can only move forward on black squares.\n\n"
+                        + "3. Capture an opponent's piece by jumping over it diagonally.\n\n"
+                        + "4. If a piece reaches the last row, it becomes a King.\n\n"
+                        + "5. Kings can move and capture both forward and backward.\n\n"
+                        + "6. If a player has no valid moves left, they lose the game. \n"
+        );
+
+        alert.getButtonTypes().add(javafx.scene.control.ButtonType.OK);
+        // Apply CSS file
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
+
+        dialogPane.setPrefWidth(400); // Set a preferred width
+
+        alert.showAndWait();
     }
 }
 
