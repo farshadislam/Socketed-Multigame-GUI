@@ -12,12 +12,13 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         Font.loadFont(getClass().getResourceAsStream("/org/seng/gui/fonts/Monoton-Regular.ttf"), 64);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("connect4-board.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("welcome-page.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 450);
 
         // Load style sheet
-        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         //scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+        //scene.getStylesheets().add(getClass().getResource("tictactoestyles.css").toExternalForm());
 
         stage.setTitle("OMG Platform");
         stage.setScene(scene);

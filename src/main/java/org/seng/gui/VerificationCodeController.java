@@ -27,17 +27,17 @@ public class VerificationCodeController {
     @FXML
     public void initialize() {
         confirmButton.setOnAction(e -> handleVerification());
-        returnButton.setOnAction(e -> returnToWelcome());
+        returnButton.setOnAction(e -> returnToForgotPassword());
 
         // shift focus after entering a digit
-        setupCodeField(code1, code2);
-        setupCodeField(code2, code3);
-        setupCodeField(code3, code4);
-        setupCodeField(code4, null); // doesn't move after last one
+        setupCodeField(code1, null, code2);
+        setupCodeField(code2, code1, code3);
+        setupCodeField(code3, code2, code4);
+        setupCodeField(code4, code3, null); // doesn't move after last one
     }
 
-    // text field moves after each input
-    private void setupCodeField(TextField current, TextField next) {
+    // text field moves after each input and handles backspace
+    private void setupCodeField(TextField current, TextField prev, TextField next) {
         current.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > 1) {
                 current.setText(newValue.substring(0, 1));  // one character
@@ -49,6 +49,20 @@ public class VerificationCodeController {
                 next.requestFocus();  // move to next field
             }
             updateVerificationCode();
+        });
+
+        // handle backspace to move to previous field
+        current.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case BACK_SPACE:
+                    if (current.getText().isEmpty() && prev != null) {
+                        prev.requestFocus();
+                        prev.clear();
+                    }
+                    break;
+                default:
+                    break;
+            }
         });
     }
 
@@ -98,17 +112,18 @@ public class VerificationCodeController {
         }
     }
 
-    private void returnToWelcome() {
+    // back button click handler - return to forgot password page
+    private void returnToForgotPassword() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("welcome-page.fxml"));
-            Scene welcomePageScene = new Scene(fxmlLoader.load(), 700, 450);
-            welcomePageScene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("forgot-password.fxml"));
+            Scene forgotPasswordScene = new Scene(fxmlLoader.load(), 700, 450);
+            forgotPasswordScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
 
             Stage stage = new Stage();
-            stage.setTitle("OMG Platform");
-            stage.setScene(welcomePageScene);
+            stage.setTitle("Reset Your Password");
+            stage.setScene(forgotPasswordScene);
 
-            // Close current window
+            // Close the current verification code window
             Stage currentStage = (Stage) returnButton.getScene().getWindow();
             currentStage.close();
 
@@ -117,4 +132,5 @@ public class VerificationCodeController {
             ex.printStackTrace();
         }
     }
+
 }

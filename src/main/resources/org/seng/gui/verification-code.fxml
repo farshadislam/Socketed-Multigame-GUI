@@ -24,7 +24,7 @@
 
         <HBox spacing="10" alignment="center">
             <Button fx:id="confirmButton" text="Confirm" styleClass="auth-button"/>
-            <Button fx:id="returnButton" text="Return to Welcome" styleClass="auth-button"/>
+            <Button fx:id="returnButton" text="Back" styleClass="auth-button"/>
         </HBox>
 
         <Label fx:id="errorLabel" text="" styleClass="error-message"/>
