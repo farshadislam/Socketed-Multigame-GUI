@@ -17,10 +17,39 @@ import org.w3c.dom.Text;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 public class Connect4Controller {
-    @FXML public void initialize() {}
+    @FXML
+    public void initialize() {
+    }
+
+    private final String CHAT_LOG_PATH = "chatlog.txt";
+    @FXML
+
+    private void saveMessage(String message) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
+            writer.write(message);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String loadChatHistory() {
+        try {
+            return Files.readString(Paths.get(CHAT_LOG_PATH));
+        } catch (IOException e) {
+            return "";
+        }
+    }
+
+    private StringBuilder chatHistory = new StringBuilder();
 
     @FXML
     private void openChat() {
@@ -36,6 +65,7 @@ public class Connect4Controller {
         chatDisplay.setWrapText(true);
         chatDisplay.setPrefHeight(200);
         chatDisplay.getStyleClass().add("chat-display");
+        chatDisplay.setText(loadChatHistory());
 
         TextField messageField = new TextField();
         messageField.setPromptText("Type your message...");
@@ -47,11 +77,12 @@ public class Connect4Controller {
         sendButton.setOnAction(e -> {
             String msg = messageField.getText().trim();
             if (!msg.isEmpty()) {
-                chatDisplay.appendText("You: " + msg + "\n");
+                String formatted = "You: " + msg + "\n";
+                chatDisplay.appendText(formatted);
+                saveMessage(formatted);
                 messageField.clear();
             }
         });
-
         messageField.setOnAction(e -> sendButton.fire());
         chatBox.getChildren().addAll(chatDisplay, messageField, sendButton);
 
@@ -59,6 +90,8 @@ public class Connect4Controller {
         scene.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
         chatStage.setScene(scene);
         chatStage.show();
+
+
     }
 }
 
