@@ -45,7 +45,7 @@
 }
 
 .option-button {
-    -fx-background-color: linear-gradient(to bottom, #8E2DE2, #4A00E0); /* Purple gradient */
+    -fx-background-color: white
     -fx-text-fill: white !important;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
