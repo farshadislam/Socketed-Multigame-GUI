@@ -31,13 +31,9 @@
     -fx-opacity: 0.15;
 }
 
-@font-face {
-    font-family: "Monoton";
-    src: url("fonts/Monoton-Regular.ttf");
-}
+
 
 .connect4-label {
-    -fx-font-family: "Monoton";
     -fx-font-size: 64px;
     -fx-text-fill: white;
     -fx-font-weight: bold;
