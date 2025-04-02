@@ -1,0 +1,120 @@
+package org.seng.gui;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+import java.io.IOException;
+
+public class VerificationCodeController {
+
+    @FXML
+    private TextField code1, code2, code3, code4;
+
+    @FXML
+    private Button confirmButton, returnButton;
+
+    @FXML
+    private Label errorLabel;
+
+    private String verificationCode = "";  // store 4 digit code
+
+    @FXML
+    public void initialize() {
+        confirmButton.setOnAction(e -> handleVerification());
+        returnButton.setOnAction(e -> returnToWelcome());
+
+        // shift focus after entering a digit
+        setupCodeField(code1, code2);
+        setupCodeField(code2, code3);
+        setupCodeField(code3, code4);
+        setupCodeField(code4, null); // doesn't move after last one
+    }
+
+    // text field moves after each input
+    private void setupCodeField(TextField current, TextField next) {
+        current.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 1) {
+                current.setText(newValue.substring(0, 1));  // one character
+            }
+            if (!newValue.matches("\\d*")) {
+                current.setText(newValue.replaceAll("[^\\d]", ""));  // only digits
+            }
+            if (newValue.length() == 1 && next != null) {
+                next.requestFocus();  // move to next field
+            }
+            updateVerificationCode();
+        });
+    }
+
+    // update stored verification code
+    private void updateVerificationCode() {
+        verificationCode = code1.getText() + code2.getText() + code3.getText() + code4.getText();
+        System.out.println("Current Code: " + verificationCode);
+    }
+
+    // compare verification code against stored
+    private void handleVerification() {
+        if (verificationCode.equals("1234")) {
+            openNewPasswordWindow();
+        } else {
+            displayErrorMessage("Incorrect verification code");
+        }
+    }
+
+    // display error message for invalid code
+    private void displayErrorMessage(String message) {
+        errorLabel.setText(message);
+        errorLabel.setVisible(true);
+
+        // Flash message for 2 seconds and then clear
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(e -> errorLabel.setVisible(false));
+        pause.play();
+    }
+
+    private void openNewPasswordWindow() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("new-password.fxml"));
+            Scene newPasswordScene = new Scene(fxmlLoader.load(), 700, 450);
+            newPasswordScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.setTitle("New Password");
+            stage.setScene(newPasswordScene);
+
+            // Close current window
+            Stage currentStage = (Stage) confirmButton.getScene().getWindow();
+            currentStage.close();
+
+            stage.show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void returnToWelcome() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("welcome-page.fxml"));
+            Scene welcomePageScene = new Scene(fxmlLoader.load(), 700, 450);
+            welcomePageScene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.setTitle("OMG Platform");
+            stage.setScene(welcomePageScene);
+
+            // Close current window
+            Stage currentStage = (Stage) returnButton.getScene().getWindow();
+            currentStage.close();
+
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+}

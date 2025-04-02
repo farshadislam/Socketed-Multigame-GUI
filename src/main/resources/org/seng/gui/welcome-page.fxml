@@ -35,5 +35,10 @@
             <Button fx:id="loginButton" text="Login" styleClass="auth-button"/>
             <Button fx:id="createAccountButton" text="Create Account" styleClass="auth-button"/>
         </HBox>
+        <HBox spacing="5" alignment="center">
+            <Label text="Forgot your password?" styleClass="forgot-label"/>
+            <Hyperlink fx:id="forgotPasswordLink" text="Click here" styleClass="forgot-link"/>
+        </HBox>
     </VBox>
+
 </AnchorPane>

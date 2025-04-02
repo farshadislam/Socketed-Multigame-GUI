@@ -1,0 +1,74 @@
+.gradient-background {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #5f579b, #4915d0);
+}
+
+.title-label {
+    -fx-text-fill: #6c63ff;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.input-field {
+    -fx-pref-width: 250px;
+    -fx-padding: 8px;
+    -fx-font-size: 16px;
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.auth-button {
+    -fx-background-color: #6c63ff;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 12px;
+    -fx-background-radius: 8px;
+}
+
+.auth-button:hover {
+    -fx-background-color: #5750cc;
+}
+
+.message-label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+    -fx-padding: 5px;
+}
+
+.message-label.success {
+    -fx-text-fill: #4caf50;
+}
+
+.message-label.error {
+    -fx-text-fill: #f44336;
+}
+
+.code-box {
+    -fx-pref-width: 50px;
+    -fx-pref-height: 50px;
+    -fx-font-size: 24px;
+    -fx-alignment: center;
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 5px;
+}
+
+.error-prompt {
+    -fx-prompt-text-fill: #a20b0b;
+    -fx-border-color: #a20b0b;
+}
+
+.error-message {
+    -fx-text-fill: #59a20b;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-padding: 5px;
+}
+

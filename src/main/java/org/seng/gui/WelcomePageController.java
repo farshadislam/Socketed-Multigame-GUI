@@ -6,16 +6,23 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Hyperlink;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class WelcomePageController {
+    public VBox loginBox;
     @FXML
     private TextField usernameField;
 
@@ -27,6 +34,9 @@ public class WelcomePageController {
 
     @FXML
     private Button createAccountButton;
+
+    @FXML
+    private Hyperlink forgotPasswordLink;
 
     @FXML
     private Label titleLabel;
@@ -70,6 +80,9 @@ public class WelcomePageController {
 
         // handle create account button click
         createAccountButton.setOnAction(e -> handleCreateAccount());
+
+        // handle forgot password link click
+        forgotPasswordLink.setOnAction(e -> openForgotPasswordWindow());
     }
 
     private void addControllerIcons() {
@@ -164,4 +177,31 @@ public class WelcomePageController {
     private void handleCreateAccount() {
         System.out.println("Create Account Clicked");
     }
+
+    // open forgot password window
+    private void openForgotPasswordWindow() {
+        try {
+            // load password forget screen
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("forgot-password.fxml"));
+            Scene forgotPasswordScene = new Scene(fxmlLoader.load(), 700, 450);
+
+            // load basic style sheet
+            forgotPasswordScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            // create new stage for forgot password
+            Stage stage = new Stage();
+            stage.setTitle("Forgot Password");
+            stage.setScene(forgotPasswordScene);
+
+            // close current welcome stage
+            Stage currentStage = (Stage) loginButton.getScene().getWindow();
+            currentStage.close();
+
+            // show forgot password window
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

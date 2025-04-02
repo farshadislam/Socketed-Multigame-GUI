@@ -27,6 +27,21 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);
 }
 
+.forgot-label {
+    -fx-text-fill: #6c63ff;
+    -fx-font-size: 12px;
+}
+
+.forgot-link {
+    -fx-text-fill: #6c63ff;
+    -fx-font-size: 12px;
+    -fx-underline: true;
+}
+
+.forgot-link:hover {
+    -fx-text-fill: #5750cc;
+}
+
 .input-field {
     -fx-pref-width: 200px;
     -fx-padding: 8px;
@@ -48,4 +63,20 @@
 
 .auth-button:hover {
     -fx-background-color: #5750cc;
+}
+
+.message-label {
+    -fx-text-fill: #6c63ff; /* Themed purple color */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-padding: 5px;
+}
+
+.message-label.success {
+    -fx-text-fill: #4caf50; /* Green for success */
+}
+
+.message-label.error {
+    -fx-text-fill: #f44336; /* Red for error */
 }
