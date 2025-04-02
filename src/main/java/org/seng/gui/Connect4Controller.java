@@ -96,21 +96,22 @@ public class Connect4Controller {
 
     @FXML
     void howToPlayDescription(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("How to Play");
-        alert.setHeaderText("Game Instructions");
+        Alert alert = new Alert(Alert.AlertType.NONE); // No default icon
+
+        alert.setTitle("Help");
+        alert.setHeaderText("How to Play");
 
         // Set the content
-        alert.setContentText("📌 How to Play 📌\n\n"
-                + "🔹 Players take turns dropping pieces.\n"
-                + "🔹 Connect four in a row, column, or diagonal.\n"
-                + "🔹 First player to do so wins!\n"
-                + "🔹 If the board is full, it's a draw.\n");
+        alert.setContentText(
+                  "1. Players take turns dropping pieces.\n\n"
+                + "2. Connect four in a row, column, or diagonal.\n\n"
+                + "3. First player to do so wins!\n\n"
+                + "4. If the board is full, it's a draw.\n");
 
-        // Apply custom CSS
+        alert.getButtonTypes().add(javafx.scene.control.ButtonType.OK);
+        // Apply CSS file
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        dialogPane.getStyleClass().add("dialog-pane"); // Match the class name in CSS
+        dialogPane.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
 
         alert.showAndWait();
     }

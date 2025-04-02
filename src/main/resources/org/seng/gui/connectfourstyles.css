@@ -89,38 +89,4 @@
     -fx-alignment: center;
 }
 
-/* Styles for the dialog pane */
-.dialog-pane {
-    -fx-background-color: #f4f4f4; /* Light gray background */
-    -fx-border-color: #333; /* Dark border */
-    -fx-border-width: 2px;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
-}
-
-/* Styles for the text inside */
-.dialog-pane .content.label {
-    -fx-font-size: 14px;
-    -fx-text-fill: #333; /* Dark text */
-    -fx-font-weight: bold;
-}
-
-/* Styles for the header text */
-.dialog-pane .header-panel .label {
-    -fx-font-size: 16px;
-    -fx-text-fill: #0066cc; /* Blue header text */
-    -fx-font-weight: bold;
-}
-
-/* Styles for buttons */
-.dialog-pane .button {
-    -fx-background-color: #0066cc;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-border-radius: 5px;
-}
-
-.dialog-pane .button:hover {
-    -fx-background-color: #004999; /* Darker blue on hover */
-}
 }

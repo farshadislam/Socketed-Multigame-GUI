@@ -28,3 +28,45 @@
     -fx-background-radius: 5;
     -fx-cursor: hand;
 }
+
+/* Style the background of the dialog pane */
+.dialog-pane {
+    -fx-background-color: #5f579b; /* Set background to purple */
+    -fx-border-color: #333; /* Optional: Add a border */
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+/* Style the header panel background */
+.dialog-pane .header-panel {
+    -fx-background-color: #5f579b; /* Purple background for the header */
+    -fx-border-radius: 10px 10px 0 0; /* Rounded top corners */
+}
+
+/* Style the text inside the content */
+.dialog-pane .content {
+    -fx-font-size: 14px;
+    -fx-text-fill: white; /* White text */
+    -fx-font-weight: bold;
+}
+
+/* Style the buttons in the dialog */
+.dialog-pane .button {
+    -fx-background-color: #ffffff; /* White buttons */
+    -fx-text-fill: #5f579b; /* Purple text */
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+}
+
+/* Hover effect for the buttons */
+.dialog-pane .button:hover {
+    -fx-background-color: #ccc; /* Light gray hover */
+}
+
+/* Optional: Customize the title text (if you need to add one) */
+.dialog-pane .header-panel .label {
+    -fx-text-fill: white; /* White title text */
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
