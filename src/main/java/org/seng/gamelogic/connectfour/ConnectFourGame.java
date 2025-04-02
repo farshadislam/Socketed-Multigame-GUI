@@ -97,23 +97,5 @@ public class ConnectFourGame {
         return null; // no winner found
     }
 
-    /*
-        public boolean checkWinner(Mark mark) {
-        for (int i = 0; i < TicTacToeBoard.SIZE; i++) {
-            //check if there is a winner in rows and columns
-            if ((board.getMark(i, 0) == mark && board.getMark(i, 1) == mark && board.getMark(i, 2) == mark) ||
-                    (board.getMark(0, i) == mark && board.getMark(1, i) == mark && board.getMark(2, i) == mark)) {
-                return true;
-            }
-        }
-
-        //check if there is a winner in a diagonal
-        return (board.getMark(0, 0) == mark && board.getMark(1, 1) == mark && board.getMark(2, 2) == mark) ||
-                (board.getMark(0, 2) == mark && board.getMark(1, 1) == mark && board.getMark(2, 0) == mark);
-    }
-
-     */
-
-
 }
 
