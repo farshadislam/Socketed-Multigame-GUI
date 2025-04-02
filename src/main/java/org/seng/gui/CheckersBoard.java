@@ -5,8 +5,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class CheckersBoard {
 
@@ -205,7 +215,76 @@ public class CheckersBoard {
     @FXML
     private Button inGameChatButton;
 
-    @FXML public void initialize() {}
+    @FXML
+    public void initialize() {
+        setupPieces();
+    }
+    private Button selectPiece = null;
+
+
+    private void setupPieces() {
+        Image redPiece = new Image(getClass().getResourceAsStream("/org/seng/gui/images/redpiece.png"));
+        Image blackPiece = new Image(getClass().getResourceAsStream("/org/seng/gui/images/blackpiece.png"));
+
+        // Place red pieces on the top 3 rows
+        placePiece(a1, blackPiece); placePiece(c1, blackPiece); placePiece(e1, blackPiece); placePiece(g1, blackPiece);
+        placePiece(b2, blackPiece); placePiece(d2, blackPiece); placePiece(f2, blackPiece); placePiece(h2, blackPiece);
+        placePiece(a3, blackPiece); placePiece(c3, blackPiece); placePiece(e3, blackPiece); placePiece(g3, blackPiece);
+
+        // Place black pieces on the bottom 3 rows
+        placePiece(b6, redPiece); placePiece(d6, redPiece); placePiece(f6, redPiece); placePiece(h6, redPiece);
+        placePiece(a7, redPiece); placePiece(c7, redPiece); placePiece(e7, redPiece); placePiece(g7, redPiece);
+        placePiece(b8, redPiece); placePiece(d8, redPiece); placePiece(f8, redPiece); placePiece(h8, redPiece);
+    }
+
+    private void placePiece(Button button, Image pieceImage) {
+        ImageView imageView = new ImageView(pieceImage);
+        imageView.setFitWidth(33);  // Adjust size as needed
+        imageView.setFitHeight(33);
+        button.setGraphic(imageView);
+
+        button.setOnAction(e -> selectedPiece(button)); // highlights the piece that is selected currently
+    }
+
+    private void selectedPiece(Button button){
+        if (selectPiece != null) {
+            selectPiece.setEffect(null);  // Remove highlight from previously selected piece
+        }
+
+        if (selectPiece == button) {
+            // Deselect if the same button is clicked again
+            selectPiece = null;
+        } else {
+            // Highlight the selected piece
+            DropShadow highlight = new DropShadow();
+            highlight.setColor(Color.GREENYELLOW);
+            highlight.setRadius(40);
+            button.setEffect(highlight);
+            selectPiece = button;
+        }
+    }
+
+
+    private final String CHAT_LOG_PATH = "chatlog.txt";
+
+    private void saveMessage(String message) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
+            writer.write(message);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String loadChatHistory() {
+        try {
+            return Files.readString(Paths.get(CHAT_LOG_PATH));
+        } catch (IOException e) {
+            return "";
+        }
+    }
+
+    private StringBuilder chatHistory = new StringBuilder();
 
     @FXML
     private void openChat() {
@@ -221,6 +300,7 @@ public class CheckersBoard {
         chatDisplay.setWrapText(true);
         chatDisplay.setPrefHeight(200);
         chatDisplay.getStyleClass().add("chat-display");
+        chatDisplay.setText(loadChatHistory());
 
         TextField messageField = new TextField();
         messageField.setPromptText("Type your message...");
@@ -232,11 +312,12 @@ public class CheckersBoard {
         sendButton.setOnAction(e -> {
             String msg = messageField.getText().trim();
             if (!msg.isEmpty()) {
-                chatDisplay.appendText("You: " + msg + "\n");
+                String formatted = "You: " + msg + "\n";
+                chatDisplay.appendText(formatted);
+                saveMessage(formatted);
                 messageField.clear();
             }
         });
-
         messageField.setOnAction(e -> sendButton.fire());
         chatBox.getChildren().addAll(chatDisplay, messageField, sendButton);
 
