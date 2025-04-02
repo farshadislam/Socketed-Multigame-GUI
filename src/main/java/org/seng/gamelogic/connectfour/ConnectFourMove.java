@@ -1,5 +1,5 @@
-package main.java.org.seng.gamelogic.connectfour;
-import main.java.org.seng.gamelogic.Player;
+package org.seng.gamelogic.connectfour;
+import org.seng.gamelogic.Player;
 
 public class ConnectFourMove {
     public Player player; // to be changed so it refers to ExtendedHumanPlayer

@@ -1,4 +1,4 @@
-package main.java.org.seng.gamelogic;
+package org.seng.gamelogic;
 
 
 public class HumanPlayer extends Player {

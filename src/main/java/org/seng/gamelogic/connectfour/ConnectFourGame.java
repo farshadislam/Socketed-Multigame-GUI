@@ -1,5 +1,5 @@
-package main.java.org.seng.gamelogic.connectfour;
-import main.java.org.seng.gamelogic.Player;
+package org.seng.gamelogic.connectfour;
+import org.seng.gamelogic.Player;
 import java.util.ArrayList;
 
 // Do we need to extend or implement from GameGUI class?

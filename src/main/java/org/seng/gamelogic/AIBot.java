@@ -1,7 +1,7 @@
-package main.java.org.seng.gamelogic;
+package org.seng.gamelogic;
 
 
-public class AIBot extends main.java.org.seng.gamelogic.Player {
+public class AIBot extends Player {
 
     public AIBot(String username, int playerID, char symbol, int rank) {
         super(username, playerID, symbol, rank);

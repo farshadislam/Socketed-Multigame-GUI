@@ -1,6 +1,6 @@
-package main.java.org.seng.gamelogic.tictactoe;
-import main.java.org.seng.gamelogic.tictactoe.TicTacToeBoard;
-import main.java.org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
+package org.seng.gamelogic.tictactoe;
+import org.seng.gamelogic.tictactoe.TicTacToeBoard;
+import org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
 
 public class TicTacToeGame {
 
