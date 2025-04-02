@@ -2,21 +2,23 @@ package org.seng.gui;
 
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.collections.FXCollections;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.control.TextField;
 import org.w3c.dom.Text;
 
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.MenuItem;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -90,8 +92,27 @@ public class Connect4Controller {
         scene.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
         chatStage.setScene(scene);
         chatStage.show();
+    }
 
+    @FXML
+    void howToPlayDescription(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("How to Play");
+        alert.setHeaderText("Game Instructions");
 
+        // Set the content
+        alert.setContentText("📌 How to Play 📌\n\n"
+                + "🔹 Players take turns dropping pieces.\n"
+                + "🔹 Connect four in a row, column, or diagonal.\n"
+                + "🔹 First player to do so wins!\n"
+                + "🔹 If the board is full, it's a draw.\n");
+
+        // Apply custom CSS
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        dialogPane.getStyleClass().add("dialog-pane"); // Match the class name in CSS
+
+        alert.showAndWait();
     }
 }
 

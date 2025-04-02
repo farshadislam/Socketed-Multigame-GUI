@@ -64,8 +64,8 @@
       <Button fx:id="inGameChatButton" layoutX="776.0" layoutY="533.0" mnemonicParsing="false" onAction="#openChat" prefHeight="48.0" prefWidth="96.0" styleClass="option-button" text="Chat" />
       <MenuButton layoutX="730.0" layoutY="23.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="154.0" styleClass="option-button" text="Settings">
         <items>
-          <MenuItem mnemonicParsing="false" text="Action 1" />
-          <MenuItem mnemonicParsing="false" text="Action 2" />
+          <MenuItem fx:id="howToPlayOption" mnemonicParsing="false" onAction="#howToPlayDescription" text="How to play" />
+          <MenuItem mnemonicParsing="false" text="Quit" />
         </items>
       </MenuButton>
       <Label layoutX="36.0" layoutY="28.0" styleClass="omg-label" text="OMG Platform" />
