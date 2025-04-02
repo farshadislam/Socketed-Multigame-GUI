@@ -31,7 +31,7 @@
 
 /* Style the background of the dialog pane */
 .dialog-pane {
-    -fx-background-color: #5f579b; /* Set background to purple */
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #5f579b, #4915d0);
     -fx-border-color: #333; /* Optional: Add a border */
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
@@ -40,7 +40,7 @@
 
 /* Style the header panel background */
 .dialog-pane .header-panel {
-    -fx-background-color: #5f579b; /* Purple background for the header */
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #5f579b, #4915d0);
     -fx-border-radius: 10px 10px 0 0; /* Rounded top corners */
 }
 

@@ -1,12 +1,12 @@
 package org.seng.gui;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.control.TextField;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,6 +26,7 @@ public class TicTacToeController {
     @FXML private Button button8;
     @FXML private Button button9;
     @FXML private Button inGameChatButton;
+    @FXML private MenuItem helpOption;
     @FXML public void initialize() {}
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
@@ -90,6 +91,28 @@ public class TicTacToeController {
         chatStage.show();
 
 
+    }
+
+    @FXML
+    void howToPlayDescription(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.NONE); // No default icon
+
+        alert.setTitle("Help");
+        alert.setHeaderText("How to Play");
+
+        // Set the content
+        alert.setContentText(
+                "1. Players take turns dropping pieces.\n\n"
+                        + "2. Connect four in a row, column, or diagonal.\n\n"
+                        + "3. First player to do so wins!\n\n"
+                        + "4. If the board is full, it's a draw.\n");
+
+        alert.getButtonTypes().add(javafx.scene.control.ButtonType.OK);
+        // Apply CSS file
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
+
+        alert.showAndWait();
     }
 }
 
