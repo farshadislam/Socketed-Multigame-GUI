@@ -83,6 +83,9 @@ public class WelcomePageController {
 
         // handle forgot password link click
         forgotPasswordLink.setOnAction(e -> openForgotPasswordWindow());
+
+        // handle create account button click
+        createAccountButton.setOnAction(e -> openCreateAccountPage());
     }
 
     private void addControllerIcons() {
@@ -204,4 +207,20 @@ public class WelcomePageController {
         }
     }
 
+    private void openCreateAccountPage() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("create-account.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Create Account");
+            stage.show();
+
+            Stage currentStage = (Stage) createAccountButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
