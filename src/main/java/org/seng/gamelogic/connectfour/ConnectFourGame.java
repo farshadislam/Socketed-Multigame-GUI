@@ -56,10 +56,63 @@ public class ConnectFourGame {
     }
 
     // called at end of game? We can add a visual display for this (GUI).
+
+    /* Since its connect 4 I am guessing a win is 4 in a row
+    PLEASE NOTE: I haven't showed up to any meetings and I don't know if theres a certain way you guys want to do
+    this so I've made it as clear and concise as possible, if its useless or wrong please feel free to delete */
     public Player checkWinner() {
-        Player winner = players[0]; // placeholder. Can be Player[0] or Player[1]
-        return winner;
+        for (int i = 0; i < /* INSERT CONNECT-4 ROWSIZE */; i++) { //make sure i and j are within the borders of the board
+            for (int j = 0; j < /* INSERT CONNECT-4 COLUMNSIZE */; j++) {
+                Symbol winningSymbol = board.getSymbol(i, j);
+                Player winningPlayer;
+                if (/* INSERT FUNCTIONALITY TO FIND EVERY PLAYERS SYMBOLY */) { //can be done better, idk what you guys want to do
+                    winningPlayer = /* INSERT THE PLAYER WITH THE SAME SYMBOL AS winningSymbol */
+                }
+                if (winningSymbol == null) continue; //in case its empty
+                //this is just error protection, if teh board is a 4x4 for example i dont want to try to access a position 5 or something (probably a better way to do this)
+                if (j + 3 < /* INSERT CONNECT-4 COLUMNSIZE */ &&
+                        winningSymbol.equals(board.getSymbol(i, j + 1)) && winningSymbol.equals(board.getSymbol(i, j + 2)) && winningSymbol.equals(board.getSymbol(i, j + 3))) {
+                    return winningPlayer;
+                }
+
+                // error checking for row
+                if (i + 3 < /* INSERT CONNECT-4 ROWSIZE */ &&
+                        winningSymbol.equals(board.getSymbol(i + 1, j)) && winningSymbol.equals(board.getSymbol(i + 2, j)) && winningSymbol.equals(board.getSymbol(i + 3, j))) {
+                    return winningPlayer;
+                }
+
+                //error checking for diagonal (topleft-bottomright)
+                if (i + 3 < /* INSERT CONNECT-4 ROWSIZE */ && j + 3 < /* INSERT CONNECT-4 COLUMNSIZE */ &&
+                        winningSymbol.equals(board.getSymbol(i + 1, j + 1)) && winningSymbol.equals(board.getSymbol(i + 2, j + 2)) && winningSymbol.equals(board.getSymbol(i + 3, j + 3))) {
+                    return winningPlayer;
+                }
+
+                // error checking for diagonal (topright-bottomleft)
+                if (i + 3 < /* INSERT CONNECT-4 ROWSIZE */ && j - 3 >= 0 &&
+                        winningSymbol.equals(board.getSymbol(i + 1, j - 1)) && winningSymbol.equals(board.getSymbol(i + 2, j - 2)) && winningSymbol.equals(board.getSymbol(i + 3, j - 3))) {
+                    return winningSymbol;
+                }
+            }
+        }
+        return null; // no winner found
     }
+
+    /*
+        public boolean checkWinner(Mark mark) {
+        for (int i = 0; i < TicTacToeBoard.SIZE; i++) {
+            //check if there is a winner in rows and columns
+            if ((board.getMark(i, 0) == mark && board.getMark(i, 1) == mark && board.getMark(i, 2) == mark) ||
+                    (board.getMark(0, i) == mark && board.getMark(1, i) == mark && board.getMark(2, i) == mark)) {
+                return true;
+            }
+        }
+
+        //check if there is a winner in a diagonal
+        return (board.getMark(0, 0) == mark && board.getMark(1, 1) == mark && board.getMark(2, 2) == mark) ||
+                (board.getMark(0, 2) == mark && board.getMark(1, 1) == mark && board.getMark(2, 0) == mark);
+    }
+
+     */
 
 
 }
