@@ -1,11 +1,21 @@
 package org.seng.gui;
 
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.collections.FXCollections;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+
+import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class TicTacToeController {
@@ -37,38 +47,28 @@ public class TicTacToeController {
     @FXML
     private Button button9;
 
+    @FXML
+    private Button inGameChatButton;
 
-    private int playerTurn = 0; // track if x or o
-    ArrayList<Button> buttons; // so they can be called easily
 
-    //@Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        buttons = new ArrayList<>(Arrays.asList(button1,button2,button3,button4,button5,button6,button7,button8,button9));
+    @FXML
+    public void initialize() {}
 
-        buttons.forEach(button ->{
-            setupButton(button);
-            button.setFocusTraversable(false);
-        });
+    @FXML
+    private void openChat() {
+        Stage chatStage = new Stage();
+        chatStage.setTitle("In-Game Chat");
 
+        TextArea chatArea = new TextArea();
+        chatArea.setPromptText("Type your message...");
+        chatArea.setPrefSize(300, 200);
+
+        VBox layout = new VBox(10);
+        layout.getChildren().add(chatArea);
+
+        Scene scene = new Scene(layout, 320, 240);
+        chatStage.setScene(scene);
+        chatStage.show();
     }
-
-    private void setupButton(Button button) {
-        button.setOnMouseClicked(mouseEvent -> {
-//            setPlayerSymbol(button);
-//            button.setDisable(true);
-//            checkIfGameIsOver();
-        });
-    }
-
-    public void setPlayerSymbol(Button button){
-        if(playerTurn % 2 == 0){
-            button.setText("X");
-            playerTurn = 1;
-        } else{
-            button.setText("O");
-            playerTurn = 0;
-        }
-    }
-
-
 }
+

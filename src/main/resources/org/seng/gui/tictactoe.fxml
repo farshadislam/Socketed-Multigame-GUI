@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.TicTacToeController">
+<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="900.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.TicTacToeController">
+
    <children>
-      <FlowPane layoutX="258.0" layoutY="154.0" prefHeight="230.0" prefWidth="226.0">
+
+      <FlowPane layoutX="288.0" layoutY="188.0" prefHeight="287.0" prefWidth="300.0">
          <children>
-            <Button fx:id="button1" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" text="Button" />
-            <Button fx:id="button2" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" text="Button" />
-            <Button fx:id="button3" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" text="Button" />
-            <Button fx:id="button4" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" text="Button" />
-            <Button fx:id="button5" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" text="Button" />
-            <Button fx:id="button6" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" text="Button" />
-            <Button fx:id="button7" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" text="Button" />
-            <Button fx:id="button8" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" text="Button" />
-            <Button fx:id="button9" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" text="Button" />
+            <Button fx:id="button1" prefHeight="95.0" prefWidth="100.0" text="X" />
+            <Button fx:id="button3" prefHeight="95.0" prefWidth="100.0" text="X" />
+            <Button fx:id="button4" prefHeight="95.0" prefWidth="100.0" text="O" />
+            <Button fx:id="button2" prefHeight="95.0" prefWidth="100.0" text="O" />
+            <Button fx:id="button5" prefHeight="95.0" prefWidth="100.0" text="O" />
+            <Button fx:id="button6" prefHeight="95.0" prefWidth="100.0" text="X" />
+            <Button fx:id="button7" prefHeight="95.0" prefWidth="100.0" />
+            <Button fx:id="button8" prefHeight="95.0" prefWidth="100.0" />
+            <Button fx:id="button9" prefHeight="95.0" prefWidth="100.0" />
          </children>
       </FlowPane>
-      <Text layoutX="23.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OMG Platform">
+
+      <Text fill="WHITE" layoutX="26.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OMG Games">
          <font>
             <Font size="22.0" />
          </font>
       </Text>
-      <Button layoutX="604.0" layoutY="501.0" mnemonicParsing="false" text="In-Game chat button" />
-      <ButtonBar layoutX="439.0" layoutY="37.0" prefHeight="40.0" prefWidth="200.0" />
-      <Button layoutX="658.0" layoutY="22.0" mnemonicParsing="false" text="Settings" />
+
+      <Text layoutX="355.0" layoutY="132.0" styleClass="title-text" text="TIC TAC TOE" />
+
+      <!-- Chat & Settings -->
+      <Button fx:id="inGameChatButton" layoutX="750.0" layoutY="555.0" onAction="#openChat" text="In-Game chat button" />
+      <MenuButton fx:id="SettingMenu" layoutX="763.0" layoutY="24.0" mnemonicParsing="false" text="Setting">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Quit" />
+          <MenuItem mnemonicParsing="false" text="Reload" />
+        </items>
+      </MenuButton>
+
    </children>
 </AnchorPane>

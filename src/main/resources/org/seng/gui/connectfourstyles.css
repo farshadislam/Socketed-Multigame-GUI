@@ -67,17 +67,17 @@
 .menu-button .arrow {
     -fx-background-color: white;
 
-.chat-button {
-    -fx-background-color: linear-gradient(to bottom, #8E2DE2, #4A00E0); /* Purple gradient */
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 20px;
-    -fx-border-radius: 20px;
-    -fx-padding: 8px 16px;
-    -fx-effect: dropshadow(gaussian, rgba(74, 0, 224, 0.4), 12, 0.3, 0, 6);
-    -fx-border-color: rgba(255, 255, 255, 0.5); /* Subtle white border */
-    -fx-border-width: 1px;
+    .chat-button {
+        -fx-background-color: linear-gradient(to bottom, #8E2DE2, #4A00E0); /* Purple gradient */
+        -fx-text-fill: white;
+        -fx-font-size: 14px;
+        -fx-font-weight: bold;
+        -fx-background-radius: 20px;
+        -fx-border-radius: 20px;
+        -fx-padding: 8px 16px;
+        -fx-effect: dropshadow(gaussian, rgba(74, 0, 224, 0.4), 12, 0.3, 0, 6);
+        -fx-border-color: rgba(255, 255, 255, 0.5); /* Subtle white border */
+        -fx-border-width: 1px;
+    }
+
 }
-
-
