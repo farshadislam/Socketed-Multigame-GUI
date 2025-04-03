@@ -63,16 +63,16 @@ public class ExtendedAIBotCheckers extends AIBot {
     private boolean isAIPiece(CheckersBoard.Piece piece) {
         return piece == CheckersBoard.Piece.BLACK; ||piece == CheckersBoard.BLACK_KING;
     }
-    private void addValidMovesForPiece(CheckersBoard board, int row, int col, List<int[]> moves){
-        int[][] directions = {{1,-1},{1,1},{-1,-1},{-1,1}};
-        for (int[] dir: directions) {
+    private void addValidMovesForPiece(CheckersBoard board, int row, int col, List<int[]> moves) {
+        int[][] directions = {{1, -1}, {1, 1}, {-1, -1}, {-1, 1}};
+        for (int[] dir : directions) {
             int newRow = row + dir[0];
             int newCol = col + dir[1];
             if (board.isValidMove(row, col, newRow, newCol)) {
                 moves.add(new int[]{row, col, newRow, newCol});
             }
         }
-
+    }
 
     @Override
     public void setSymbol(char symbol) {
@@ -84,5 +84,4 @@ public class ExtendedAIBotCheckers extends AIBot {
         return this.symbol;
     }
 
-}
 }
