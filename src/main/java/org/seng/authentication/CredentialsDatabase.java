@@ -99,10 +99,8 @@ public class CredentialsDatabase {
 
 
     public void loadDatabase(String fileName){
-        //(It will load all the information from the database.txt file into the hashmap
-        //everytime main is run and main creates a new instance of Database class
-        //→ take all the fields stored in database.txt file and create a new player
-        //object and then store it into the hashmap)
+
+
     }
 
 
