@@ -85,6 +85,12 @@ public class LoginPage {
         }
         database.addNewPlayer(newPlayer.getUsername(), newPlayer);
         TemporaryPlayerStorage.removePlayer(username);
+
+        //Stub
+        if(newPlayer.getVerificationCode().equals(code)){
+            return true;
+        }
+
         return true;
     }
 
