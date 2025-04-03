@@ -48,7 +48,7 @@ public class LoginPage {
         if (!verifyEmailFormat(email)){
             return State.EMAIL_FORMAT_WRONG;
         }
-        Player newPlayer = new Player(username,email,password);
+        Player newPlayer = new Player(username,email,password,null, null, 0, 0, 0);
 
         newPlayer.setPassword(password);
         newPlayer.setEmail(email);
