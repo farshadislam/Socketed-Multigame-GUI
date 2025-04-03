@@ -10,13 +10,16 @@ public class EmailVerificationService {
         int code = (int) (Math.random() * 1000000);
         return String.format("%04d", code);  // Ensure it's always 6 digits
     }
+
     public static boolean sendVerificationEmailForgotPassword(String username, String verificationCode) {
         if(database==null){
             return false;
         }
+
         if(!database.usernameLookup(username)){
             return false;
         }
+
         Player player = database.findPlayerByUsername(username);
         player.setVerificationCode(verificationCode);
         return true;
