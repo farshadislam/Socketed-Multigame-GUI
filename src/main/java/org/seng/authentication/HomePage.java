@@ -14,13 +14,13 @@ public class HomePage {
     }
 
     // created method to view logged-in player's record
-    public Authentication.PlayerStats viewYourOwnRecords(){
-        Authentication.PlayerStats playerStats = new PlayerStats(player);
+    public PlayerStats viewYourOwnRecords(){
+        PlayerStats playerStats = new PlayerStats(player);
         return playerStats;
     }
 
     // created method to view another player's records
-    public Authentication.PlayerStats viewOtherPlayerRecords(Player otherPlayer){
+    public PlayerStats viewOtherPlayerRecords(Player otherPlayer){
         PlayerStats playerStats = new PlayerStats(otherPlayer);
         return playerStats;
     }
