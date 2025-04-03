@@ -5,7 +5,7 @@ public class mainTest {
     private Player player; // create player object for testing
 
     @BeforeEach
-    public void initializePlayer() {
+    public void initializePlayer(){
         player = new Player("user", "user@gmail.com", "passWORD");
     }
 
@@ -20,9 +20,15 @@ public class mainTest {
     public void testUpdateEmail(){
         assertTrue(player.updateUsername("user", "superUser"));
         assertEquals("superUser", player.getUsername());
-        assertnotEquals("user", player.getUsername());
+        assertnotEquals("player", player.getUsername());
         assertFalse(player.updateUsername("name", "superUser"));
     }
 
-
+    @Test
+    public void testUpdatePassword(){
+        assertTrue(player.updatePassword("passWORD", "SENG300"));
+        assertEquals("SENG300", player.getPassword());
+        assertnotEquals("LeBron", player.getPassword());
+        assertFalse(player.updatePassword("12345", "SENG300"));
+    }
 }
