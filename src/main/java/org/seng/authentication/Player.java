@@ -23,15 +23,14 @@ public class Player {
     /**
      * Constructor that also sets initial wins for each game.
      * The 'rank' parameter is applied to each game’s rank as a default.
-     *
-     * @param username      username of the player
-     * @param email         email of the player
-     * @param password      password of the player
-     * @param symbol        assigns player a colour
-     * @param rank          palyer's rank
-     * @param connect4Wins  wins in the connect4 game
-     * @param tictactoeWins wins in the tictactoe game
-     * @param checkersWins  wins in the checkers game
+     * @param username username of the player
+     * @param email email of the player
+     * @param password password of the player
+     * @param symbol assigns player a colour
+     * @param rank palyer's rank
+     * @param connect4Wins wins in the connect4 game
+     * @param tictactoeWins in the tictactoe game
+     * @param checkersWins wins in the checkers game
      */
     public Player(String username, String email, String password, char symbol, String rank, int connect4Wins, int tictactoeWins, int checkersWins) {
         this.username = username;
@@ -93,7 +92,7 @@ public class Player {
     /**
      * method for updating the username
      *
-     * @param username    username for the player
+     * @param username username for the player
      * @param newUsername new username they want to use
      * @return true if username is updated, false otherwise
      */
@@ -190,7 +189,6 @@ public class Player {
 
     /**
      * method for getting the stats
-     *
      * @param gameType the type of game
      * @return the stats for the game
      */
@@ -208,7 +206,6 @@ public class Player {
 
     /**
      * method for getting the total losses
-     *
      * @return the total losses of all 3 games
      */
     public int getTotalLosses() {
@@ -217,7 +214,6 @@ public class Player {
 
     /**
      * method for getting the total games played
-     *
      * @return the total games played of all 3 games
      */
     public int getTotalGamesPlayed() {
@@ -226,7 +222,6 @@ public class Player {
 
     /**
      * method for getting the total ties
-     *
      * @return the total ties of all 3 games
      */
     public int getTotalTies() {
@@ -235,7 +230,6 @@ public class Player {
 
     /**
      * method for getting the total wins
-     *
      * @return the total wins of all 3 games
      */
     public int getTotalWins() {
