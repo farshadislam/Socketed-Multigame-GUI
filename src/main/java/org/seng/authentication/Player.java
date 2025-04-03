@@ -25,8 +25,7 @@ public class Player {
      * constructor for player class
      * @param username username of the player
      */
-    public Player(String username, String email, String password, Rank rank,
-                  connect4Stats Connect4Stats, ticTacToeStats TicTacToeStats, checkersStats CheckersStats) {
+    public Player(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
