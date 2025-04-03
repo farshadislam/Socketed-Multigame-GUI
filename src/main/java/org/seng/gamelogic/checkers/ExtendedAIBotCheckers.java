@@ -37,7 +37,7 @@ public class ExtendedAIBotCheckers extends AIBot {
 
     int[] move = validMoves.get(random.nextInt(validMoves.size()));
     return move;
-}
+
     public boolean makeMove(Object boardObj, Object moveObj) {
     if (!(boardObj instanceof CheckersBoard)) || !(moveObj instanceof int[])){
         return false;
@@ -84,4 +84,5 @@ public class ExtendedAIBotCheckers extends AIBot {
         return this.symbol;
     }
 
+}
 }
