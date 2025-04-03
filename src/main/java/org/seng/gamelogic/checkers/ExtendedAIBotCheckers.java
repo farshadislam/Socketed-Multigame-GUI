@@ -26,20 +26,20 @@ public class ExtendedAIBotCheckers extends AIBot {
     public Object nextMove(Object boardObj) {
         if (!(boardObj instanceof CheckersBoard))
             return null; // placeholder
+
+        CheckersBoard board = (CheckersBoard) boardObj;
+
+        List<int[]> validMoves = getAllValidMoves(board);
+        if (validMoves.isEmpty()) {
+            return null;
+        }
+
+        int[] move = validMoves.get(random.nextInt(validMoves.size()));
+        return move;
     }
-
-    CheckersBoard board = (CheckersBoard) boardObj;
-
-    List<int[]> validMoves = getAllValidMoves(board);
-    if (validMoves.isEmpty()){
-        return null;
-    }
-
-    int[] move = validMoves.get(random.nextInt(validMoves.size()));
-    return move;
 
     public boolean makeMove(Object boardObj, Object moveObj) {
-    if (!(boardObj instanceof CheckersBoard)) || !(moveObj instanceof int[])){
+    if (!(boardObj instanceof CheckersBoard) || !(moveObj instanceof int[])){
         return false;
     }
     CheckersBoard board = (CheckersBoard) boardObj;
@@ -60,8 +60,10 @@ public class ExtendedAIBotCheckers extends AIBot {
         }
         return moves;
     }
+
+
     private boolean isAIPiece(CheckersBoard.Piece piece) {
-        return piece == CheckersBoard.Piece.BLACK; ||piece == CheckersBoard.BLACK_KING;
+        return (piece == CheckersBoard.Piece.BLACK) || (piece == CheckersBoard.Piece.BLACK_KING);
     }
     private void addValidMovesForPiece(CheckersBoard board, int row, int col, List<int[]> moves) {
         int[][] directions = {{1, -1}, {1, 1}, {-1, -1}, {-1, 1}};
