@@ -117,33 +117,7 @@ public class checkersStats extends GeneralStats {
                 + "]";
     }
 
-    // METHODS IMPLEMENTED BY THE AUTHENTICATION
-
-    @Override
-    public void setGamesPlayed(int games_Played) {
-        this.gamesPlayed = games_Played;
-    }
-
-    @Override
-    public void setWins(int num_of_wins) {
-        this.wins = num_of_wins;
-    }
-
-    @Override
-    public void setLosses(int num_of_losses) {
-        this.losses = num_of_losses;
-    }
-
-    @Override
-    public void setTies(int num_of_ties) {
-        this.ties = num_of_ties;
-    }
-
-    @Override
-    public void setRank(Rank player_rank) {
-        this.rank = player_rank;
-    }
-
+    // METHOD IMPLEMENTED BY THE AUTHENTICATION
     @Override
     public void setMMR (int game_specific_MMR) {
         this.checkersmmr = game_specific_MMR;
