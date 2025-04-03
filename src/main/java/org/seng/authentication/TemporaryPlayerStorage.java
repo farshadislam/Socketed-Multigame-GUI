@@ -9,7 +9,9 @@ public class TemporaryPlayerStorage {
     public static void addPlayer(String username, Player player) {
         unverifiedPlayers.put(username, player);
     }
-
+    public static boolean findUsername(String username){
+        return unverifiedPlayers.containsKey(username);
+    }
     // Get a player from temporary storage
     public static Player getPlayer(String username) {
         return unverifiedPlayers.get(username);

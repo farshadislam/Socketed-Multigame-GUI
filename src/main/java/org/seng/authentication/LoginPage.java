@@ -122,8 +122,4 @@ public class LoginPage {
         }
         return code.length() == 4 && code.matches("\\d{4}");
     }
-
-
-
-
 }

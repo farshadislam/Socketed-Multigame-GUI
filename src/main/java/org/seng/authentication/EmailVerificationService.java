@@ -23,11 +23,11 @@ public class EmailVerificationService {
     }
 
     public static boolean sendVerificationEmailForNewAccount(String username, String verificationCode) {
-        Player newPlayer = TemporaryPlayerStorage.getPlayer(username);
-        if(newPlayer == null){
-            return false;
+        if(TemporaryPlayerStorage.findUsername(username)){
+            Player newPlayer = TemporaryPlayerStorage.getPlayer(username);
+            newPlayer.setVerificationCode(verificationCode);
+            return true;
         }
-        newPlayer.setVerificationCode(verificationCode);
-        return true;
+        return false;
     }
 }
