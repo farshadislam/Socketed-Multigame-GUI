@@ -2,10 +2,8 @@ package org.seng.gamelogic.connectfour;
 import org.seng.gamelogic.Player;
 import java.util.ArrayList;
 
-import org.seng.gamelogic.connectfour.ConnectFourGame.Chip;
-
 // Do we need to extend or implement from GameGUI class?
-public class ConnectFourGame {
+public class ConnectFourGame implements ConnectFourBoard{
 
     public ConnectFourBoard board;
     public Player[] players;  // 2 players
