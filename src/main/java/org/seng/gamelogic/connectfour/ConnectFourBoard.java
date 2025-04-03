@@ -98,4 +98,8 @@ public class ConnectFourBoard {
     public void resetBoard() {
         initalizeBoard();
     }
+
+    public Chip getChip(int row, int col) {
+        return grid[row][col];
+    }
 }
