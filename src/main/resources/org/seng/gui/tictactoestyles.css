@@ -1,0 +1,20 @@
+.gradient-background {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #5f579b, #4915d0);
+}
+
+.button {
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+}
+
+@font-face {
+    font-family: "Monoton";
+    src: url("fonts/Monoton-Regular.ttf");
+}
+
+.title-text {
+    -fx-font-family: "Monoton";
+    -fx-font-size: 30px;
+    -fx-fill: white;
+}

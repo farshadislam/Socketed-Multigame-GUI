@@ -1,0 +1,82 @@
+.gradient-background {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #5f579b, #4915d0);
+}
+
+@font-face {
+    font-family: "Monoton";
+    src: url("fonts/Monoton-Regular.ttf");
+}
+
+.title-label {
+    -fx-font-family: "Monoton";
+    -fx-font-size: 64px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.controller-icon {
+    -fx-opacity: 0.15;
+}
+
+.login-box {
+    -fx-background-color: rgba(255, 255, 255, 0.85);
+    -fx-padding: 20px;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);
+}
+
+.forgot-label {
+    -fx-text-fill: #6c63ff;
+    -fx-font-size: 12px;
+}
+
+.forgot-link {
+    -fx-text-fill: #6c63ff;
+    -fx-font-size: 12px;
+    -fx-underline: true;
+}
+
+.forgot-link:hover {
+    -fx-text-fill: #5750cc;
+}
+
+.input-field {
+    -fx-pref-width: 200px;
+    -fx-padding: 8px;
+    -fx-font-size: 16px;
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.auth-button {
+    -fx-background-color: #6c63ff;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 12px;
+    -fx-background-radius: 8px;
+}
+
+.auth-button:hover {
+    -fx-background-color: #5750cc;
+}
+
+.message-label {
+    -fx-text-fill: #6c63ff; /* Themed purple color */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-padding: 5px;
+}
+
+.message-label.success {
+    -fx-text-fill: #4caf50; /* Green for success */
+}
+
+.message-label.error {
+    -fx-text-fill: #f44336; /* Red for error */
+}
