@@ -51,3 +51,4 @@ public class PlayerTest {
         assertEquals(player, p2);
     }
 }
+
