@@ -30,4 +30,11 @@ public class SettingsTest {
         assertFalse(settings.changeEmail(null));
     }
 
+    @Test
+    public void testChangePassword(){
+        assertTrue(settings.changePassword("passWORD", "SENG300"));
+        assertEquals("SENG300", player.getPassword());
+        assertFalse(settings.changePassword("password", "OMG"));
+    }
+
 }
