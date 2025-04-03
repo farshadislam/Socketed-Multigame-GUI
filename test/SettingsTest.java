@@ -22,4 +22,12 @@ public class SettingsTest {
         assertEquals("superUser", player.getUsername());
         assertFalse(settings.changeUsername(null));
     }
+
+    @Test
+    public void testChangeEmail(){
+        assertTrue(settings.changeEmail("user12345@gmail.com"));
+        assertEquals("user12345@gmail.com", player.getEmail());
+        assertFalse(settings.changeEmail(null));
+    }
+
 }
