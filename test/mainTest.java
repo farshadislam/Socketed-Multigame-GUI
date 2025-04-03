@@ -39,4 +39,12 @@ public class mainTest {
         assertnotEquals("player", player.getUsername());
         assertFalse(player.updateUsername("name", "Avenger"));
     }
+
+    @Test
+    public void testEquals(){
+        Player p2 = new Player("user");
+        Player p3 = new player("Java");
+        assertNotEquals(player, p3);
+        assertEquals(player, p2);
+    }
 }
