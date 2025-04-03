@@ -58,6 +58,8 @@ public class LoginPage {
         newPlayer.setTicTacToeStats(null);
 
         TemporaryPlayerStorage.addPlayer(username, newPlayer);
+        EmailVerificationService emailVerificationService = new EmailVerificationService(database);
+        emailVerificationService.
         return State.VERIFICATION_CODE_SENT;
 
     }
