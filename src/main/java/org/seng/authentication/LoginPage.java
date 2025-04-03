@@ -111,7 +111,15 @@ public class LoginPage {
         return State.ERROR;
     }
 
-    public boolean verifyEmailCodeForgotPassword(String code){
+    public boolean verifyEmailCodeForgotPassword(String username,String code){
+        Player player = database.findPlayerByUsername(username);
+        if(player == null){
+            return false;
+        }
+        //stub
+        if(player.getVerificationCode().equals(code)){
+            return true;
+        }
         return code.length() == 4 && code.matches("\\d{4}");
     }
 
