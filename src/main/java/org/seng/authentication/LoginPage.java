@@ -15,7 +15,8 @@ public class LoginPage {
         EMPTY_PASSWORD,
         EMAIL_FORMAT_WRONG,
         VERIFICATION_CODE_SENT,
-        USERNAME_NOT_FOUND
+        USERNAME_NOT_FOUND,
+        ERROR
     }
 
     /**
@@ -58,10 +59,11 @@ public class LoginPage {
         newPlayer.setTicTacToeStats(null);
 
         TemporaryPlayerStorage.addPlayer(username, newPlayer);
-        EmailVerificationService.setDatabase(database);
         String verificationCode = EmailVerificationService.generateVerificationCode();
-        EmailVerificationService.sendVerificationEmail(username,verificationCode);
-        return State.VERIFICATION_CODE_SENT;
+        if(EmailVerificationService.sendVerificationEmailForNewAccount(username,verificationCode)){
+            return State.VERIFICATION_CODE_SENT;
+        }
+        return State.ERROR;
 
     }
     private boolean verifyEmailFormat(String email){
@@ -97,11 +99,16 @@ public class LoginPage {
         return true;
     }
 
-    public boolean forgotPassword(String username){
+    public State forgotPassword(String username){
         if(!database.usernameLookup(username)){
-            return false; //username not found
+            return State.USERNAME_NOT_FOUND; //username not found
         }
-        return true;
+        EmailVerificationService.setDatabase(database);
+        String code = EmailVerificationService.generateVerificationCode();
+        if(EmailVerificationService.sendVerificationEmailForgotPassword(username,code)){
+            return State.VERIFICATION_CODE_SENT;
+        }
+        return State.ERROR;
     }
 
     public boolean verifyEmailCodeForgotPassword(String code){
