@@ -29,6 +29,7 @@ public class Player {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.rank = Rank.BRONZE;
         this.Connect4Stats = new connect4Stats(username);
         this.TicTacToeStats = new ticTacToeStats(username);
         this.CheckersStats = new checkersStats(username);

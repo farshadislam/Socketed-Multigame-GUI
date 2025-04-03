@@ -2,6 +2,8 @@ package org.seng.authentication;
 import org.seng.leaderboard.Rank;
 
 
+
+
 public class PlayerStats {
     // defined instance variable
     private Player player;
@@ -13,8 +15,7 @@ public class PlayerStats {
 
     // created Methods for Connect4 Game
     public int getWinsForConnect4(){
-        return player.getStats("Connect4").getWins();
-    }
+        return player.getStats("Connect4").getWins();}
     public int getLossesForConnect4() {
         return player.getStats("Connect4").getLosses();
     }
