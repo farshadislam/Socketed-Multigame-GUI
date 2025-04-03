@@ -18,10 +18,10 @@ public class mainTest {
 
     @Test
     public void testUpdateEmail(){
-        assertTrue(player.updateUsername("user", "superUser"));
-        assertEquals("superUser", player.getUsername());
-        assertnotEquals("player", player.getUsername());
-        assertFalse(player.updateUsername("name", "superUser"));
+        assertTrue(player.updateEmail("user@gmail.com", "user123@gmail.com"));
+        assertEquals("user123@gmail.com", player.getEmail());
+        assertnotEquals("user123@hotmail.com", player.getEmail());
+        assertFalse(player.updateEmail("player@gmail.com", "user567@gmail.com"));
     }
 
     @Test
@@ -29,6 +29,14 @@ public class mainTest {
         assertTrue(player.updatePassword("passWORD", "SENG300"));
         assertEquals("SENG300", player.getPassword());
         assertnotEquals("LeBron", player.getPassword());
-        assertFalse(player.updatePassword("12345", "SENG300"));
+        assertFalse(player.updatePassword("12345", "gameTime"));
+    }
+
+    @Test
+    public void testUpdateUsername(){
+        assertTrue(player.updateUsername("user", "superUser"));
+        assertEquals("superUser", player.getUsername());
+        assertnotEquals("player", player.getUsername());
+        assertFalse(player.updateUsername("name", "Avenger"));
     }
 }
