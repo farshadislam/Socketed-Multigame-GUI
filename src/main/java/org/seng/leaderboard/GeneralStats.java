@@ -196,16 +196,27 @@ public abstract class GeneralStats {
 
     // Methods added by the Authentication Team
 
-    public abstract void setGamesPlayed(int num_of_gamesPlayed);
-    public abstract void setWins(int num_of_wins);
-    public abstract void setLosses(int num_of_losses);
-    public abstract void setTies(int num_of_ties);
-    public abstract void setRank(Rank player_rank);
+    public void setGamesPlayed(int num_of_gamesPlayed) {
+        this.gamesPlayed = num_of_gamesPlayed;
+    }
+
+    public void setWins(int num_of_wins) {
+        this.wins = num_of_wins;
+    }
+
+    public void setLosses(int num_of_losses) {
+        this.losses = num_of_losses;
+    }
+
+    public void setTies(int num_of_ties) {
+        this.ties = num_of_ties;
+    }
+
+    public void setRank(Rank player_rank) {
+        this.rank = player_rank;
+    }
+
     public abstract void setMMR (int game_specific_MMR);
-
-
-
-
 
 }
 
