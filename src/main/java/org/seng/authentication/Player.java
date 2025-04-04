@@ -1,9 +1,7 @@
 package org.seng.authentication;
-import org.seng.leaderboard.GeneralStats;
-import org.seng.leaderboard.checkersStats;
-import org.seng.leaderboard.connect4Stats;
-import org.seng.leaderboard.ticTacToeStats;
+import org.seng.leaderboard.*;
 import org.seng.leaderboard.Rank;
+
 import java.util.Objects;
 
 public class Player {
@@ -169,7 +167,7 @@ public class Player {
      * @return the rank
      */
     public Rank getRank(GameType gameType) {
-        GeneralStats stats = getStats(gameType.toLowerCase());
+        GeneralStats stats = getStats(gameType);
         return (stats != null) ? stats.getRank() : Rank.BRONZE;
     }
 
@@ -191,7 +189,7 @@ public class Player {
      * @return the stats for the game
      */
     public GeneralStats getStats(GameType gameType) {
-        return switch (gameType.toLowerCase()) {
+        return switch (gameType.name().toLowerCase()) {
             case "connect4" -> Connect4Stats;
             case "tictactoe" -> TicTacToeStats;
             case "checkers" -> CheckersStats;
