@@ -14,7 +14,7 @@ public class CheckersBoard {
         board = new Piece[BOARD_SIZE][BOARD_SIZE];
         initializeBoard();
     }
-
+    //confirmed
     private void initializeBoard() {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
@@ -52,16 +52,22 @@ public class CheckersBoard {
         }
     }
     public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) { // this method is still unfinished
-        if (!inBounds(fromRow, fromCol) || !inBounds(toRow, toCol)) {
-            return false;
-        }
-        Piece piece = board[fromRow][fromCol];
-        Piece destination = board[toRow][toCol];
-        if (destination != Piece.EMPTY) return false;
 
-        int rowDiff = toRow - fromRow;
-        int colDiff = toCol - fromCol;
-        return false;
+
+
+
+
+
+//        if (!inBounds(fromRow, fromCol) || !inBounds(toRow, toCol)) {
+//            return false;
+//        }
+//        Piece piece = board[fromRow][fromCol];
+//        Piece destination = board[toRow][toCol];
+//        if (destination != Piece.EMPTY) return false;
+//
+//        int rowDiff = toRow - fromRow;
+//        int colDiff = toCol - fromCol;
+//        return false;
     }
 
     private boolean inBounds(int row, int col) {
