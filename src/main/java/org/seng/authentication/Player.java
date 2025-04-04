@@ -169,7 +169,7 @@ public class Player {
      * @param game the type of game
      * @return the rank
      */
-    public Rank getRank(String gameType) {
+    public Rank getRank(GameType gameType) {
         GeneralStats stats = getStats(gameType.toLowerCase());
         return (stats != null) ? stats.getRank() : Rank.BRONZE;
     }
