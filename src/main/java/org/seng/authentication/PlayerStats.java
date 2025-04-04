@@ -16,48 +16,94 @@ public class PlayerStats {
 
     // created Methods for Connect4 Game
     public int getWinsForConnect4() {
-        GeneralStats stats = player.getStats("Connect4");
-        if (stats instanceof connect4Stats) {
-            return ((connect4Stats) stats).getWins();
+        connect4Stats connectStats = player.getConnect4Stats();
+        if(connectStats != null){
+            return connectStats.get_wins();
         }
         return -1;
     }
 
     public int getLossesForConnect4() {
-        return player.getStats("Connect4").getLosses();
+        connect4Stats connectStats = player.getConnect4Stats();
+        if(connectStats != null){
+            return connectStats.get_losses();
+        }
+        return -1;
     }
+
     public int getTiesForConnect4() {
-        return player.getStats("Connect4").getTies();
+        connect4Stats connectStats = player.getConnect4Stats();
+        if(connectStats != null){
+            return connectStats.get_ties();
+        }
+        return -1;
     }
     public Rank getRankForConnect4() {
-        return player.getStats("Connect4").getRank();
+        connect4Stats connectStats = player.getConnect4Stats();
+        if(connectStats != null){
+            return connectStats.getRank();
+        }
+        return null;
     }
 
     // created Methods for Tic-Tac-Toe game
     public int getWinsForTicTacToe(){
-        return player.getStats("TicTacToe").getWins();
+        ticTacToeStats TicTacToeStats = player.getTicTacToeStats();
+        if(TicTacToeStats != null){
+            return TicTacToeStats.get_wins();
+        }
+        return -1;
     }
     public int getLossesForTicTacToe() {
-        return player.getStats("TicTacToe").getLosses();
+        ticTacToeStats TicTacToeStats = player.getTicTacToeStats();
+        if(TicTacToeStats != null){
+            return TicTacToeStats.get_losses();
+        }
+        return -1;
     }
     public int getTiesForTicTacToe() {
-        return player.getStats("TicTacToe").getTies();
+        ticTacToeStats TicTacToeStats = player.getTicTacToeStats();
+        if(TicTacToeStats != null){
+            return TicTacToeStats.get_ties();
+        }
+        return -1;
     }
+
     public Rank getRankForTicTacToe() {
-        return player.getStats("TicTacToe").getRank();
+        ticTacToeStats TicTacToeStats = player.getTicTacToeStats();
+        if(TicTacToeStats != null){
+            return TicTacToeStats.getRank();
+        }
+        return null;
     }
 
     // created Methods for Checkers game
     public int getWinsForChecker(){
-        return player.getStats("Checker").getWins();
+        checkersStats CheckerStats = player.getCheckersStats();
+        if(CheckerStats != null){
+            return CheckerStats.get_wins();
+        }
+        return -1;
     }
     public int getLossesForChecker() {
-        return player.getStats("Checker").getLosses();
+        checkersStats CheckerStats = player.getCheckersStats();
+        if(CheckerStats != null){
+            return CheckerStats.get_losses();
+        }
+        return -1;
     }
     public int getTiesForChecker() {
-        return player.getStats("Checker").getTies();
+        checkersStats CheckerStats = player.getCheckersStats();
+        if(CheckerStats != null){
+            return CheckerStats.get_ties();
+        }
+        return -1;
     }
     public Rank getRankForChecker(){
-        return player.getStats("Checker").getRank();
+        checkersStats CheckerStats = player.getCheckersStats();
+        if(CheckerStats != null){
+            return CheckerStats.getRank();
+        }
+        return null;
     }
 }
