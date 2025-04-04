@@ -170,8 +170,8 @@ public class Player {
      * @param game the type of game
      * @return the rank
      */
-    public Rank getRank(GameType game) {
-        GeneralStats stats = getStats(game.name().toLowerCase());
+    public Rank getRank(String gameType) {
+        GeneralStats stats = getStats(gameType.toLowerCase());
         return (stats != null) ? stats.getRank() : Rank.BRONZE;
     }
 
@@ -199,7 +199,6 @@ public class Player {
             case "checkers" -> CheckersStats;
             default -> null;
         };
-
     }
 
     // Total statistics

@@ -1,8 +1,9 @@
 package org.seng.authentication;
+import org.seng.leaderboard.GeneralStats;
+import org.seng.leaderboard.checkersStats;
+import org.seng.leaderboard.connect4Stats;
+import org.seng.leaderboard.ticTacToeStats;
 import org.seng.leaderboard.Rank;
-
-
-
 
 public class PlayerStats {
     // defined instance variable
@@ -15,7 +16,12 @@ public class PlayerStats {
 
     // created Methods for Connect4 Game
     public int getWinsForConnect4(){
-        return player.getStats("Connect4").getWins();}
+        GeneralStats stats = player.getStats("Connect4");
+        if(stats instanceof connect4Stats){
+            return ((connect4Stats) stats).getWins();
+        }
+        return -1;
+
     public int getLossesForConnect4() {
         return player.getStats("Connect4").getLosses();
     }
