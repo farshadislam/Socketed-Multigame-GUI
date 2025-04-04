@@ -64,8 +64,31 @@ public class Settings {
      * @return true if the email is changed, false otherwise
      */
     public boolean changeEmail(String newEmail) {
-        if (newEmail!=null && !(newEmail.isEmpty())){
-            player.setEmail(newEmail);
+        if (verifyEmailFormat(newEmail)){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean verifyEmailFormat(String email){
+        if(!email.endsWith("@gmail.com") || email.indexOf("@") != email.lastIndexOf("@") || email.indexOf("@") <= 0){
+            return false;
+        }
+        String usernameOfEmail = email.substring(0, email.indexOf("@"));
+        for(int i = 0; i < usernameOfEmail.length(); i++){
+            char character = usernameOfEmail.charAt(i);
+            if(!(Character.isLetterOrDigit(character) || character == '.' || character == '_' || character == '-')){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean verifyEmailCodeForNewEmail(String email, String code){
+        //stub
+        if((player.getVerificationCode().equals(code))||(code.length() == 4 && code.matches("\\d{4}"))){
+            player.setEmail(email);
+            return true;
         }
         return false;
     }

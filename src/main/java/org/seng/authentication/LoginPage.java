@@ -21,8 +21,8 @@ public class LoginPage {
 
     /**
      * Implements login for a player
-     * @param username The username of the player
-     * @param password The password of the player
+     * @param username Username of the player
+     * @param password Password of the player
      * @return Homepage associated with the player
      */
     public HomePage login(String username, String password){
@@ -35,7 +35,13 @@ public class LoginPage {
         return null;
     }
 
-
+    /**
+     * Implements sending a verification code to the email when creating a new account
+     * @param username Username of the new player
+     * @param email Email of the new player
+     * @param password Password of the player
+     * @return State indicating if the verification code has been sent, and if not what error has occurred
+     */
     public State register(String username, String email, String password, char symbol){
         if(username.isEmpty()){
             return State.EMPTY_USERNAME;
@@ -60,6 +66,13 @@ public class LoginPage {
         return State.ERROR;
 
     }
+
+    /**
+     * Verifies if the email format provided by the player is correct or not
+     *
+     * @param email
+     * @return
+     */
     private boolean verifyEmailFormat(String email){
         if(!email.endsWith("@gmail.com") || email.indexOf("@") != email.lastIndexOf("@") || email.indexOf("@") <= 0){
             return false;
