@@ -166,7 +166,7 @@ public class Player {
     /**
      * Return the rank from that game’s stats
      *
-     * @param game the type of game
+     * @param gameType the type of game
      * @return the rank
      */
     public Rank getRank(GameType gameType) {
@@ -191,7 +191,7 @@ public class Player {
      * @param gameType the type of game
      * @return the stats for the game
      */
-    public GeneralStats getStats(String gameType) {
+    public GeneralStats getStats(GameType gameType) {
         return switch (gameType.toLowerCase()) {
             case "connect4" -> Connect4Stats;
             case "tictactoe" -> TicTacToeStats;
