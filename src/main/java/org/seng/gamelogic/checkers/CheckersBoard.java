@@ -4,10 +4,6 @@ public class CheckersBoard {
 
     public static final int BOARD_SIZE = 8;
 
-    public boolean placeMove(int row, int col, char symbol) {
-        return false;
-    }
-
     public enum Piece {
         EMPTY, RED, BLACK, RED_KING, BLACK_KING
     }

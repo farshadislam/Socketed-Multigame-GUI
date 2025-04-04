@@ -19,6 +19,11 @@ public class CheckersPlayer extends HumanPlayer {
 
     //just copy pasted this from TicTacToePlayer please review
     public boolean makeMove(CheckersBoard board, CheckersMove move) {
-        return board.placeMove(move.getRow(), move.getCol(), this.symbol);
+        int rowStart = move.getRowStart();
+        int rowEnd = move.getRowEnd();
+        int colStart = move.getColStart();
+        int colEnd = move.getColEnd();
+        boolean movePiece = board.makeMove(rowStart, colStart, rowEnd, colEnd);
+        return movePiece;
     }
 }
