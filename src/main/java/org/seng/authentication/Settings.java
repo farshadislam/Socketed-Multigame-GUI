@@ -98,11 +98,15 @@ public class Settings {
      */
     public boolean changePassword(String password, String newPassword) {
         if (player.getPassword().equals(password)) {
-            if (newPassword != null && !(newPassword.isEmpty())) {
+            if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
                 player.setPassword(newPassword);
             }
         }
         return false;
+    }
+
+    private boolean verifyPasswordFormat(String password){
+        return password.length() >= 8 && !password.matches(".*\\s.*");
     }
 
     /**

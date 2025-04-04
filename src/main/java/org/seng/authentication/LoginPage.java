@@ -14,6 +14,7 @@ public class LoginPage {
         EMPTY_USERNAME,
         EMPTY_PASSWORD,
         EMAIL_FORMAT_WRONG,
+        PASSWORD_FORMAT_WRONG,
         VERIFICATION_CODE_SENT,
         USERNAME_NOT_FOUND,
         ERROR
@@ -55,6 +56,9 @@ public class LoginPage {
         if (!verifyEmailFormat(email)){
             return State.EMAIL_FORMAT_WRONG;
         }
+        if(!verifyPasswordFormat(password)){
+            return State.PASSWORD_FORMAT_WRONG;
+        }
 
         Player newPlayer = new Player(username,email,password,symbol, null, 0, 0, 0);
         TemporaryPlayerStorage.addPlayer(username, newPlayer);
@@ -85,6 +89,10 @@ public class LoginPage {
             }
         }
         return true;
+    }
+
+    private boolean verifyPasswordFormat(String password){
+        return password.length() >= 8 && !password.matches(".*\\s.*");
     }
 
     public boolean verifyEmailCodeForRegister(String username, String code){
@@ -128,5 +136,18 @@ public class LoginPage {
             return true;
         }
         return code.length() == 4 && code.matches("\\d{4}");
+    }
+
+    public boolean changePassword(String username, String password, String newPassword) {
+        Player player = database.findPlayerByUsername(username);
+        if(player == null){
+            return false;
+        }
+        if (player.getPassword().equals(password)) {
+            if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
+                player.setPassword(newPassword);
+            }
+        }
+        return false;
     }
 }
