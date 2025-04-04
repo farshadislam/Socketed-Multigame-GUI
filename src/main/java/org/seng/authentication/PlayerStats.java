@@ -15,12 +15,13 @@ public class PlayerStats {
     }
 
     // created Methods for Connect4 Game
-    public int getWinsForConnect4(){
+    public int getWinsForConnect4() {
         GeneralStats stats = player.getStats("Connect4");
-        if(stats instanceof connect4Stats){
+        if (stats instanceof connect4Stats) {
             return ((connect4Stats) stats).getWins();
         }
         return -1;
+    }
 
     public int getLossesForConnect4() {
         return player.getStats("Connect4").getLosses();
