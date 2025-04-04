@@ -51,24 +51,50 @@ public class CheckersBoard {
             default: return '.';
         }
     }
-    public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) { // this method is still unfinished
 
+    public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
 
+        //condition to check if move is in bounds. extra condition "!inBounds(fromRow, fromCol)" ensures in bound start
+        if (!inBounds(fromRow, fromCol) || !inBounds(toRow, toCol)) {
+            return false;
+        }
 
+        Piece current_piece = board[fromRow][fromCol];                                                                                  //variable holding current piece in current position
+        Piece next_move = board[toRow][toCol];                                                                                          //variable holding piece if it was in next move position
 
+        int col_dist = Math.abs(toCol - fromCol);                                                                                       //column distance to next spot
+        int row_dist = toRow - fromRow;                                                                                                 //row distance to next spot
+        boolean is_king = current_piece == Piece.BLACK_KING || current_piece == Piece.RED_KING;                                         //boolean variable to check if piece is a king in order to negate direction later
+        int row_dir = (current_piece == Piece.BLACK || current_piece == Piece.BLACK_KING) ? -1 : 1;                                     //row direction of current piece (-1 up if black, or +1 down if red),
+        // kings also assigned direction at first but don't matter because later on absolut value is used to make their direction irrelevant
 
+        //condition checking for empty start or if there is a piece in the place of the next move
+        if (current_piece == Piece.EMPTY || next_move != Piece.EMPTY) {
+            return false;
+        }
 
-//        if (!inBounds(fromRow, fromCol) || !inBounds(toRow, toCol)) {
-//            return false;
-//        }
-//        Piece piece = board[fromRow][fromCol];
-//        Piece destination = board[toRow][toCol];
-//        if (destination != Piece.EMPTY) return false;
-//
-//        int rowDiff = toRow - fromRow;
-//        int colDiff = toCol - fromCol;
-//        return false;
+        //condition checking if valid move is made for going diagonally up one or down one for any piece
+        if ((row_dist == row_dir || (is_king && Math.abs(row_dist) == 1)) && col_dist == 1) {
+            return true;
+        }
+
+        //condition checking if a valid piece jump/take move is being performed
+        if ((row_dist == (2 * row_dir) || (is_king && Math.abs(row_dist) == 2)) && col_dist == 2) {
+            int op_piece_row = fromRow + (row_dist/2);
+            int op_piece_col = fromCol + ((toCol - fromCol)/2);
+            Piece op_piece = board[op_piece_row][op_piece_col];
+
+            boolean red_jump_black = (current_piece == Piece.RED || current_piece == Piece.RED_KING) && (op_piece == Piece.BLACK || op_piece == Piece.BLACK_KING);
+            boolean black_jump_red = (current_piece == Piece.BLACK || current_piece == Piece.BLACK_KING) && (op_piece == Piece.RED || op_piece == Piece.RED_KING);
+
+            return red_jump_black || black_jump_red;
+        }
+
+        //all other possibilities of moves lead to false as no more
+        return false;
     }
+
+
 
     private boolean inBounds(int row, int col) {
         return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
