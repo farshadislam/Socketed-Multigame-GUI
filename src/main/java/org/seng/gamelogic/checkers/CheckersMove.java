@@ -78,7 +78,7 @@ public class CheckersMove {
         } else {
             symbol_color = "white';";
         }
-        String message = "Player " + player.getName() + "has moved a " + symbol_color + " piece onto row " + row_end + " and column " + col_end + ".";
+        String message = "Player " + player.getName() + "has moved a " + symbol_color + " piece from row " + row_start + " and column " + col_start + " to row " + row_end + " and column " + col_end + ".";
         return message;
     }
 }
