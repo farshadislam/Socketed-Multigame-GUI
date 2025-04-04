@@ -19,10 +19,6 @@ public class Settings {
         return database;
     }
 
-    public void setDatabase(CredentialsDatabase database) {
-        this.database = database;
-    }
-
     /**
      * constructor for settings class
      * @param player the player using the platform
@@ -52,8 +48,9 @@ public class Settings {
      */
     public boolean changeUsername(String newUsername){
         if (newUsername!=null && !(newUsername.isEmpty())){
-            player.setUsername(newUsername);
-
+            if(!database.usernameLookup(newUsername))
+                player.setUsername(newUsername);
+                return true;
         }
         return false;
     }
