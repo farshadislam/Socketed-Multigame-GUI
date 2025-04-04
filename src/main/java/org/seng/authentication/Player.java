@@ -4,7 +4,6 @@ import org.seng.leaderboard.checkersStats;
 import org.seng.leaderboard.connect4Stats;
 import org.seng.leaderboard.ticTacToeStats;
 import org.seng.leaderboard.Rank;
-//import org.seng.leaderboard;
 import java.util.Objects;
 
 public class Player {
