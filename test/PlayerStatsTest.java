@@ -40,4 +40,19 @@ public class PlayerStatsTest {
         assertNull(playerStats.getRankForConnect4());
     }
 
+    @Test void testGetWinsForTicTacToe(){
+        assertEquals(0, playerStats.getWinsForTicTacToe());
+    }
+
+    @Test void testGetLossesForTicTacToe(){
+        assertEquals(0, playerStats.getLossesForTicTacToe());
+    }
+
+    @Test void testGetTiesForTicTacToe(){
+        assertEquals(0, playerStats.getTiesForTicTacToe());
+    }
+
+    @Test void testGetRankForTicTacToe(){
+        assertNull(playerStats.getRankForTicTacToe());
+    }
 }
