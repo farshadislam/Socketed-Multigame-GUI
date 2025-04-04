@@ -4,6 +4,10 @@ public class CheckersBoard {
 
     public static final int BOARD_SIZE = 8;
 
+    public boolean placeMove(int row, int col, char symbol) {
+        return false;
+    }
+
     public enum Piece {
         EMPTY, RED, BLACK, RED_KING, BLACK_KING
     }
@@ -51,12 +55,48 @@ public class CheckersBoard {
             default: return '.';
         }
     }
-    public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
+    public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) { // this method is still unfinished
+        if (!inBounds(fromRow, fromCol) || !inBounds(toRow, toCol)) {
+            return false;
+        }
+        Piece piece = board[fromRow][fromCol];
+        Piece destination = board[toRow][toCol];
+        if (destination != Piece.EMPTY) return false;
+
+        int rowDiff = toRow - fromRow;
+        int colDiff = toCol - fromCol;
         return false;
     }
 
+    private boolean inBounds(int row, int col) {
+        return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
+    }
+
     public boolean makeMove(int fromRow, int fromCol, int toRow, int toCol) {
-        return false;
+        if (!isValidMove(fromRow, fromCol, toRow, toCol)) {
+            return false;
+        }
+
+        Piece piece = board[fromRow][fromCol];
+        board[toRow][toCol] = piece;
+        board[fromRow][fromCol] = Piece.EMPTY;
+
+        // If it's a jump, remove the captured piece
+        if (Math.abs(toRow - fromRow) == 2) {
+            int jumpedRow = (fromRow + toRow) / 2;
+            int jumpedCol = (fromCol + toCol) / 2;
+            board[jumpedRow][jumpedCol] = Piece.EMPTY;
+        }
+
+        // Promote to king
+        if (piece == Piece.RED && toRow == 0) {
+            board[toRow][toCol] = Piece.RED_KING;
+        }
+        if (piece == Piece.BLACK && toRow == BOARD_SIZE - 1) {
+            board[toRow][toCol] = Piece.BLACK_KING;
+        }
+
+        return true;
     }
 
     public Piece getPieceAt(int row, int col) {
