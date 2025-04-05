@@ -24,8 +24,8 @@ public class Player {
      * @param password password of the player
      */
     public Player(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
+        this.username = username.toLowerCase();
+        this.email = email.toLowerCase();
         this.password = password;
         this.rank = Rank.BRONZE; //initializing the global rank Bronze
         this.Connect4Stats = new connect4Stats(username);
