@@ -144,7 +144,7 @@ public class Player {
         }
         Player player = (Player) object;
         // cast object into Player object and compare
-        return Objects.equals(username, player.username);
+        return Objects.equals(username, player.username) && Objects.equals(email, player.email);
     }
 }
 
