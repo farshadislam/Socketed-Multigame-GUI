@@ -42,7 +42,7 @@ public class WelcomePageController {
     private Label titleLabel;
 
     @FXML
-    private Pane iconPane;
+    private Pane trophyIconPane;
     @FXML
     private Label errorLabel;
 
@@ -74,8 +74,8 @@ public class WelcomePageController {
         dropAnimation.play();
 
         // adding controller icons
-        iconPane.widthProperty().addListener((obs, oldVal, newVal) -> addControllerIcons());
-        iconPane.heightProperty().addListener((obs, oldVal, newVal) -> addControllerIcons());
+        trophyIconPane.widthProperty().addListener((obs, oldVal, newVal) -> addControllerIcons());
+        trophyIconPane.heightProperty().addListener((obs, oldVal, newVal) -> addControllerIcons());
 
         // handle login button click
         loginButton.setOnAction(e -> handleLogin());
@@ -92,7 +92,7 @@ public class WelcomePageController {
 
     private void addControllerIcons() {
         // clear previous icons
-        iconPane.getChildren().clear();
+        trophyIconPane.getChildren().clear();
 
         // load image
         Image controllerImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/controller.png"));
@@ -116,8 +116,8 @@ public class WelcomePageController {
 
             do {
                 positionValid = true;
-                x = random.nextDouble() * (iconPane.getWidth() - ICON_SIZE);
-                y = random.nextDouble() * (iconPane.getHeight() - ICON_SIZE);
+                x = random.nextDouble() * (trophyIconPane.getWidth() - ICON_SIZE);
+                y = random.nextDouble() * (trophyIconPane.getHeight() - ICON_SIZE);
 
                 // check if overlap in positions
                 for (double[] pos : placedPositions) {
@@ -167,7 +167,7 @@ public class WelcomePageController {
             ParallelTransition combinedAnimation = new ParallelTransition(floatAnimation, rotateAnimation, scaleAnimation);
             combinedAnimation.play();
 
-            iconPane.getChildren().add(icon);
+            trophyIconPane.getChildren().add(icon);
         }
     }
 
