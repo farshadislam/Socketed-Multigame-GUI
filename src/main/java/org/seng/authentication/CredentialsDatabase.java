@@ -56,6 +56,15 @@ public class CredentialsDatabase {
         return null;
     }
 
+    public boolean emailTaken(String email){
+        for (Player player : playerCredentials.values()) {
+            if (player.getEmail().equalsIgnoreCase(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void saveDatabase() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("database.txt"))) {
 
