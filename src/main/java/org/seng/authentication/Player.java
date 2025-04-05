@@ -27,6 +27,11 @@ public class Player {
         this.username = username;
         this.email = email;
         this.password = password;
+
+        this.rank = Rank.BRONZE; //initializing the global rank Bronze
+        this.Connect4Stats = new connect4Stats(username);
+        this.CheckersStats = new checkersStats(username);
+        this.TicTacToeStats = new ticTacToeStats(username);
     }
 
     /**
