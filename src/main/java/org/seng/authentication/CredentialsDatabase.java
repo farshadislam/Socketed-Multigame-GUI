@@ -3,10 +3,7 @@ package org.seng.authentication;
 import java.io.*;
 import java.util.HashMap;
 
-import org.seng.leaderboard.GeneralStats;
-import org.seng.leaderboard.checkersStats;
-import org.seng.leaderboard.connect4Stats;
-import org.seng.leaderboard.ticTacToeStats;
+import org.seng.leaderboard.*;
 import org.seng.leaderboard.Rank;
 
 import java.io.BufferedReader;
@@ -66,9 +63,9 @@ public class CredentialsDatabase {
             for (String username : playerCredentials.keySet()) {
 
                 Player player = playerCredentials.get(username);
-                connect4Stats connect4stats = (connect4Stats) player.getStats("connect4");
-                checkersStats checkersstats = (checkersStats) player.getStats("checkers");
-                ticTacToeStats ticTacToestats = (ticTacToeStats) player.getStats("tictactoe");
+                connect4Stats connect4stats = (connect4Stats) player.getStats(GameType.CONNECT4);
+                checkersStats checkersstats = (checkersStats) player.getStats(GameType.CHECKERS);
+                ticTacToeStats ticTacToestats = (ticTacToeStats) player.getStats(GameType.TICTACTOE);
 
                 writer.write(player.getUsername() + ","
                         + player.getEmail() + ","
