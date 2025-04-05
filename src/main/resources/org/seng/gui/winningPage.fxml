@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.WinningPageController">
+   <children>
+      <Label fx:id="winLabel" layoutX="272.0" layoutY="118.0" text="YOU WON" />
+      <Button fx:id="returnLobby" layoutX="121.0" layoutY="314.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="179.0" styleClass="option-button" text="Return to Dashboard" />
+      <Button fx:id="rematch" layoutX="329.0" layoutY="314.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="140.0" styleClass="option-button" text="Another Match" />
+   </children>
+</AnchorPane>
