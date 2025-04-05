@@ -12,7 +12,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         Font.loadFont(getClass().getResourceAsStream("/org/seng/gui/fonts/Monoton-Regular.ttf"), 64);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("winningPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("losingPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 450);
 
         // Load style sheet

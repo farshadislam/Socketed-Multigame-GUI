@@ -14,7 +14,7 @@
          </font>
       </Label>
       <Button fx:id="returnLobby" layoutX="228.0" layoutY="300.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="179.0" styleClass="option-button" text="Return to Dashboard" />
-      <Button fx:id="rematch" layoutX="548.0" layoutY="300.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="140.0" styleClass="option-button" text="Another Match" />
+      <Button fx:id="rematch" layoutX="548.0" layoutY="300.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="140.0" styleClass="option-button" text="New Game" />
    </AnchorPane>
 
 
