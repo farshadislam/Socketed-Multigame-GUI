@@ -60,6 +60,10 @@ public class LoginPage {
             return State.USERNAME_TAKEN;
         }
 
+        if(database.emailTaken(email)){
+            return State.EMAIL_TAKEN;
+        }
+
         String usernameL = username.toLowerCase();
         String emailL = email.toLowerCase();
         Player newPlayer = new Player(usernameL,emailL,password);
