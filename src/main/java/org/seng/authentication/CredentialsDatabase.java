@@ -23,6 +23,7 @@ public class CredentialsDatabase {
         this.playerCredentials = new HashMap<>();
 
         // Loading the Database from the text file
+        loadDatabase("database.txt");
     }
 
     public boolean usernameLookup(String username) {
