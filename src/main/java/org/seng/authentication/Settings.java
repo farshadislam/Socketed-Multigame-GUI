@@ -62,7 +62,9 @@ public class Settings {
      */
     public boolean changeEmail(String newEmail) {
         if (verifyEmailFormat(newEmail)){
-            for (Player p: database.getAllPlayers)
+            if (database.emailTaken(newEmail)){
+                return false;
+            }
             return true;
         }
         return false;
