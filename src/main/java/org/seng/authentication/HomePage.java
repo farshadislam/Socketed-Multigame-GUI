@@ -27,21 +27,7 @@ public class HomePage {
 
     // created method to view account settings
     public Settings viewSettings(){
-        return accountSettings;
+        return this.accountSettings;
     }
 
-    // created method to play Connect4
-    public void playConnect4(){
-        System.out.println("Starting Connect4 game");
-    }
-
-    // created method to play TicTacToe
-    public void playTicTacToe(){
-        System.out.println("Starting TicTacToe game");
-    }
-
-    // created method to play Checkers
-    public void playCheckers(){
-        System.out.println("Starting Checkers game");
-    }
 }
