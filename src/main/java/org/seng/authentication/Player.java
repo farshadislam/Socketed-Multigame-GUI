@@ -27,61 +27,11 @@ public class Player {
         this.username = username;
         this.email = email;
         this.password = password;
-
         this.rank = Rank.BRONZE; //initializing the global rank Bronze
         this.Connect4Stats = new connect4Stats(username);
         this.CheckersStats = new checkersStats(username);
         this.TicTacToeStats = new ticTacToeStats(username);
     }
-
-    /**
-     * method for updating the email
-     * @param username username of the player
-     * @param newEmail new email they want to use
-     * @return true if email is updated, false otherwise
-     */
-    public boolean updateEmail(String username, String newEmail) {
-        if (this.username.equals(username)) {
-            if (!(newEmail == null) && !newEmail.isEmpty()) {
-                this.email = newEmail;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * method for updating the password
-     * @param username username for the player
-     * @param newPassword new password they want to use
-     * @return true if password is updated, false otherwise
-     */
-    public boolean updatePassword(String username, String newPassword) {
-        if (this.username.equals(username)) {
-            if (!(newPassword == null) && !newPassword.isEmpty()) {
-                this.password = newPassword;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * method for updating the username
-     * @param username username for the player
-     * @param newUsername new username they want to use
-     * @return true if username is updated, false otherwise
-     */
-    public boolean updateUsername(String username, String newUsername) {
-        if (this.username.equals(username)) {
-            if (!(newUsername == null) && !newUsername.isEmpty()) {
-                this.username = newUsername;
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     // setters and getters
     public char getSymbol() {
