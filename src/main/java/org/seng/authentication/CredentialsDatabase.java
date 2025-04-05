@@ -66,7 +66,7 @@ public class CredentialsDatabase {
     }
 
     public void saveDatabase() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("database.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
 
             // Iterating over the keys in HashMap
             for (String username : playerCredentials.keySet()) {
