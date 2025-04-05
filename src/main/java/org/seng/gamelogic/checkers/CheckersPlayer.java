@@ -17,7 +17,7 @@ public class CheckersPlayer extends HumanPlayer {
         return true;
     }
 
-    //just copy pasted this from TicTacToePlayer please review
+
     public boolean makeMove(CheckersBoard board, CheckersMove move) {
         int rowStart = move.getRowStart();
         int rowEnd = move.getRowEnd();

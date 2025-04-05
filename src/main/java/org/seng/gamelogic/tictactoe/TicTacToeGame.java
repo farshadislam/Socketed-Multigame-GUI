@@ -57,6 +57,7 @@ public class TicTacToeGame {
     }
 
     public void switchTurn() {
+        currPlayer = Mark.O;
     }
 
     public TicTacToeBoard getBoard() {

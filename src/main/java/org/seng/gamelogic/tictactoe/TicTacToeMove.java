@@ -1,5 +1,7 @@
 package org.seng.gamelogic.tictactoe;
 
+import org.seng.gamelogic.tictactoe.TicTacToeGame;
+
 public class TicTacToeMove {
     public int row;
     public int col;
@@ -27,8 +29,9 @@ public class TicTacToeMove {
 
 
     // set Move
-    public void move(int row, int col, char symbol) {
-        // place on board
+    public String getMoveDetails(TicTacToeGame game) {
+        String mark = String.valueOf(game.getCurrentPlayer());
+        return mark;
     }
 
 }
