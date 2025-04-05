@@ -27,7 +27,7 @@ public class LoginPage {
      * @return Homepage associated with the player
      */
     public HomePage login(String username, String password){
-        if(database.usernameLookup(username)){
+        if(username != null && database.usernameLookup(username.toLowerCase())){
             Player player = database.findPlayerByUsername(username);
             if (player.getPassword().equals(password)){
                 return new HomePage(player, database);
@@ -44,7 +44,7 @@ public class LoginPage {
      * @return State indicating if the verification code has been sent, and if not what error has occurred
      */
     public State register(String username, String email, String password){
-        if(username.isEmpty() || username.matches(".*\\s.*") || hasConsecutiveValidSpecialChars(username) || username.matches(".*[A-Z].*")){
+        if(username.isEmpty() || username.matches(".*\\s.*") || hasConsecutiveValidSpecialChars(username)){
             return State.USERNAME_FORMAT_WRONG;
         }
 
@@ -60,7 +60,9 @@ public class LoginPage {
             return State.USERNAME_TAKEN;
         }
 
-        Player newPlayer = new Player(username,email,password);
+        String usernameL = username.toLowerCase();
+        String emailL = email.toLowerCase();
+        Player newPlayer = new Player(usernameL,emailL,password);
         TemporaryPlayerStorage.addPlayer(username, newPlayer);
 
         String verificationCode = EmailVerificationService.generateVerificationCode();
