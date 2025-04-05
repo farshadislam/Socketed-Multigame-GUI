@@ -64,9 +64,7 @@ public class LoginPage {
             return State.EMAIL_TAKEN;
         }
 
-        String usernameL = username.toLowerCase();
-        String emailL = email.toLowerCase();
-        Player newPlayer = new Player(usernameL,emailL,password);
+        Player newPlayer = new Player(username.toLowerCase(),email.toLowerCase(),password);
         TemporaryPlayerStorage.addPlayer(username, newPlayer);
 
         String verificationCode = EmailVerificationService.generateVerificationCode();
@@ -138,8 +136,8 @@ public class LoginPage {
         if (code.length() != 4 || !code.matches("\\d{4}")) {
             return false;
         }
-        database.addNewPlayer(newPlayer.getUsername(), newPlayer);
-        TemporaryPlayerStorage.removePlayer(username);
+        database.addNewPlayer(newPlayer.getUsername().toLowerCase(), newPlayer);
+        TemporaryPlayerStorage.removePlayer(username.toLowerCase());
 
         //Stub
         if(newPlayer.getVerificationCode()!= null && newPlayer.getVerificationCode().equals(code)){
