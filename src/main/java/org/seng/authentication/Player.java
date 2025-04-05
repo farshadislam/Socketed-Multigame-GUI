@@ -9,7 +9,6 @@ public class Player {
     private String username;
     private String email;
     private String password;
-    private Rank rank;
     private char symbol;
     private connect4Stats Connect4Stats;
     private ticTacToeStats TicTacToeStats;
@@ -89,19 +88,6 @@ public class Player {
         this.password = password;
     }
 
-    /**
-     * Return the rank from that game’s stats
-     * @param gameType the type of game
-     * @return the rank
-     */
-    public Rank getRank(GameType gameType) {
-        GeneralStats stats = getStats(gameType);
-        return (stats != null) ? stats.getRank() : Rank.BRONZE;
-    }
-
-    public void setRank(Rank rank) {
-        this.rank = rank; // If you keep a “global” rank
-    }
 
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
@@ -124,7 +110,6 @@ public class Player {
             default -> null;
         };
     }
-
 
     /**
      * override method for equals

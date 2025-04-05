@@ -13,12 +13,20 @@ public class PlayerTest {
         player = new Player("user", "user@gmail.com", "passWORD");
     }
 
-    //
+    // all values match
     @Test
-    public void testGeneral(){
+    public void testGeneral1(){
         assertEquals("user", player.getUsername());
         assertEquals("user@gmail.com", player.getEmail());
-        assertNotEquals("password", player.getPassword());
+        assertEquals("passWORD", player.getPassword());
+    }
+
+    // all values do not match
+    @Test
+    public void testGeneral2(){
+        assertEquals("user", player.getUsername());
+        assertEquals("user@gmail.com", player.getEmail());
+        assertNotEquals("pass", player.getPassword());
     }
 
     // same username, different emails and passwords

@@ -63,8 +63,8 @@ public class Settings {
      */
     public boolean changeEmail(String newEmail) {
         if (verifyEmailFormat(newEmail)){
-            if (!database.emailTaken(newEmail)){
-                player.setEmail(newEmail.toLowerCase());
+            if (!database.emailTaken(newEmail.toLowerCase())){
+                player.setEmail(newEmail);
                 return true;
             }
             return false;
