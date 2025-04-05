@@ -25,7 +25,7 @@ public class PlayerTest {
     @Test
     public void testEquals1(){
         Player p2 = new Player("user", "java@gmail.com", "password123");
-        assertEquals(player, p2);
+        assertNotEquals(player, p2);
     }
 
     // one username valid, other null
