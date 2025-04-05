@@ -142,7 +142,7 @@ public class LoginPage {
         TemporaryPlayerStorage.removePlayer(username);
 
         //Stub
-        if(newPlayer.getVerificationCode().equals(code)){
+        if(newPlayer.getVerificationCode()!= null && newPlayer.getVerificationCode().equals(code)){
             return true;
         }
 
@@ -167,7 +167,7 @@ public class LoginPage {
             return false;
         }
         //stub
-        if(player.getVerificationCode().equals(code)){
+        if(player.getVerificationCode()!= null && player.getVerificationCode().equals(code)){
             return true;
         }
         return code.length() == 4 && code.matches("\\d{4}");
