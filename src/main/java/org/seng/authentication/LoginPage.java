@@ -43,7 +43,7 @@ public class LoginPage {
      * @param password Password of the player
      * @return State indicating if the verification code has been sent, and if not what error has occurred
      */
-    public State register(String username, String email, String password, char symbol){
+    public State register(String username, String email, String password){
         if(username.isEmpty()){
             return State.EMPTY_USERNAME;
         }
@@ -60,7 +60,7 @@ public class LoginPage {
             return State.PASSWORD_FORMAT_WRONG;
         }
 
-        Player newPlayer = new Player(username,email,password,symbol, null, 0, 0, 0);
+        Player newPlayer = new Player(username,email,password);
         TemporaryPlayerStorage.addPlayer(username, newPlayer);
 
         String verificationCode = EmailVerificationService.generateVerificationCode();

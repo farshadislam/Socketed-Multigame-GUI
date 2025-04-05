@@ -88,31 +88,31 @@ public class Player {
     }
 
     public connect4Stats getConnect4Stats() {
-        return Connect4Stats;
+        return this.Connect4Stats;
     }
 
     public void setConnect4Stats(connect4Stats connect4Stats) {
-        Connect4Stats = connect4Stats;
+        this.Connect4Stats = connect4Stats;
     }
 
     public ticTacToeStats getTicTacToeStats() {
-        return TicTacToeStats;
+        return this.TicTacToeStats;
     }
 
     public void setTicTacToeStats(ticTacToeStats ticTacToeStats) {
-        TicTacToeStats = ticTacToeStats;
+        this.TicTacToeStats = ticTacToeStats;
     }
 
     public checkersStats getCheckersStats() {
-        return CheckersStats;
+        return this.CheckersStats;
     }
 
     public void setCheckersStats(checkersStats checkersStats) {
-        CheckersStats = checkersStats;
+        this.CheckersStats = checkersStats;
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {
@@ -120,7 +120,7 @@ public class Player {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -128,7 +128,7 @@ public class Player {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -164,45 +164,11 @@ public class Player {
      */
     public GeneralStats getStats(GameType gameType) {
         return switch (gameType.name().toLowerCase()) {
-            case "connect4" -> Connect4Stats;
-            case "tictactoe" -> TicTacToeStats;
-            case "checkers" -> CheckersStats;
+            case "connect4" -> this.Connect4Stats;
+            case "tictactoe" -> this.TicTacToeStats;
+            case "checkers" -> this.CheckersStats;
             default -> null;
         };
-    }
-
-    // Total statistics
-
-    /**
-     * method for getting the total losses
-     * @return the total losses of all 3 games
-     */
-    public int getTotalLosses() {
-        return Connect4Stats.get_losses() + TicTacToeStats.get_losses() + CheckersStats.get_losses();
-    }
-
-    /**
-     * method for getting the total games played
-     * @return the total games played of all 3 games
-     */
-    public int getTotalGamesPlayed() {
-        return Connect4Stats.getGamesPlayed() + TicTacToeStats.getGamesPlayed() + CheckersStats.getGamesPlayed();
-    }
-
-    /**
-     * method for getting the total ties
-     * @return the total ties of all 3 games
-     */
-    public int getTotalTies() {
-        return Connect4Stats.get_ties() + TicTacToeStats.get_ties() + CheckersStats.get_ties();
-    }
-
-    /**
-     * method for getting the total wins
-     * @return the total wins of all 3 games
-     */
-    public int getTotalWins() {
-        return Connect4Stats.getWins() + TicTacToeStats.getWins() + CheckersStats.getWins();
     }
 
 
