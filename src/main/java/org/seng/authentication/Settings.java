@@ -48,7 +48,7 @@ public class Settings {
      */
     public boolean changeUsername(String newUsername){
         if (newUsername!=null && !(newUsername.isEmpty())){
-            if(!database.usernameLookup(newUsername))
+            if(!database.usernameLookup(newUsername.toLowerCase()))
                 player.setUsername(newUsername);
                 return true;
         }
