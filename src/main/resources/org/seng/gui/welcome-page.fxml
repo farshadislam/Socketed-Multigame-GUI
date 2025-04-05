@@ -13,7 +13,7 @@
             prefHeight="400.0" prefWidth="600.0"
             styleClass="gradient-background">
 
-    <Pane fx:id="trophyIconPane" style="-fx-background-color: transparent;"
+    <Pane fx:id="iconPane" style="-fx-background-color: transparent;"
           AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
 

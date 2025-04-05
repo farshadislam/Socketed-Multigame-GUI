@@ -6,14 +6,15 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.WinningPageController">
-   <Pane fx:id="trophyIconPane" style="-fx-background-color: transparent;" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-   <Label fx:id="winLabel" layoutX="282.0" layoutY="120.0" styleClass="outlined-text" text="YOU WON!" textFill="#00ff2f">
-      <font>
-         <Font name="Arial Rounded MT Bold" size="64.0" />
-      </font>
-   </Label>
-   <Button fx:id="returnLobby" layoutX="228.0" layoutY="300.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="179.0" styleClass="option-button" text="Return to Dashboard" />
-   <Button fx:id="rematch" layoutX="548.0" layoutY="300.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="140.0" styleClass="option-button" text="Another Match" />
-</AnchorPane>
+   <AnchorPane prefHeight="600.0" prefWidth="900.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.WinningPageController">
+      <Pane fx:id="trophyIconPane" style="-fx-background-color: transparent;" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Label fx:id="winLabel" layoutX="282.0" layoutY="120.0" styleClass="outlined-text" text="YOU WON!" textFill="#00ff2f">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="64.0" />
+         </font>
+      </Label>
+      <Button fx:id="returnLobby" layoutX="228.0" layoutY="300.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="179.0" styleClass="option-button" text="Return to Dashboard" />
+      <Button fx:id="rematch" layoutX="548.0" layoutY="300.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="140.0" styleClass="option-button" text="Another Match" />
+   </AnchorPane>
+
 
