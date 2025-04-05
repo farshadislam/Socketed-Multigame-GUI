@@ -124,7 +124,7 @@ public class LoginPage {
         return c == '.' || c == '_' || c == '-';
     }
 
-    private boolean verifyPasswordFormat(String password){
+    public boolean verifyPasswordFormat(String password){
         return password.length() >= 8 && !password.matches(".*\\s.*");
     }
 

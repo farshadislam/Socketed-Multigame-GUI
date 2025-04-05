@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
+import org.seng.authentication.LoginPage;
+
 import java.io.IOException;
 
 public class CreateAccountController {
@@ -21,6 +23,7 @@ public class CreateAccountController {
 
     @FXML
     private Button registerButton, backButton;
+    private LoginPage loginPage;
 
     @FXML
     public void initialize() {
@@ -30,6 +33,11 @@ public class CreateAccountController {
         // Reset prompt text when typing
         usernameField.textProperty().addListener((observable, oldValue, newValue) -> resetPrompt(usernameField, "Username"));
         emailField.textProperty().addListener((observable, oldValue, newValue) -> resetPrompt(emailField, "Email"));
+
+    }
+
+    public void setLoginPage(LoginPage loginPage){
+        this.loginPage = loginPage;
     }
 
     private void handleRegistration() {
@@ -37,9 +45,13 @@ public class CreateAccountController {
         String email = emailField.getText();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
+        loginPage.register(username,email,password);
 
         boolean hasError = false;
-
+        if (!password.equals(confirmPassword)) {
+            displayPasswordsMatchingError();
+            return;
+        }
         // Check if username is empty
         if (username.isEmpty()) {
             indicateFieldError(usernameField, "Please enter a valid username");
@@ -59,12 +71,13 @@ public class CreateAccountController {
 
         // Validate passwords
         if (!password.equals(confirmPassword)) {
-            displayPasswordError();
+            displayPasswordsMatchingError();
             return;
         }
 
         openSuccessPage();
     }
+
 
     private void resetPrompt(TextField field, String defaultPrompt) {
         field.getStyleClass().remove("error-prompt");
@@ -85,7 +98,7 @@ public class CreateAccountController {
         pause.play();
     }
 
-    private void displayPasswordError() {
+    private void displayPasswordsMatchingError() {
         passwordField.getStyleClass().add("error-prompt");
         confirmPasswordField.getStyleClass().add("error-prompt");
         passwordField.setPromptText("Passwords do not match");

@@ -6,20 +6,32 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.text.Font;
 import java.io.IOException;
+import org.seng.authentication.*;
 
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Font.loadFont(getClass().getResourceAsStream("/org/seng/gui/fonts/Monoton-Regular.ttf"), 64);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("connect4-board.fxml"));
+        // Load FXML for welcome page
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("welcome-page.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 450);
 
         // Load style sheet
-        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm());
-        //scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
-        //scene.getStylesheets().add(getClass().getResource("tictactoestyles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
+        // Get the controller of the loaded FXML
+        WelcomePageController controller = fxmlLoader.getController();
+
+        // Initialize the LoginPage and pass it to the controller
+        CredentialsDatabase database = new CredentialsDatabase();
+        database.loadDatabase("database.txt");
+        LoginPage loginPage = new LoginPage(database);
+
+        // Pass loginPage to the WelcomePageController
+        controller.setLoginPage(loginPage);
+
+        // Set up the stage
         stage.setTitle("OMG Platform");
         stage.setScene(scene);
         stage.show();
