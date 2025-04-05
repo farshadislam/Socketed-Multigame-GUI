@@ -48,9 +48,10 @@ public class Settings {
      */
     public boolean changeUsername(String newUsername){
         if (newUsername!=null && !(newUsername.isEmpty())){
-            if(!database.usernameLookup(newUsername.toLowerCase()))
+            if(!database.usernameLookup(newUsername.toLowerCase())) {
                 player.setUsername(newUsername);
                 return true;
+            }
         }
         return false;
     }
@@ -62,10 +63,11 @@ public class Settings {
      */
     public boolean changeEmail(String newEmail) {
         if (verifyEmailFormat(newEmail)){
-            if (database.emailTaken(newEmail)){
-                return false;
+            if (!database.emailTaken(newEmail)){
+                player.setEmail(newEmail.toLowerCase());
+                return true;
             }
-            return true;
+            return false;
         }
         return false;
     }
