@@ -24,8 +24,8 @@ public class Player {
      * @param password password of the player
      */
     public Player(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
+        this.username = username.toLowerCase();
+        this.email = email.toLowerCase();
         this.password = password;
         this.Connect4Stats = new connect4Stats(username);
         this.CheckersStats = new checkersStats(username);
@@ -66,19 +66,19 @@ public class Player {
     }
 
     public String getUsername() {
-        return this.username;
+        return this.username.toLowerCase();
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username.toLowerCase();
     }
 
     public String getEmail() {
-        return this.email;
+        return this.email.toLowerCase();
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.toLowerCase();
     }
 
     public String getPassword() {

@@ -47,12 +47,10 @@ public class Settings {
      * @return true if the username is changed, false otherwise
      */
     public boolean changeUsername(String newUsername){
-        newUsername = newUsername.toLowerCase();
         if (newUsername!=null && !(newUsername.isEmpty())){
-            if(!database.usernameLookup(newUsername)) {
+            if(!database.usernameLookup(newUsername.toLowerCase()))
                 player.setUsername(newUsername);
                 return true;
-            }
         }
         return false;
     }
@@ -63,7 +61,6 @@ public class Settings {
      * @return true if the email is changed, false otherwise
      */
     public boolean changeEmail(String newEmail) {
-        newEmail = newEmail.toLowerCase();
         if (verifyEmailFormat(newEmail)){
             if (database.emailTaken(newEmail)){
                 return false;

@@ -26,31 +26,31 @@ public class CredentialsDatabase {
     }
 
     public boolean usernameLookup(String username) {
-        if (playerCredentials.containsKey(username)) {
+        if (playerCredentials.containsKey(username.toLowerCase())) {
             return true;
         }
         return false;
     }
 
     public boolean addNewPlayer(String username, Player player) {
-        if (!(playerCredentials.containsKey(username))) {
-            playerCredentials.put(username, player);
+        if (!(playerCredentials.containsKey(username.toLowerCase()))) {
+            playerCredentials.put(username.toLowerCase(), player);
             return true;
         }
         return false;
     }
 
     public boolean deleteExistingPlayer(String username) {
-        if (playerCredentials.containsKey(username)) {
-            playerCredentials.remove(username);
+        if (playerCredentials.containsKey(username.toLowerCase())) {
+            playerCredentials.remove(username.toLowerCase());
             return true;
         }
         return false;
     }
 
     public Player findPlayerByUsername(String username) {
-        if (playerCredentials.containsKey(username)) {
-            Player value = playerCredentials.get(username);
+        if (playerCredentials.containsKey(username.toLowerCase())) {
+            Player value = playerCredentials.get(username.toLowerCase());
             return value;
         }
         return null;
