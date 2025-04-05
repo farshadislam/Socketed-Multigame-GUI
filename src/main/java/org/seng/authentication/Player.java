@@ -97,19 +97,19 @@ public class Player {
         return this.verificationCode;
     }
 
-    /**
-     * method for getting the stats
-     * @param gameType the type of game
-     * @return the stats for the game
-     */
-    public GeneralStats getStats(GameType gameType) {
-        return switch (gameType.name().toLowerCase()) {
-            case "connect4" -> this.Connect4Stats;
-            case "tictactoe" -> this.TicTacToeStats;
-            case "checkers" -> this.CheckersStats;
-            default -> null;
-        };
-    }
+//    /**
+//     * method for getting the stats
+//     * @param gameType the type of game
+//     * @return the stats for the game
+//     */
+//    public GeneralStats getStats(GameType gameType) {
+//        return switch (gameType.name().toLowerCase()) {
+//            case "connect4" -> this.Connect4Stats;
+//            case "tictactoe" -> this.TicTacToeStats;
+//            case "checkers" -> this.CheckersStats;
+//            default -> null;
+//        };
+//    }
 
     /**
      * override method for equals
