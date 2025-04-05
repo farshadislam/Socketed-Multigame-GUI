@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.w3c.dom.Text;
@@ -28,7 +29,23 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 public class Connect4Controller {
     @FXML
+    private FlowPane board; // This will auto-link with fx:id="board" in FXML
+
+    private static final int ROWS = 6;
+    private static final int COLS = 7;
+
+    private Button[][] boardButtons = new Button[ROWS][COLS];
+    @FXML
     public void initialize() {
+        int buttonIndex = 0;
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS; col++) {
+                Button btn = (Button) board.getChildren().get(buttonIndex++);
+                int finalCol = col; // Required to use in lambda
+                boardButtons[row][col] = btn;
+                btn.setOnAction(e -> handleColumnClick(finalCol));
+            }
+        }
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
@@ -114,6 +131,17 @@ public class Connect4Controller {
         dialogPane.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
 
         alert.showAndWait();
+    }
+
+    private void handleColumnClick(int col) {
+        for (int row = ROWS - 1; row >= 0; row--) {
+            Button cell = boardButtons[row][col];
+            if (cell.getText().isEmpty()) {
+                cell.setText("X"); // You can toggle between "X"/"O" later
+                cell.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+                break;
+            }
+        }
     }
 }
 

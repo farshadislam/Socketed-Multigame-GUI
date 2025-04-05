@@ -30,18 +30,22 @@
 .controller-icon {
     -fx-opacity: 0.15;
 }
+@font-face {
+    font-family: "Monoton";
+    src: url("fonts/Monoton-Regular.ttf");
+}
 
-
-
-.connect4-label {
-    -fx-font-size: 64px;
+.omg-label {
+    -fx-font-family: "Monoton";
+    -fx-font-size: 15px;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-alignment: center;
 }
 
+
 .option-button {
-    -fx-background-color: white;
+    -fx-background-color: linear-gradient(to bottom, #8E2DE2, #4A00E0); /* Purple gradient */
     -fx-text-fill: white !important;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
@@ -76,17 +80,11 @@
         -fx-border-width: 1px;
     }
 
-@font-face {
-    font-family: "Monoton";
-    src: url("fonts/Monoton-Regular.ttf");
-}
+.connect4-Label {
 
-.omg-label {
-    -fx-font-family: "Monoton";
-    -fx-font-size: 64px;
+    -fx-font-size: 36px;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-alignment: center;
 }
-
 }
