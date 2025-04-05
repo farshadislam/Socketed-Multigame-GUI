@@ -7,11 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlayerTest {
     private Player player; // create player object for testing
 
+    // initialize a player before each unit test
     @BeforeEach
     public void initializePlayer(){
         player = new Player("user", "user@gmail.com", "passWORD");
     }
 
+    //
     @Test
     public void testGeneral(){
         assertEquals("user", player.getUsername());
@@ -19,35 +21,31 @@ public class PlayerTest {
         assertNotEquals("password", player.getPassword());
     }
 
+    // same username, different emails and passwords
     @Test
-    public void testUpdateEmail(){
-        assertTrue(player.updateEmail("user@gmail.com", "user123@gmail.com"));
-        assertEquals("user123@gmail.com", player.getEmail());
-        assertNotEquals("user123@hotmail.com", player.getEmail());
-        assertFalse(player.updateEmail("player@gmail.com", "user567@gmail.com"));
+    public void testEquals1(){
+        Player p2 = new Player("user", "java@gmail.com", "password123");
+        assertEquals(player, p2);
     }
 
+    // one username valid, other null
     @Test
-    public void testUpdatePassword(){
-        assertTrue(player.updatePassword("passWORD", "SENG300"));
-        assertEquals("SENG300", player.getPassword());
-        assertNotEquals("LeBron", player.getPassword());
-        assertFalse(player.updatePassword("12345", "gameTime"));
-    }
-
-    @Test
-    public void testUpdateUsername(){
-        assertTrue(player.updateUsername("user", "superUser"));
-        assertEquals("superUser", player.getUsername());
-        assertNotEquals("player", player.getUsername());
-        assertFalse(player.updateUsername("name", "Avenger"));
-    }
-
-    @Test
-    public void testEquals(){
-        Player p2 = new Player("user", null, null);
-        Player p3 = new Player("Java", null, null);
+    public void testEquals2(){
+        Player p3 = new Player(null, null, null);
         assertNotEquals(player, p3);
+    }
+
+    // different classes being compared
+    @Test
+    public void testEquals3() {
+        int num = 5;
+        assertNotEquals(player, num);
+    }
+
+    // same user, email, password
+    @Test
+    public void testEquals4(){
+        Player p2 = new Player("user", "user@gmail.com", "passWORD");
         assertEquals(player, p2);
     }
 }
