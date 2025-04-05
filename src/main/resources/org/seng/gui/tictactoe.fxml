@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="900.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.TicTacToeController">
+
+   <children>
+
+      <FlowPane layoutX="288.0" layoutY="188.0" prefHeight="280.0" prefWidth="300.0">
+         <children>
+            <Button fx:id="button1" prefHeight="95.0" prefWidth="100.0" text="X" />
+            <Button fx:id="button3" prefHeight="95.0" prefWidth="100.0" text="X" />
+            <Button fx:id="button4" prefHeight="95.0" prefWidth="100.0" text="O" />
+            <Button fx:id="button2" prefHeight="95.0" prefWidth="100.0" text="O" />
+            <Button fx:id="button5" prefHeight="95.0" prefWidth="100.0" text="O" />
+            <Button fx:id="button6" prefHeight="95.0" prefWidth="100.0" text="X" />
+            <Button fx:id="button7" prefHeight="95.0" prefWidth="100.0" text="X" />
+            <Button fx:id="button8" prefHeight="95.0" prefWidth="100.0" text="O" />
+            <Button fx:id="button9" prefHeight="95.0" prefWidth="100.0" text="X" />
+         </children>
+      </FlowPane>
+
+      <Text fill="WHITE" layoutX="26.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OMG Games">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Text>
+
+   
+
+      <!-- Chat & Settings -->
+      <Button fx:id="inGameChatButton" layoutX="822.0" layoutY="551.0" onAction="#openChat" text="Chat" />
+      <MenuButton fx:id="SettingMenu" layoutX="797.0" layoutY="24.0" mnemonicParsing="false" text="Setting">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Quit" />
+          <MenuItem mnemonicParsing="false" text="Reload" />
+        </items>
+      </MenuButton>
+      <Text fill="#fffcfc" layoutX="384.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tic Tac Toe">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Text>
+
+   </children>
+</AnchorPane>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.seng.gui.GameDashboardController"
+            prefHeight="400.0" prefWidth="600.0"
+            styleClass="gradient-background">
+
+    <HBox spacing="10" styleClass="dashboard-hbox"
+          AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="20.0"
+          AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+
+        <!-- Left Pane: View Stats -->
+        <VBox alignment="center" spacing="10" styleClass="dashboard-pane" HBox.hgrow="ALWAYS">
+            <Label text="View Stats" styleClass="dashboard-label"/>
+        </VBox>
+
+        <!-- Center Pane: Your Profile -->
+        <VBox alignment="center" spacing="10" styleClass="dashboard-pane" HBox.hgrow="ALWAYS">
+            <Label text="Your Profile" styleClass="dashboard-label"/>
+        </VBox>
+
+        <!-- Right Pane: Play Games -->
+        <VBox alignment="center" spacing="10" styleClass="dashboard-pane" HBox.hgrow="ALWAYS">
+            <Label text="Play Games" styleClass="dashboard-label"/>
+        </VBox>
+
+    </HBox>
+</AnchorPane>
+
+
+

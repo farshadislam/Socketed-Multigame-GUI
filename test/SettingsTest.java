@@ -10,17 +10,31 @@ public class SettingsTest {
     private Player player; // create player object for testing
     private Settings settings;
 
+    // initialize the player and settings before each test
     @BeforeEach
     public void initializeFields(){
-        player = new Player("user", "user@gmail.com", "passWORD");
+        player = new Player("newUser", "newUser@gmail.com", "passWORD");
         settings = new Settings(player, new CredentialsDatabase());
     }
 
+    // valid username
     @Test
-    public void testChangeUsername(){
+    public void testChangeUsername1(){
         assertTrue(settings.changeUsername("superUser"));
         assertEquals("superUser", player.getUsername());
-        assertFalse(settings.changeUsername(null));
+    }
+
+    // invalid username
+    @Test
+    public void testChangeUsername2(){
+        assertFalse(settings.changeUsername("boo"));
+    }
+
+    // username already exists
+    @Test
+    public void testChangeUsername3(){
+        Player p2 = new Player("java123", "java123@gmail.com", "pass12345");
+        assertFalse(settings.changeUsername("java123"));
     }
 
     @Test
@@ -32,9 +46,9 @@ public class SettingsTest {
 
     @Test
     public void testChangePassword(){
-        assertTrue(settings.changePassword("passWORD", "SENG300"));
-        assertEquals("SENG300", player.getPassword());
-        assertFalse(settings.changePassword("password", "OMG"));
+        assertTrue(settings.changePassword("passWORD", "SENG300!"));
+        assertEquals("SENG300!", player.getPassword());
+        assertFalse(settings.changePassword("password", "password1234567"));
     }
 
 }

@@ -10,43 +10,43 @@ public class PlayerTest {
     // initialize a player before each unit test
     @BeforeEach
     public void initializePlayer(){
-        player = new Player("user", "user@gmail.com", "passWORD");
+        player = new Player("newUser", "Newuser@gmail.com", "passWORD");
     }
 
     // all values match
     @Test
     public void testGeneral1(){
-        assertEquals("user", player.getUsername());
-        assertEquals("user@gmail.com", player.getEmail());
+        assertEquals("newUser", player.getUsername());
+        assertEquals("newUser@gmail.com", player.getEmail());
         assertEquals("passWORD", player.getPassword());
     }
 
     // all values do not match
     @Test
     public void testGeneral2(){
-        assertEquals("user", player.getUsername());
-        assertEquals("user@gmail.com", player.getEmail());
+        assertEquals("newUser", player.getUsername());
+        assertEquals("newUser@gmail.com", player.getEmail());
         assertNotEquals("pass", player.getPassword());
     }
 
     // same username, different emails and passwords
     @Test
     public void testEquals1(){
-        Player p2 = new Player("user", "java@gmail.com", "password123");
+        Player p2 = new Player("newUser", "java123@gmail.com", "password123");
         assertNotEquals(player, p2);
     }
 
     // same username, same emails, different passwords
     @Test
     public void testEquals2(){
-        Player p2 = new Player("user", "user@gmail.com", "password123");
+        Player p2 = new Player("newUser", "newUser@gmail.com", "password123");
         assertEquals(player, p2);
     }
 
     // same username, same emails and passwords
     @Test
     public void testEquals3(){
-        Player p2 = new Player("user", "user@gmail.com", "passWORD");
+        Player p2 = new Player("newUser", "newUser@gmail.com", "passWORD");
         assertEquals(player, p2);
     }
 
