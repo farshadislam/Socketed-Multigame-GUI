@@ -1,25 +1,12 @@
 package org.seng.gui;
 
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.collections.FXCollections;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
 
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.MenuItem;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,21 +14,23 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
+
 public class Connect4Controller {
     @FXML
-    private FlowPane board; // This will auto-link with fx:id="board" in FXML
+    private FlowPane board;
 
     private static final int ROWS = 6;
     private static final int COLS = 7;
 
     private Button[][] boardButtons = new Button[ROWS][COLS];
+
     @FXML
     public void initialize() {
         int buttonIndex = 0;
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
                 Button btn = (Button) board.getChildren().get(buttonIndex++);
-                int finalCol = col; // Required to use in lambda
+                int finalCol = col;
                 boardButtons[row][col] = btn;
                 btn.setOnAction(e -> handleColumnClick(finalCol));
             }
@@ -49,7 +38,6 @@ public class Connect4Controller {
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
-    @FXML
 
     private void saveMessage(String message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
@@ -102,6 +90,7 @@ public class Connect4Controller {
                 messageField.clear();
             }
         });
+
         messageField.setOnAction(e -> sendButton.fire());
         chatBox.getChildren().addAll(chatDisplay, messageField, sendButton);
 
@@ -112,21 +101,18 @@ public class Connect4Controller {
     }
 
     @FXML
-    void howToPlayDescription(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.NONE); // No default icon
-
+    void howToPlayDescription() {
+        Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("Help");
         alert.setHeaderText("How to Play");
 
-        // Set the content
         alert.setContentText(
-                  "1. Players take turns dropping pieces.\n\n"
-                + "2. Connect four in a row, column, or diagonal.\n\n"
-                + "3. First player to do so wins!\n\n"
-                + "4. If the board is full, it's a draw.\n");
+                "1. Players take turns dropping pieces.\n\n"
+                        + "2. Connect four in a row, column, or diagonal.\n\n"
+                        + "3. First player to do so wins!\n\n"
+                        + "4. If the board is full, it's a draw.\n");
 
-        alert.getButtonTypes().add(javafx.scene.control.ButtonType.OK);
-        // Apply CSS file
+        alert.getButtonTypes().add(ButtonType.OK);
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
 
@@ -136,9 +122,8 @@ public class Connect4Controller {
     private void handleColumnClick(int col) {
         for (int row = ROWS - 1; row >= 0; row--) {
             Button cell = boardButtons[row][col];
-            if (cell.getText().isEmpty()) {
-                cell.setText("X"); // You can toggle between "X"/"O" later
-                cell.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+            if (cell.getStyle().isEmpty()) {
+                cell.setStyle("-fx-background-color: #00F0FF;");
                 break;
             }
         }
