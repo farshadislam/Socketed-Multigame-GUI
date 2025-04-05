@@ -11,6 +11,7 @@ public class LoginPage {
 
     public enum State{
         USERNAME_TAKEN,
+        EMAIL_TAKEN,
         USERNAME_FORMAT_WRONG,
         EMAIL_FORMAT_WRONG,
         PASSWORD_FORMAT_WRONG,
@@ -43,7 +44,7 @@ public class LoginPage {
      * @return State indicating if the verification code has been sent, and if not what error has occurred
      */
     public State register(String username, String email, String password){
-        if(username.isEmpty() || username.matches(".*\\s.*") || hasConsecutiveValidSpecialChars(username)){
+        if(username.isEmpty() || username.matches(".*\\s.*") || hasConsecutiveValidSpecialChars(username) || username.matches(".*[A-Z].*")){
             return State.USERNAME_FORMAT_WRONG;
         }
 
