@@ -1,4 +1,6 @@
 package org.seng.leaderboard.matchmaking;
+import org.seng.leaderboard.GameType;
+import org.seng.authentication.Player;
 
 import java.util.*;
 

@@ -30,4 +30,8 @@ public class HomePage {
         return this.accountSettings;
     }
 
+    public Player getPlayer(){
+        return this.player;
+    }
+
 }

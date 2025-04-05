@@ -9,10 +9,9 @@ public class LoginPage {
         this.database = database;
     }
 
-    private enum State{
+    public enum State{
         USERNAME_TAKEN,
-        EMPTY_USERNAME,
-        EMPTY_PASSWORD,
+        USERNAME_FORMAT_WRONG,
         EMAIL_FORMAT_WRONG,
         PASSWORD_FORMAT_WRONG,
         VERIFICATION_CODE_SENT,
@@ -44,20 +43,20 @@ public class LoginPage {
      * @return State indicating if the verification code has been sent, and if not what error has occurred
      */
     public State register(String username, String email, String password){
-        if(username.isEmpty()){
-            return State.EMPTY_USERNAME;
+        if(username.isEmpty() || username.matches(".*\\s.*") || hasConsecutiveValidSpecialChars(username)){
+            return State.USERNAME_FORMAT_WRONG;
         }
-        if(password.isEmpty()) {
-            return State.EMPTY_PASSWORD;
-        }
-        if(database.usernameLookup(username)){
-            return State.USERNAME_TAKEN;
-        }
+
         if (!verifyEmailFormat(email)){
             return State.EMAIL_FORMAT_WRONG;
         }
+
         if(!verifyPasswordFormat(password)){
             return State.PASSWORD_FORMAT_WRONG;
+        }
+
+        if(database.usernameLookup(username)){
+            return State.USERNAME_TAKEN;
         }
 
         Player newPlayer = new Player(username,email,password);
@@ -73,7 +72,6 @@ public class LoginPage {
 
     /**
      * Verifies if the email format provided by the player is correct or not
-     *
      * @param email
      * @return
      */
@@ -82,13 +80,43 @@ public class LoginPage {
             return false;
         }
         String usernameOfEmail = email.substring(0, email.indexOf("@"));
-        for(int i = 0; i < usernameOfEmail.length(); i++){
-            char character = usernameOfEmail.charAt(i);
-            if(!(Character.isLetterOrDigit(character) || character == '.' || character == '_' || character == '-')){
+
+        if (!usernameOfEmail.isEmpty()) {
+            char firstChar = usernameOfEmail.charAt(0);
+            char lastChar = usernameOfEmail.charAt(usernameOfEmail.length() - 1);
+
+            // Special characters to check
+            if (isValidSpecialCharacter(firstChar)||isValidSpecialCharacter(lastChar)) {
                 return false;
             }
         }
+
+        for(int i = 0; i < usernameOfEmail.length(); i++){
+            char character = usernameOfEmail.charAt(i);
+            if(!(Character.isLetterOrDigit(character) || isValidSpecialCharacter(character))){
+                return false;
+            }
+        }
+        if(hasConsecutiveValidSpecialChars(usernameOfEmail)){
+            return false;
+        }
         return true;
+    }
+
+    private boolean hasConsecutiveValidSpecialChars(String username) {
+        for (int i = 0; i < username.length() - 1; i++) {
+            char currentChar = username.charAt(i);
+            char nextChar = username.charAt(i + 1);
+
+            if (isValidSpecialCharacter(currentChar) && isValidSpecialCharacter(nextChar)) {
+                return true; // Consecutive special characters found
+            }
+        }
+        return false; // No consecutive special characters
+    }
+
+    private boolean isValidSpecialCharacter(char c) {
+        return c == '.' || c == '_' || c == '-';
     }
 
     private boolean verifyPasswordFormat(String password){
