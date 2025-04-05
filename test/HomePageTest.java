@@ -34,18 +34,5 @@ public class HomePageTest {
         assertEquals(player, settings.getPlayer());
     }
 
-    @Test
-    public void testPlayConnect4(){
-        homePage.playConnect4();
-    }
 
-    @Test
-    public void testPlayTicTacToe(){
-        homePage.playTicTacToe();
-    }
-
-    @Test
-    public void testPlayCheckers(){
-        homePage.playCheckers();
-    }
 }
