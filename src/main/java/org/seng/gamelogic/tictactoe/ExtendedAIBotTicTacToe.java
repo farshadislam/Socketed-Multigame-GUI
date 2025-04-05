@@ -1,42 +1,39 @@
 package org.seng.gamelogic.tictactoe;
-import org.seng.gamelogic.AIBot;
-import org.seng.gamelogic.tictactoe.TicTacToeBoard;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
 import org.seng.gamelogic.Player;
-import org.seng.gamelogic.tictactoe.TicTacToeMove;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 
-public class ExtendedAIBotTicTacToe extends AIBot {
+public class ExtendedAIBotTicTacToe extends Player {
     private TicTacToeBoard board; // BH: changed from boardRef to board to keep names simple/consistent
     private TicTacToeGame game;
     private Mark symbol;
+    private Random random;
 
-    /** BH Review comments: Added TicTacToeBoard as an argument to the constructor. Do we need to do this for
-     * the other games' ExtendedAIBot classes too? Also I don't think we need the name, accountID, rank arguments
-     * for an AI bot. */
-    // constructor
+
     public ExtendedAIBotTicTacToe(Mark symbol, TicTacToeGame game, TicTacToeBoard board) {
-        super("AIBot", 0, 0, 0);
+        super("AI Bot", 0, markToChar(symbol), 0); // passes username, player ID, symbol as char, rank
         this.board = board;
         this.game = game;
         this.symbol = symbol; // either 'X' or 'O'
+        this.random = new Random();
     }
 
 
     /**
-     * @param
+     * @param board TheTicTacToeBoard for AIBot.
+     * @param move TheTicTacToeMove that have row, column and symbol.
+     * @return true if the move was successful, if not false.
      * */
     public boolean makeMove(TicTacToeBoard board, TicTacToeMove move) {
         if (this.board != board) {
     //        System.out.println("Board does not match");
             return false;
         }
-      //  Mark moveSymbol = chartoMove(move.getSymbol());
-
-        if (move == null || move.getSymbol() != marktoChar(this.symbol)) {
+        // ensure its not null, and matches AI symbol
+        if (move == null || move.getSymbol() != markToChar(this.symbol)) {
             return false;
         }
         if (board.makeMove(move.getRow(), move.getCol(), this.symbol)) {
@@ -46,10 +43,12 @@ public class ExtendedAIBotTicTacToe extends AIBot {
 
     }
 
-
-    /** BH Review comments: maybe the nextMove() method is not needed...? */
+    /**
+     * @param board TheTicTacToeBoard to find a move
+     * @return int array representing the next move, null if no moves are available
+     * */
     // AI decides best move given current state of the board
-    public int[] findBestMove(TicTacToeBoard board) {
+    public int[] findNextMove(TicTacToeBoard board) {
         //collect empty spots on the board
         List<int[]> emptySpots = new ArrayList<>();
         for (int r = 0; r < TicTacToeBoard.SIZE; r++) {
@@ -64,23 +63,37 @@ public class ExtendedAIBotTicTacToe extends AIBot {
             return null;
         }
 
-        return emptySpots.get(new Random().nextInt(emptySpots.size()));
+        //pick a random spot
+        return emptySpots.get(random.nextInt(emptySpots.size()));
     }
 
 
-    @Override
-    public Object nextMove(Object board) {
-        return board; // placeholder
+
+    /**
+     * @param board TheTicTacToeBoard to generate a move
+     * @return TicTacToeMove object for a next move, or null if no moves are available, or not AI's turn
+     * */
+
+    public TicTacToeMove nextMove(TicTacToeBoard board) {
+        if (game.getCurrentPlayer() != this.symbol) {
+            return null; // not AI's turn
+        }
+        int[] move = findNextMove(board);
+        if (move == null) {
+            return null;
+        }
+        //convert the AI's mark to char for TicTacToeMove
+        return new TicTacToeMove(move[1], move[0], markToChar(this.symbol));
     }
 
     @Override
     public void setSymbol(char symbol) {
-        this.symbol = chartoMark(symbol);
+        this.symbol = charToMark(symbol);
     }
 
     @Override
     public char getSymbol() {
-        return marktoChar(this.symbol);
+        return markToChar(this.symbol);
     }
 
 
@@ -90,13 +103,13 @@ public class ExtendedAIBotTicTacToe extends AIBot {
      * @param symbol The char symbol to convert
      * @return Mark.X, Mark.O, or Mark.EMPTY
      */
-    private Mark chartoMark(char symbol) {
+    private Mark charToMark(char symbol) {
         if (symbol == 'X') {
             return Mark.X;
         } else if (symbol == 'O') {
             return Mark.O;
         }
-        return null;
+        return Mark.EMPTY;
     }
 
     /**
@@ -105,7 +118,7 @@ public class ExtendedAIBotTicTacToe extends AIBot {
      * @param mark The Mark to convert
      * @return X, O, or ' '
      */
-    private char marktoChar(Mark mark) {
+    private char markToChar(Mark mark) {
         if (mark == Mark.X) {
             return 'X';
         } else if (mark == Mark.O) {
