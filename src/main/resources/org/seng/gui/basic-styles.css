@@ -96,23 +96,37 @@
     -fx-padding: 5px;
 }
 
-.dashboard-hbox {
-    -fx-spacing: 10;
-    -fx-padding: 10;
-}
-
 .dashboard-pane {
-    -fx-background-color: rgb(242, 241, 255);
+    -fx-background-color: rgb(62, 25, 150);
     -fx-background-radius: 12px;
     -fx-padding: 20px;
     -fx-alignment: center;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 255, 0.6), 15, 0.3, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgba(102, 0, 255, 0.6), 15, 0.3, 0, 0);
+}
+
+.dashboard-hbox {
+    -fx-spacing: 15;
+    -fx-padding: 15;
+}
+
+.dashboard-pane:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0.7, 0, 4);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
 }
 
 .dashboard-label {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: #1d0e4d;
+    -fx-text-fill: #f0f0f0;
 }
 
+.image-icon {
+    -fx-opacity: 0.8;
+    -fx-padding: 10px;
+}
+
+.image-icon:hover {
+    -fx-opacity: 1.0;
+}
 
