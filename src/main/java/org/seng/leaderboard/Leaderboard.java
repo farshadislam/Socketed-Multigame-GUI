@@ -18,7 +18,7 @@ public class Leaderboard {
         // Sorting logic based on the specified criteria
         switch (by.toLowerCase()) {
             case "wins":
-                sortedPlayers.sort(Comparator.comparingInt(GeneralStats::getWins)
+                sortedPlayers.sort(Comparator.comparingInt(GeneralStats::get_wins)
                         .reversed()
                         .thenComparingInt(GeneralStats::getGamesPlayed)
                         .reversed());
@@ -26,7 +26,7 @@ public class Leaderboard {
             case "mmr":
                 sortedPlayers.sort(Comparator.comparingInt(GeneralStats::getMMR)
                         .reversed()
-                        .thenComparingInt(GeneralStats::getWins)
+                        .thenComparingInt(GeneralStats::get_wins)
                         .reversed()
                         .thenComparingInt(GeneralStats::getGamesPlayed)
                         .reversed());
