@@ -97,19 +97,37 @@ public class Player {
         return this.verificationCode;
     }
 
-//    /**
-//     * method for getting the stats
-//     * @param gameType the type of game
-//     * @return the stats for the game
-//     */
-//    public GeneralStats getStats(GameType gameType) {
-//        return switch (gameType.name().toLowerCase()) {
-//            case "connect4" -> this.Connect4Stats;
-//            case "tictactoe" -> this.TicTacToeStats;
-//            case "checkers" -> this.CheckersStats;
-//            default -> null;
-//        };
-//    }
+
+//    Adding totals from playerStats, since we are planning to remove it
+
+    public int getTotalGamesPlayed() {
+        connect4Stats Connect4Stats = this.Connect4Stats;
+        ticTacToeStats TicTacToeStats = this.TicTacToeStats;
+        checkersStats CheckersStats = this.CheckersStats;
+        return Connect4Stats.getGamesPlayed() + TicTacToeStats.getGamesPlayed() + CheckersStats.getGamesPlayed();
+    }
+
+    public int getTotalWins() {
+        connect4Stats Connect4Stats = this.Connect4Stats;
+        ticTacToeStats TicTacToeStats = this.TicTacToeStats;
+        checkersStats CheckersStats = this.CheckersStats;
+        return Connect4Stats.get_wins() + TicTacToeStats.get_wins() + CheckersStats.get_wins();
+    }
+
+    public int getTotalLosses() {
+        connect4Stats Connect4Stats = this.Connect4Stats;
+        ticTacToeStats TicTacToeStats = this.TicTacToeStats;
+        checkersStats CheckersStats = this.CheckersStats;
+        return Connect4Stats.get_losses() + TicTacToeStats.get_losses() + CheckersStats.get_losses();
+    }
+
+    public int getTotalTies() {
+        connect4Stats Connect4Stats = this.Connect4Stats;
+        ticTacToeStats TicTacToeStats = this.TicTacToeStats;
+        checkersStats CheckersStats = this.CheckersStats;
+        return Connect4Stats.get_ties() + TicTacToeStats.get_ties() + CheckersStats.get_ties();
+    }
+
 
     /**
      * override method for equals

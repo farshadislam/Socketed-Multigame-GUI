@@ -37,6 +37,9 @@ public class SettingsTest {
         assertFalse(settings.changeUsername("java123"));
     }
 
+    // null username
+
+    // valid email
     @Test
     public void testChangeEmail(){
         assertTrue(settings.changeEmail("user12345@gmail.com"));
@@ -44,11 +47,28 @@ public class SettingsTest {
         assertFalse(settings.changeEmail(null));
     }
 
+    // invalid email
+
+    // null email
+
+
+
+    // valid password
     @Test
     public void testChangePassword(){
         assertTrue(settings.changePassword("passWORD", "SENG300!"));
         assertEquals("SENG300!", player.getPassword());
         assertFalse(settings.changePassword("password", "password1234567"));
     }
+
+    // invalid password
+
+    // null password
+
+    // player deleted
+
+    // player not deleted (wrong password)
+
+    // logout success
 
 }

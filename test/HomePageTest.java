@@ -20,9 +20,9 @@ public class HomePageTest {
     public void testViewYourOwnRecords(){
         PlayerStats playerStats = homePage.viewYourOwnRecords();
         assertNotNull(playerStats);
-        assertEquals(0, playerStats.getTotalWins());
-        assertEquals(0, playerStats.getTotalLosses());
-        assertEquals(0, playerStats.getTotalLosses());
+        assertEquals(0, player.getTotalWins());
+        assertEquals(0, player.getTotalLosses());
+        assertEquals(0, player.getTotalLosses());
         assertEquals(0, playerStats.getRankForChecker());
         assertEquals(0, playerStats.getRankForConnect4());
         assertEquals(0, playerStats.getRankForTicTacToe());
@@ -34,9 +34,9 @@ public class HomePageTest {
         PlayerStats playerStats = homePage.viewOtherPlayerRecords(otherPlayer);
         assertNotNull(playerStats);
         assertEquals("otherUser", otherPlayer.getUsername());
-        assertEquals(0, playerStats.getTotalWins());
-        assertEquals(0, playerStats.getTotalLosses());
-        assertEquals(0, playerStats.getTotalTies());
+        assertEquals(0, player.getTotalWins());
+        assertEquals(0, player.getTotalLosses());
+        assertEquals(0, player.getTotalTies());
         assertEquals(0, playerStats.getRankForChecker());
         assertEquals(0, playerStats.getRankForConnect4());
         assertEquals(0, playerStats.getRankForTicTacToe());
