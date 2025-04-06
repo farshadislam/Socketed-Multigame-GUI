@@ -80,3 +80,12 @@
 .message-label.error {
     -fx-text-fill: #f44336; /* Red for error */
 }
+
+.settings-title-label {
+    -fx-font-size: 28px;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-font-family: 'Arial'; /* Use a simple and professional font for settings */
+}
+

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.seng.gui.SettingsController"
+            prefHeight="400.0" prefWidth="600.0"
+            styleClass="gradient-background">
+
+    <VBox spacing="20" alignment="center" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+        <Label text="Settings" styleClass="settings-title-label"/>
+
+        <VBox spacing="10" alignment="center">
+            <Label text="Username:"/>
+            <TextField fx:id="usernameField" promptText="Username"/>
+            <Button text="Change Username" onAction="#changeUsername"/>
+
+            <Label text="Email:"/>
+            <TextField fx:id="emailField" promptText="Email"/>
+            <Button text="Change Email" onAction="#changeEmail"/>
+
+            <Label text="Password:"/>
+            <PasswordField fx:id="passwordField" promptText="New Password"/>
+            <Button text="Change Password" onAction="#changePassword"/>
+        </VBox>
+
+        <HBox spacing="20" alignment="center">
+            <Button text="Logout" styleClass="auth-button" onAction="#handleLogout"/>
+            <Button text="Delete Account" styleClass="auth-button" onAction="#deleteAccount"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

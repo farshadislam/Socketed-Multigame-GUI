@@ -13,8 +13,22 @@
             prefHeight="400.0" prefWidth="600.0"
             styleClass="gradient-background">
 
+    <HBox spacing="10" alignment="center"
+          AnchorPane.topAnchor="15.0" AnchorPane.leftAnchor="15.0">
+        <ImageView fx:id="logoutIcon" fitWidth="40" fitHeight="40" onMouseClicked="#handleLogout"/>
+    </HBox>
+
+    <HBox spacing="10" alignment="center"
+          AnchorPane.topAnchor="15.0" AnchorPane.rightAnchor="15.0">
+        <ImageView fx:id="settingsIcon" fitWidth="40" fitHeight="40" onMouseClicked="#openSettings"/>
+    </HBox>
+
+    <Label text="OMG Games" styleClass="dashboard-title-label"
+           AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"
+           alignment="center"/>
+
     <HBox spacing="10" styleClass="dashboard-hbox"
-          AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="20.0"
+          AnchorPane.topAnchor="60.0" AnchorPane.bottomAnchor="20.0"
           AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
 
         <VBox fx:id="viewStatsPane" alignment="center" spacing="10" styleClass="dashboard-pane" HBox.hgrow="ALWAYS" onMouseClicked="#openLeaderboardPage">
@@ -33,3 +47,4 @@
         </VBox>
     </HBox>
 </AnchorPane>
+

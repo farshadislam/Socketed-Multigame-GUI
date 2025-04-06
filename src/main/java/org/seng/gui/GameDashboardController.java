@@ -1,71 +1,61 @@
 package org.seng.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.animation.RotateTransition;
+import javafx.util.Duration;
 import javafx.fxml.FXMLLoader;
-
 import java.io.IOException;
+import java.util.Optional;
+
 public class GameDashboardController {
 
     @FXML
-    private Label dashboardLabel;
+    private ImageView statsIcon, profileIcon, playIcon, settingsIcon, logoutIcon;
 
     @FXML
-    private ImageView statsIcon;
-
-    @FXML
-    private ImageView profileIcon;
-
-    @FXML
-    private ImageView playIcon;
-
-    @FXML
-    private VBox viewStatsPane;
-
-    @FXML
-    private VBox profilePane;
-
-    @FXML
-    private VBox playGamesPane;
-
+    private VBox viewStatsPane, profilePane, playGamesPane;
 
     @FXML
     public void initialize() {
-        // load images per section
-        Image statsImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/leaderboardicon.png"));
-        Image profileImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/usericon.png"));
-        Image playImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/playicon.png"));
+        try {
+            Image statsImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/leaderboardicon.png"));
+            Image profileImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/usericon.png"));
+            Image playImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/playicon.png"));
+            Image settingsImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/gear.png"));
+            Image logoutImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/logouticon.png"));
 
-        // set icons
-        statsIcon.setImage(statsImage);
-        profileIcon.setImage(profileImage);
-        playIcon.setImage(playImage);
+            statsIcon.setImage(statsImage);
+            profileIcon.setImage(profileImage);
+            playIcon.setImage(playImage);
+            settingsIcon.setImage(settingsImage);
+            logoutIcon.setImage(logoutImage);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
-    // Method to open the Leaderboard Page
     @FXML
-    private void openLeaderboardPage() {
+    public void openLeaderboardPage() {
         openNewPage("leaderboard-page.fxml", "Leaderboard");
     }
 
-    // Method to open the Profile Page
     @FXML
-    private void openProfilePage() {
+    public void openProfilePage() {
         openNewPage("profile-page.fxml", "Your Profile");
     }
 
-    // Method to open the Games Page
     @FXML
-    private void openGamesPage() {
+    public void openGamesPage() {
         openNewPage("games-page.fxml", "Play Games");
     }
 
-    // Helper method to open a new page
     private void openNewPage(String fxmlFile, String title) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
@@ -84,5 +74,54 @@ public class GameDashboardController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    @FXML
+    public void handleLogout() {
+        showLogoutConfirmation();
+    }
+
+    private void showLogoutConfirmation() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Logout Confirmation");
+        alert.setHeaderText("Are you sure you want to logout?");
+        alert.setContentText("Your current session will be closed.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            openWelcomePage();
+        }
+    }
+
+    private void openWelcomePage() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("welcome-page.fxml"));
+            Scene welcomeScene = new Scene(fxmlLoader.load(), 700, 450);
+            welcomeScene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.setTitle("Welcome");
+            stage.setScene(welcomeScene);
+
+            Stage currentStage = (Stage) logoutIcon.getScene().getWindow();
+            currentStage.close();
+
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void openSettings() {
+        animateGear();
+    }
+
+    private void animateGear() {
+        RotateTransition rotate = new RotateTransition(Duration.seconds(0.25), settingsIcon);
+        rotate.setByAngle(360);
+        rotate.setCycleCount(2);
+        rotate.setOnFinished(event -> openNewPage("settings-page.fxml", "Settings"));
+        rotate.play();
     }
 }
