@@ -48,8 +48,11 @@ public class ConnectFourBoard {
      * @return true if the chip was successfully dropped, false otherwise
      */
     public boolean dropPiece(int col, Player player) {
-        // Checks if the column has room for a chip to be added
-        if (columnFull(col)) {
+        // Checks if the column is a valid column number
+        if (!isColumn(col)){
+            return false;
+            // Checks if the column has room for a chip to be added
+        } else if (columnFull(col)) {
             return false;
         } else {
             // Cycles down each row of the grid
@@ -93,12 +96,31 @@ public class ConnectFourBoard {
     }
 
     /**
+     * Checks that the column selected is a valid column number
+     * @param col is the column number given
+     * @return true if the column is a column number on the board, false otherwise
+     */
+    public boolean isColumn(int col) {
+        if ((col < 0) || (col > 7)){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * Resets the board layout so that all Chips are marked as Empty by calling the initialize function
      */
     public void resetBoard() {
         initalizeBoard();
     }
 
+    /**
+     * Gets a Chip from the board
+     * @param row the row the Chip is in
+     * @param col the column the Chip is in
+     * @return the Chip that is found in that location on the board
+     */
     public Chip getChip(int row, int col) {
         return grid[row][col];
     }
