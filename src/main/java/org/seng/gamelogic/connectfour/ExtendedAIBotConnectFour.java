@@ -7,15 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ExtendedAIBotConnectFour extends Player {
+public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
     private ConnectFourGame game;
     private ConnectFourBoard board;
-    private Chip symbol;
+    private char symbol;
     private Random random;
 
-    public ExtendedAIBotConnectFour(Chip symbol, ConnectFourGame game, ConnectFourBoard board) {
-        char symbolChar = symbol == Chip.BLUE ? 'b' : symbol == Chip.YELLOW ? 'y' : ' ';
-        super("AIBot", 0, symbolChar, 0); // passes username, player ID, symbol as char, rank)
+    public ExtendedAIBotConnectFour(char symbol, ConnectFourGame game, ConnectFourBoard board) {
+        super("AIBot", 0, symbol, 0); // passes username, player ID, symbol as char, rank)
         this.game = game;
         this.board = board;
         this.random = new Random();
@@ -26,7 +25,7 @@ public class ExtendedAIBotConnectFour extends Player {
      * @param move  ConnectFourMove that have the column
      * @return true if the move was successful, if not false.
      */
-    @Override
+
     public boolean makeMove(ConnectFourBoard board, ConnectFourMove move) {
         if (this.board != board) {
             System.out.println("Board mismatch");
@@ -114,7 +113,7 @@ public class ExtendedAIBotConnectFour extends Player {
      */
     @Override
     public void setSymbol(char symbol) {
-        this.symbol = charToChip(symbol);
+        this.symbol = symbol;
     }
 
 
@@ -123,7 +122,7 @@ public class ExtendedAIBotConnectFour extends Player {
      * */
     @Override
     public char getSymbol() {
-        return chipToChar(this.symbol);
+        return this.symbol;
     }
 
 }

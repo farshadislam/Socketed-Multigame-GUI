@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.Random;
 
 
-public class ExtendedAIBotTicTacToe extends Player {
+public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
     private TicTacToeBoard board; // BH: changed from boardRef to board to keep names simple/consistent
     private TicTacToeGame game;
-    private Mark symbol;
+    private char symbol;
     private Random random;
 
 
-    public ExtendedAIBotTicTacToe(Mark symbol, TicTacToeGame game, TicTacToeBoard board) {
-        super("AI Bot", 0, markToChar(symbol), 0); // passes username, player ID, symbol as char, rank
+    public ExtendedAIBotTicTacToe(char symbol, TicTacToeGame game, TicTacToeBoard board) {
+        super("AI Bot", 0, symbol, 0); // passes username, player ID, symbol as char, rank
         this.board = board;
         this.game = game;
         this.symbol = symbol; // either 'X' or 'O'
@@ -33,10 +33,10 @@ public class ExtendedAIBotTicTacToe extends Player {
             return false;
         }
         // ensure its not null, and matches AI symbol
-        if (move == null || move.getSymbol() != markToChar(this.symbol)) {
+        if (move == null || move.getSymbol() != this.symbol) {
             return false;
         }
-        if (board.makeMove(move.getRow(), move.getCol(), this.symbol)) {
+        if (board.makeMove(move.getRow(), move.getCol(), charToMark(this.symbol))) {
             return true;
         }
         return false; // if AiBot failed to place a move
@@ -75,6 +75,7 @@ public class ExtendedAIBotTicTacToe extends Player {
      * */
 
     public TicTacToeMove nextMove(TicTacToeBoard board) {
+        TicTacToePlayer player = game.getCurrentPlayer();
         if (game.getCurrentPlayer() != this.symbol) {
             return null; // not AI's turn
         }
@@ -88,12 +89,12 @@ public class ExtendedAIBotTicTacToe extends Player {
 
     @Override
     public void setSymbol(char symbol) {
-        this.symbol = charToMark(symbol);
+        this.symbol = symbol;
     }
 
     @Override
     public char getSymbol() {
-        return markToChar(this.symbol);
+        return symbol;
     }
 
 

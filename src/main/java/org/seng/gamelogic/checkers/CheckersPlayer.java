@@ -1,10 +1,10 @@
 package org.seng.gamelogic.checkers;
 
-import org.seng.gamelogic.HumanPlayer;
+import org.seng.gamelogic.Player;
 import org.seng.gamelogic.checkers.CheckersMove;
 import org.seng.gamelogic.checkers.CheckersBoard;
 
-public class CheckersPlayer extends HumanPlayer {
+public class CheckersPlayer extends Player {
 
     // Constructor
     public CheckersPlayer(String username, int playerID, char symbol, int rank) {
@@ -12,7 +12,6 @@ public class CheckersPlayer extends HumanPlayer {
 
     }
 
-    @Override
     public boolean readyStart() {
         return true;
     }

@@ -1,6 +1,5 @@
 package org.seng.gamelogic.checkers;
 
-import org.seng.gamelogic.AIBot;
 import org.seng.gamelogic.checkers.CheckersBoard;
 
 import java.util.ArrayList;
@@ -8,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class ExtendedAIBotCheckers extends AIBot {
+public class ExtendedAIBotCheckers extends CheckersPlayer {
     private CheckersGame game;
     private CheckersBoard boardRef;
     private Random random;
@@ -21,8 +20,6 @@ public class ExtendedAIBotCheckers extends AIBot {
     }
 
 
-
-    @Override
     public Object nextMove(Object boardObj) {
         if (!(boardObj instanceof CheckersBoard))
             return null; // placeholder

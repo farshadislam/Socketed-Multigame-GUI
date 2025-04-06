@@ -124,4 +124,14 @@ public class ConnectFourBoard {
     public Chip getChip(int row, int col) {
         return grid[row][col];
     }
+
+    /**
+     *
+     * @param row
+     * @param col
+     * @param chip
+     */
+    public void setChip(int row, int col, Chip chip) {
+        grid[row][col] = chip;
+    }
 }
