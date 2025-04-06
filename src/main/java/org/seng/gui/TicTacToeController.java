@@ -27,11 +27,23 @@ public class TicTacToeController {
     @FXML private Button button9;
     @FXML private Button inGameChatButton;
     @FXML private MenuItem helpOption;
+    @FXML private Label turnLabel;
+
     @FXML public void initialize() {
         clearChatHistory();
+        button1.setOnAction(e -> handleMove(button1));
+        button2.setOnAction(e -> handleMove(button2));
+        button3.setOnAction(e -> handleMove(button3));
+        button4.setOnAction(e -> handleMove(button4));
+        button5.setOnAction(e -> handleMove(button5));
+        button6.setOnAction(e -> handleMove(button6));
+        button7.setOnAction(e -> handleMove(button7));
+        button8.setOnAction(e -> handleMove(button8));
+        button9.setOnAction(e -> handleMove(button9));
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
+
 
     private void saveMessage(String message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
@@ -51,7 +63,7 @@ public class TicTacToeController {
     }
     private void clearChatHistory() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH))) {
-            writer.write(""); // Clear the contents
+            writer.write("");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,6 +133,20 @@ public class TicTacToeController {
 
         alert.showAndWait();
     }
+    private boolean isPlayerOneTurn = true;
+    private void handleMove(Button button) {
+        if (button.getText().isEmpty()) {
+            if (isPlayerOneTurn) {
+                button.setText("X");
+                turnLabel.setText("Player 2's Turn");
+            } else {
+                button.setText("O");
+                turnLabel.setText("Player 1's Turn");
+            }
+            isPlayerOneTurn = !isPlayerOneTurn;
+        }
+    }
+
 }
 
 
