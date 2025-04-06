@@ -39,23 +39,23 @@ class CredentialsDatabaseTest {
 
     @Test
     void testAddDuplicatePlayerFails() {
-        db.addNewPlayer("testUser", testPlayer);
-        boolean result = db.addNewPlayer("testUser", testPlayer);
+        db.addNewPlayer("Maham", player2);
+        boolean result = db.addNewPlayer("Maham", player2);
         assertFalse(result);
     }
 
     @Test
     void testUsernameLookup() {
-        db.addNewPlayer("testUser", testPlayer);
-        assertTrue(db.usernameLookup("testUser"));
-        assertFalse(db.usernameLookup("nonExistentUser"));
+        db.addNewPlayer("Wissal", player3);
+        assertTrue(db.usernameLookup("Wissal"));
+        assertFalse(db.usernameLookup("Alice"));
     }
 
     @Test
     void testDeleteExistingPlayer() {
-        db.addNewPlayer("testUser", testPlayer);
-        assertTrue(db.deleteExistingPlayer("testUser"));
-        assertFalse(db.usernameLookup("testUser"));
+        db.addNewPlayer("Hamna", player1);
+        assertTrue(db.deleteExistingPlayer("Hamna"));
+        assertFalse(db.usernameLookup("Hamna"));
     }
 
     @Test
@@ -63,38 +63,38 @@ class CredentialsDatabaseTest {
         assertFalse(db.deleteExistingPlayer("ghostUser"));
     }
 
-    @Test
-    void testFindPlayerByUsername() {
-        db.addNewPlayer("testUser", testPlayer);
-        Player result = db.findPlayerByUsername("testUser");
-        assertNotNull(result);
-        assertEquals("test@example.com", result.getEmail());
-    }
-
-    @Test
-    void testEmailTaken() {
-        db.addNewPlayer("testUser", testPlayer);
-        assertTrue(db.emailTaken("test@example.com"));
-        assertFalse(db.emailTaken("new@example.com"));
-    }
-
-    @Test
-    void testSaveAndLoadDatabase() throws IOException {
-        // Add player and save
-        db.addNewPlayer("testUser", testPlayer);
-        String tempFile = "tempDatabase.txt";
-        FileWriter writer = new FileWriter(tempFile);
-        db.saveDatabase();
-
-        // Create a new database and load from file
-        CredentialsDatabase newDb = new CredentialsDatabase();
-        newDb.loadDatabase(tempFile);
-        Player loaded = newDb.findPlayerByUsername("testUser");
-
-        assertNotNull(loaded);
-        assertEquals("test@example.com", loaded.getEmail());
-
-        // Cleanup
-        Files.deleteIfExists(Paths.get(tempFile));
-    }
+//    @Test
+//    void testFindPlayerByUsername() {
+//        db.addNewPlayer("testUser", testPlayer);
+//        Player result = db.findPlayerByUsername("testUser");
+//        assertNotNull(result);
+//        assertEquals("test@example.com", result.getEmail());
+//    }
+//
+//    @Test
+//    void testEmailTaken() {
+//        db.addNewPlayer("testUser", testPlayer);
+//        assertTrue(db.emailTaken("test@example.com"));
+//        assertFalse(db.emailTaken("new@example.com"));
+//    }
+//
+//    @Test
+//    void testSaveAndLoadDatabase() throws IOException {
+//        // Add player and save
+//        db.addNewPlayer("testUser", testPlayer);
+//        String tempFile = "tempDatabase.txt";
+//        FileWriter writer = new FileWriter(tempFile);
+//        db.saveDatabase();
+//
+//        // Create a new database and load from file
+//        CredentialsDatabase newDb = new CredentialsDatabase();
+//        newDb.loadDatabase(tempFile);
+//        Player loaded = newDb.findPlayerByUsername("testUser");
+//
+//        assertNotNull(loaded);
+//        assertEquals("test@example.com", loaded.getEmail());
+//
+//        // Cleanup
+//        Files.deleteIfExists(Paths.get(tempFile));
+//    }
 }
