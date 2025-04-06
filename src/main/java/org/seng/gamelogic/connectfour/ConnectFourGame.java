@@ -1,6 +1,7 @@
 package org.seng.gamelogic.connectfour;
 import org.seng.gamelogic.Player;
 import java.util.ArrayList;
+import java.util.List;
 
 // Do we need to extend or implement from GameGUI class?
 public class ConnectFourGame {
@@ -32,8 +33,15 @@ public class ConnectFourGame {
 
     // Manage chat log (
     public void sendMessage(String message) {
+        if (message != null && !message.trim().isEmpty()) {
+            chatLog.add(message);
+            System.out.println("Chat Message: " + message);
+        }
     }
 
+    public List<String> getChatLog() {
+        return new ArrayList<>(chatLog);
+    }
     // need to integrate with GUI team (start/exit button)
     public void startGame() {
 

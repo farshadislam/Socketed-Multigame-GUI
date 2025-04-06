@@ -2,16 +2,21 @@ package org.seng.gamelogic.tictactoe;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class TicTacToeGame {
 
     private TicTacToeBoard board;
     private Mark currPlayer;
-    private String status; // Can be "In Progress", "X Wins", "O Wins", "Draw"
-
+    private String status;// Can be "In Progress", "X Wins", "O Wins", "Draw"
+    private List<String> chatLog;
     public TicTacToeGame() {
         board = new TicTacToeBoard();
         currPlayer = Mark.X; // X starts
         status = "In Progress";
+        chatLog = new ArrayList<>();
     }
 
     public boolean makeMove(int row, int col) {
@@ -76,5 +81,13 @@ public class TicTacToeGame {
         board.resetBoard();
         currPlayer = Mark.X;
         status = "In Progress";
+    }
+    public void sendMessage(String message) {
+        if (message != null && !message.trim().isEmpty()) {
+            chatLog.add(currPlayer + ": " + message);
+        }
+    }
+    public List<String> getChatLog() {
+        return new ArrayList<>(chatLog);
     }
 }

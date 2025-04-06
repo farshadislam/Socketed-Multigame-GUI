@@ -5,6 +5,7 @@ import org.seng.gamelogic.connectfour.ConnectFourBoard;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.List;
 
 public class CheckersGame {
 
@@ -34,6 +35,13 @@ public class CheckersGame {
             board.printBoard();
             initializePlayerSymbols();
             System.out.println((isRedTurn ? "Red" : "Black") + "'s turn");
+
+            System.out.print("Enter chat message: ");
+            scanner.nextLine();
+            String chatMessage = scanner.nextLine();
+            if (!chatMessage.trim().isEmpty()) {
+                sendMessage((isRedTurn ? "Red" : "Black") + ": " + chatMessage);
+            }
 
             System.out.print("Enter move (fromRow fromCol toRow toCol): ");
             int fromRow = scanner.nextInt();
@@ -97,6 +105,16 @@ public class CheckersGame {
     private void initializePlayerSymbols() {
         players[0].symbol = 'r';
         players[1].symbol = 'b';
+    }
+
+    public void sendMessage(String message) {
+        if (message != null && !message.trim().isEmpty()) {
+            chatLog.add(message);
+            System.out.println("Chat: " + message);
+        }
+    }
+    public List<String> getChatLog() {
+        return new ArrayList<>(chatLog);
     }
 
 }
