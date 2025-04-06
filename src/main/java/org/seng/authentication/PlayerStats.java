@@ -132,31 +132,35 @@ public class PlayerStats {
         return null;
     }
 
-    public int getTotalGamesPlayed() {
-        connect4Stats Connect4Stats = player.getConnect4Stats();
-        ticTacToeStats TicTacToeStats = player.getTicTacToeStats();
-        checkersStats CheckersStats = player.getCheckersStats();
-        return Connect4Stats.getGamesPlayed() + TicTacToeStats.getGamesPlayed() + CheckersStats.getGamesPlayed();
-    }
 
-    public int getTotalWins() {
-        connect4Stats Connect4Stats = player.getConnect4Stats();
-        ticTacToeStats TicTacToeStats = player.getTicTacToeStats();
-        checkersStats CheckersStats = player.getCheckersStats();
-        return Connect4Stats.get_wins() + TicTacToeStats.get_wins() + CheckersStats.get_wins();
-    }
+//    Commenting this since its going to be deleted
 
-    public int getTotalLosses() {
-        connect4Stats Connect4Stats = player.getConnect4Stats();
-        ticTacToeStats TicTacToeStats = player.getTicTacToeStats();
-        checkersStats CheckersStats = player.getCheckersStats();
-        return Connect4Stats.get_losses() + TicTacToeStats.get_losses() + CheckersStats.get_losses();
-    }
 
-    public int getTotalTies() {
-        connect4Stats Connect4Stats = player.getConnect4Stats();
-        ticTacToeStats TicTacToeStats = player.getTicTacToeStats();
-        checkersStats CheckersStats = player.getCheckersStats();
-        return Connect4Stats.get_ties() + TicTacToeStats.get_ties() + CheckersStats.get_ties();
-    }
+//    public int getTotalGamesPlayed() {
+//        connect4Stats Connect4Stats = player.getConnect4Stats();
+//        ticTacToeStats TicTacToeStats = player.getTicTacToeStats();
+//        checkersStats CheckersStats = player.getCheckersStats();
+//        return Connect4Stats.getGamesPlayed() + TicTacToeStats.getGamesPlayed() + CheckersStats.getGamesPlayed();
+//    }
+//
+//    public int getTotalWins() {
+//        connect4Stats Connect4Stats = player.getConnect4Stats();
+//        ticTacToeStats TicTacToeStats = player.getTicTacToeStats();
+//        checkersStats CheckersStats = player.getCheckersStats();
+//        return Connect4Stats.get_wins() + TicTacToeStats.get_wins() + CheckersStats.get_wins();
+//    }
+//
+//    public int getTotalLosses() {
+//        connect4Stats Connect4Stats = player.getConnect4Stats();
+//        ticTacToeStats TicTacToeStats = player.getTicTacToeStats();
+//        checkersStats CheckersStats = player.getCheckersStats();
+//        return Connect4Stats.get_losses() + TicTacToeStats.get_losses() + CheckersStats.get_losses();
+//    }
+//
+//    public int getTotalTies() {
+//        connect4Stats Connect4Stats = player.getConnect4Stats();
+//        ticTacToeStats TicTacToeStats = player.getTicTacToeStats();
+//        checkersStats CheckersStats = player.getCheckersStats();
+//        return Connect4Stats.get_ties() + TicTacToeStats.get_ties() + CheckersStats.get_ties();
+//    }
 }
