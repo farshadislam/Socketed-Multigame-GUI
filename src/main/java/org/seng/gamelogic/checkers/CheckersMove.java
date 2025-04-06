@@ -7,7 +7,7 @@ public class CheckersMove {
     private int col_start;
     private int row_end;
     private int col_end;
-    private Player player;
+    private CheckersPlayer player;
 
     /**
      * Initializes the CheckersMove class
@@ -17,7 +17,7 @@ public class CheckersMove {
      * @param col_end The column a piece is ending in
      * @param player The player who is moving the piece for their turn
      */
-    public CheckersMove(int row_start, int col_start, int row_end, int col_end, Player player) {
+    public CheckersMove(int row_start, int col_start, int row_end, int col_end, CheckersPlayer player) {
         this.row_start = row_start;
         this.col_start = col_start;
         this.row_end = row_end;
@@ -63,7 +63,7 @@ public class CheckersMove {
     public void setColEnd(int col) {
         col_end = col;
     }
-    public void setPlayer(Player change_player) {
+    public void setPlayer(CheckersPlayer change_player) {
         player = change_player;
     }
 
@@ -73,7 +73,7 @@ public class CheckersMove {
      */
     public String checkersMoveDetails() {
         String symbol_color;
-        if (player.getSymbol() == 'B') {
+        if (player.getSymbol() == 'b') {
             symbol_color = "black";
         } else {
             symbol_color = "white';";

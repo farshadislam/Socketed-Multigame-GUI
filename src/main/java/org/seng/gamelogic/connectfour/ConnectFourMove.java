@@ -2,12 +2,12 @@ package org.seng.gamelogic.connectfour;
 import org.seng.gamelogic.Player;
 
 public class ConnectFourMove {
-    public Player player; // to be changed so it refers to ExtendedHumanPlayer
+    public ConnectFourPlayer player; // to be changed so it refers to ExtendedHumanPlayer
     public int column;
     public int row;
 
 
-    public ConnectFourMove(Player player, int column, int row) {
+    public ConnectFourMove(ConnectFourPlayer player, int column, int row) {
         this.player = player;
         this.column = column;
         this.row = row;

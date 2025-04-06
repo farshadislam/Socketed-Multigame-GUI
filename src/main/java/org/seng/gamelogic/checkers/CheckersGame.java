@@ -1,5 +1,9 @@
 package org.seng.gamelogic.checkers;
 
+import org.seng.gamelogic.Player;
+import org.seng.gamelogic.connectfour.ConnectFourBoard;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CheckersGame {
@@ -7,9 +11,19 @@ public class CheckersGame {
     private CheckersBoard board;
     private boolean isRedTurn;
     private Scanner scanner;
+    public CheckersPlayer[] players;  // 2 players
+    public CheckersPlayer currentPlayer;
+    public int gameID;
+    public String status;
+    public ArrayList<String> chatLog;
 
-    public CheckersGame() {
-        board = new CheckersBoard();
+    public CheckersGame(CheckersBoard board, CheckersPlayer[] players, int gameID) {
+        this.board = board;
+        this.players = players;
+        this.gameID = gameID;
+        this.status = "In Progress"; // placeholder for status
+        this.chatLog = new ArrayList<>();
+        this.currentPlayer = players[0]; // first player starts, this may be changed to implement a RNG decision?
         isRedTurn = true;
         scanner = new Scanner(System.in);
     }
@@ -18,6 +32,7 @@ public class CheckersGame {
         System.out.println("Welcome to Console Checkers!");
         while (true) {
             board.printBoard();
+            initializePlayerSymbols();
             System.out.println((isRedTurn ? "Red" : "Black") + "'s turn");
 
             System.out.print("Enter move (fromRow fromCol toRow toCol): ");
@@ -78,4 +93,10 @@ public class CheckersGame {
         CheckersGame game = new CheckersGame();
         game.start();
     }
+
+    private void initializePlayerSymbols() {
+        players[0].symbol = 'r';
+        players[1].symbol = 'b';
+    }
+
 }
