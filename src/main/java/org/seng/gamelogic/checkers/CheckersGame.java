@@ -61,6 +61,9 @@ public class CheckersGame {
                     if (checkWinCondition()) {
                         board.printBoard();
                         System.out.println((isRedTurn ? "Red" : "Black") + " wins!");
+                        if (isRedTurn) {
+
+                        }
                         break;
                     }
                     isRedTurn = !isRedTurn;
