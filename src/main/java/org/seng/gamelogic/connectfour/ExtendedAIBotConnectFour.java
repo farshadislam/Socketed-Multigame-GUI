@@ -85,7 +85,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
      * @param symbol The char symbol change
      * @return Chip.BLUE, Chip.YELLOW or Chip.EMPTY
      */
-    private static Chip charToChip(char symbol) {
+    public static Chip charToChip(char symbol) {
         if (symbol == 'b') {
             return Chip.BLUE;
         } else if (symbol == 'y') {
@@ -98,7 +98,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
      * @param chip The chip to change
      * @return b, y, or ' '
      */
-    private static char chipToChar(Chip chip) {
+    public static char chipToChar(Chip chip) {
         if (chip == Chip.BLUE) {
             return 'b';
         } else if (chip == Chip.YELLOW) {
