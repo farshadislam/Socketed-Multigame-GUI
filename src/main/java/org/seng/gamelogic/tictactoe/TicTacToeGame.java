@@ -137,10 +137,7 @@ public class TicTacToeGame {
         players[1].symbol = 'O';
     }
 
-    /**
-     * Starts the game loop for console-based play.
-     * Handles player input, move validation, win/draw checks and output.
-     */
+    //Starts the game loop for console-based play Handles player input, move validation, win/draw checks and output.
     public void start() {
         Scanner scanner = new Scanner(System.in);
         initializePlayerSymbols(); // assign X and O to players
