@@ -1,5 +1,6 @@
 package org.seng.gui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -25,6 +26,12 @@ public class SettingsController {
 
     @FXML
     private ImageView backIcon;
+
+    @FXML
+    private PasswordField newPasswordField, confirmPasswordField;
+
+    @FXML
+    private Label passwordError;
 
     @FXML
     public void initialize() {
@@ -103,19 +110,31 @@ public class SettingsController {
     }
 
     @FXML
-    public void redirectToVerification() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("verification-page.fxml"));
-            Scene verificationScene = new Scene(fxmlLoader.load(), 600, 400);
-            Stage stage = new Stage();
-            stage.setTitle("Verification");
-            stage.setScene(verificationScene);
-            stage.show();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    public void updatePassword() {
+        String newPassword = newPasswordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
+
+        if (newPassword.isEmpty() || confirmPassword.isEmpty()) {
+            passwordError.setText("Both fields are required.");
+            passwordError.setVisible(true);
+            passwordError.setManaged(true);
+            newPasswordField.setStyle("-fx-border-color: red;");
+            confirmPasswordField.setStyle("-fx-border-color: red;");
+        } else if (!newPassword.equals(confirmPassword)) {
+            passwordError.setText("Passwords do not match.");
+            passwordError.setVisible(true);
+            passwordError.setManaged(true);
+            newPasswordField.setStyle("-fx-border-color: red;");
+            confirmPasswordField.setStyle("-fx-border-color: red;");
+        } else {
+            passwordError.setVisible(false);
+            passwordError.setManaged(false);
+            newPasswordField.setStyle("-fx-border-color: #ddd;");
+            confirmPasswordField.setStyle("-fx-border-color: #ddd;");
+            // Handle password update logic here
+            System.out.println("Password updated successfully.");
         }
     }
-
     @FXML
     public void handleLogout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -173,5 +192,8 @@ public class SettingsController {
                 }
             }
         });
+    }
+
+    public void verifyEmail(ActionEvent event) {
     }
 }

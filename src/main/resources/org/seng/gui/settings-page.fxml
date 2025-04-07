@@ -23,15 +23,23 @@
         <Label fx:id="contentTitle" text="Manage Account" styleClass="light-title-label"/>
         <Label text="Change Username:" styleClass="form-label"/>
         <TextField fx:id="usernameField" promptText="New Username" styleClass="input-field"/>
-        <Button text="Update" onAction="#changeUsername" styleClass="auth-button"/>
+        <Button text="Update Username" onAction="#changeUsername" styleClass="auth-button"/>
         <Label fx:id="usernameError" text="" visible="false" managed="false" styleClass="error-message"/>
+
         <Label text="Change Email:" styleClass="form-label"/>
-        <TextField fx:id="emailField" promptText="New Email" styleClass="input-field"/>
-        <Button text="Update" onAction="#changeEmail" styleClass="auth-button"/>
+        <TextField fx:id="emailField" promptText="New email" styleClass="input-field"/>
+        <Button text="Verify Email" onAction="#verifyEmail" styleClass="auth-button"/>
         <Label fx:id="emailError" text="" visible="false" managed="false" styleClass="error-message"/>
+
         <Label text="Change Password:" styleClass="form-label"/>
-        <Button text="Change Password" onAction="#redirectToVerification" styleClass="auth-button"/>
+        <HBox spacing="10">
+            <PasswordField fx:id="newPasswordField" promptText="Type new password" styleClass="password-input-field"/>
+            <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" styleClass="password-input-field"/>
+        </HBox>
+        <Button text="Update Password" onAction="#updatePassword" styleClass="auth-button"/>
+        <Label fx:id="passwordError" text="" visible="false" managed="false" styleClass="error-message"/>
     </VBox>
+
 
     <VBox fx:id="networkConnectivityArea" layoutX="240" layoutY="20" spacing="15" visible="false" managed="false">
         <Label text="Network Connectivity" styleClass="light-title-label"/>
