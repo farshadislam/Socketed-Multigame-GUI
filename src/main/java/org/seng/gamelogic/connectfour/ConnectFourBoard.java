@@ -27,13 +27,13 @@ public class ConnectFourBoard {
      */
     public ConnectFourBoard () {
         grid = new Chip[ROW_COUNT][COL_COUNT];
-        initalizeBoard();
+        initializeBoard();
     }
 
     /**
      * Ensures each chip on a grid is assigned the value Empty
      */
-    private void initalizeBoard() {
+    private void initializeBoard() {
         for (int row = 0; row < ROW_COUNT; row ++){
             for (int col = 0; col < COL_COUNT; col ++){
                 grid[row][col] = Chip.EMPTY;
@@ -112,7 +112,7 @@ public class ConnectFourBoard {
      * Resets the board layout so that all Chips are marked as Empty by calling the initialize function
      */
     public void resetBoard() {
-        initalizeBoard();
+        initializeBoard();
     }
 
     /**
