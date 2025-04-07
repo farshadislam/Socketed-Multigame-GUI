@@ -36,6 +36,7 @@ public class PlayerTest {
         assertNotEquals("oldUser@gmail.com", player.getEmail());
         assertEquals("passWORD", player.getPassword());
     }
+
     // wrong password
     @Test
     public void testGeneral4(){

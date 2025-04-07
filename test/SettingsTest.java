@@ -24,7 +24,7 @@ public class SettingsTest {
         assertEquals("superUser", player.getUsername());
     }
 
-    // invalid username (too short)
+    // username too short
     @Test
     public void testChangeUsername2(){
         assertFalse(settings.changeUsername("boo"));
@@ -61,6 +61,17 @@ public class SettingsTest {
         assertFalse(settings.changeUsername("^%&%$*$^"));
     }
 
+    // consecutive valid characters username
+    @Test
+    public void testChangeUsername8(){
+        assertFalse(settings.changeUsername("user__user"));
+    }
+
+    //doesn't contain alphabet username
+    @Test
+    public void testChangeUsername9(){
+        assertFalse(settings.changeUsername("123456"));
+    }
 
     // valid email
     @Test
@@ -69,10 +80,10 @@ public class SettingsTest {
         assertEquals("user12345@gmail.com", player.getEmail());
     }
 
-    // invalid email
+    // email user not gmail
     @Test
     public void testChangeEmail2(){
-        assertFalse(settings.changeEmail("user@gmail.com"));
+        assertFalse(settings.changeEmail("user@hotmail.com"));
         assertNotEquals("user@gmail.com", player.getEmail());
     }
 
@@ -106,6 +117,10 @@ public class SettingsTest {
         assertFalse(settings.changeEmail("@gmail.com"));
     }
 
+    // email with user that doesn't have alphabet
+
+    // email with user that has consecutive valid character
+
     // valid password
     @Test
     public void testChangePassword1(){
@@ -113,7 +128,7 @@ public class SettingsTest {
         assertEquals("SENG300!", player.getPassword());
     }
 
-    // invalid password
+    // password too short
     @Test
     public void testChangePassword2(){
         assertFalse(settings.changePassword("passWORD", "seng"));
