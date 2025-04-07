@@ -38,37 +38,97 @@ public class SettingsTest {
     }
 
     // null username
+    @Test
+    public void testChangeUsername4(){
+        assertFalse(settings.changeUsername(null));
+    }
+
+    // whitespace username
+    @Test
+    public void testChangeUsername5(){
+        assertFalse(settings.changeUsername(" "));
+    }
+
+    // empty username
+    @Test
+    public void testChangeUsername6(){
+        assertFalse(settings.changeUsername(""));
+    }
 
     // valid email
     @Test
-    public void testChangeEmail(){
+    public void testChangeEmail1(){
         assertTrue(settings.changeEmail("user12345@gmail.com"));
         assertEquals("user12345@gmail.com", player.getEmail());
-        assertFalse(settings.changeEmail(null));
     }
 
     // invalid email
+    @Test
+    public void testChangeEmail2(){
+        assertFalse(settings.changeEmail("user@gmail.com"));
+        assertNotEquals("user@gmail.com", player.getEmail());
+    }
+
+    // empty email
+    @Test
+    public void testChangeEmail3(){
+        assertFalse(settings.changeEmail(""));
+    }
 
     // null email
+    @Test
+    public void testChangeEmail4(){
+        assertFalse(settings.changeEmail(null));
+    }
 
-
+    // whitespace email
+    @Test
+    public void testChangeEmail5(){
+        assertFalse(settings.changeEmail(" "));
+    }
 
     // valid password
     @Test
-    public void testChangePassword(){
+    public void testChangePassword1(){
         assertTrue(settings.changePassword("passWORD", "SENG300!"));
         assertEquals("SENG300!", player.getPassword());
-        assertFalse(settings.changePassword("password", "password1234567"));
     }
 
     // invalid password
+    @Test
+    public void testChangePassword2(){
+        assertFalse(settings.changePassword("passWORD", "seng"));
+    }
 
     // null password
+    @Test
+    public void testChangePassword3(){
+        assertFalse(settings.changePassword("passWORD", null));
+    }
+
+    // whitespace password
+    @Test
+    public void testChangePassword4(){
+        assertFalse(settings.changePassword("passWORD", " "));
+    }
+
+    // empty password
+    @Test
+    public void testChangePassword5(){
+        assertFalse(settings.changePassword("passWORD", ""));
+    }
 
     // player deleted
+    @Test
+    public void deleteAccount1(){
+        assertTrue(settings.deleteAccount("passWORD"));
+    }
 
     // player not deleted (wrong password)
+    @Test
+    public void deleteAccount2(){
+        assertFalse(settings.deleteAccount("password"));
+    }
 
-    // logout success
 
 }
