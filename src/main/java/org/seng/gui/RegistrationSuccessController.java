@@ -25,6 +25,8 @@ public class RegistrationSuccessController {
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setTitle("OMG Platform");
+            WelcomePageController controller = fxmlLoader.getController();
+            //controller.setLoginPage(this.loginPage);
             stage.show();
 
             Stage currentStage = (Stage) backToLoginButton.getScene().getWindow();

@@ -19,7 +19,9 @@ public class LoginPage {
         USERNAME_NOT_FOUND,
         ERROR
     }
-
+    public CredentialsDatabase getDatabase(){
+        return this.database;
+    }
     /**
      * Implements login for a player
      * @param username Username of the player
@@ -44,7 +46,7 @@ public class LoginPage {
      * @return State indicating if the verification code has been sent, and if not what error has occurred
      */
     public State register(String username, String email, String password){
-        if(username.isEmpty() || username.matches(".*\\s.*") || hasConsecutiveValidSpecialChars(username) || username.length() < 5){
+        if(verifyUsernameFormat(username)){
             return State.USERNAME_FORMAT_WRONG;
         }
 
@@ -150,16 +152,16 @@ public class LoginPage {
         return true;
     }
 
-    public State forgotPassword(String username){
+    public boolean forgotPassword(String username){
         if(!database.usernameLookup(username)){
-            return State.USERNAME_NOT_FOUND; //username not found
+            return false; //username not found
         }
         EmailVerificationService.setDatabase(database);
         String code = EmailVerificationService.generateVerificationCode();
         if(EmailVerificationService.sendVerificationEmailForgotPassword(username,code)){
-            return State.VERIFICATION_CODE_SENT;
+            return true;
         }
-        return State.ERROR;
+        return false;
     }
 
     public boolean verifyEmailCodeForgotPassword(String username,String code){

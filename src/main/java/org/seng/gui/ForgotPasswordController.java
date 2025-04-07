@@ -1,5 +1,7 @@
 package org.seng.gui;
 
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -7,19 +9,27 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
+import javafx.util.Duration;
+import org.seng.authentication.LoginPage;
+
 import java.io.IOException;
 
 public class ForgotPasswordController {
 
     public Label messageLabel;
     @FXML
-    private TextField emailField;
+    private TextField usernameField;
 
     @FXML
     private Button resetButton;
 
     @FXML
     private Button backButton;
+    private LoginPage loginPage;
+
+    public void setLoginPage(LoginPage loginPage){
+        this.loginPage = loginPage;
+    }
 
     @FXML
     public void initialize() {
@@ -30,26 +40,34 @@ public class ForgotPasswordController {
         backButton.setOnAction(e -> goBack());
 
         // Clear error style when typing
-        emailField.textProperty().addListener((observable, oldValue, newValue) -> {
+        usernameField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
-                emailField.getStyleClass().remove("error-prompt");
-                emailField.setPromptText("Enter your email");
+                usernameField.getStyleClass().remove("error-prompt");
+                usernameField.setPromptText("Enter your username");
             }
+        });
+        Platform.runLater(() -> {
+            backButton.requestFocus();
         });
     }
 
     private void handlePasswordReset() {
-        String email = emailField.getText();
-        if (email.isEmpty()) {
-            // Display error prompt text in red
-            emailField.setPromptText("Please enter a valid email");
-            emailField.clear();
-            emailField.getStyleClass().add("error-prompt");
+        String username = usernameField.getText();
+        if (!this.loginPage.forgotPassword(username)) {
+            usernameField.setPromptText("USERNAME NOT FOUND!");
+            usernameField.clear();
+            usernameField.getStyleClass().add("error-prompt");
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(3));
+            pause.setOnFinished(e -> {
+                usernameField.getStyleClass().remove("error-prompt");
+                usernameField.setPromptText("Enter your username:");
+            });
+            pause.play();
             return;
         }
 
-        System.out.println("Reset link sent to: " + email);
-        openVerificationCodeWindow();
+        openVerificationCodeWindow(this.loginPage, username);
     }
 
     private void goBack() {
@@ -60,7 +78,8 @@ public class ForgotPasswordController {
 
             // Load the original stylesheet
             welcomePageScene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-
+            WelcomePageController controller = fxmlLoader.getController();
+            controller.setLoginPage(this.loginPage);
             // Create a new stage for the welcome page
             Stage stage = new Stage();
             stage.setTitle("OMG Platform");
@@ -77,7 +96,7 @@ public class ForgotPasswordController {
         }
     }
 
-    private void openVerificationCodeWindow() {
+    private void openVerificationCodeWindow(LoginPage loginPage, String username) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("verification-code.fxml"));
             Scene verificationScene = new Scene(fxmlLoader.load(), 700, 450);
@@ -90,6 +109,9 @@ public class ForgotPasswordController {
             // Close the current forgot password window
             Stage currentStage = (Stage) resetButton.getScene().getWindow();
             currentStage.close();
+            VerificationCodeController controller = fxmlLoader.getController();
+            controller.setLoginPage(loginPage);
+            controller.setUsername(username);
 
             // Show the verification code window
             stage.show();

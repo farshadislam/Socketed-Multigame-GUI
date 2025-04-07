@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
+import org.seng.authentication.LoginPage;
+
 import java.io.IOException;
 
 public class VerificationCodeController {
@@ -22,7 +24,9 @@ public class VerificationCodeController {
     @FXML
     private Label errorLabel;
 
-    private String verificationCode = "";  // store 4 digit code
+    private String verificationCode = "";
+    private LoginPage loginPage;
+    private String username;// store 4 digit code
 
     @FXML
     public void initialize() {
@@ -34,6 +38,13 @@ public class VerificationCodeController {
         setupCodeField(code2, code1, code3);
         setupCodeField(code3, code2, code4);
         setupCodeField(code4, code3, null); // doesn't move after last one
+    }
+
+    public void setLoginPage(LoginPage loginPage){
+        this.loginPage = loginPage;
+    }
+    public void setUsername(String username){
+        this.username = username;
     }
 
     // text field moves after each input and handles backspace
@@ -69,15 +80,14 @@ public class VerificationCodeController {
     // update stored verification code
     private void updateVerificationCode() {
         verificationCode = code1.getText() + code2.getText() + code3.getText() + code4.getText();
-        System.out.println("Current Code: " + verificationCode);
     }
 
     // compare verification code against stored
     private void handleVerification() {
-        if (verificationCode.equals("1234")) {
+        if (loginPage.verifyEmailCodeForgotPassword(this.username, this.verificationCode)) {
             openNewPasswordWindow();
         } else {
-            displayErrorMessage("Incorrect verification code");
+            displayErrorMessage("Incorrect Verification Code!");
         }
     }
 

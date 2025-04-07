@@ -34,7 +34,8 @@ public class CreateAccountController {
         backButton.setOnAction(e -> returnToLogin());
         Platform.runLater(() -> {
             backButton.requestFocus();
-        });    }
+        });
+    }
 
     public void setLoginPage(LoginPage loginPage){
         this.loginPage = loginPage;
@@ -167,6 +168,9 @@ public class CreateAccountController {
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setTitle("OMG Platform");
+            WelcomePageController controller = fxmlLoader.getController();
+            controller.setLoginPage(this.loginPage);
+
             stage.show();
 
             Stage currentStage = (Stage) backButton.getScene().getWindow();
