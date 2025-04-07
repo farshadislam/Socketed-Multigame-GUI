@@ -1,8 +1,5 @@
 package org.seng.gamelogic.checkers;
 
-import org.seng.gamelogic.Player;
-import org.seng.gamelogic.connectfour.ConnectFourBoard;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
@@ -18,7 +15,7 @@ public class CheckersGame {
     public String status;
     public ArrayList<String> chatLog;
 
-    public CheckersGame(CheckersBoard board, CheckersPlayer[] players, int gameID) {
+    public CheckersGame() {
         this.board = board;
         this.players = players;
         this.gameID = gameID;
@@ -69,7 +66,7 @@ public class CheckersGame {
         scanner.close();
     }
 
-    private boolean isValidTurn(int row, int col) {
+    public boolean isValidTurn(int row, int col) {
         CheckersBoard.Piece piece = board.getPieceAt(row, col);
         if (isRedTurn) {
             return piece == CheckersBoard.Piece.RED || piece == CheckersBoard.Piece.RED_KING;
@@ -78,7 +75,7 @@ public class CheckersGame {
         }
     }
 
-    private boolean checkWinCondition() {
+    public boolean checkWinCondition() {
         boolean redExists = false;
         boolean blackExists = false;
 
