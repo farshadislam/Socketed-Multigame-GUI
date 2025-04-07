@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
+import org.seng.authentication.LoginPage;
+
 import java.io.IOException;
 
 public class NewPasswordController {
@@ -21,25 +23,37 @@ public class NewPasswordController {
 
     @FXML
     private Label errorLabel;
+    private LoginPage loginPage;
+    private String username;
 
     @FXML
     public void initialize() {
         updatePasswordButton.setOnAction(e -> handleUpdatePassword());
         returnButton.setOnAction(e -> returnToWelcome());
     }
+    public void setLoginPage(LoginPage loginPage){
+        this.loginPage = loginPage;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
+    }
 
     // handle password update click
     private void handleUpdatePassword() {
         String newPassword = newPasswordField.getText();
         String confirmPassword = confirmPasswordField.getText();
-
         if (!newPassword.equals(confirmPassword)) {
-            displayErrorMessage("Make sure passwords match");
-            indicatePasswordMismatch();
+            displayErrorMessage("Make Sure Passwords Match!");
+            indicatePasswordError();
+            return;
+        }
+        if(!loginPage.changePassword(this.username, newPassword, confirmPassword)){
+            displayErrorMessage("Please Choose A Valid Password!");
+            indicatePasswordError();
             return;
         }
 
-        // matching passwords
         indicatePasswordSuccess();
         displaySuccessMessage("Password updated");
     }
@@ -69,7 +83,7 @@ public class NewPasswordController {
     }
 
     // Highlight password fields in red when they don't match
-    private void indicatePasswordMismatch() {
+    private void indicatePasswordError() {
         newPasswordField.getStyleClass().add("error-prompt");
         confirmPasswordField.getStyleClass().add("error-prompt");
 
@@ -106,7 +120,8 @@ public class NewPasswordController {
             Stage stage = new Stage();
             stage.setTitle("OMG Platform");
             stage.setScene(welcomePageScene);
-
+            WelcomePageController controller = fxmlLoader.getController();
+            controller.setLoginPage(this.loginPage);
             // Close current window
             Stage currentStage = (Stage) returnButton.getScene().getWindow();
             currentStage.close();

@@ -85,7 +85,7 @@ public class VerificationCodeController {
     // compare verification code against stored
     private void handleVerification() {
         if (loginPage.verifyEmailCodeForgotPassword(this.username, this.verificationCode)) {
-            openNewPasswordWindow();
+            openNewPasswordWindow(this.loginPage, this.username);
         } else {
             displayErrorMessage("Incorrect Verification Code!");
         }
@@ -102,7 +102,7 @@ public class VerificationCodeController {
         pause.play();
     }
 
-    private void openNewPasswordWindow() {
+    private void openNewPasswordWindow(LoginPage loginPage, String username) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("new-password.fxml"));
             Scene newPasswordScene = new Scene(fxmlLoader.load(), 700, 450);
@@ -115,7 +115,9 @@ public class VerificationCodeController {
             // Close current window
             Stage currentStage = (Stage) confirmButton.getScene().getWindow();
             currentStage.close();
-
+            NewPasswordController controller = fxmlLoader.getController();
+            controller.setLoginPage(loginPage);
+            controller.setUsername(username);
             stage.show();
         } catch (Exception ex) {
             ex.printStackTrace();
