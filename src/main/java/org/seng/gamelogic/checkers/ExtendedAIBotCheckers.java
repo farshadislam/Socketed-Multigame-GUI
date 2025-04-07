@@ -9,18 +9,18 @@ import java.util.Random;
 
 public class ExtendedAIBotCheckers extends CheckersPlayer {
     private CheckersGame game;
-    private CheckersBoard boardRef;
+    private CheckersBoard board;
     private Random random;
 
-    public ExtendedAIBotCheckers(String username, int playerID, char symbol, int rank, CheckersGame game) {
-        super(username, playerID, symbol, rank);
+    public ExtendedAIBotCheckers(char symbol, CheckersGame game, CheckersBoard board) {
+        super("AIBot", 0, symbol, 0);
         this.game = game;
-        this.boardRef = (CheckersBoard) boardRef;
+        this.board = board;
         this.random = new Random();
     }
 
 
-    public Object nextMove(Object boardObj) {
+    public int[] nextMove(Object boardObj) {
         if (!(boardObj instanceof CheckersBoard))
             return null; // placeholder
 
