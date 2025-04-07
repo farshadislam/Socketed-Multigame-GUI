@@ -1,6 +1,10 @@
 package org.seng.gamelogic.checkers;
 import org.seng.gamelogic.Player;
 
+
+/** Determines a movie in a checkers game.
+ *  This class is used to decide how a piece moves given the current location and future location.
+ */
 public class CheckersMove {
 
     private int row_start;
