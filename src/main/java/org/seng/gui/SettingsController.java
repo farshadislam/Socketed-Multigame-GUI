@@ -94,9 +94,20 @@ public class SettingsController {
             pause.play();
 
         } else {
-            usernameField.setPromptText("New username");
-            usernameField.setStyle("-fx-border-color: #ddd; -fx-prompt-text-fill: #aaa;");
             System.out.println("Username changed to: " + newUsername);
+            usernameField.setPromptText("New username");
+            usernameField.setStyle("-fx-border-color: green");
+            passwordSuccess.setVisible(true);
+            passwordSuccess.setManaged(true);
+            passwordSuccess.setText("Username updated");
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(5));
+            pause.setOnFinished(e -> {
+                passwordSuccess.setVisible(false);
+                passwordSuccess.setManaged(false);
+                usernameField.setStyle("-fx-border-color: #ddd");
+            });
+            pause.play();
         }
     }
 
@@ -126,14 +137,14 @@ public class SettingsController {
     @FXML
     public void verifyEmail() {
 
-        emailSuccessPrompt.setText("Verification email sent.");
-        emailSuccessPrompt.setVisible(true);
-        emailSuccessPrompt.setManaged(true);
+        passwordSuccess.setText("Verification email sent.");
+        passwordSuccess.setVisible(true);
+        passwordSuccess.setManaged(true);
 
         PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(e -> {
-            emailSuccessPrompt.setVisible(false);
-            emailSuccessPrompt.setManaged(false);
+            passwordSuccess.setVisible(false);
+            passwordSuccess.setManaged(false);
         });
         pause.play();
 
