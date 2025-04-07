@@ -24,7 +24,7 @@ public class SettingsTest {
         assertEquals("superUser", player.getUsername());
     }
 
-    // invalid username
+    // invalid username (too short)
     @Test
     public void testChangeUsername2(){
         assertFalse(settings.changeUsername("boo"));
@@ -54,6 +54,13 @@ public class SettingsTest {
     public void testChangeUsername6(){
         assertFalse(settings.changeUsername(""));
     }
+
+    // random character username
+    @Test
+    public void testChangeUsername7(){
+        assertFalse(settings.changeUsername("^%&%$*$^"));
+    }
+
 
     // valid email
     @Test
@@ -85,6 +92,18 @@ public class SettingsTest {
     @Test
     public void testChangeEmail5(){
         assertFalse(settings.changeEmail(" "));
+    }
+
+    // email with no @
+    @Test
+    public void testChangeEmail6(){
+        assertFalse(settings.changeEmail("newUsergmail.com"));
+    }
+
+    // email with no user
+    @Test
+    public void testChangeEmail7(){
+        assertFalse(settings.changeEmail("@gmail.com"));
     }
 
     // valid password
