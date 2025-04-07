@@ -44,7 +44,11 @@ public class LoginPage {
      * @return State indicating if the verification code has been sent, and if not what error has occurred
      */
     public State register(String username, String email, String password){
-        if(username.isEmpty() || username.matches(".*\\s.*") || hasConsecutiveValidSpecialChars(username) || username.length() < 5){
+        if(!verifyUsernameFormat(username)) {
+            return State.USERNAME_FORMAT_WRONG;
+        }
+
+        if (verifyUsernameFormat(username)){
             return State.USERNAME_FORMAT_WRONG;
         }
 
@@ -75,6 +79,12 @@ public class LoginPage {
 
     }
 
+    public boolean verifyUsernameFormat(String username){
+        String validUserChar = "^[a-zA-Z0-9_.-]+$";
+        String validUserAlpha = ".*[a-zA-Z].*";
+        return (!username.isEmpty() && !username.matches(".*\\s.*") && !hasConsecutiveValidSpecialChars(username) && username.length() >= 5 && username.matches(validUserChar) && username.matches(validUserAlpha));
+    }
+
     /**
      * Verifies if the email format provided by the player is correct or not
      * @param email
@@ -102,7 +112,7 @@ public class LoginPage {
                 return false;
             }
         }
-        if(hasConsecutiveValidSpecialChars(usernameOfEmail)){
+        if(hasConsecutiveValidSpecialChars(usernameOfEmail) || !usernameOfEmail.matches("^[a-zA-Z0-9_.-]+$") || !usernameOfEmail.matches(".*[a-zA-Z].*")){
             return false;
         }
         return true;
