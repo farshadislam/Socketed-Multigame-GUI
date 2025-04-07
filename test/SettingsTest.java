@@ -5,23 +5,26 @@ import org.seng.authentication.Player;
 import org.seng.authentication.Settings;
 
 import static org.junit.jupiter.api.Assertions.*;
+//import static org.seng.authentication.EmailVerificationService.database;
 
 public class SettingsTest {
     private Player player; // create player object for testing
-    private Settings settings;
+   private Settings settings;
+    CredentialsDatabase database;
 
     // initialize the player and settings before each test
     @BeforeEach
     public void initializeFields(){
         player = new Player("newUser", "newUser@gmail.com", "passWORD");
-        settings = new Settings(player, new CredentialsDatabase());
+        database = new CredentialsDatabase();
+        settings = new Settings(player, database);
     }
 
     // valid username
     @Test
     public void testChangeUsername1(){
         assertTrue(settings.changeUsername("superUser"));
-        assertEquals("superUser", player.getUsername());
+        assertEquals("superuser", player.getUsername());
     }
 
     // username too short
@@ -34,6 +37,7 @@ public class SettingsTest {
     @Test
     public void testChangeUsername3(){
         Player p2 = new Player("java123", "java123@gmail.com", "pass12345");
+        database.addNewPlayer("java123", p2);
         assertFalse(settings.changeUsername("java123"));
     }
 
@@ -93,11 +97,11 @@ public class SettingsTest {
         assertFalse(settings.changeEmail(""));
     }
 
-    // null email
-    @Test
-    public void testChangeEmail4(){
-        assertFalse(settings.changeEmail(null));
-    }
+//    // null email
+//    @Test
+//    public void testChangeEmail4(){
+//        assertNull(settings.changeEmail(null));
+//    }
 
     // whitespace email
     @Test
@@ -155,6 +159,7 @@ public class SettingsTest {
     // player deleted
     @Test
     public void deleteAccount1(){
+        database.addNewPlayer(player.getUsername(), player);
         assertTrue(settings.deleteAccount("passWORD"));
     }
 

@@ -36,7 +36,7 @@ public class Settings {
      */
     public boolean deleteAccount(String password){
         if (player.getPassword().equals(password)){
-            return database.deleteExistingPlayer(player.getUsername());
+           return database.deleteExistingPlayer(player.getUsername());
         }
         return false;
     }
@@ -48,12 +48,35 @@ public class Settings {
      */
     public boolean changeUsername(String newUsername){
         if (newUsername!=null && !(newUsername.isEmpty())){
-            if(!database.usernameLookup(newUsername.toLowerCase())) {
+            if(!database.usernameLookup(newUsername.toLowerCase()) && verifyUsernameFormat(newUsername)) {
                 player.setUsername(newUsername);
                 return true;
             }
+            return false;
         }
         return false;
+    }
+
+    private boolean verifyUsernameFormat(String username){
+        String validUserChar = "^[a-zA-Z0-9_.-]+$";
+        String validUserAlpha = ".*[a-zA-Z].*";
+        return (!username.isEmpty() && !username.matches(".*\\s.*") && !hasConsecutiveValidSpecialChars(username) && username.length() >= 5 && username.matches(validUserChar) && username.matches(validUserAlpha));
+    }
+
+    private boolean hasConsecutiveValidSpecialChars(String username) {
+        for (int i = 0; i < username.length() - 1; i++) {
+            char currentChar = username.charAt(i);
+            char nextChar = username.charAt(i + 1);
+
+            if (isValidSpecialCharacter(currentChar) && isValidSpecialCharacter(nextChar)) {
+                return true; // Consecutive special characters found
+            }
+        }
+        return false; // No consecutive special characters
+    }
+
+    private boolean isValidSpecialCharacter(char c) {
+        return c == '.' || c == '_' || c == '-';
     }
 
     /**
@@ -105,6 +128,7 @@ public class Settings {
         if (player.getPassword().equals(password)) {
             if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
                 player.setPassword(newPassword);
+                return true;
             }
         }
         return false;
