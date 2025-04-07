@@ -19,17 +19,19 @@
         </VBox>
     </VBox>
 
-    <VBox fx:id="manageAccountArea" layoutX="240" layoutY="20" spacing="10">
+    <VBox fx:id="manageAccountArea" layoutX="240" layoutY="20" spacing="8">
         <Label fx:id="contentTitle" text="Manage Account" styleClass="light-title-label"/>
         <Label text="Change Username:" styleClass="form-label"/>
         <TextField fx:id="usernameField" promptText="New Username" styleClass="input-field"/>
         <Button text="Update Username" onAction="#changeUsername" styleClass="auth-button"/>
         <Label fx:id="usernameError" text="" visible="false" managed="false" styleClass="error-message"/>
+        <Label fx:id="usernameSuccessPrompt" text="" visible="false" managed="false" styleClass="success-message"/>
 
         <Label text="Change Email:" styleClass="form-label"/>
         <TextField fx:id="emailField" promptText="New email" styleClass="input-field"/>
-        <Button text="Verify Email" onAction="#verifyEmail" styleClass="auth-button"/>
+        <Button text="Verify Email" onAction="#changeEmail" styleClass="auth-button"/>
         <Label fx:id="emailError" text="" visible="false" managed="false" styleClass="error-message"/>
+        <Label fx:id="emailSuccessPrompt" text="" visible="false" managed="false" styleClass="success-message"/>
 
         <Label text="Change Password:" styleClass="form-label"/>
         <HBox spacing="10">
@@ -38,8 +40,8 @@
         </HBox>
         <Button text="Update Password" onAction="#updatePassword" styleClass="auth-button"/>
         <Label fx:id="passwordError" text="" visible="false" managed="false" styleClass="error-message"/>
+        <Label fx:id="passwordSuccess" text="" visible="false" managed="false" styleClass="success-message"/>
     </VBox>
-
 
     <VBox fx:id="networkConnectivityArea" layoutX="240" layoutY="20" spacing="15" visible="false" managed="false">
         <Label text="Network Connectivity" styleClass="light-title-label"/>
