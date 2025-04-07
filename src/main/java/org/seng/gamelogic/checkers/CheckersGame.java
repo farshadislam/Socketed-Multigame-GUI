@@ -67,6 +67,7 @@ public class CheckersGame {
                         break;
                     }
                     isRedTurn = !isRedTurn;
+
                 } else {
                     System.out.println("Invalid move. Try again.");
                 }
@@ -151,4 +152,20 @@ public class CheckersGame {
         CheckersGame game = new CheckersGame();
         game.start();
     }
+
+    public void setStatus(int row_start, int col_start, int row_end, int col_end) {
+        String symbol_color;
+        if (isRedTurn) {
+            currentPlayer = players[0];
+             symbol_color = "red";
+        } else {
+            currentPlayer = players[1];
+            symbol_color = "black";
+        }
+        String message = "Player " + currentPlayer.getName() + "has moved a " + symbol_color + " piece from row " + row_start + " and column " + col_start + " to row " + row_end + " and column " + col_end + ".";
+        status = message;
+    }
+
+
+
 }

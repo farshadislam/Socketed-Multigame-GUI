@@ -9,13 +9,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class ConnectFourGameTest {
 
     private ConnectFourBoard board;
-    private Player[] players;
+    private ConnectFourPlayer[] players;
     private ConnectFourGame game;
 
     @BeforeEach
     void setUp() {
         board = new ConnectFourBoard();
-        players = new Player[]{new ConnectFourPlayer("Player1", 1, 'b', 1), new ConnectFourPlayer("Player2", 2, 'y', 1)};
+        players = new ConnectFourPlayer[]{new ConnectFourPlayer("Player1", 1, 'b', 1), new ConnectFourPlayer("Player2", 2, 'y', 1)};
         game = new ConnectFourGame(board, players, 1);
     }
 

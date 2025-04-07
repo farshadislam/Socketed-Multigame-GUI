@@ -24,7 +24,7 @@ class ConnectFourMoveTest {
 
     @Test
     void testGetMoveDetails() {
-        String details = move.getMoveDetails();
+        String details = move.getMoveDetails(player);
         assertTrue(details.contains("Player1"));
         assertTrue(details.contains("column 3"));
     }

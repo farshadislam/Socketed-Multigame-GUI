@@ -1,7 +1,6 @@
 package org.seng.gamelogic.checkers;
 
 import org.seng.gamelogic.Player;
-import org.seng.gamelogic.checkers.CheckersMove;
 import org.seng.gamelogic.checkers.CheckersBoard;
 
 /**
@@ -30,22 +29,4 @@ public class CheckersPlayer extends Player {
         return true;
     }
 
-    /**
-     * Attempts to make a move on the given Checkers board.
-     *
-     * @param board The CheckersBoard where the move will be made.
-     * @param move The move to be executed.
-     * @return True if the move is successfully made, false otherwise.
-     */
-    public boolean makeMove(CheckersBoard board, CheckersMove move) {
-        // Extract move coordinates from the CheckersMove object
-        int rowStart = move.getRowStart();
-        int rowEnd = move.getRowEnd();
-        int colStart = move.getColStart();
-        int colEnd = move.getColEnd();
-
-        // Attempt to make the move on the board
-        boolean movePiece = board.makeMove(rowStart, colStart, rowEnd, colEnd);
-        return movePiece;
-    }
 }

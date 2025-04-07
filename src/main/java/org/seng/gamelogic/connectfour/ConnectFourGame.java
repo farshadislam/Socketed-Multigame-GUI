@@ -7,28 +7,19 @@ import java.util.List;
 public class ConnectFourGame {
 
     public ConnectFourBoard board;
-    public Player[] players;  // 2 players
-    public Player currentPlayer;
+    public ConnectFourPlayer[] players;  // 2 players
+    public ConnectFourPlayer currentPlayer;
     public int gameID;
     public String status;
     public ArrayList<String> chatLog;
 
-    public ConnectFourGame(ConnectFourBoard board, Player[] players, int gameID) {
+    public ConnectFourGame(ConnectFourBoard board, ConnectFourPlayer[] players, int gameID) {
         this.board = board;
         this.players = players;
         this.gameID = gameID;
         this.status = "In Progress"; // placeholder for status
         this.chatLog = new ArrayList<>();
         this.currentPlayer = players[0]; // first player starts, this may be changed to implement a RNG decision?
-    }
-
-    // Manage player networking
-    public boolean connectPlayers() {
-        return true;
-    }
-
-    public boolean disconnectPlayers() {
-        return true;
     }
 
     // Manage chat log (
@@ -48,19 +39,51 @@ public class ConnectFourGame {
     }
 
     public void exitGame() {
-
     }
 
     // restrict movements to column choice only. Returns true if move is made
     public boolean makeMove(int col) {
+        if (status.equals("In Progress")) {
+            board.dropPiece(col, currentPlayer);
+            char symbol = currentPlayer.getSymbol();
+            ConnectFourBoard.Chip chip;
+            if (symbol == 'b') {
+                chip = ConnectFourBoard.Chip.BLUE;
+            } else {
+                chip = ConnectFourBoard.Chip.YELLOW;
+            }
+            if (checkWinner(chip)) {
+                status = currentPlayer.toString() + " Wins";
+            } else if (boardFull()) {
+                status = "Draw";
+            } else {
+                switchTurn();
+            }
+            return true;
+        }
+        return false;
         // update board here so that the Connect Four piece is dropped in the correct column
         // error handling: make sure the integer passed into this method is 0 <= col <= 6 (7 columns)
-        return true;
     }
 
     // made after move is made. We can also add a "skip turn" functionality if we have time, work with GUI/integration.
     public void switchTurn() {
+        if (players[0] == currentPlayer) {
+            currentPlayer = players[1];
+        } else {
+            currentPlayer = players[0];
+        }
+    }
 
+    public boolean boardFull() {
+        boolean full = true;
+        for (int colCounter = 0; colCounter < 7; colCounter ++) {
+            boolean eachCol = board.columnFull(colCounter);
+            if (!eachCol) {
+                full = false;
+            }
+        }
+        return full;
     }
 
     // called at end of game? We can add a visual display for this (GUI).
@@ -99,6 +122,16 @@ public class ConnectFourGame {
             }
         }
         return false; // no winner found
+    }
+
+    private void initializePlayerSymbols() {
+        if (players[0] != null) players[0].symbol = 'b';
+        if (players[1] != null) players[1].symbol = 'y';
+    }
+
+    public void setStatus(ConnectFourPlayer gamePlayer, int column) {
+        String message = "Player " + gamePlayer.getName() + " has dropped a piece in column " + column;
+        status = message;
     }
 
 

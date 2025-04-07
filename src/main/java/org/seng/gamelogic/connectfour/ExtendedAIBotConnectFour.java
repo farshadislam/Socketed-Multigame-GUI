@@ -22,17 +22,17 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
 
     /**
      * @param board ConnectFourBoard for AIBot.
-     * @param move  ConnectFourMove that have the column
+     * @param game ConnectFourGame which holds the board
      * @return true if the move was successful, if not false.
      */
-
-    public boolean makeMove(ConnectFourBoard board, ConnectFourMove move) {
+    @Override
+    public boolean makeMove(ConnectFourBoard board, ConnectFourGame game) {
         if (this.board != board) {
             System.out.println("Board mismatch");
             return false;
         }
         // ensure its not null, and player matches ai
-        if (move == null || move.player != this) {
+        if ( == null || move.player != this) {
             return false;
         }
 
@@ -66,7 +66,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
      * @param board ConnectFourBoard to find a move
      * @return ConnectFourMove object showing the next move, or null if there is no moves available
      */
-    public ConnectFourMove nextMove(ConnectFourBoard board) {
+    public int nextMove(ConnectFourBoard board) {
         // checking if its ai's turn
         if (game.currentPlayer != this) {
             return null; // other player's turn
@@ -77,7 +77,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
             return null; //no valid moves are available
         }
         // set row to -1 right now, will be changed when the move is made
-        return new ConnectFourMove(this, column, -1);
+        return new ConnectFourMove(this, column, );
 
     }
 
@@ -85,7 +85,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
      * @param symbol The char symbol change
      * @return Chip.BLUE, Chip.YELLOW or Chip.EMPTY
      */
-    public static Chip charToChip(char symbol) {
+    private static Chip charToChip(char symbol) {
         if (symbol == 'b') {
             return Chip.BLUE;
         } else if (symbol == 'y') {
@@ -98,7 +98,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
      * @param chip The chip to change
      * @return b, y, or ' '
      */
-    public static char chipToChar(Chip chip) {
+    private static char chipToChar(Chip chip) {
         if (chip == Chip.BLUE) {
             return 'b';
         } else if (chip == Chip.YELLOW) {
@@ -122,7 +122,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
      * */
     @Override
     public char getSymbol() {
-        return this.symbol;
+        return this.symbol);
     }
 
 }
