@@ -54,18 +54,20 @@ public class CreateAccountController {
             return;
         }
 
-        if (!loginPage.verifyUsernameFormat(username)){
-            displayUsernameFormatError();
-            hasError = true; 
+        if (!loginPage.verifyPasswordFormat(password)) {
+            displayPasswordsFormatError();
+            hasError = true;
         }
+
         if (!loginPage.verifyEmailFormat(email))   {
             displayEmailFormatError();
             hasError = true; 
         }
-        if (!loginPage.verifyPasswordFormat(password)) {
-            displayPasswordsFormatError();
-            hasError = true; 
+        if (!loginPage.verifyUsernameFormat(username)){
+            displayUsernameFormatError();
+            hasError = true;
         }
+
 
         // If any field has an error, stop the registration process
         if (hasError) {
@@ -98,7 +100,6 @@ public class CreateAccountController {
     }
 
     private void displayEmailFormatError(){
-        emailField.getStyleClass().add("error-prompt");
         emailField.getStyleClass().add("error-prompt");
         emailField.setPromptText("Please enter a valid email!");
         emailField.clear();
