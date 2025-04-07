@@ -1,5 +1,8 @@
 package org.seng.gamelogic.checkers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CheckersBoard {
 
     public static final int BOARD_SIZE = 8;
@@ -134,6 +137,47 @@ public class CheckersBoard {
     public void setPieceAt(int row, int col, Piece piece) {
         board[row][col] = piece;
     }
+
+
+    //everything under here is experimental
+
+    public List<int[]> getCapturablePieces(int fromRow, int fromCol, Piece piece) {
+        List<int[]> capturableLocations = new ArrayList<>();
+        if (piece == Piece.EMPTY) {
+            return capturableLocations;
+        }
+
+        // Set directions based on the piece type
+        int[] directions;
+        if (piece == Piece.RED || piece == Piece.RED_KING) {
+            directions = new int[]{-1};  // Red pieces move upwards
+        } else if (piece == Piece.BLACK || piece == Piece.BLACK_KING) {
+            directions = new int[]{1};   // Black pieces move downwards
+        } else {
+            directions = new int[]{-1, 1};  // Kings move both ways
+        }
+
+        // Check potential capture moves
+        for (int rowDir : directions) {
+            for (int colDir : new int[]{-1, 1}) {  // Always check both left and right directions
+                int targetRow = fromRow + 2 * rowDir;
+                int targetCol = fromCol + 2 * colDir;
+                if (inBounds(targetRow, targetCol) && board[targetRow][targetCol] == Piece.EMPTY) {
+                    int middleRow = fromRow + rowDir;
+                    int middleCol = fromCol + colDir;
+                    Piece middlePiece = board[middleRow][middleCol];
+                    // Directly check if the middle piece is of the opposite color
+                    if ((piece == Piece.RED || piece == Piece.RED_KING) && (middlePiece == Piece.BLACK || middlePiece == Piece.BLACK_KING) ||
+                            (piece == Piece.BLACK || piece == Piece.BLACK_KING) && (middlePiece == Piece.RED || middlePiece == Piece.RED_KING)) {
+                        capturableLocations.add(new int[]{targetRow, targetCol});
+                    }
+                }
+            }
+        }
+        return capturableLocations;
+    }
+
+
 
 
 
