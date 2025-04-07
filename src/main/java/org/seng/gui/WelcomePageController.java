@@ -201,13 +201,13 @@ public class WelcomePageController {
     private void openGameDashboard(HomePage homePage) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
-            GameDashboardController controller = fxmlLoader.getController();
-            controller.setHomePage(homePage);
             Scene scene = new Scene(fxmlLoader.load(), 700, 450);
             scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
             Stage stage = new Stage();
             stage.setTitle("Game Dashboard");
             stage.setScene(scene);
+            GameDashboardController controller = fxmlLoader.getController();
+            controller.setHomePage(homePage);
             stage.show();
 
             // Close the login window
