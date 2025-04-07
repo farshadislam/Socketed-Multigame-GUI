@@ -1,5 +1,6 @@
 package org.seng.gui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -31,12 +32,9 @@ public class CreateAccountController {
     public void initialize() {
         registerButton.setOnAction(e -> handleRegistration());
         backButton.setOnAction(e -> returnToLogin());
-
-        // Reset prompt text when typing
-        usernameField.textProperty().addListener((observable, oldValue, newValue) -> resetPrompt(usernameField, "Username"));
-        emailField.textProperty().addListener((observable, oldValue, newValue) -> resetPrompt(emailField, "Email"));
-
-    }
+        Platform.runLater(() -> {
+            backButton.requestFocus();
+        });    }
 
     public void setLoginPage(LoginPage loginPage){
         this.loginPage = loginPage;
@@ -84,6 +82,19 @@ public class CreateAccountController {
     private void resetPrompt(TextField field, String defaultPrompt) {
         field.getStyleClass().remove("error-prompt");
         field.setPromptText(defaultPrompt);
+    }
+    private void indicateFieldError(TextField field, String message) {
+        field.getStyleClass().add("error-prompt");
+        field.setPromptText(message);
+        field.clear();
+
+        // Remove the error style after a short delay
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(e -> {
+            field.getStyleClass().remove("error-prompt");
+            field.setPromptText(field == usernameField ? "Username" : "Email");
+        });
+        pause.play();
     }
 
     private void displayUsernameFormatError(){
