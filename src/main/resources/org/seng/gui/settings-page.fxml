@@ -1,34 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.seng.gui.SettingsController"
-            prefHeight="400.0" prefWidth="600.0"
-            styleClass="gradient-background">
-
-    <VBox spacing="20" alignment="center" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
-        <Label text="Settings" styleClass="settings-title-label"/>
-
-        <VBox spacing="10" alignment="center">
-            <Label text="Username:"/>
-            <TextField fx:id="usernameField" promptText="Username"/>
-            <Button text="Change Username" onAction="#changeUsername"/>
-
-            <Label text="Email:"/>
-            <TextField fx:id="emailField" promptText="Email"/>
-            <Button text="Change Email" onAction="#changeEmail"/>
-
-            <Label text="Password:"/>
-            <PasswordField fx:id="passwordField" promptText="New Password"/>
-            <Button text="Change Password" onAction="#changePassword"/>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.seng.gui.SettingsController" styleClass="gradient-background" prefWidth="800" prefHeight="600">
+    <Button fx:id="backButton" onAction="#goBack" styleClass="back-icon" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10">
+        <graphic>
+            <ImageView fx:id="backIcon" fitWidth="30" fitHeight="30"/>
+        </graphic>
+    </Button>
+    <VBox fx:id="sidebar" styleClass="settings-sidebar" spacing="20" alignment="TOP_LEFT" prefHeight="Infinity" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
+        <Label text="Settings" styleClass="sidebar-title"/>
+        <Button text="Manage Account" onAction="#showManageAccount" styleClass="sidebar-button"/>
+        <Button text="Network Connectivity" onAction="#showNetworkConnectivity" styleClass="sidebar-button"/>
+        <VBox spacing="20" alignment="BOTTOM_LEFT" AnchorPane.bottomAnchor="20">
+            <Button text="Logout" onAction="#handleLogout" styleClass="sidebar-button"/>
+            <Button text="Delete Account" onAction="#deleteAccount" styleClass="sidebar-button, delete-button"/>
         </VBox>
+    </VBox>
 
-        <HBox spacing="20" alignment="center">
-            <Button text="Logout" styleClass="auth-button" onAction="#handleLogout"/>
-            <Button text="Delete Account" styleClass="auth-button" onAction="#deleteAccount"/>
-        </HBox>
+    <VBox fx:id="manageAccountArea" layoutX="240" layoutY="20" spacing="10">
+        <Label fx:id="contentTitle" text="Manage Account" styleClass="light-title-label"/>
+        <Label text="Change Username:" styleClass="form-label"/>
+        <TextField fx:id="usernameField" promptText="New Username" styleClass="input-field"/>
+        <Button text="Update" onAction="#changeUsername" styleClass="auth-button"/>
+        <Label fx:id="usernameError" text="" visible="false" managed="false" styleClass="error-message"/>
+        <Label text="Change Email:" styleClass="form-label"/>
+        <TextField fx:id="emailField" promptText="New Email" styleClass="input-field"/>
+        <Button text="Update" onAction="#changeEmail" styleClass="auth-button"/>
+        <Label fx:id="emailError" text="" visible="false" managed="false" styleClass="error-message"/>
+        <Label text="Change Password:" styleClass="form-label"/>
+        <Button text="Change Password" onAction="#redirectToVerification" styleClass="auth-button"/>
+    </VBox>
+
+    <VBox fx:id="networkConnectivityArea" layoutX="240" layoutY="20" spacing="15" visible="false" managed="false">
+        <Label text="Network Connectivity" styleClass="light-title-label"/>
     </VBox>
 </AnchorPane>
