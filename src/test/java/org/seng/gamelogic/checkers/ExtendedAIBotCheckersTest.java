@@ -7,59 +7,80 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ExtendedAIBotCheckersTest {
 
-    private CheckersBoard board;
-    private ExtendedAIBotCheckers bot;
-    private CheckersPlayer[] players;
     private CheckersGame game;
+    private CheckersBoard board;
+    private ExtendedAIBotCheckers aiBot;
+    private CheckersPlayer player;
 
     @BeforeEach
-    public void setup() {
+    void setUp() {
+        // initialize player 1 with red piece
+        player = new CheckersPlayer("player123", 1, 'r', 0);
+
+        // set up checkers game and board
         board = new CheckersBoard();
-        players = new CheckersPlayer[2];
-        players[0] = new ExtendedAIBotCheckers("BotPlayer", 1, 'b', 1, null);
-        players[1] = new CheckersPlayer("Opponent", 2, 'r', 1);
-        game = new CheckersGame(board, players, 1);
+        game = new CheckersGame(board, new CheckersPlayer[]{player},10);
 
-        // Inject proper game instance into bot
-        bot = (ExtendedAIBotCheckers) players[0];
+        // initialize AI bot as player 2 with black piece
+        aiBot = new ExtendedAIBotCheckers('b', game, board);
+
+
+    }
+
+    // Test valid move
+    @Test
+    void testValidMove() {
+        // set up valid move
+        board.setPieceAt(5, 0, CheckersBoard.Piece.BLACK);
+        board.setPieceAt(4, 1, CheckersBoard.Piece.EMPTY); // AI moves here next - valid because it is empty
+
+        // AI makes move
+        CheckersMove move = new CheckersMove(5, 0, 4, 1, aiBot);
+        boolean result = aiBot.makeMove(board, move);
+        assertTrue(result, "Move should be successful");
+    }
+
+    // Test invalid move
+    @Test
+    void testInvalidMove() {
+        board.setPieceAt(5, 0, CheckersBoard.Piece.BLACK);
+        board.setPieceAt(4, 1, CheckersBoard.Piece.RED); // a piece is already here
+
+        CheckersMove move = new CheckersMove(5, 0, 4, 1, aiBot);
+        boolean result = aiBot.makeMove(board, move);
+        assertFalse(result, "Move should be invalid");
+    }
+
+    // Test next move
+    @Test
+    void testFindNextMove() {
+        board.setPieceAt(5, 0, CheckersBoard.Piece.BLACK); // Black piece at (5, 0)
+        board.setPieceAt(4, 1, CheckersBoard.Piece.EMPTY); // Empty spot at (4, 1)
+        board.setPieceAt(6, 1, CheckersBoard.Piece.EMPTY); // Empty spot at (6, 1)
+
+        // AI makes a move
+        int[] nextMove = aiBot.nextMove(board);
+
+        // should choose (4, 1) or (6, 1)
+        assertTrue((nextMove[2] == 4 && nextMove[3] == 1) || (nextMove[2] == 6 && nextMove[3] == 1),
+                "AI should choose an available column");
     }
 
     @Test
-    public void testNextMoveReturnsValidMove() {
-        Object moveObj = bot.nextMove(board);
-        assertNotNull(moveObj, "Bot should return a valid move object");
-
-        int[] move = (int[]) moveObj;
-
-        assertEquals(4, move.length, "Move should be an int array of length 4");
-        assertTrue(board.isValidMove(move[0], move[1], move[2], move[3]), "Move returned by bot should be valid");
-    }
-
-    @Test
-    public void testMakeMoveSuccess() {
-        Object moveObj = bot.nextMove(board);
-        assertNotNull(moveObj, "Bot should return a move");
-
-        boolean result = bot.makeMove(board, moveObj);
-        assertTrue(result, "Bot's move should be successful");
-    }
-
-    @Test
-    public void testMakeMoveWithInvalidObjectTypes() {
-        assertFalse(bot.makeMove(board, "not a move"), "Invalid move object should return false");
-        assertFalse(bot.makeMove("not a board", new int[]{0, 0, 1, 1}), "Invalid board object should return false");
-    }
-
-    @Test
-    public void testNextMoveNoAvailableMoves() {
-        // Set up board with no black pieces
+    void testNoAvailableMoves() {
+        // set all pieces as blocked (no available moves for AI)
+        // check over logic of this
         for (int row = 0; row < CheckersBoard.BOARD_SIZE; row++) {
             for (int col = 0; col < CheckersBoard.BOARD_SIZE; col++) {
-                board.setPieceAt(row, col, CheckersBoard.Piece.RED);
+                if ((row + col) % 2 == 1) { // Only dark squares are used
+                    board.setPieceAt(row, col, CheckersBoard.Piece.RED); // Assume Red pieces fill the board
+                }
             }
         }
 
-        Object move = bot.nextMove(board);
-        assertNull(move, "Bot should return null if no valid moves");
+        // no valid moves free on board
+        int[] nextMove = aiBot.nextMove(board);
+        assertNull(nextMove, "No valid moves are available");
     }
+
 }
