@@ -74,13 +74,16 @@ public class LoginPage {
         return State.ERROR;
 
     }
+    public boolean verifyUsernameFormat(String username){
+        return (!username.isEmpty() && !username.matches(".*\\s.*") && !hasConsecutiveValidSpecialChars(username) && username.length() >= 5);
+    }
 
     /**
      * Verifies if the email format provided by the player is correct or not
      * @param email
      * @return
      */
-    private boolean verifyEmailFormat(String email){
+    public boolean verifyEmailFormat(String email){
         if(!email.endsWith("@gmail.com") || email.indexOf("@") != email.lastIndexOf("@") || email.indexOf("@") <= 0){
             return false;
         }

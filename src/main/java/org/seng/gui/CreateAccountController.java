@@ -9,7 +9,8 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-import org.seng.authentication.LoginPage;
+import org.seng.authentication.*;
+import org.seng.authentication.LoginPage.State;
 
 import java.io.IOException;
 
@@ -24,6 +25,7 @@ public class CreateAccountController {
     @FXML
     private Button registerButton, backButton;
     private LoginPage loginPage;
+
 
     @FXML
     public void initialize() {
@@ -45,23 +47,24 @@ public class CreateAccountController {
         String email = emailField.getText();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
-        loginPage.register(username,email,password);
-
         boolean hasError = false;
+
         if (!password.equals(confirmPassword)) {
             displayPasswordsMatchingError();
             return;
         }
-        // Check if username is empty
-        if (username.isEmpty()) {
-            indicateFieldError(usernameField, "Please enter a valid username");
-            hasError = true;
-        }
 
-        // Check if email is empty
-        if (email.isEmpty()) {
-            indicateFieldError(emailField, "Please enter a valid email");
-            hasError = true;
+        if (!loginPage.verifyUsernameFormat(username)){
+            displayUsernameFormatError();
+            hasError = true; 
+        }
+        if (!loginPage.verifyEmailFormat(email))   {
+            displayEmailFormatError();
+            hasError = true; 
+        }
+        if (!loginPage.verifyPasswordFormat(password)) {
+            displayPasswordsFormatError();
+            hasError = true; 
         }
 
         // If any field has an error, stop the registration process
@@ -69,13 +72,10 @@ public class CreateAccountController {
             return;
         }
 
-        // Validate passwords
-        if (!password.equals(confirmPassword)) {
-            displayPasswordsMatchingError();
-            return;
+        State state = loginPage.register(username,email,password);
+        if(state == State.VERIFICATION_CODE_SENT)   {
+            openSuccessPage();
         }
-
-        openSuccessPage();
     }
 
 
@@ -84,16 +84,47 @@ public class CreateAccountController {
         field.setPromptText(defaultPrompt);
     }
 
-    private void indicateFieldError(TextField field, String message) {
-        field.getStyleClass().add("error-prompt");
-        field.setPromptText(message);
-        field.clear();
+    private void displayUsernameFormatError(){
+        usernameField.getStyleClass().add("error-prompt");
+        usernameField.setPromptText("Please enter a valid username!");
+        usernameField.clear();
 
-        // Remove the error style after a short delay
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(e -> {
-            field.getStyleClass().remove("error-prompt");
-            field.setPromptText(field == usernameField ? "Username" : "Email");
+            usernameField.getStyleClass().remove("error-prompt");
+            usernameField.setPromptText("Username");
+        });
+        pause.play();
+    }
+
+    private void displayEmailFormatError(){
+        emailField.getStyleClass().add("error-prompt");
+        emailField.getStyleClass().add("error-prompt");
+        emailField.setPromptText("Please enter a valid email!");
+        emailField.clear();
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(e -> {
+            emailField.getStyleClass().remove("error-prompt");
+            emailField.setPromptText("Email");
+        });
+        pause.play();
+    }
+
+    private void displayPasswordsFormatError() {
+        passwordField.getStyleClass().add("error-prompt");
+        confirmPasswordField.getStyleClass().add("error-prompt");
+        passwordField.setPromptText("Please enter a valid password!");
+        confirmPasswordField.setPromptText("Please enter a valid password!");
+        passwordField.clear();
+        confirmPasswordField.clear();
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(e -> {
+            passwordField.getStyleClass().remove("error-prompt");
+            confirmPasswordField.getStyleClass().remove("error-prompt");
+            passwordField.setPromptText("Password");
+            confirmPasswordField.setPromptText("Confirm Password");
         });
         pause.play();
     }
@@ -106,7 +137,7 @@ public class CreateAccountController {
         passwordField.clear();
         confirmPasswordField.clear();
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(e -> {
             passwordField.getStyleClass().remove("error-prompt");
             confirmPasswordField.getStyleClass().remove("error-prompt");
