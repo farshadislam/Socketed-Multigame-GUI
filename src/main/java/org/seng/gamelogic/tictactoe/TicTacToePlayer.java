@@ -25,10 +25,4 @@ public class TicTacToePlayer extends Player {
         this.symbol = symbol;
     }
 
-    public boolean makeMove(TicTacToeGame game, TicTacToeMove move) {
-        int row = move.getRow();
-        int col = move.getCol();
-        boolean playPiece = game.makeMove(row, col);
-        return playPiece;
-    }
 }
