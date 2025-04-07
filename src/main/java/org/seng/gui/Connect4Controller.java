@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class Connect4Controller {
@@ -36,6 +37,22 @@ public class Connect4Controller {
             }
         }
         clearChatHistory();
+    }
+    @FXML
+    private void handleQuit() {
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Quit");
+        confirmAlert.setHeaderText("Are you sure?");
+        confirmAlert.setContentText("Do you want to quit and go back to the game dashboard?");
+
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            openToGameDashboard();
+        }
+    }
+
+    private void openToGameDashboard() {
+
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
