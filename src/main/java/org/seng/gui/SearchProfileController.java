@@ -51,7 +51,7 @@ public class SearchProfileController {
                 FriendProfileController controller = loader.getController();
                 controller.setProfileData(selected, "Last Online: 2 hours ago", 3, 2, 0);
                 Scene scene = new Scene(root, 700, 450);
-                scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+                scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
                 Stage stage = new Stage();
                 stage.setTitle(selected + "'s Profile");
                 stage.setScene(scene);

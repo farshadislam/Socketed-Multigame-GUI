@@ -291,3 +291,85 @@
     -fx-font-weight: bold;
     -fx-alignment: center;
 }
+
+.dropdown {
+    -fx-pref-width: 160px;
+    -fx-background-color: #4f13cf;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+}
+
+.dropdown .arrow-button .arrow {
+    -fx-background-color: white;
+}
+
+.dropdown .text {
+    -fx-fill: white;
+}
+
+.dropdown .combo-box-popup .list-view .list-cell {
+    -fx-background-color: #4f13cf; /* Background color of dropdown items */
+    -fx-text-fill: white;
+}
+
+.dropdown .combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #5750cc;
+}
+
+.dropdown .combo-box-popup .list-view .list-cell:filled:selected {
+    -fx-background-color: #4940b2;
+    -fx-text-fill: white;
+}
+
+.first-place-label, .second-place-label, .third-place-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.first-place-label {
+    -fx-text-fill: gold;
+}
+
+.second-place-label {
+    -fx-text-fill: silver;
+}
+
+.third-place-label {
+    -fx-text-fill: #cd7f32;
+}
+
+.podium-label {
+    -fx-font-size: 21px;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 5px;
+}
+
+.podium-icon {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 8, 0.3, 0, 0);
+}
+
+.player-list {
+    -fx-background-color: #6c63ff;
+    -fx-border-color: #ddd;
+    -fx-border-width: 2px;
+    -fx-padding: 5px;
+    -fx-background-radius: 8px;
+    -fx-max-height: 250px;
+    -fx-pref-width: 700px;
+}
+
+.player-list .list-cell {
+    -fx-background-color: #6c63ff;
+    -fx-text-fill: white;
+    -fx-padding: 8px;
+    -fx-font-size: 16px;
+    -fx-border-color: transparent;
+}
+
+.player-list .list-cell:hover {
+    -fx-background-color: #5750cc;
+    -fx-cursor: hand;
+}

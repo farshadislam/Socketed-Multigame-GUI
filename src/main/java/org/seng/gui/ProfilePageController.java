@@ -51,7 +51,7 @@ public class ProfilePageController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("search-profile.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 700, 450);
-            scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
             Stage stage = new Stage();
             stage.setTitle("Search Profiles");
             stage.setScene(scene);
@@ -59,6 +59,9 @@ public class ProfilePageController {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void setProfileData(String playerName) {
     }
 
 
