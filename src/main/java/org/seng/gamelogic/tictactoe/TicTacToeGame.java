@@ -15,10 +15,10 @@ public class TicTacToeGame {
     public TicTacToePlayer[] players;  // 2 players
     public int gameID;
 
-    public TicTacToeGame(TicTacToePlayer[] players, int gameID) {
+    public TicTacToeGame(TicTacToeBoard board, TicTacToePlayer[] players, int gameID) {
         this.players = players;
         this.gameID = gameID;
-        board = new TicTacToeBoard();
+        this.board = board;
         currMark = Mark.X; // X starts
         status = "In Progress";
         chatLog = new ArrayList<>();

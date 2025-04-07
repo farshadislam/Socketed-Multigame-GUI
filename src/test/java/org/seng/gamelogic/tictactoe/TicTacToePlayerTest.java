@@ -16,7 +16,9 @@ public class TicTacToePlayerTest {
 
     @Test
     public void testMakeMove() {
-        TicTacToeGame game = new TicTacToeGame();
+        TicTacToeBoard board = new TicTacToeBoard();
+        TicTacToePlayer[] players = new TicTacToePlayer[]{new TicTacToePlayer("Player1", 1, 'b', 1), new TicTacToePlayer("Player2", 2, 'y', 1)};
+        TicTacToeGame game = new TicTacToeGame(board, players, 4);
         TicTacToeMove move = new TicTacToeMove(0, 0, 'X');
         TicTacToePlayer player = new TicTacToePlayer("Test", 1, 'X', 0);
 

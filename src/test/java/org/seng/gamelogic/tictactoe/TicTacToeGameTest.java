@@ -12,7 +12,9 @@ public class TicTacToeGameTest {
     //BeforeEnch just runs before every test
     @BeforeEach
     public void setup() {
-        game = new TicTacToeGame();
+    TicTacToeBoard board = new TicTacToeBoard();
+    TicTacToePlayer[] players = new TicTacToePlayer[]{new TicTacToePlayer("Player1", 1, 'b', 1), new TicTacToePlayer("Player2", 2, 'y', 1)};
+    game = new TicTacToeGame(board, players, 2);
     }
 
     @Test

@@ -15,7 +15,9 @@ public class TicTacToeMoveTest {
 
     @Test
     public void testGetMoveDetails() {
-        TicTacToeGame game = new TicTacToeGame();
+        TicTacToeBoard board = new TicTacToeBoard();
+        TicTacToePlayer[] players = new TicTacToePlayer[]{new TicTacToePlayer("Player1", 1, 'b', 1), new TicTacToePlayer("Player2", 2, 'y', 1)};
+        TicTacToeGame game = new TicTacToeGame(board, players, 3);
         TicTacToeMove move = new TicTacToeMove(1, 1, 'X');
         String details = move.getMoveDetails(game);
         assertEquals("X", details);
