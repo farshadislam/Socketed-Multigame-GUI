@@ -64,8 +64,8 @@
       <Button fx:id="inGameChatButton" layoutX="776.0" layoutY="533.0" mnemonicParsing="false" onAction="#openChat" prefHeight="48.0" prefWidth="96.0" styleClass="option-button" text="Chat" textFill="#8e2de2" />
       <MenuButton layoutX="730.0" layoutY="23.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="154.0" styleClass="option-button" text="Settings" textFill="#8e2de2">
         <items>
-          <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" text="Help" styleClass="menu-item"/>
-          <MenuItem mnemonicParsing="false" text="Quit" styleClass="menu-item"/>
+          <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" styleClass="menu-item" text="Help" />
+          <MenuItem fx:id="quitOption" mnemonicParsing="false" styleClass="menu-item" text="Quit" />
         </items>
       </MenuButton>
       <Label fx:id="connect4Label" layoutX="387.0" layoutY="23.0" styleClass="connect4-label" text="Connect 4" />
