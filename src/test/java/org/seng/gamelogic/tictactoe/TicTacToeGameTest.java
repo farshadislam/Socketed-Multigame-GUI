@@ -18,13 +18,13 @@ public class TicTacToeGameTest {
     @Test
     public void testInitialState() {
         assertEquals("In Progress", game.getStatus());
-        assertEquals(TicTacToeBoard.Mark.X, game.getCurrentPlayer());
+        assertEquals(TicTacToeBoard.Mark.X, game.getCurrentMark());
     }
 
     @Test
     public void testMakeMoveAndSwitchTurn() {
         assertTrue(game.makeMove(0, 0));
-        assertEquals(TicTacToeBoard.Mark.O, game.getCurrentPlayer());
+        assertEquals(TicTacToeBoard.Mark.O, game.getCurrentMark());
     }
 
     @Test
@@ -64,6 +64,6 @@ public class TicTacToeGameTest {
         game.makeMove(0, 0);
         game.resetGame();
         assertEquals("In Progress", game.getStatus());
-        assertEquals(TicTacToeBoard.Mark.X, game.getCurrentPlayer());
+        assertEquals(TicTacToeBoard.Mark.X, game.getCurrentMark());
     }
 }

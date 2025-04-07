@@ -75,8 +75,8 @@ public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
      * */
 
     public TicTacToeMove nextMove(TicTacToeBoard board) {
-        TicTacToePlayer player = game.getCurrentPlayer();
-        if (game.getCurrentPlayer() != this.symbol) {
+        Mark mark = game.getCurrentMark();
+        if (game.getCurrentMark() != charToMark(this.symbol)) {
             return null; // not AI's turn
         }
         int[] move = findNextMove(board);
@@ -84,7 +84,7 @@ public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
             return null;
         }
         //convert the AI's mark to char for TicTacToeMove
-        return new TicTacToeMove(move[1], move[0], markToChar(this.symbol));
+        return new TicTacToeMove(move[1], move[0], this.symbol);
     }
 
     @Override

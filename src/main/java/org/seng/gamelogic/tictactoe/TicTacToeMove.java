@@ -30,8 +30,7 @@ public class TicTacToeMove {
 
     // set Move
     public String getMoveDetails(TicTacToeGame game) {
-        String mark = String.valueOf(game.getCurrentPlayer());
-        return mark;
+        return "hi";
     }
 
 }

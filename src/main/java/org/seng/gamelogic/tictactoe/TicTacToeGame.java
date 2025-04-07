@@ -1,5 +1,5 @@
 package org.seng.gamelogic.tictactoe;
-import org.seng.gamelogic.tictactoe.TicTacToeBoard;
+import org.seng.gamelogic.Player;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
 
 import java.util.ArrayList;
@@ -9,22 +9,27 @@ import java.util.List;
 public class TicTacToeGame {
 
     private TicTacToeBoard board;
-    private Mark currPlayer;
+    private Mark currMark;
     private String status;// Can be "In Progress", "X Wins", "O Wins", "Draw"
     private List<String> chatLog;
-    public TicTacToeGame() {
+    public TicTacToePlayer[] players;  // 2 players
+    public int gameID;
+
+    public TicTacToeGame(TicTacToePlayer[] players, int gameID) {
+        this.players = players;
+        this.gameID = gameID;
         board = new TicTacToeBoard();
-        currPlayer = Mark.X; // X starts
+        currMark = Mark.X; // X starts
         status = "In Progress";
         chatLog = new ArrayList<>();
     }
 
     public boolean makeMove(int row, int col) {
         if (status.equals("In Progress") && board.validMove(row, col)) {
-            board.makeMove(row, col, currPlayer);
+            board.makeMove(row, col, currMark);
 
-            if (checkWinner(currPlayer)) {
-                status = currPlayer + " Wins";
+            if (checkWinner(currMark)) {
+                status = currMark + " Wins";
             } else if (boardFull()) {
                 status = "Draw";
             } else {
@@ -40,13 +45,43 @@ public class TicTacToeGame {
             //check if there is a winner in rows and columns
             if ((board.getMark(i, 0) == mark && board.getMark(i, 1) == mark && board.getMark(i, 2) == mark) ||
                     (board.getMark(0, i) == mark && board.getMark(1, i) == mark && board.getMark(2, i) == mark)) {
+                char symbolCheck;
+                if (mark == Mark.X) {
+                    symbolCheck = 'X';
+                } else {
+                    symbolCheck = 'O';
+                }
+                if (players[0].getSymbol() == symbolCheck) {
+                    players[0].incrementWins();
+                    players[1].incrementLosses();
+                } else {
+                    players[1].incrementWins();
+                    players[0].incrementLosses();
+                }
                 return true;
             }
         }
 
         //check if there is a winner in a diagonal
-        return (board.getMark(0, 0) == mark && board.getMark(1, 1) == mark && board.getMark(2, 2) == mark) ||
-                (board.getMark(0, 2) == mark && board.getMark(1, 1) == mark && board.getMark(2, 0) == mark);
+        if ((board.getMark(0, 0) == mark && board.getMark(1, 1) == mark && board.getMark(2, 2) == mark) ||
+                (board.getMark(0, 2) == mark && board.getMark(1, 1) == mark && board.getMark(2, 0) == mark)) {
+            char symbolCheck;
+            if (mark == Mark.X) {
+                symbolCheck = 'X';
+            } else {
+                symbolCheck = 'O';
+            }
+            if (players[0].getSymbol() == symbolCheck) {
+                players[0].incrementWins();
+                players[1].incrementLosses();
+            } else {
+                players[1].incrementWins();
+                players[0].incrementLosses();
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean boardFull() {
@@ -62,15 +97,15 @@ public class TicTacToeGame {
     }
 
     public void switchTurn() {
-        currPlayer = Mark.O;
+        currMark = Mark.O;
     }
 
     public TicTacToeBoard getBoard() {
         return board;
     }
 
-    public Mark getCurrentPlayer() {
-        return currPlayer;
+    public Mark getCurrentMark() {
+        return currMark;
     }
 
     public String getStatus() {
@@ -79,15 +114,20 @@ public class TicTacToeGame {
 
     public void resetGame() {
         board.resetBoard();
-        currPlayer = Mark.X;
+        currMark = Mark.X;
         status = "In Progress";
     }
     public void sendMessage(String message) {
         if (message != null && !message.trim().isEmpty()) {
-            chatLog.add(currPlayer + ": " + message);
+            chatLog.add(currMark + ": " + message);
         }
     }
     public List<String> getChatLog() {
         return new ArrayList<>(chatLog);
+    }
+
+    private void initializePlayerSymbols() {
+        players[0].symbol = 'X';
+        players[1].symbol = 'O';
     }
 }
