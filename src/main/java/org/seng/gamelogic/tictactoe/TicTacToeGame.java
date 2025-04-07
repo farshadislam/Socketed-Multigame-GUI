@@ -4,7 +4,7 @@ import org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Scanner;
 
 public class TicTacToeGame {
 
@@ -97,7 +97,11 @@ public class TicTacToeGame {
     }
 
     public void switchTurn() {
-        currMark = Mark.O;
+        if (currMark == Mark.X) {
+            currMark = Mark.O;
+        } else {
+            currMark = Mark.X;
+        }
     }
 
     public TicTacToeBoard getBoard() {
@@ -117,11 +121,13 @@ public class TicTacToeGame {
         currMark = Mark.X;
         status = "In Progress";
     }
+
     public void sendMessage(String message) {
         if (message != null && !message.trim().isEmpty()) {
             chatLog.add(currMark + ": " + message);
         }
     }
+
     public List<String> getChatLog() {
         return new ArrayList<>(chatLog);
     }
@@ -129,5 +135,34 @@ public class TicTacToeGame {
     private void initializePlayerSymbols() {
         players[0].symbol = 'X';
         players[1].symbol = 'O';
+    }
+
+    /**
+     * Starts the game loop for console-based play.
+     * Handles player input, move validation, win/draw checks and output.
+     */
+    public void start() {
+        Scanner scanner = new Scanner(System.in);
+        initializePlayerSymbols(); // assign X and O to players
+
+        while (status.equals("In Progress")) {
+            board.display(); // requires a display() method in TicTacToeBoard
+
+            System.out.println("Current player: " + currMark);
+            System.out.print("Enter row (0-2): ");
+            int row = scanner.nextInt();
+            System.out.print("Enter column (0-2): ");
+            int col = scanner.nextInt();
+
+            boolean moveMade = makeMove(row, col);
+
+            if (!moveMade) {
+                System.out.println("Invalid move! Try again.");
+            }
+        }
+
+        board.display();
+        System.out.println("Game Over! Status: " + status);
+        scanner.close();
     }
 }

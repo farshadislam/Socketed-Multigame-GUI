@@ -32,6 +32,9 @@ public class CheckersGame {
         scanner = new Scanner(System.in);
     }
 
+    public CheckersGame(CheckersBoard board, CheckersPlayer[] checkersPlayers, int i) {
+    }
+
     /**
      * Starts the game and handles turn-based gameplay.
      */
