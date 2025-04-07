@@ -35,6 +35,7 @@ public class Connect4Controller {
                 btn.setOnAction(e -> handleColumnClick(finalCol));
             }
         }
+        clearChatHistory();
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
@@ -126,6 +127,13 @@ public class Connect4Controller {
                 cell.setStyle("-fx-background-color: #00F0FF;");
                 break;
             }
+        }
+    }
+    private void clearChatHistory() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH))) {
+            writer.write(""); // Clear the contents
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

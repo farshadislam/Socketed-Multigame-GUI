@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.seng.gui.GamesPageController" styleClass="gradient-background" prefWidth="800" prefHeight="600">
+
+    <Button fx:id="backButton" onAction="#goBack" styleClass="back-icon" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10">
+        <graphic>
+            <ImageView fx:id="backIcon" fitWidth="30" fitHeight="30"/>
+        </graphic>
+    </Button>
+
+    <Label text="OMG Games" styleClass="dashboard-title-label"
+           AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"
+           alignment="center"/>
+
+    <VBox alignment="CENTER" spacing="30" prefWidth="400" prefHeight="400" AnchorPane.leftAnchor="200" AnchorPane.rightAnchor="200" AnchorPane.topAnchor="100" AnchorPane.bottomAnchor="100">
+        <HBox alignment="CENTER" spacing="50">
+            <VBox alignment="CENTER">
+                <ImageView fx:id="checkersIcon" fitWidth="100" fitHeight="100"/>
+                <Label text="Checkers" styleClass="game-label"/>
+            </VBox>
+            <VBox alignment="CENTER">
+                <ImageView fx:id="ticTacToeIcon" fitWidth="100" fitHeight="100"/>
+                <Label text="Tic Tac Toe" styleClass="game-label" maxWidth="150" textAlignment="center"/>
+            </VBox>
+            <VBox alignment="CENTER">
+                <ImageView fx:id="connect4Icon" fitWidth="100" fitHeight="100"/>
+                <Label text="Connect 4" styleClass="game-label"/>
+            </VBox>
+        </HBox>
+    </VBox>
+
+    <HBox alignment="CENTER" spacing="20" AnchorPane.leftAnchor="250" AnchorPane.rightAnchor="250" AnchorPane.bottomAnchor="50">
+        <ToggleButton fx:id="playComputerButton" text="Play the Computer" onAction="#togglePlayMode" styleClass="toggle-button"/>
+        <ToggleButton fx:id="playOnlineButton" text="Play Online" onAction="#togglePlayMode" styleClass="toggle-button"/>
+    </HBox>
+
+</AnchorPane>

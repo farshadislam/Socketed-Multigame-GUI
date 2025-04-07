@@ -27,9 +27,23 @@ public class TicTacToeController {
     @FXML private Button button9;
     @FXML private Button inGameChatButton;
     @FXML private MenuItem helpOption;
-    @FXML public void initialize() {}
+    @FXML private Label turnLabel;
+
+    @FXML public void initialize() {
+        clearChatHistory();
+        button1.setOnAction(e -> handleMove(button1));
+        button2.setOnAction(e -> handleMove(button2));
+        button3.setOnAction(e -> handleMove(button3));
+        button4.setOnAction(e -> handleMove(button4));
+        button5.setOnAction(e -> handleMove(button5));
+        button6.setOnAction(e -> handleMove(button6));
+        button7.setOnAction(e -> handleMove(button7));
+        button8.setOnAction(e -> handleMove(button8));
+        button9.setOnAction(e -> handleMove(button9));
+    }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
+
 
     private void saveMessage(String message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
@@ -45,6 +59,13 @@ public class TicTacToeController {
             return Files.readString(Paths.get(CHAT_LOG_PATH));
         } catch (IOException e) {
             return "";
+        }
+    }
+    private void clearChatHistory() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH))) {
+            writer.write("");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -95,25 +116,37 @@ public class TicTacToeController {
 
     @FXML
     void howToPlayDescription(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.NONE); // No default icon
+        Alert alert = new Alert(Alert.AlertType.NONE);
 
         alert.setTitle("Help");
         alert.setHeaderText("How to Play");
 
-        // Set the content
         alert.setContentText(
-                "1. Players take turns dropping pieces.\n\n"
-                        + "2. Connect four in a row, column, or diagonal.\n\n"
+                "1. Players take turns selecting a spot for their X or O.\n\n"
+                        + "2. Try to get three XXX or OOO all in the same row, column, or across. \n\n"
                         + "3. First player to do so wins!\n\n"
                         + "4. If the board is full, it's a draw.\n");
 
         alert.getButtonTypes().add(javafx.scene.control.ButtonType.OK);
-        // Apply CSS file
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
 
         alert.showAndWait();
     }
+    private boolean isPlayerOneTurn = true;
+    private void handleMove(Button button) {
+        if (button.getText().isEmpty()) {
+            if (isPlayerOneTurn) {
+                button.setText("X");
+                turnLabel.setText("Player 2's Turn");
+            } else {
+                button.setText("O");
+                turnLabel.setText("Player 1's Turn");
+            }
+            isPlayerOneTurn = !isPlayerOneTurn;
+        }
+    }
+
 }
 
 

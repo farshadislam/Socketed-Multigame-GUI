@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.LosingPageController">
     <Pane fx:id="trophyIconPane" style="-fx-background-color: transparent;" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-    <Label fx:id="loseLabel" layoutX="282.0" layoutY="120.0" styleClass="lostOutline-text" text="YOU LOSE!" textFill="#fc1723">
+    <Label fx:id="loseLabel" layoutX="282.0" layoutY="120.0" styleClass="lostOutline-text" text="YOU LOSE!" textFill="#5cb4ff">
         <font>
             <Font name="Arial Rounded MT Bold" size="64.0" />
         </font>
