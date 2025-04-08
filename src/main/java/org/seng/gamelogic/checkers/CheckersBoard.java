@@ -151,10 +151,10 @@ public class CheckersBoard {
             board[jumpedRow][jumpedCol] = Piece.EMPTY;
         }
 
-        if (piece == Piece.RED && toRow == 0) {
+        if (piece == Piece.RED && toRow == (BOARD_SIZE - 1)) {
             board[toRow][toCol] = Piece.RED_KING;
         }
-        if (piece == Piece.BLACK && toRow == BOARD_SIZE - 1) {
+        if (piece == Piece.BLACK && toRow == 0) {
             board[toRow][toCol] = Piece.BLACK_KING;
         }
 
