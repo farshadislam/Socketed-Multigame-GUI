@@ -207,8 +207,40 @@ public class CheckersGame {
      * Checks if there is a draw in the game.
      * @return A boolean is returned. True means the game is at a draw. False means the game is not at a draw..
      */
-    public boolean gameDraw(){
-        return true; // placeholder for a boolean
+    public void gameDraw(CheckersBoard board){
+        boolean redHasMoves = false;
+        boolean blackHasMoves = false;
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                CheckersBoard.Piece piece = board.getPieceAt(row, col);
+            }
+        }
+        // We need to first find out which team's turn it is currently.
+        // We need to check if this team can even make a move in the first place.
+        // If the team doesn't have a piece that can make a move, the game would result in a tie/draw
+        // A piece can move in two different ways:
+        // A piece can move diagonally. Non-king pieces move forward diagonally. King pieces move forward or backward diagonally.
+        // A piece also move when capturing the opposing team's piece.
+        // The space 2 spots diagonally has to be empty to be able to capture
+    }
+
+    /**
+     * Finds the location on a board and checks if the spot is empty or if the piece in it cannot move at all. i
+     * @return A boolean is returned. True means there is a piece in the spot, and it can move to a different position. False means the spot is empty or the piece there cannot move at all.
+     */
+    public void isPieceMovable(int col, int row){
+        // With the col and row values, check if the board spot is empty or not.
+        // If the spot is empty, return false;
+        // If the spot has a piece, but it cannot move, return false.
+        // If the spot has a piece, but it can move, return true;
+
+    }
+
+    public void isTeamMovable(int col, int row, CheckersBoard.Piece){
+        // The Piece is used to get the color of the team we are supposed to be checking.
+        // Using the color, we can go through the board and only consider pieces part of a particular team.
+        // Check every square in the board
     }
 
 
