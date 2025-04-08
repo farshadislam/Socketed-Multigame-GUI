@@ -31,6 +31,13 @@ public class Matchmaking {
         return instance;
     }
 
+    public static javafx.css.Match joinMatch(org.seng.authentication.Player player1, org.seng.authentication.Player player2, org.seng.leaderboard_matchmaking.GameType game) {
+        return null;
+    }
+
+    public static void connectPlayers(javafx.css.Match match) {
+    }
+
     // this tries to add a player to a queue and match them if someone is waiting
     public Match joinQueue(Player player, GameType gameType) {
         Queue<Player> queue = queues.get(gameType);
