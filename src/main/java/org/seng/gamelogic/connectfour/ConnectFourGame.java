@@ -29,16 +29,13 @@ public class ConnectFourGame {
         this.currentPlayer = players[0]; // first player starts, this may be changed to implement a RNG decision?
     }
 
-    // Manage chat log
-    public void sendMessage(String message) {
-        if (message != null && !message.trim().isEmpty()) {
-            chatLog.add(message);
-            System.out.println("Chat Message: " + message);
-        }
-    }
-
-    public List<String> getChatLog() {
-        return new ArrayList<>(chatLog);
+    /**
+     * Initialize Player chips as symbols.
+     * Player 1 is always blue 'b', Player 2 is always yellow 'y'
+     */
+    private void initializePlayerSymbols() {
+        if (players[0] != null) players[0].setSymbol('b');
+        if (players[1] != null) players[1].setSymbol('y');
     }
 
     /**
@@ -222,13 +219,24 @@ public class ConnectFourGame {
         return false; // no winner found
     }
 
-    private void initializePlayerSymbols() {
-        if (players[0] != null) players[0].setSymbol('b');
-        if (players[1] != null) players[1].setSymbol('y');
-    }
-
     public void setStatus(ConnectFourPlayer gamePlayer, int column) {
         String message = "Player " + gamePlayer.getUsername() + " has dropped a piece in column " + column;
         status = message;
+    }
+
+    // Manage chat feature
+    /**
+     * Sends message to the chat log
+     * @param message as a String user inputs
+     */
+    public void sendMessage(String message) {
+        if (message != null && !message.trim().isEmpty()) {
+            chatLog.add(message);
+            System.out.println("Chat Message: " + message);
+        }
+    }
+
+    public List<String> getChatLog() {
+        return new ArrayList<>(chatLog);
     }
 }
