@@ -1,45 +1,24 @@
 package org.seng.gamelogic.checkers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Represents a Checkers game board with basic game logic.
- */
 public class CheckersBoard {
 
-    /**
-     * The size of the Checkers board (8x8 grid).
-     */
     public static final int BOARD_SIZE = 8;
 
-    /**
-     * Enum representing different types of pieces on the board.
-     */
     public enum Piece {
         EMPTY, RED, BLACK, RED_KING, BLACK_KING
     }
 
-    /**
-     * The game board represented as a 2D array of Pieces.
-     */
     private Piece[][] board;
 
-    /**
-     * Constructs a new Checkers board and initializes it with starting positions.
-     */
     public CheckersBoard() {
         board = new Piece[BOARD_SIZE][BOARD_SIZE];
         initializeBoard();
     }
-
-    /**
-     * Initializes the board with pieces in their starting positions.
-     */
+    //confirmed
     private void initializeBoard() {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
-                if ((row + col) % 2 == 1) { // Pieces only placed on dark squares
+                if ((row + col) % 2 == 1) { // only dark squares
                     if (row < 3) {
                         board[row][col] = Piece.BLACK;
                     } else if (row > 4) {
@@ -54,10 +33,7 @@ public class CheckersBoard {
         }
     }
 
-    /**
-     * Displays the board to the console using characters to represent pieces.
-     */
-    public void display() {
+    public void printBoard() {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 System.out.print(pieceToChar(board[row][col]) + " ");
@@ -66,12 +42,6 @@ public class CheckersBoard {
         }
     }
 
-    /**
-     * Converts a Piece to its character representation.
-     *
-     * @param piece The piece to convert.
-     * @return The corresponding character.
-     */
     private char pieceToChar(Piece piece) {
         switch (piece) {
             case RED: return 'r';
@@ -82,180 +52,89 @@ public class CheckersBoard {
         }
     }
 
-    /**
-     * Checks if a move is valid according to Checkers rules.
-     *
-     * @param fromRow The row of the starting position.
-     * @param fromCol The column of the starting position.
-     * @param toRow The row of the target position.
-     * @param toCol The column of the target position.
-     * @return true if the move is valid, false otherwise.
-     */
     public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
+
+        //condition to check if move is in bounds. extra condition "!inBounds(fromRow, fromCol)" ensures in bound start
         if (!inBounds(fromRow, fromCol) || !inBounds(toRow, toCol)) {
             return false;
         }
 
-        Piece currentPiece = board[fromRow][fromCol];
-        Piece nextMove = board[toRow][toCol];
+        Piece current_piece = board[fromRow][fromCol];                                                                                  //variable holding current piece in current position
+        Piece next_move = board[toRow][toCol];                                                                                          //variable holding piece if it was in next move position
 
-        int colDist = Math.abs(toCol - fromCol);
-        int rowDist = toRow - fromRow;
-        boolean isKing = currentPiece == Piece.BLACK_KING || currentPiece == Piece.RED_KING;
-        int rowDir = (currentPiece == Piece.BLACK || currentPiece == Piece.BLACK_KING) ? -1 : 1;
+        int col_dist = Math.abs(toCol - fromCol);                                                                                       //column distance to next spot
+        int row_dist = toRow - fromRow;                                                                                                 //row distance to next spot
+        boolean is_king = current_piece == Piece.BLACK_KING || current_piece == Piece.RED_KING;                                         //boolean variable to check if piece is a king in order to negate direction later
+        int row_dir = (current_piece == Piece.BLACK || current_piece == Piece.BLACK_KING) ? -1 : 1;                                     //row direction of current piece (-1 up if black, or +1 down if red),
+        // kings also assigned direction at first but don't matter because later on absolut value is used to make their direction irrelevant
 
-        if (currentPiece == Piece.EMPTY || nextMove != Piece.EMPTY) {
+        //condition checking for empty start or if there is a piece in the place of the next move
+        if (current_piece == Piece.EMPTY || next_move != Piece.EMPTY) {
             return false;
         }
 
-        if ((rowDist == rowDir || (isKing && Math.abs(rowDist) == 1)) && colDist == 1) {
+        //condition checking if valid move is made for going diagonally up one or down one for any piece
+        if ((row_dist == row_dir || (is_king && Math.abs(row_dist) == 1)) && col_dist == 1) {
             return true;
         }
 
-        if ((rowDist == (2 * rowDir) || (isKing && Math.abs(rowDist) == 2)) && colDist == 2) {
-            int midRow = fromRow + (rowDist / 2);
-            int midCol = fromCol + ((toCol - fromCol) / 2);
-            Piece midPiece = board[midRow][midCol];
+        //condition checking if a valid piece jump/take move is being performed
+        if ((row_dist == (2 * row_dir) || (is_king && Math.abs(row_dist) == 2)) && col_dist == 2) {
+            int op_piece_row = fromRow + (row_dist/2);
+            int op_piece_col = fromCol + ((toCol - fromCol)/2);
+            Piece op_piece = board[op_piece_row][op_piece_col];
 
-            boolean redCapturesBlack = (currentPiece == Piece.RED || currentPiece == Piece.RED_KING) && (midPiece == Piece.BLACK || midPiece == Piece.BLACK_KING);
-            boolean blackCapturesRed = (currentPiece == Piece.BLACK || currentPiece == Piece.BLACK_KING) && (midPiece == Piece.RED || midPiece == Piece.RED_KING);
+            boolean red_jump_black = (current_piece == Piece.RED || current_piece == Piece.RED_KING) && (op_piece == Piece.BLACK || op_piece == Piece.BLACK_KING);
+            boolean black_jump_red = (current_piece == Piece.BLACK || current_piece == Piece.BLACK_KING) && (op_piece == Piece.RED || op_piece == Piece.RED_KING);
 
-            return redCapturesBlack || blackCapturesRed;
+            return red_jump_black || black_jump_red;
         }
 
+        //all other possibilities of moves lead to false as no more
         return false;
     }
 
-    /**
-     * Checks if a position is within the board bounds.
-     */
+
+
     private boolean inBounds(int row, int col) {
         return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
     }
 
-    /**
-     * Move a piece from its original location to a new location.
-     */
-    public void makeMove(int fromRow, int fromCol, int toRow, int toCol) {
-//        if (!isValidMove(fromRow, fromCol, toRow, toCol)) {
-//            return false;
-//        }
+    public boolean makeMove(int fromRow, int fromCol, int toRow, int toCol) {
+        if (!isValidMove(fromRow, fromCol, toRow, toCol)) {
+            return false;
+        }
 
         Piece piece = board[fromRow][fromCol];
         board[toRow][toCol] = piece;
         board[fromRow][fromCol] = Piece.EMPTY;
 
+        // If it's a jump, remove the captured piece
         if (Math.abs(toRow - fromRow) == 2) {
             int jumpedRow = (fromRow + toRow) / 2;
             int jumpedCol = (fromCol + toCol) / 2;
             board[jumpedRow][jumpedCol] = Piece.EMPTY;
         }
 
-        // Promotion logic:
-        //      - Regular red piece gets promoted to king when it reaches bottom of board
-        //      - Regular black piece gets promoted to king when it reaches top of board
-        if (piece == Piece.RED && toRow == (BOARD_SIZE - 1)) {
+        // Promote to king
+        if (piece == Piece.RED && toRow == 0) {
             board[toRow][toCol] = Piece.RED_KING;
         }
-        if (piece == Piece.BLACK && toRow == 0) {
+        if (piece == Piece.BLACK && toRow == BOARD_SIZE - 1) {
             board[toRow][toCol] = Piece.BLACK_KING;
         }
 
+        return true;
     }
 
-    /**
-     * Gets the piece at a specified position.
-     */
     public Piece getPieceAt(int row, int col) {
         return board[row][col];
     }
 
-    /**
-     * Sets a piece at a specified position.
-     */
     public void setPieceAt(int row, int col, Piece piece) {
         board[row][col] = piece;
     }
 
 
-    //everything under here is experimental
-    //this function is checking if there is capturable pieces from a certain spot and gives a list
-
-    public List<int[]> getCapturablePieces(int fromRow, int fromCol, Piece piece) {
-        List<int[]> capturableLocations = new ArrayList<>();
-        if (piece == Piece.EMPTY) {
-            return capturableLocations;//if theres no pieces present it just returns an empty list
-        }
-        int[] directions; //initialization, nothing serious
-        if (piece == Piece.RED_KING || piece == Piece.BLACK_KING) {
-            directions = new int[]{-1, 1}; //since kings can move both up and down they should check for pieces both up and down the rows
-        } else if (piece == Piece.RED) {
-            directions = new int[]{-1}; //since red is at the top conventionally it can only move down visually (up in row count)
-        } else if (piece == Piece.BLACK) {
-            directions = new int[]{1}; // since black is at the bottom conventionally it can only move up visually (down in row count)
-        } else {
-            directions = new int[]{-1, 1}; //honestly useless, idk why i even put this here
-        }
-
-
-        for (int rowDir : directions) { //for each row in the directions the piece can go (what we just did earlier)
-            for (int colDir : new int[]{-1, 1}) { //in terms of columns pieces can move both left and right no problem
-                int targetRow = fromRow + 2 * rowDir; //first we need to check if theres nothing blocking pieces from being captured
-                int targetCol = fromCol + 2 * colDir; //technically you move left and up twice in order to capture a piece
-
-
-                if (inBounds(targetRow, targetCol) && board[targetRow][targetCol] == Piece.EMPTY) { //as long as its in the bounds of the board, ando nothing is blocking it, the if function activates
-                    int middleRow = fromRow + rowDir;
-                    int middleCol = fromCol + colDir;//finding the middle piece (depending on the piece calculation is different)
-                    Piece middlePiece = board[middleRow][middleCol]; //checks what piece it is, we have to make sure that it is not one of the player's own chips
-
-                    //this if statement checking if the middle piece is dfferent
-                    if ((piece == Piece.RED || piece == Piece.RED_KING) && (middlePiece == Piece.BLACK || middlePiece == Piece.BLACK_KING) ||
-                            (piece == Piece.BLACK || piece == Piece.BLACK_KING) && (middlePiece == Piece.RED || middlePiece == Piece.RED_KING)) {
-
-                        capturableLocations.add(new int[]{targetRow, targetCol}); //this returns the locations where it can go basically, into the list (can be upto 4 if its a king!)
-                    }
-                }
-            }
-        }
-        return capturableLocations;
-    }
-
-    public void performCaptures(int initialRow, int initialCol, Piece piece) {
-        List<int[]> capturableLocations = getCapturablePieces(initialRow, initialCol, piece);
-        int currentRow = initialRow;
-        int currentCol = initialCol;
-
-        while (!capturableLocations.isEmpty()) {
-            // Here is where the player needs to choose one of the values in the List<int[]>
-            // For example, int[] chosenMove = playerChooseMove(capturableLocations);
-            // For demonstration, let's assume the first possible capture is chosen:
-            int[] chosenMove = capturableLocations.get(0);
-
-            // Making the move
-            makeMove(currentRow, currentCol, chosenMove[0], chosenMove[1]);
-
-            // Update current position to the new position
-            currentRow = chosenMove[0];
-            currentCol = chosenMove[1];
-
-            // Re-evaluate capturable pieces from the new position
-            capturableLocations = getCapturablePieces(currentRow, currentCol, board[currentRow][currentCol]);
-
-            // Comment the line below to simulate player's choice of the move from the `capturableLocations`.
-            // This is crucial for testing or implementing UI for actual move selection by a user.
-            // break; // Uncomment this line to stop after one capture for testing or if implementing a choice mechanism.
-        }
-
-        // Once there are no more captures left, the move ends
-        System.out.println("No more captures available. Turn ends.");
-    }
-
-
 
 }
-
-
-
-
-
