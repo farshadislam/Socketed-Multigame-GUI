@@ -13,7 +13,7 @@ import java.io.IOException;
 public class CredentialsDatabase {
 
     // Creating a HashMap field that will store the information of the player
-    private final HashMap<String, Player> playerCredentials;
+    private HashMap<String, Player> playerCredentials;
 
 
     // Creating a constructor
@@ -171,6 +171,26 @@ public class CredentialsDatabase {
             System.out.println("Error reading file: " + fileName);
             e.printStackTrace();
         }
+    }
+
+    public boolean updateKey(String oldUsername, String newUsername) {
+        String oldKey = oldUsername.toLowerCase();
+        String newKey = newUsername.toLowerCase();
+
+        // Check if old username exists and new one doesn't
+        if (!playerCredentials.containsKey(oldUsername)) return false;
+        if (playerCredentials.containsKey(newUsername)) return false;
+
+        // Get the player object
+        Player player = playerCredentials.remove(oldKey);
+
+        // Update the player's username field
+        player.setUsername(newKey);
+
+        // Re-insert with the new username as the key
+        playerCredentials.put(newKey, player);
+
+        return true;
     }
 
 
