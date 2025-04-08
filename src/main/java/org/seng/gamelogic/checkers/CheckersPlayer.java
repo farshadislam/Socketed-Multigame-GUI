@@ -22,7 +22,7 @@ public class CheckersPlayer extends Player {
     }
 
     /**
-     * Indicates whether the player is ready to start the game.
+     * Indicates whether the player is ready to startGame the game.
      * @return Always returns true, indicating the player is ready.
      */
     public boolean readyStart() {

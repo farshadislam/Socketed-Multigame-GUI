@@ -25,7 +25,7 @@ public class CheckersGame {
         this.board = new CheckersBoard();
         this.players = new CheckersPlayer[2];
         this.gameID = 0; // Default game ID, should be set properly
-        this.status = "In Progress"; // Placeholder for status
+        this.status = "Initialized";
         this.chatLog = new ArrayList<>();
         this.currentPlayer = players[0]; // First player starts
         isRedTurn = true;
@@ -36,9 +36,17 @@ public class CheckersGame {
     }
 
     /**
+     * Initializes player symbols for red and black pieces.
+     */
+    private void initializePlayerSymbols() {
+        if (players[0] != null) players[0].symbol = 'r';
+        if (players[1] != null) players[1].symbol = 'b';
+    }
+
+    /**
      * Starts the game and handles turn-based gameplay.
      */
-    public void start() {
+    public void startGame() {
         System.out.println("Welcome to Console Checkers!");
         while (true) {
             board.printBoard();
@@ -65,7 +73,7 @@ public class CheckersGame {
                         board.printBoard();
                         System.out.println((isRedTurn ? "Red" : "Black") + " wins!");
                         if (isRedTurn) {
-
+                            // need to put something here
                         }
                         break;
                     }
@@ -120,12 +128,17 @@ public class CheckersGame {
         return isRedTurn ? !blackExists : !redExists;
     }
 
-    /**
-     * Initializes player symbols for red and black pieces.
-     */
-    private void initializePlayerSymbols() {
-        if (players[0] != null) players[0].symbol = 'r';
-        if (players[1] != null) players[1].symbol = 'b';
+    public void setStatus(int row_start, int col_start, int row_end, int col_end) {
+        String symbol_color;
+        if (isRedTurn) {
+            currentPlayer = players[0];
+            symbol_color = "red";
+        } else {
+            currentPlayer = players[1];
+            symbol_color = "black";
+        }
+        String message = "Player " + currentPlayer.getName() + "has moved a " + symbol_color + " piece from row " + row_start + " and column " + col_start + " to row " + row_end + " and column " + col_end + ".";
+        status = message;
     }
 
     /**
@@ -148,26 +161,14 @@ public class CheckersGame {
     }
 
     /**
-     * Main method to start the checkers game.
+     * Main method to startGame the checkers game.
      * @param args Command-line arguments.
      */
     public static void main(String[] args) {
         CheckersGame game = new CheckersGame();
-        game.start();
+        game.startGame();
     }
 
-    public void setStatus(int row_start, int col_start, int row_end, int col_end) {
-        String symbol_color;
-        if (isRedTurn) {
-            currentPlayer = players[0];
-             symbol_color = "red";
-        } else {
-            currentPlayer = players[1];
-            symbol_color = "black";
-        }
-        String message = "Player " + currentPlayer.getName() + "has moved a " + symbol_color + " piece from row " + row_start + " and column " + col_start + " to row " + row_end + " and column " + col_end + ".";
-        status = message;
-    }
 
 
 
