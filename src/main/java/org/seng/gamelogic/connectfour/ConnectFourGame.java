@@ -51,7 +51,7 @@ public class ConnectFourGame {
 
         // once startGame() is called, status updates to "In Progress"
         status = "In Progress";
-        System.out.println("Welcome to Console Checkers!");
+
         initializePlayerSymbols();
         if (players[0] instanceof ExtendedAIBotConnectFour) {
             AIBot = (ExtendedAIBotConnectFour) players[0];
