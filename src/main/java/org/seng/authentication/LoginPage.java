@@ -19,9 +19,7 @@ public class LoginPage {
         USERNAME_NOT_FOUND,
         ERROR
     }
-    public CredentialsDatabase getDatabase(){
-        return this.database;
-    }
+
     /**
      * Implements login for a player
      * @param username Username of the player
@@ -46,7 +44,11 @@ public class LoginPage {
      * @return State indicating if the verification code has been sent, and if not what error has occurred
      */
     public State register(String username, String email, String password){
-        if(verifyUsernameFormat(username)){
+        if(!verifyUsernameFormat(username)) {
+            return State.USERNAME_FORMAT_WRONG;
+        }
+
+        if (verifyUsernameFormat(username)){
             return State.USERNAME_FORMAT_WRONG;
         }
 
@@ -76,8 +78,11 @@ public class LoginPage {
         return State.ERROR;
 
     }
+
     public boolean verifyUsernameFormat(String username){
-        return (!username.isEmpty() && !username.matches(".*\\s.*") && !hasConsecutiveValidSpecialChars(username) && username.length() >= 5);
+        String validUserChar = "^[a-zA-Z0-9_.-]+$";
+        String validUserAlpha = ".*[a-zA-Z].*";
+        return (!username.isEmpty() && !username.matches(".*\\s.*") && !hasConsecutiveValidSpecialChars(username) && username.length() >= 5 && username.matches(validUserChar) && username.matches(validUserAlpha));
     }
 
     /**
@@ -85,7 +90,7 @@ public class LoginPage {
      * @param email
      * @return
      */
-    public boolean verifyEmailFormat(String email){
+    private boolean verifyEmailFormat(String email){
         if(!email.endsWith("@gmail.com") || email.indexOf("@") != email.lastIndexOf("@") || email.indexOf("@") <= 0){
             return false;
         }
@@ -107,7 +112,7 @@ public class LoginPage {
                 return false;
             }
         }
-        if(hasConsecutiveValidSpecialChars(usernameOfEmail)){
+        if(hasConsecutiveValidSpecialChars(usernameOfEmail) || !usernameOfEmail.matches("^[a-zA-Z0-9_.-]+$") || !usernameOfEmail.matches(".*[a-zA-Z].*")){
             return false;
         }
         return true;
@@ -129,7 +134,7 @@ public class LoginPage {
         return c == '.' || c == '_' || c == '-';
     }
 
-    public boolean verifyPasswordFormat(String password){
+    private boolean verifyPasswordFormat(String password){
         return password.length() >= 8 && !password.matches(".*\\s.*");
     }
 
@@ -152,16 +157,16 @@ public class LoginPage {
         return true;
     }
 
-    public boolean forgotPassword(String username){
+    public State forgotPassword(String username){
         if(!database.usernameLookup(username)){
-            return false; //username not found
+            return State.USERNAME_NOT_FOUND; //username not found
         }
         EmailVerificationService.setDatabase(database);
         String code = EmailVerificationService.generateVerificationCode();
         if(EmailVerificationService.sendVerificationEmailForgotPassword(username,code)){
-            return true;
+            return State.VERIFICATION_CODE_SENT;
         }
-        return false;
+        return State.ERROR;
     }
 
     public boolean verifyEmailCodeForgotPassword(String username,String code){
@@ -181,10 +186,10 @@ public class LoginPage {
         if(player == null){
             return false;
         }
-        if (newPassword != null && (!newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
-            player.setPassword(newPassword);
-            return true;
-
+        if (player.getPassword().equals(password)) {
+            if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
+                player.setPassword(newPassword);
+            }
         }
         return false;
     }

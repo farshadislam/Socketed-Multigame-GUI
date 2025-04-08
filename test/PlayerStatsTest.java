@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.seng.authentication.Player;
 import org.seng.authentication.PlayerStats;
+import org.seng.leaderboard.Rank;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +38,7 @@ public class PlayerStatsTest {
 
     @Test
     public void testGetRankForConnect4(){
-        assertNull(playerStats.getRankForConnect4());
+        assertSame(Rank.BRONZE, playerStats.getRankForConnect4());
     }
 
     @Test
@@ -57,7 +58,7 @@ public class PlayerStatsTest {
 
     @Test
     public void testGetRankForTicTacToe(){
-        assertNull(playerStats.getRankForTicTacToe());
+        assertSame(Rank.BRONZE, playerStats.getRankForTicTacToe());
     }
 
     @Test
@@ -77,6 +78,6 @@ public class PlayerStatsTest {
 
     @Test
     public void testGetRankForCheckers(){
-        assertNull(playerStats.getRankForChecker());
+        assertSame(Rank.BRONZE, playerStats.getRankForChecker());
     }
 }
