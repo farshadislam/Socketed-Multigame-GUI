@@ -1,5 +1,8 @@
 package org.seng.gamelogic.checkers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CheckersBoard {
 
     public static final int BOARD_SIZE = 8;
@@ -14,6 +17,7 @@ public class CheckersBoard {
         board = new Piece[BOARD_SIZE][BOARD_SIZE];
         initializeBoard();
     }
+
     //confirmed
     private void initializeBoard() {
         for (int row = 0; row < BOARD_SIZE; row++) {
@@ -53,32 +57,26 @@ public class CheckersBoard {
     }
 
     public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
-
-        //condition to check if move is in bounds. extra condition "!inBounds(fromRow, fromCol)" ensures in bound start
         if (!inBounds(fromRow, fromCol) || !inBounds(toRow, toCol)) {
             return false;
         }
 
-        Piece current_piece = board[fromRow][fromCol];                                                                                  //variable holding current piece in current position
-        Piece next_move = board[toRow][toCol];                                                                                          //variable holding piece if it was in next move position
+        Piece current_piece = board[fromRow][fromCol];
+        Piece next_move = board[toRow][toCol];
 
-        int col_dist = Math.abs(toCol - fromCol);                                                                                       //column distance to next spot
-        int row_dist = toRow - fromRow;                                                                                                 //row distance to next spot
-        boolean is_king = current_piece == Piece.BLACK_KING || current_piece == Piece.RED_KING;                                         //boolean variable to check if piece is a king in order to negate direction later
-        int row_dir = (current_piece == Piece.BLACK || current_piece == Piece.BLACK_KING) ? -1 : 1;                                     //row direction of current piece (-1 up if black, or +1 down if red),
-        // kings also assigned direction at first but don't matter because later on absolut value is used to make their direction irrelevant
+        int col_dist = Math.abs(toCol - fromCol);
+        int row_dist = toRow - fromRow;
+        boolean is_king = current_piece == Piece.BLACK_KING || current_piece == Piece.RED_KING;
+        int row_dir = (current_piece == Piece.BLACK || current_piece == Piece.BLACK_KING) ? -1 : 1;
 
-        //condition checking for empty start or if there is a piece in the place of the next move
         if (current_piece == Piece.EMPTY || next_move != Piece.EMPTY) {
             return false;
         }
 
-        //condition checking if valid move is made for going diagonally up one or down one for any piece
         if ((row_dist == row_dir || (is_king && Math.abs(row_dist) == 1)) && col_dist == 1) {
             return true;
         }
 
-        //condition checking if a valid piece jump/take move is being performed
         if ((row_dist == (2 * row_dir) || (is_king && Math.abs(row_dist) == 2)) && col_dist == 2) {
             int op_piece_row = fromRow + (row_dist/2);
             int op_piece_col = fromCol + ((toCol - fromCol)/2);
@@ -90,11 +88,8 @@ public class CheckersBoard {
             return red_jump_black || black_jump_red;
         }
 
-        //all other possibilities of moves lead to false as no more
         return false;
     }
-
-
 
     private boolean inBounds(int row, int col) {
         return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
@@ -109,14 +104,12 @@ public class CheckersBoard {
         board[toRow][toCol] = piece;
         board[fromRow][fromCol] = Piece.EMPTY;
 
-        // If it's a jump, remove the captured piece
         if (Math.abs(toRow - fromRow) == 2) {
             int jumpedRow = (fromRow + toRow) / 2;
             int jumpedCol = (fromCol + toCol) / 2;
             board[jumpedRow][jumpedCol] = Piece.EMPTY;
         }
 
-        // Promote to king
         if (piece == Piece.RED && toRow == 0) {
             board[toRow][toCol] = Piece.RED_KING;
         }
@@ -136,5 +129,46 @@ public class CheckersBoard {
     }
 
 
+    public void display() {
+        System.out.println("Current board:");
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                System.out.print(pieceToChar(board[row][col]) + " ");
+            }
+            System.out.println();
+        }
+        System.out.println(" 0 1 2 3 4 5 6 7");
+    }
 
+
+    public List<int[]> getCapturablePieces(int row, int col, Piece piece) {
+        List<int[]> capturableMoves = new ArrayList<>();
+
+        int[][] directions = {
+                {-2, -2}, {-2, 2}, {2, -2}, {2, 2} // All jump directions
+        };
+
+        for (int[] dir : directions) {
+            int toRow = row + dir[0];
+            int toCol = col + dir[1];
+            int midRow = row + dir[0] / 2;
+            int midCol = col + dir[1] / 2;
+
+            if (inBounds(toRow, toCol) && board[toRow][toCol] == Piece.EMPTY) {
+                Piece midPiece = board[midRow][midCol];
+
+                boolean redCanCapture = (piece == Piece.RED || piece == Piece.RED_KING) &&
+                        (midPiece == Piece.BLACK || midPiece == Piece.BLACK_KING);
+
+                boolean blackCanCapture = (piece == Piece.BLACK || piece == Piece.BLACK_KING) &&
+                        (midPiece == Piece.RED || midPiece == Piece.RED_KING);
+
+                if (redCanCapture || blackCanCapture) {
+                    capturableMoves.add(new int[]{row, col, toRow, toCol});
+                }
+            }
+        }
+
+        return capturableMoves;
+    }
 }
