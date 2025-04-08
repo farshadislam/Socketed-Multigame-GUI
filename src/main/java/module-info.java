@@ -7,5 +7,5 @@ module org.example.gui {
     opens org.seng.gui to javafx.fxml;
     exports org.seng.gui;
     exports org.seng.authentication;
-    exports org.seng.leaderboard;
+    exports org.seng.leaderboard_matchmaking;
 }

@@ -161,6 +161,10 @@ public class Player {
         return Objects.equals(username, player.username) && Objects.equals(email, player.email);
     }
 
+    public Last5Matches getLast5MatchesObject() {
+        return null;
+    }
+
 //    public Last5Matches getLast5MatchesObject(){
 //        return this.last5Matches;
 //    }
