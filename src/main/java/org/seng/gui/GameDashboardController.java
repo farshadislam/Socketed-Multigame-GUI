@@ -17,6 +17,7 @@ import org.seng.authentication.*;
 
 public class GameDashboardController {
 
+
     @FXML
     private ImageView statsIcon, profileIcon, playIcon, settingsIcon, logoutIcon;
 

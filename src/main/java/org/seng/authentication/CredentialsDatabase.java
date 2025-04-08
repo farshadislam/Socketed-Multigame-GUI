@@ -14,7 +14,7 @@ public class CredentialsDatabase {
 
     // Creating a HashMap field that will store the information of the player
     private final HashMap<String, Player> playerCredentials;
-    private static final String FILE_PATH = "database.txt";
+
 
     // Creating a constructor
     public CredentialsDatabase() {
@@ -67,7 +67,7 @@ public class CredentialsDatabase {
     }
 
     public void saveDatabase() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))) {
 
             // Iterating over the keys in HashMap
             for (String username : playerCredentials.keySet()) {
@@ -107,6 +107,7 @@ public class CredentialsDatabase {
                         + checkers.getRank().name() + ","  // Store enum as name
                         + checkers.getMMR());
                 writer.newLine();
+                System.out.println("Success");
             }
         } catch (IOException e) {
             e.printStackTrace();
