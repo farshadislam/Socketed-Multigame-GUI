@@ -199,6 +199,14 @@ public class CheckersGame {
         game.startGame();
     }
 
+    /**
+     * Checks if there is a draw in the game.
+     * @return A boolean is returned. True means the game is at a draw. False means the game is not at a draw..
+     */
+    public void gameDraw(){
+
+    }
+
 
 
 
