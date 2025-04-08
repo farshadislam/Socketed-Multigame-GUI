@@ -41,8 +41,8 @@ public class CheckersGame {
      * Initializes player symbols for red and black pieces.
      */
     private void initializePlayerSymbols() {
-        if (players[0] != null) players[0].setSymbol('r');
-        if (players[1] != null) players[1].setSymbol('b');
+        if (players[0] != null) players[0].setSymbol('r'); // Player 1 is always red
+        if (players[1] != null) players[1].setSymbol('b'); // Player 2 is always black
     }
 
     /**
@@ -74,9 +74,13 @@ public class CheckersGame {
                     if (checkWinCondition()) {
                         board.printBoard();
                         System.out.println((isRedTurn ? "Red" : "Black") + " wins!");
-                        if (isRedTurn) {
-                            // need to put something here
-                            players[0].getConnect4Stats().
+                        if (isRedTurn) { // red (Player 1) has won
+                            players[0].getCheckersStats().win(); // Player 1 wins Checkers game
+                            players[1].getCheckersStats().lose(); // Player 2 loses Checkers game
+                        }
+                        else { // black (Player 2) has won
+                            players[0].getCheckersStats().lose(); // Player 1 loses Checkers game
+                            players[1].getCheckersStats().win(); // Player 2 wins Checkers game
                         }
                         break;
                     }
