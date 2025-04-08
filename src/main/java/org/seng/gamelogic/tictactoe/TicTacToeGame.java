@@ -1,7 +1,5 @@
 package org.seng.gamelogic.tictactoe;
 
-import org.seng.gamelogic.Player;
-import org.seng.gamelogic.connectfour.ConnectFourPlayer;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
 
 import java.util.ArrayList;
@@ -52,8 +50,19 @@ public class TicTacToeGame {
 
             if (checkWinner(currMark)) {
                 status = currMark + " Wins";
+                // Logic: Player 1 is always X, Player 2 is always O
+                if (currMark == Mark.X) { // Player 1 wins
+                    players[0].getTicTacToeStats().win();
+                    players[1].getTicTacToeStats().lose();
+                }
+                else { // Player 2 wins
+                    players[0].getTicTacToeStats().lose();
+                    players[1].getTicTacToeStats().win();
+                }
             } else if (boardFull()) {
                 status = "Draw";
+                players[0].getTicTacToeStats().tie();
+                players[0].getTicTacToeStats().tie();
             } else {
                 switchTurn();
             }
@@ -130,6 +139,7 @@ public class TicTacToeGame {
     /**
      * This method resets the game by reseting the board
      */
+    // Do not think we need this method because we did not discuss a 'reset' feature
     public void resetGame() {
         board.resetBoard();
         currMark = Mark.X;

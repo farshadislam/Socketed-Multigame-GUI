@@ -106,11 +106,26 @@ public class ConnectFourGame {
             } else {
                 chip = ConnectFourBoard.Chip.YELLOW;
             }
+            // Case 1: A Player wins
             if (checkWinner(chip)) {
                 status = currentPlayer.toString() + " Wins";
-            } else if (boardFull()) {
+                currentPlayer.getConnect4Stats().win(); // Player wins
+                if (currentPlayer == players[0]) { // Other player loses
+                    players[1].getConnect4Stats().lose();
+                }
+                else {
+                    players[0].getConnect4Stats().lose();
+                }
+            }
+            // Case 2: Players tie
+            else if (boardFull()) {
                 status = "Draw";
-            } else {
+                // update both players stats to a tie
+                players[0].getConnect4Stats().tie();
+                players[1].getConnect4Stats().tie();
+            }
+            // Case 3: No one has won yet, switch turns
+            else {
                 switchTurn();
             }
             return true;
