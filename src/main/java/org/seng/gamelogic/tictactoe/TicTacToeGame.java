@@ -1,5 +1,6 @@
 package org.seng.gamelogic.tictactoe;
 import org.seng.gamelogic.Player;
+import org.seng.gamelogic.connectfour.ConnectFourPlayer;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
 
 import java.util.ArrayList;
@@ -12,7 +13,10 @@ public class TicTacToeGame {
     private Mark currMark;
     private String status;// Can be "In Progress", "X Wins", "O Wins", "Draw"
     private List<String> chatLog;
+
     public TicTacToePlayer[] players;  // 2 players
+
+    public TicTacToePlayer currentPlayer;
     public int gameID;
 
     public TicTacToeGame(TicTacToeBoard board, TicTacToePlayer[] players, int gameID) {
@@ -20,6 +24,7 @@ public class TicTacToeGame {
         this.gameID = gameID;
         this.board = board;
         currMark = Mark.X; // X starts
+        currentPlayer = players[0];
         status = "In Progress";
         chatLog = new ArrayList<>();
     }
@@ -161,6 +166,22 @@ public class TicTacToeGame {
         board.display();
         System.out.println("Game Over! Status: " + status);
         scanner.close();
+    }
+
+    public void setStatus(int row, int column) {
+        char symbolCheck;
+        if (currMark == Mark.X) {
+            symbolCheck = 'X';
+        } else {
+            symbolCheck = 'O';
+        }
+        if (players[0].getSymbol() == symbolCheck) {
+            currentPlayer = players[0];
+        } else {
+            currentPlayer = players[1];
+        }
+        String message = "Player " + currentPlayer.getName() + " has drawn an " + currentPlayer.getSymbol() + " in row " + row + " and column " + column;
+        status = message;
     }
 
 }
