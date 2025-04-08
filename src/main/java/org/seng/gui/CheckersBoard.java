@@ -2,14 +2,20 @@ package org.seng.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -217,6 +223,11 @@ public class CheckersBoard {
     @FXML
     private MenuItem helpOption;
 
+    @FXML
+    private FlowPane board;
+
+
+
     private Button selectedPiece = null;
     private Image redPieceImage;
     private Image blackPieceImage;
@@ -235,20 +246,20 @@ public class CheckersBoard {
 
     private void setupPieces() {
         // Black pieces
-        placePiece(a1, blackPieceImage); placePiece(c1, blackPieceImage);
-        placePiece(e1, blackPieceImage); placePiece(g1, blackPieceImage);
-        placePiece(b2, blackPieceImage); placePiece(d2, blackPieceImage);
-        placePiece(f2, blackPieceImage); placePiece(h2, blackPieceImage);
-        placePiece(a3, blackPieceImage); placePiece(c3, blackPieceImage);
-        placePiece(e3, blackPieceImage); placePiece(g3, blackPieceImage);
+        placePiece(b6, blackPieceImage); placePiece(d6, blackPieceImage);
+        placePiece(f6, blackPieceImage); placePiece(h6, blackPieceImage);
+        placePiece(a7, blackPieceImage); placePiece(c7, blackPieceImage);
+        placePiece(e7, blackPieceImage); placePiece(g7, blackPieceImage);
+        placePiece(b8, blackPieceImage); placePiece(d8, blackPieceImage);
+        placePiece(f8, blackPieceImage); placePiece(h8, blackPieceImage);
 
         // Red pieces
-        placePiece(b6, redPieceImage); placePiece(d6, redPieceImage);
-        placePiece(f6, redPieceImage); placePiece(h6, redPieceImage);
-        placePiece(a7, redPieceImage); placePiece(c7, redPieceImage);
-        placePiece(e7, redPieceImage); placePiece(g7, redPieceImage);
-        placePiece(b8, redPieceImage); placePiece(d8, redPieceImage);
-        placePiece(f8, redPieceImage); placePiece(h8, redPieceImage);
+        placePiece(a1, redPieceImage); placePiece(c1, redPieceImage);
+        placePiece(e1, redPieceImage); placePiece(g1, redPieceImage);
+        placePiece(b2, redPieceImage); placePiece(d2, redPieceImage);
+        placePiece(f2, redPieceImage); placePiece(h2, redPieceImage);
+        placePiece(a3, redPieceImage); placePiece(c3, redPieceImage);
+        placePiece(e3, redPieceImage); placePiece(g3, redPieceImage);
     }
 
     private void selectionHandle() {
@@ -261,19 +272,26 @@ public class CheckersBoard {
     }
 
     private void handleButtonClick(Button clickedButton) {
-        if (clickedButton.getGraphic() != null) { // if the button clicked has a piece
-            if (selectedPiece != null && selectedPiece != clickedButton) { // deselects current piece if it is different from clicked one
-                deselectPiece();
-            }
-            if (selectedPiece == clickedButton) { // if the selected piece is the clicked again on clicked button it deselects it
-                deselectPiece();
-            } else {
+        // if no piece is selected it tries to select one
+        if (selectedPiece == null) { // if there is no piece selected
+            if (clickedButton.getGraphic() != null) { // if the button has a piece
                 selectPiece(clickedButton);
             }
         }
-        else {
-            if (selectedPiece != null) { // if it is empty deselect the piece
+        else { // if a piece is already selected it tries to move it
+            // if clicking on the same piece, deselect it
+            if (clickedButton == selectedPiece) {
                 deselectPiece();
+            }
+            //if clicking on empty square it moves the piece
+            else if (clickedButton.getGraphic() == null) {
+                movePiece(selectedPiece, clickedButton);
+                deselectPiece();
+            }
+            // if clicking on another piece it selects that one instead
+            else {
+                deselectPiece();
+                selectPiece(clickedButton);
             }
         }
     }
@@ -291,6 +309,12 @@ public class CheckersBoard {
             selectedPiece.setEffect(null);
             selectedPiece = null;
         }
+    }
+
+    private void movePiece(Button from, Button to) {
+        // moves the piece from one button to another
+        to.setGraphic(from.getGraphic());
+        from.setGraphic(null);
     }
 
     private void placePiece(Button button, Image pieceImage) {
@@ -399,6 +423,66 @@ public class CheckersBoard {
         dialogPane.setPrefWidth(400); // Set a preferred width
 
         alert.showAndWait();
+    }
+
+    @FXML
+    private void handleQuit() {
+        Stage dialogStage = new Stage();
+        dialogStage.initStyle(StageStyle.UNDECORATED);
+        dialogStage.setTitle("Confirm Quit");
+
+        Label message = new Label("                      Are you sure?\nQuitting the game will result in a loss.");
+        message.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+
+        Button yesButton = new Button("Yes");
+        Button noButton = new Button("No");
+
+        yesButton.setOnAction(e -> {
+            dialogStage.close();
+            openToGameDashboard();
+        });
+        noButton.setOnAction(e -> dialogStage.close());
+
+        HBox buttons = new HBox(10, yesButton, noButton);
+        buttons.setAlignment(Pos.CENTER);
+
+        VBox layout = new VBox(15, message, buttons);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.getStyleClass().add("quit-background"); // ⭐ Add style class
+
+        Scene scene = new Scene(layout, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); // ⭐ Load your CSS
+
+        dialogStage.setScene(scene);
+
+        Stage currentStage = (Stage) board.getScene().getWindow(); // 'board' is your main pane
+        dialogStage.initOwner(currentStage);
+
+        dialogStage.setX(currentStage.getX() + currentStage.getWidth() / 2 - 150); // 150 = half of popup width
+        dialogStage.setY(currentStage.getY() + currentStage.getHeight() / 2 - 100);  // 75 = half of popup height
+
+        dialogStage.show();
+    }
+
+    private void openToGameDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+            Scene dashboardScene = new Scene(loader.load(), 900, 600);
+            dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            Stage dashboardStage = new Stage();
+            dashboardStage.setTitle("Game Dashboard");
+            dashboardStage.setScene(dashboardScene);
+
+            // Close current window
+            Stage currentStage = (Stage) board.getScene().getWindow();
+            currentStage.close();
+
+            dashboardStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.CheckersBoard">
    <children>
-      <FlowPane layoutX="230.0" layoutY="89.0" prefHeight="404.0" prefWidth="416.0">
+      <FlowPane fx:id="board" layoutX="230.0" layoutY="89.0" prefHeight="404.0" prefWidth="416.0">
          <children>
             <Button fx:id="h1" mnemonicParsing="false" prefHeight="50.0" prefWidth="52.0" styleClass="red-square" />
             <Button fx:id="g1" mnemonicParsing="false" prefHeight="50.0" prefWidth="52.0" styleClass="black-square" />
@@ -79,10 +79,10 @@
       </FlowPane>
       <Button fx:id="inGameChatButton" layoutX="780.0" layoutY="548.0" mnemonicParsing="false" onAction="#openChat" styleClass="option-button" text="Game Chat" />
       <ButtonBar layoutX="59.0" layoutY="28.0" prefHeight="40.0" prefWidth="200.0" />
-      <MenuButton layoutX="752.0" layoutY="14.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="134.0" styleClass="option-button" text="Settings" textFill="WHITE">
+      <MenuButton layoutX="752.0" layoutY="14.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="134.0" styleClass="options-button" text="Settings" textFill="WHITE">
         <items>
           <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" text="Help" />
-          <MenuItem mnemonicParsing="false" text="Quit" />
+          <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
         </items>
       </MenuButton>
    </children>

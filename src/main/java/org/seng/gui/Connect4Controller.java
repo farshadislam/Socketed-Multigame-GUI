@@ -27,6 +27,7 @@ public class Connect4Controller {
 
     private static final int ROWS = 6;
     private static final int COLS = 7;
+    private boolean isPlayerOneTurn = true;
 
     private Button[][] boardButtons = new Button[ROWS][COLS];
 
@@ -49,7 +50,9 @@ public class Connect4Controller {
         dialogStage.initStyle(StageStyle.UNDECORATED);
         dialogStage.setTitle("Confirm Quit");
 
-        Label message = new Label("Are you sure you want to quit?");
+        Label message = new Label("                      Are you sure?\nQuitting the game will result in a loss.");
+        message.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+
         Button yesButton = new Button("Yes");
         Button noButton = new Button("No");
 
@@ -65,9 +68,19 @@ public class Connect4Controller {
         VBox layout = new VBox(15, message, buttons);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
+        layout.getStyleClass().add("quit-background"); // ⭐ Add style class
 
         Scene scene = new Scene(layout, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); // ⭐ Load your CSS
+
         dialogStage.setScene(scene);
+
+        Stage currentStage = (Stage) board.getScene().getWindow(); // 'board' is your main pane
+        dialogStage.initOwner(currentStage);
+
+        dialogStage.setX(currentStage.getX() + currentStage.getWidth() / 2 - 150); // 150 = half of popup width
+        dialogStage.setY(currentStage.getY() + currentStage.getHeight() / 2 - 100);  // 75 = half of popup height
+
         dialogStage.show();
     }
 
@@ -177,7 +190,12 @@ public class Connect4Controller {
         for (int row = ROWS - 1; row >= 0; row--) {
             Button cell = boardButtons[row][col];
             if (cell.getStyle().isEmpty()) {
-                cell.setStyle("-fx-background-color: #00F0FF;");
+                if (isPlayerOneTurn) {
+                    cell.setStyle("-fx-background-color: #00F0FF;"); // Cyan
+                } else {
+                    cell.setStyle("-fx-background-color: #da77f2;"); // Yellow
+                }
+                isPlayerOneTurn = !isPlayerOneTurn; // Switch turns
                 break;
             }
         }
