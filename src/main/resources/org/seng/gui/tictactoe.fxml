@@ -36,8 +36,8 @@
       <Button fx:id="inGameChatButton" layoutX="822.0" layoutY="551.0" onAction="#openChat" styleClass="option-button" text="Chat" />
       <MenuButton fx:id="SettingMenu" layoutX="750.0" layoutY="14.0" mnemonicParsing="false" onAction="#howToPlayDescription" styleClass="options-button" text="Setting">
         <items>
-          <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
            <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" text="Help" />
+           <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
         </items>
       </MenuButton>
       <Text fill="#fffcfc" layoutX="344.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Label" text="Tic Tac Toe">
