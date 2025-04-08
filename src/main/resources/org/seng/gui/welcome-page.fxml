@@ -31,6 +31,9 @@
           AnchorPane.topAnchor="200.0">
         <TextField fx:id="usernameField" promptText="Username" styleClass="input-field"/>
         <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>
+        <Label fx:id="errorLabel" text="" visible="false" styleClass="error-label"
+               maxWidth="200.0" alignment="center"
+               style="-fx-text-fill: red; -fx-font-weight: bold;"/>
         <HBox spacing="10" alignment="center">
             <Button fx:id="loginButton" text="Login" styleClass="auth-button"/>
             <Button fx:id="createAccountButton" text="Create Account" styleClass="auth-button"/>
@@ -40,7 +43,6 @@
             <Hyperlink fx:id="forgotPasswordLink" text="Click here" styleClass="forgot-link"/>
         </HBox>
     </VBox>
-    <Label fx:id="errorLabel" styleClass="error-label" text="" visible="false"
-           AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="320.0" />
+
 
 </AnchorPane>
