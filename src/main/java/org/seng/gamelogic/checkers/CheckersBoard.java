@@ -44,7 +44,9 @@ public class CheckersBoard {
             }
         }
     }
-
+    /**
+     * This method prints the entire board which includes all the pieces and empty spots.
+     */
     public void printBoard() {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
@@ -54,6 +56,10 @@ public class CheckersBoard {
         }
     }
 
+    /**
+     * Uses the type of the piece parameter to output a certain character.
+     * @return A character representing whether a piece is red, a red king, black or a black king.
+     */
     private char pieceToChar(Piece piece) {
         switch (piece) {
             case RED: return 'r';
@@ -64,6 +70,10 @@ public class CheckersBoard {
         }
     }
 
+    /**
+     * isValidMove() checks is a piece is able to move from one location in the board to the next
+     * @return Checks if a piece can move to a new location. True means the piece can move to this new location. False means that the piece cannot move to this new location.
+     */
     public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
         if (!inBounds(fromRow, fromCol) || !inBounds(toRow, toCol)) {
             return false;
@@ -99,10 +109,18 @@ public class CheckersBoard {
         return false;
     }
 
+    /**
+     * Checks if a piece is inside the boundaries of the board
+     * @return This method returns true if the location specified by the row and column values are inside the board or not. If there are, then it returns true. If not, it returns false.
+     */
     private boolean inBounds(int row, int col) {
         return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
     }
 
+    /**
+     * This method moves a piece to a new location.
+     * @return This method returns true if the piece movement was successful. It returns false is the movement is not successful.
+     */
     public boolean makeMove(int fromRow, int fromCol, int toRow, int toCol) {
         if (!isValidMove(fromRow, fromCol, toRow, toCol)) {
             return false;
@@ -128,15 +146,24 @@ public class CheckersBoard {
         return true;
     }
 
+    /**
+     * This gets the piece located at a position in board.
+     * @return This method returns a piece on the board, specified by the row and column values.
+     */
     public Piece getPieceAt(int row, int col) {
         return board[row][col];
     }
 
+    /**
+     * This sets the piece at a particular location on the board.
+     */
     public void setPieceAt(int row, int col, Piece piece) {
         board[row][col] = piece;
     }
 
-
+    /**
+     * display() prints the current board which includes all the pieces and empty spots
+     */
     public void display() {
         System.out.println("Current board:");
         for (int row = 0; row < BOARD_SIZE; row++) {
