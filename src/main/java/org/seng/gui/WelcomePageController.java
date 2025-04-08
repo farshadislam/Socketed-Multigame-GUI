@@ -25,7 +25,6 @@ import org.seng.authentication.*;
 
 public class WelcomePageController {
     public VBox loginBox;
-    private LoginPage loginPage;
 
     @FXML
     private TextField usernameField;
@@ -86,10 +85,10 @@ public class WelcomePageController {
 
 
         // handle forgot password link click
-        forgotPasswordLink.setOnAction(e -> openForgotPasswordWindow(this.loginPage));
+        forgotPasswordLink.setOnAction(e -> openForgotPasswordWindow());
 
         // handle create account button click
-        createAccountButton.setOnAction(e -> openCreateAccountPage(this.loginPage));
+        createAccountButton.setOnAction(e -> openCreateAccountPage());
     }
 
     private void addControllerIcons() {
@@ -172,16 +171,13 @@ public class WelcomePageController {
             iconPane.getChildren().add(icon);
         }
     }
-    public void setLoginPage(LoginPage loginPage) {
-        this.loginPage = loginPage;
-    }
 
     // login button click handler
     private void handleLogin() {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        HomePage homePage = loginPage.login(username,password);
+        HomePage homePage = HelloApplication.loginPage.login(username,password);
         if(homePage!=null){
             openGameDashboard(homePage);
         }else{
@@ -219,7 +215,7 @@ public class WelcomePageController {
     }
 
     // open forgot password window
-    private void openForgotPasswordWindow(LoginPage loginPage) {
+    private void openForgotPasswordWindow() {
         try {
             // load password forget screen
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("forgot-password.fxml"));
@@ -237,8 +233,6 @@ public class WelcomePageController {
             Stage currentStage = (Stage) loginButton.getScene().getWindow();
             currentStage.close();
             ForgotPasswordController controller = fxmlLoader.getController();
-            controller.setLoginPage(loginPage);
-            System.out.println(loginPage==null);
             // show forgot password window
             stage.show();
         } catch (IOException ex) {
@@ -246,7 +240,7 @@ public class WelcomePageController {
         }
     }
 
-    private void openCreateAccountPage(LoginPage loginPage) {
+    private void openCreateAccountPage() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("create-account.fxml"));
 
@@ -254,9 +248,6 @@ public class WelcomePageController {
             scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
             Stage stage = new Stage();
             stage.setScene(scene);
-            CreateAccountController controller = fxmlLoader.getController();
-            controller.setLoginPage(loginPage);
-            System.out.println(loginPage==null);
 
             stage.setTitle("Create Account");
             stage.show();

@@ -26,7 +26,6 @@ public class VerificationCodeController {
     private Label errorLabel;
 
     private String verificationCode = "";
-    private LoginPage loginPage;
     private String username;// store 4 digit code
 
     @FXML
@@ -41,9 +40,6 @@ public class VerificationCodeController {
         setupCodeField(code4, code3, null); // doesn't move after last one
     }
 
-    public void setLoginPage(LoginPage loginPage){
-        this.loginPage = loginPage;
-    }
     public void setUsername(String username){
         this.username = username;
     }
@@ -85,8 +81,8 @@ public class VerificationCodeController {
 
     // compare verification code against stored
     private void handleVerification() {
-        if (loginPage.verifyEmailCodeForgotPassword(this.username, this.verificationCode)) {
-            openNewPasswordWindow(this.loginPage, this.username);
+        if (HelloApplication.loginPage.verifyEmailCodeForgotPassword(this.username, this.verificationCode)) {
+            openNewPasswordWindow(this.username);
         } else {
             displayErrorMessage("Incorrect Verification Code!");
         }
@@ -103,7 +99,7 @@ public class VerificationCodeController {
         pause.play();
     }
 
-    private void openNewPasswordWindow(LoginPage loginPage, String username) {
+    private void openNewPasswordWindow(String username) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("new-password.fxml"));
             Scene newPasswordScene = new Scene(fxmlLoader.load(), 700, 450);
@@ -117,7 +113,6 @@ public class VerificationCodeController {
             Stage currentStage = (Stage) confirmButton.getScene().getWindow();
             currentStage.close();
             NewPasswordController controller = fxmlLoader.getController();
-            controller.setLoginPage(loginPage);
             controller.setUsername(username);
             stage.show();
         } catch (Exception ex) {

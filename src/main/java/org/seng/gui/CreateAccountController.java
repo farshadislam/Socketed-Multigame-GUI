@@ -25,7 +25,6 @@ public class CreateAccountController {
 
     @FXML
     private Button registerButton, backButton;
-    private LoginPage loginPage;
 
 
     @FXML
@@ -37,9 +36,6 @@ public class CreateAccountController {
         });
     }
 
-    public void setLoginPage(LoginPage loginPage){
-        this.loginPage = loginPage;
-    }
 
     private void handleRegistration() {
         String username = usernameField.getText();
@@ -53,16 +49,16 @@ public class CreateAccountController {
             return;
         }
 
-        if (!loginPage.verifyPasswordFormat(password)) {
+        if (!HelloApplication.loginPage.verifyPasswordFormat(password)) {
             displayPasswordsFormatError();
             hasError = true;
         }
 
-        if (!loginPage.verifyEmailFormat(email))   {
+        if (!HelloApplication.loginPage.verifyEmailFormat(email))   {
             displayEmailFormatError();
             hasError = true; 
         }
-        if (!loginPage.verifyUsernameFormat(username)){
+        if (!HelloApplication.loginPage.verifyUsernameFormat(username)){
             displayUsernameFormatError();
             hasError = true;
         }
@@ -73,7 +69,7 @@ public class CreateAccountController {
             return;
         }
 
-        State state = loginPage.register(username,email,password);
+        State state = HelloApplication.loginPage.register(username,email,password);
         if(state == State.VERIFICATION_CODE_SENT)   {
             openSuccessPage();
         }
@@ -168,9 +164,6 @@ public class CreateAccountController {
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setTitle("OMG Platform");
-            WelcomePageController controller = fxmlLoader.getController();
-            controller.setLoginPage(this.loginPage);
-
             stage.show();
 
             Stage currentStage = (Stage) backButton.getScene().getWindow();

@@ -23,16 +23,12 @@ public class NewPasswordController {
 
     @FXML
     private Label errorLabel;
-    private LoginPage loginPage;
     private String username;
 
     @FXML
     public void initialize() {
         updatePasswordButton.setOnAction(e -> handleUpdatePassword());
         returnButton.setOnAction(e -> returnToWelcome());
-    }
-    public void setLoginPage(LoginPage loginPage){
-        this.loginPage = loginPage;
     }
 
     public void setUsername(String username){
@@ -48,7 +44,7 @@ public class NewPasswordController {
             indicatePasswordError();
             return;
         }
-        if(!loginPage.changePassword(this.username, newPassword, confirmPassword)){
+        if(!HelloApplication.loginPage.changePassword(this.username, newPassword, confirmPassword)){
             displayErrorMessage("Please Choose A Valid Password!");
             indicatePasswordError();
             return;
@@ -120,8 +116,6 @@ public class NewPasswordController {
             Stage stage = new Stage();
             stage.setTitle("OMG Platform");
             stage.setScene(welcomePageScene);
-            WelcomePageController controller = fxmlLoader.getController();
-            controller.setLoginPage(this.loginPage);
             // Close current window
             Stage currentStage = (Stage) returnButton.getScene().getWindow();
             currentStage.close();
