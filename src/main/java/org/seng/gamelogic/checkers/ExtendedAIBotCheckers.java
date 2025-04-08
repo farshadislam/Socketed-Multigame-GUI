@@ -114,4 +114,24 @@ public class ExtendedAIBotCheckers extends CheckersPlayer {
             }
         }
     }
+
+    /**
+     * Sets the symbol representing the AI's pieces.
+     *
+     * @param symbol The new symbol for the AI's pieces.
+     */
+    @Override
+    public void setSymbol(char symbol) {
+        this.setSymbol(symbol);
+    }
+
+    /**
+     * Retrieves the symbol representing the AI's pieces.
+     *
+     * @return The symbol of the AI's pieces.
+     */
+    @Override
+    public char getSymbol() {
+        return this.getSymbol();
+    }
 }

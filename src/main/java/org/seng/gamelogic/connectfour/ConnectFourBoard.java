@@ -1,5 +1,4 @@
 package org.seng.gamelogic.connectfour;
-import org.seng.gamelogic.Player;
 
 public class ConnectFourBoard {
 
@@ -97,6 +96,7 @@ public class ConnectFourBoard {
 
     /**
      * Checks that the column selected is a valid column number
+     *
      * @param col is the column number given
      * @return true if the column is a column number on the board, false otherwise
      */
