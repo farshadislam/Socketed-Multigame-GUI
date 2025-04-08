@@ -12,7 +12,7 @@ public class RunCheckers extends Application {
     public void start(Stage stage) throws IOException {
         Font.loadFont(getClass().getResourceAsStream("/org/seng/gui/fonts/Monoton-Regular.ttf"), 64);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("tiePage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("checkersBoard.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 450);
 
         // Load style sheet

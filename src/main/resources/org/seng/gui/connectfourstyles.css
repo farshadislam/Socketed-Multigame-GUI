@@ -36,7 +36,7 @@
 }
 
 .omg-label {
-
+    -fx-font-family: Monoton;
     -fx-font-size: 20px;
     -fx-text-fill: white;
     -fx-font-weight: bold;
@@ -44,7 +44,6 @@
 }
 
 .connect4-label {
-
     -fx-font-size: 50px;
     -fx-text-fill: white;
     -fx-font-weight: bold;

@@ -347,10 +347,6 @@
     -fx-padding: 5px;
 }
 
-.podium-icon {
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 8, 0.3, 0, 0);
-}
-
 .player-list {
     -fx-background-color: #6c63ff;
     -fx-border-color: #ddd;

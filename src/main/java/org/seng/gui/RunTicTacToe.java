@@ -13,14 +13,14 @@ public class RunTicTacToe extends Application {
         Font.loadFont(getClass().getResourceAsStream("/org/seng/gui/fonts/Monoton-Regular.ttf"), 64);
 
 //        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("tictactoe.fxml"));
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("profile-page.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("connect4-board.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load(), 700, 450);
 
         // Load style sheet
-//        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm());
         //scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
         stage.setTitle("OMG Platform");
         stage.setScene(scene);

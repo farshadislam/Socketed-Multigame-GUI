@@ -43,17 +43,17 @@
     <!-- Top 3 Podium -->
     <HBox alignment="center" spacing="50" layoutY="100" prefWidth="600" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
         <VBox alignment="center" spacing="5">
-            <ImageView fx:id="secondPlaceIcon" fitWidth="60" fitHeight="60" styleClass="podium-icon"/>
+            <ImageView fx:id="secondPlaceIcon" fitWidth="60" fitHeight="60"/>
             <Label fx:id="secondPlayerName" text="Player 2" styleClass="podium-label"/>
         </VBox>
 
         <VBox alignment="center" spacing="5">
-            <ImageView fx:id="firstPlaceIcon" fitWidth="80" fitHeight="80" styleClass="podium-icon"/>
+            <ImageView fx:id="firstPlaceIcon" fitWidth="80" fitHeight="80"/>
             <Label fx:id="firstPlayerName" text="Player 1" styleClass="podium-label"/>
         </VBox>
 
         <VBox alignment="center" spacing="5">
-            <ImageView fx:id="thirdPlaceIcon" fitWidth="60" fitHeight="60" styleClass="podium-icon"/>
+            <ImageView fx:id="thirdPlaceIcon" fitWidth="60" fitHeight="60"/>
             <Label fx:id="thirdPlayerName" text="Player 3" styleClass="podium-label"/>
         </VBox>
     </HBox>
