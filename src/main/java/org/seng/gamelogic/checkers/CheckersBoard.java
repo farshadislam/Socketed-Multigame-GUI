@@ -221,6 +221,38 @@ public class CheckersBoard {
         return capturableLocations;
     }
 
+    public void performCaptures(int initialRow, int initialCol, Piece piece) {
+        List<int[]> capturableLocations = getCapturablePieces(initialRow, initialCol, piece);
+        int currentRow = initialRow;
+        int currentCol = initialCol;
+
+        while (!capturableLocations.isEmpty()) {
+            // Here is where the player needs to choose one of the values in the List<int[]>
+            // For example, int[] chosenMove = playerChooseMove(capturableLocations);
+            // For demonstration, let's assume the first possible capture is chosen:
+            int[] chosenMove = capturableLocations.get(0);
+
+            // Making the move
+            makeMove(currentRow, currentCol, chosenMove[0], chosenMove[1]);
+
+            // Update current position to the new position
+            currentRow = chosenMove[0];
+            currentCol = chosenMove[1];
+
+            // Re-evaluate capturable pieces from the new position
+            capturableLocations = getCapturablePieces(currentRow, currentCol, board[currentRow][currentCol]);
+
+            // Comment the line below to simulate player's choice of the move from the `capturableLocations`.
+            // This is crucial for testing or implementing UI for actual move selection by a user.
+            // break; // Uncomment this line to stop after one capture for testing or if implementing a choice mechanism.
+        }
+
+        // Once there are no more captures left, the move ends
+        System.out.println("No more captures available. Turn ends.");
+    }
+
+
+
 }
 
 
