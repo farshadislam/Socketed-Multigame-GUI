@@ -101,13 +101,6 @@ public class PlayerTest {
         assertEquals(player, p2);
     }
 
-//    // one username valid, other null
-//    @Test
-//    public void testEquals4(){
-//        Player p3 = new Player(null, "oldUser@gmail.com", "password");
-//        assertNotEquals(player, p3);
-//    }
-
     // one username valid, other empty
     @Test
     public void testEquals5(){
@@ -133,6 +126,70 @@ public class PlayerTest {
     @Test
     public void testEquals8(){
         assertEquals(player, player);
+    }
+
+    // total games played all games
+    @Test
+    public void testTotalGamesPlayed1(){
+        player.getCheckersStats().setGamesPlayed(4);
+        player.getConnect4Stats().setGamesPlayed(2);
+        player.getTicTacToeStats().setGamesPlayed(6);
+
+        assertEquals(12, player.getTotalGamesPlayed());
+    }
+
+    // total games played only checkers
+    @Test
+    public void testTotalGamesPlayed2(){
+        player.getCheckersStats().setGamesPlayed(4);
+
+        assertEquals(4, player.getTotalGamesPlayed());
+    }
+
+    // total games played only tictactoe
+    @Test
+    public void testTotalGamesPlayed3(){
+        player.getCheckersStats().setGamesPlayed(2);
+
+        assertEquals(2, player.getTotalGamesPlayed());
+    }
+
+    // total games played only connect4
+    @Test
+    public void testTotalGamesPlayed4(){
+        player.getCheckersStats().setGamesPlayed(6);
+        assertEquals(6, player.getTotalGamesPlayed());
+    }
+
+    // total games won
+    @Test
+    public void testWins1(){
+        player.getCheckersStats().setWins(4);
+        player.getConnect4Stats().setWins(2);
+        player.getTicTacToeStats().setWins(6);
+
+        assertEquals(12, player.getTotalWins());
+    }
+
+    // total games won only checkers
+    @Test
+    public void testWins2(){
+        player.getCheckersStats().setWins(4);
+        assertEquals(4, player.getTotalWins());
+    }
+
+    // total games won only tictactoe
+    @Test
+    public void testWins3(){
+        player.getTicTacToeStats().setWins(2);
+        assertEquals(2, player.getTotalWins());
+    }
+
+    // total games won only connect4
+    @Test
+    public void testWins4(){
+        player.getConnect4Stats().setWins(6);
+        assertEquals(6, player.getTotalWins());
     }
 }
 
