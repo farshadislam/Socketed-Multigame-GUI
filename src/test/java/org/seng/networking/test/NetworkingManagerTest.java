@@ -1,4 +1,3 @@
-package org.seng.networking.test;
 
 import org.junit.jupiter.api.*;
 import org.seng.networking.NetworkingManager;
