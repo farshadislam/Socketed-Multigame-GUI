@@ -16,30 +16,25 @@ import java.nio.file.Paths;
 
 public class TicTacToeController {
 
-    @FXML private Button button1;
-    @FXML private Button button2;
-    @FXML private Button button3;
-    @FXML private Button button4;
-    @FXML private Button button5;
-    @FXML private Button button6;
-    @FXML private Button button7;
-    @FXML private Button button8;
-    @FXML private Button button9;
+    @FXML private Button button11, button12, button13;
+    @FXML private Button button21, button22, button23;
+    @FXML private Button button31, button32, button33;
+
     @FXML private Button inGameChatButton;
     @FXML private MenuItem helpOption;
     @FXML private Label turnLabel;
 
     @FXML public void initialize() {
         clearChatHistory();
-        button1.setOnAction(e -> handleMove(button1));
-        button2.setOnAction(e -> handleMove(button2));
-        button3.setOnAction(e -> handleMove(button3));
-        button4.setOnAction(e -> handleMove(button4));
-        button5.setOnAction(e -> handleMove(button5));
-        button6.setOnAction(e -> handleMove(button6));
-        button7.setOnAction(e -> handleMove(button7));
-        button8.setOnAction(e -> handleMove(button8));
-        button9.setOnAction(e -> handleMove(button9));
+        button11.setOnAction(e -> handleMove(button11));
+        button12.setOnAction(e -> handleMove(button12));
+        button13.setOnAction(e -> handleMove(button13));
+        button21.setOnAction(e -> handleMove(button21));
+        button22.setOnAction(e -> handleMove(button22));
+        button23.setOnAction(e -> handleMove(button23));
+        button31.setOnAction(e -> handleMove(button31));
+        button32.setOnAction(e -> handleMove(button32));
+        button33.setOnAction(e -> handleMove(button33));
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";

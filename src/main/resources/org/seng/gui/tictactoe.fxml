@@ -1,52 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.TicTacToeController">
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.seng.gui.TicTacToeController"
+            prefHeight="600.0" prefWidth="800.0"
+            styleClass="gradient-background">
 
-   <children>
+   <!-- Title -->
+   <Label text="Tic Tac Toe" styleClass="light-title-label"
+          AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          alignment="center"/>
 
-      <FlowPane layoutX="288.0" layoutY="188.0" prefHeight="280.0" prefWidth="300.0">
-         <children>
-            <Button fx:id="button1" prefHeight="95.0" prefWidth="100.0" />
-            <Button fx:id="button3" prefHeight="95.0" prefWidth="100.0" />
-            <Button fx:id="button4" prefHeight="95.0" prefWidth="100.0" />
-            <Button fx:id="button2" prefHeight="95.0" prefWidth="100.0" />
-            <Button fx:id="button5" prefHeight="95.0" prefWidth="100.0" />
-            <Button fx:id="button6" prefHeight="95.0" prefWidth="100.0" />
-            <Button fx:id="button7" prefHeight="95.0" prefWidth="100.0" />
-            <Button fx:id="button8" prefHeight="95.0" prefWidth="100.0" />
-            <Button fx:id="button9" prefHeight="95.0" prefWidth="100.0" />
-         </children>
-      </FlowPane>
+   <!-- Turn Indicator -->
+   <Label fx:id="turnLabel" text="Player 1's Turn" alignment="center"
+          styleClass="game-label"
+          AnchorPane.topAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
 
+   <!-- Game Board -->
+   <GridPane hgap="10" vgap="10"
+             AnchorPane.topAnchor="120.0" AnchorPane.leftAnchor="225.0">
+      <Button fx:id="button11" prefWidth="80" prefHeight="80" />
+      <Button fx:id="button12" prefWidth="80" prefHeight="80" GridPane.columnIndex="1"/>
+      <Button fx:id="button13" prefWidth="80" prefHeight="80" GridPane.columnIndex="2"/>
 
-      <Label fx:id="turnLabel" layoutX="138.0" layoutY="331.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Player 1's Turn" textFill="white" />
+      <Button fx:id="button21" prefWidth="80" prefHeight="80" GridPane.rowIndex="1"/>
+      <Button fx:id="button22" prefWidth="80" prefHeight="80" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+      <Button fx:id="button23" prefWidth="80" prefHeight="80" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
 
+      <Button fx:id="button31" prefWidth="80" prefHeight="80" GridPane.rowIndex="2"/>
+      <Button fx:id="button32" prefWidth="80" prefHeight="80" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+      <Button fx:id="button33" prefWidth="80" prefHeight="80" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+   </GridPane>
 
+   <!-- Chat and Settings -->
+   <Button fx:id="inGameChatButton" text="Chat" styleClass="auth-button"
+           AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" onAction="#openChat"/>
 
-      <!-- Chat & Settings -->
-      <Button fx:id="inGameChatButton" layoutX="822.0" layoutY="551.0" onAction="#openChat" styleClass="option-button" text="Chat" />
-      <MenuButton fx:id="SettingMenu" layoutX="750.0" layoutY="14.0" mnemonicParsing="false" onAction="#howToPlayDescription" styleClass="options-button" text="Setting">
-        <items>
-          <MenuItem mnemonicParsing="false" text="Quit" />
-           <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" text="Help" />
-        </items>
-      </MenuButton>
-      <Text fill="#fffcfc" layoutX="344.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Label" text="Tic Tac Toe">
-         <font>
-            <Font size="22.0" />
-
-         </font>
-      </Text>
-
-
-   </children>
+   <MenuButton fx:id="SettingMenu" text="Settings" styleClass="auth-button"
+               AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="50.0">
+      <items>
+         <MenuItem text="Quit"/>
+         <MenuItem fx:id="helpOption" text="Help" onAction="#howToPlayDescription"/>
+      </items>
+   </MenuButton>
 </AnchorPane>
