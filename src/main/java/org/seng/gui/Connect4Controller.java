@@ -25,6 +25,12 @@ public class Connect4Controller {
     @FXML
     private FlowPane board;
 
+    @FXML
+    private Label player1Label;
+
+    @FXML
+    private Label player2Label;
+
     private static final int ROWS = 6;
     private static final int COLS = 7;
     private boolean isPlayerOneTurn = true;
@@ -42,6 +48,8 @@ public class Connect4Controller {
                 btn.setOnAction(e -> handleColumnClick(finalCol));
             }
         }
+        clearChatHistory();
+        updatePlayerTurnIndicator();
         clearChatHistory();
     }
     @FXML
@@ -196,10 +204,22 @@ public class Connect4Controller {
                     cell.setStyle("-fx-background-color: #da77f2;"); // Yellow
                 }
                 isPlayerOneTurn = !isPlayerOneTurn; // Switch turns
+                updatePlayerTurnIndicator();
                 break;
             }
         }
     }
+
+    private void updatePlayerTurnIndicator() {
+        if (isPlayerOneTurn) {
+            player1Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #00F0FF;");
+            player2Label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+        } else {
+            player1Label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+            player2Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #da77f2;");
+        }
+    }
+
     private void clearChatHistory() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH))) {
             writer.write(""); // Clear the contents
