@@ -1,6 +1,5 @@
 package org.seng.gamelogic.connectfour;
 
-import org.seng.gamelogic.Player;
 import org.seng.gamelogic.connectfour.ConnectFourBoard.Chip;
 
 import java.util.ArrayList;
@@ -63,7 +62,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
             return null;
         }
 
-        int row = board.isColumn(column); // assuming this returns the next open row
+        boolean row = board.isColumn(column); // assuming this returns the next open row
         return new ConnectFourMove(this, column, row);
     }
 
@@ -89,9 +88,9 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
     public static class ConnectFourMove {
         private final ConnectFourPlayer player;
         private final int column;
-        private final int row;
+        private final boolean row;
 
-        public ConnectFourMove(ConnectFourPlayer player, int column, int row) {
+        public ConnectFourMove(ConnectFourPlayer player, int column, boolean row) {
             this.player = player;
             this.column = column;
             this.row = row;
@@ -105,7 +104,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
             return column;
         }
 
-        public int getRow() {
+        public boolean getRow() {
             return row;
         }
 
