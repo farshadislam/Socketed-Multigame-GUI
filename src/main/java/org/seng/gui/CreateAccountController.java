@@ -24,6 +24,7 @@ public class CreateAccountController {
 
     @FXML
     public void initialize() {
+        registerButton.setText("Register");
         registerButton.setOnAction(e -> handleRegistration());
         backButton.setOnAction(e -> returnToLogin());
 
@@ -52,18 +53,33 @@ public class CreateAccountController {
             hasError = true;
         }
 
-        // If any field has an error, stop the registration process
-        if (hasError) {
-            return;
-        }
-
         // Validate passwords
         if (!password.equals(confirmPassword)) {
             displayPasswordError();
-            return;
+            hasError = true;
         }
 
-        openSuccessPage();
+        if (hasError) return;
+
+        // Open verification code page
+        openVerificationPage();
+    }
+
+    private void openVerificationPage() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("create-account-verification.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Verify Your Email");
+            stage.show();
+
+            Stage currentStage = (Stage) registerButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void resetPrompt(TextField field, String defaultPrompt) {
@@ -75,8 +91,6 @@ public class CreateAccountController {
         field.getStyleClass().add("error-prompt");
         field.setPromptText(message);
         field.clear();
-
-        // Remove the error style after a short delay
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(e -> {
             field.getStyleClass().remove("error-prompt");
@@ -92,15 +106,6 @@ public class CreateAccountController {
         confirmPasswordField.setPromptText("Passwords do not match");
         passwordField.clear();
         confirmPasswordField.clear();
-
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
-        pause.setOnFinished(e -> {
-            passwordField.getStyleClass().remove("error-prompt");
-            confirmPasswordField.getStyleClass().remove("error-prompt");
-            passwordField.setPromptText("Password");
-            confirmPasswordField.setPromptText("Confirm Password");
-        });
-        pause.play();
     }
 
     private void returnToLogin() {
@@ -114,23 +119,6 @@ public class CreateAccountController {
             stage.show();
 
             Stage currentStage = (Stage) backButton.getScene().getWindow();
-            currentStage.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void openSuccessPage() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("registration-success.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
-            scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Registration Success");
-            stage.show();
-
-            Stage currentStage = (Stage) registerButton.getScene().getWindow();
             currentStage.close();
         } catch (IOException ex) {
             ex.printStackTrace();
