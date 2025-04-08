@@ -27,6 +27,7 @@ public class Connect4Controller {
 
     private static final int ROWS = 6;
     private static final int COLS = 7;
+    private boolean isPlayerOneTurn = true;
 
     private Button[][] boardButtons = new Button[ROWS][COLS];
 
@@ -177,7 +178,12 @@ public class Connect4Controller {
         for (int row = ROWS - 1; row >= 0; row--) {
             Button cell = boardButtons[row][col];
             if (cell.getStyle().isEmpty()) {
-                cell.setStyle("-fx-background-color: #00F0FF;");
+                if (isPlayerOneTurn) {
+                    cell.setStyle("-fx-background-color: #00F0FF;"); // Cyan
+                } else {
+                    cell.setStyle("-fx-background-color: #FFD700;"); // Yellow
+                }
+                isPlayerOneTurn = !isPlayerOneTurn; // Switch turns
                 break;
             }
         }
