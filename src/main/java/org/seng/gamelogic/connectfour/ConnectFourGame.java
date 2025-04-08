@@ -120,6 +120,14 @@ public class ConnectFourGame {
 
     // restrict movements to column choice only. Returns true if move is made
     public boolean makeMove(int col) {
+
+        // Error handling: make sure the argument 'col' is 7 columns
+        //      GUI logic might already take care of this though.
+        if (col < 0 || col > 6) {
+            status = "Cannot drop a piece in column " + col;
+            return false;
+        }
+
         if (status.equals("In Progress")) {
             board.dropPiece(col, currentPlayer);
             char symbol = currentPlayer.getSymbol();
@@ -155,7 +163,6 @@ public class ConnectFourGame {
         }
         return false;
         // update board here so that the Connect Four piece is dropped in the correct column
-        // error handling: make sure the integer passed into this method is 0 <= col <= 6 (7 columns)
     }
 
     // made after move is made. We can also add a "skip turn" functionality if we have time, work with GUI/integration.
@@ -178,7 +185,6 @@ public class ConnectFourGame {
         return full;
     }
 
-    // called at end of game? We can add a visual display for this (GUI).
 
     /* Since its connect 4 I am guessing a win is 4 in a row
     PLEASE NOTE: I haven't showed up to any meetings and I don't know if theres a certain way you guys want to do
