@@ -1,8 +1,13 @@
 package org.seng.authentication;
-import org.seng.leaderboard_matchmaking.checkersStats;
-import org.seng.leaderboard_matchmaking.connect4Stats;
-import org.seng.leaderboard_matchmaking.ticTacToeStats;
+import javafx.css.Match;
+import org.seng.leaderboard.*;
+import org.seng.leaderboard.Rank;
 
+//import org.seng.leaderboard.matchmaking.Last5Matches;
+import org.seng.leaderboard.GameType;
+
+
+import java.util.List;
 import java.util.Objects;
 
 public class Player {
@@ -15,6 +20,9 @@ public class Player {
     private ticTacToeStats TicTacToeStats;
     private checkersStats CheckersStats;
     private String verificationCode;
+
+//    //last 5 matches field
+//    private Last5Matches last5Matches;
 
     /**
      * Constructor that also sets initial wins for each game.
@@ -30,6 +38,8 @@ public class Player {
         this.Connect4Stats = new connect4Stats(username);
         this.CheckersStats = new checkersStats(username);
         this.TicTacToeStats = new ticTacToeStats(username);
+        //initializing the constructor
+//        this.last5Matches = new Last5Matches();
     }
 
     // setters and getters
@@ -149,5 +159,15 @@ public class Player {
         // cast object into Player object and compare
         return Objects.equals(username, player.username) && Objects.equals(email, player.email);
     }
+
+//    public Last5Matches getLast5MatchesObject(){
+//        return this.last5Matches;
+//    }
+//
+//
+//    public List<Object> getLastMatchAt(int index){
+//        return last5Matches.getLastMatchAt(index);
+//    }
+//
 }
 

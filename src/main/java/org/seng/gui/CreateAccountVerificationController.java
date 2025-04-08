@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
+import org.seng.authentication.LoginPage;
+
 import java.io.IOException;
 
 public class CreateAccountVerificationController {
@@ -24,6 +26,7 @@ public class CreateAccountVerificationController {
     private Label errorLabel;
 
     private String verificationCode = "";  // store 4 digit code
+    private String username;
 
     @FXML
     public void initialize() {
@@ -35,6 +38,9 @@ public class CreateAccountVerificationController {
         setupCodeField(code2, code1, code3);
         setupCodeField(code3, code2, code4);
         setupCodeField(code4, code3, null); // doesn't move after last one
+    }
+    public void setUsername(String username){
+        this.username = username;
     }
 
     // text field moves after each input and handles backspace
@@ -75,10 +81,10 @@ public class CreateAccountVerificationController {
 
     // compare verification code against stored
     private void handleVerification() {
-        if (verificationCode.equals("1234")) {
+        if (HelloApplication.loginPage.verifyEmailCodeForRegister(this.username,this.verificationCode)) {
             openSuccessPage();
         } else {
-            displayErrorMessage("Incorrect verification code");
+            displayErrorMessage("Incorrect Verification Code!");
         }
     }
 
