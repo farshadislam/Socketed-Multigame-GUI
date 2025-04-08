@@ -1,6 +1,6 @@
-package main.java.org.seng.leaderboard_matchmaking;
+package org.seng.leaderboard_matchmaking;
 
-import main.java.org.seng.authentication.Player;
+import org.seng.authentication.Player;
 
 import java.util.ArrayList;
 import java.util.List;
