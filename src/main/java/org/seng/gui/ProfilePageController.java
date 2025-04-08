@@ -52,10 +52,10 @@ public class ProfilePageController {
         profileTitleText.setText(playerName + "'s Profile");
         lastOnlineLabel.setText("Last Online: Just now");
 
-        int wins = 5;
+        int wins = 5;  // player.getTotalWins();
         int losses = 2;
         int ties = 1;
-        int total = wins + losses + ties;
+        int total = wins + losses + ties; // player.getTotalGamesPlayed();
 
         myWinsLabel.setText(String.valueOf(wins));
         myLossesLabel.setText(String.valueOf(losses));
@@ -68,7 +68,7 @@ public class ProfilePageController {
         tiesColumn.setCellValueFactory(data -> data.getValue().tiesProperty().asObject());
 
         gameStatsTable.setItems(FXCollections.observableArrayList(
-                new GameStat("Checkers", 2, 1, 1),
+                new GameStat("Checkers", 2, 1, 1), // player.getCheckersStats().get_wins(),  player.getCheckersStats().get_losses(),player.getCheckersStats().get_ties())
                 new GameStat("Tic Tac Toe", 3, 1, 0),
                 new GameStat("Connect 4", 0, 0, 0)
         ));

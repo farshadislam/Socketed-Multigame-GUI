@@ -38,8 +38,7 @@
             <TableView fx:id="friendGameStatsTable" editable="false" prefHeight="90">
                 <columns>
                     <TableColumn fx:id="friendGameColumn" prefWidth="180" text="Game" />
-                    <TableColumn fx:id="Rank" prefWidth="100" text="Rank"/>
-                    <TableColumn fx:id="MMR" prefWidth="100" text="MMR"/>
+
                     <TableColumn fx:id="friendGameWinsColumn" prefWidth="100" text="Wins" />
                     <TableColumn fx:id="friendGameLossesColumn" prefWidth="100" text="Losses" />
                     <TableColumn fx:id="friendGameTiesColumn" prefWidth="100" text="Ties" />

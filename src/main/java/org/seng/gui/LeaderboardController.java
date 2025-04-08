@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+//import org.seng.authentication.Player; for later use
 
 import java.io.IOException;
 
@@ -48,15 +49,12 @@ public class LeaderboardController {
 
         gameTypeComboBox.setItems(FXCollections.observableArrayList("Checkers", "Tic Tac Toe", "Connect 4"));
 
-        // Populate with sample data
         playerListView.getItems().addAll("Player 4", "Player 5", "Player 6", "Player 7", "Player 8");
 
-        // Set podium names (dummy data)
         firstPlayerName.setText("JoyThief22");
         secondPlayerName.setText("FishEnjoyer2");
         thirdPlayerName.setText("notAMinor66");
 
-        // Set click event to view player profile
         playerListView.setOnMouseClicked(event -> {
             String selectedPlayer = playerListView.getSelectionModel().getSelectedItem();
             if (selectedPlayer != null) {
@@ -82,7 +80,7 @@ public class LeaderboardController {
 
     private void openPlayerProfile(String playerName) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("profile-page.fxml"));
+            FXMLLoader loader = new  FXMLLoader(getClass().getResource("profile-page.fxml"));
             Parent root = loader.load();
             ProfilePageController controller = loader.getController();
             controller.setProfileData(playerName);
