@@ -164,21 +164,10 @@ public class Player {
 //        return this.last5Matches;
 //    }
 //
-//    public void updateLast5Matches(GameType gameType, Player player) {
-//        last5Matches.update(gameType, player);
-//    }
-//
-//    public List<List<Object>> getLast5Matches() {
-//        return last5Matches.getMatchHistory();
-//    }
 //
 //    public List<Object> getLastMatchAt(int index){
 //        return last5Matches.getLastMatchAt(index);
 //    }
 //
-//    public void clearLast5Matches(){
-//        last5Matches.clearHistory();
-//    }
-
 }
 
