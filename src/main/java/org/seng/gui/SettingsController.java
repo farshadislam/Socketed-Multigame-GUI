@@ -11,9 +11,14 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import org.seng.authentication.Player;
 
 import java.io.IOException;
 import java.util.Optional;
+
+import static org.seng.gui.GameDashboardController.player;
+import static org.seng.gui.GameDashboardController.setting;
+import static org.seng.gui.HelloApplication.database;
 
 public class SettingsController {
     public Label passwordSuccess;
@@ -94,20 +99,29 @@ public class SettingsController {
             pause.play();
 
         } else {
-            System.out.println("Username changed to: " + newUsername);
-            usernameField.setPromptText("New username");
-            usernameField.setStyle("-fx-border-color: green");
-            passwordSuccess.setVisible(true);
-            passwordSuccess.setManaged(true);
-            passwordSuccess.setText("Username updated");
+            String updatedUsername = usernameField.getText();
+            boolean success = setting.changeUsername(updatedUsername);
 
-            PauseTransition pause = new PauseTransition(Duration.seconds(5));
-            pause.setOnFinished(e -> {
-                passwordSuccess.setVisible(false);
-                passwordSuccess.setManaged(false);
-                usernameField.setStyle("-fx-border-color: #ddd");
-            });
-            pause.play();
+            if (success) {
+                player.setUsername(updatedUsername);
+
+                usernameField.setPromptText("New username");
+                usernameField.setStyle("-fx-border-color: green");
+                passwordSuccess.setVisible(true);
+                passwordSuccess.setManaged(true);
+                passwordSuccess.setText("Username updated");
+
+                PauseTransition pause = new PauseTransition(Duration.seconds(5));
+                pause.setOnFinished(e -> {
+                    passwordSuccess.setVisible(false);
+                    passwordSuccess.setManaged(false);
+                    usernameField.setStyle("-fx-border-color: #ddd");
+                });
+                pause.play();
+            } else {
+                usernameField.setPromptText("Username taken or error");
+                usernameField.setStyle("-fx-border-color: red; -fx-prompt-text-fill: red;");
+            }
         }
     }
 

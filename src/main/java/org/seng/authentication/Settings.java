@@ -51,14 +51,10 @@ public class Settings {
      * @return true if the username is changed, false otherwise
      */
     public boolean changeUsername(String newUsername){
-        if (newUsername!=null && !(newUsername.isEmpty())){
-            if(!database.usernameLookup(newUsername.toLowerCase()) && verifyUsernameFormat(newUsername)) {
-                database.deleteExistingPlayer(player.getUsername());
-                player.setUsername(newUsername);
-                database.addNewPlayer(newUsername.toLowerCase(), player);
-                return true;
-            }
-            return false;
+        String oldUsername = player.getUsername();
+        if (newUsername!=null && !(newUsername.isEmpty()) && verifyUsernameFormat(newUsername)){
+            database.updateKey(oldUsername, newUsername);
+            return true;
         }
         return false;
     }
