@@ -9,11 +9,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.TicTacToeController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="1080.0" prefWidth="1920.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.TicTacToeController">
 
    <children>
 
-      <FlowPane fx:id="board" layoutX="288.0" layoutY="188.0" prefHeight="280.0" prefWidth="300.0">
+      <FlowPane layoutX="288.0" layoutY="188.0" prefHeight="280.0" prefWidth="300.0">
          <children>
             <Button fx:id="button1" prefHeight="95.0" prefWidth="100.0" />
             <Button fx:id="button3" prefHeight="95.0" prefWidth="100.0" />
@@ -34,10 +34,10 @@
 
       <!-- Chat & Settings -->
       <Button fx:id="inGameChatButton" layoutX="822.0" layoutY="551.0" onAction="#openChat" styleClass="option-button" text="Chat" />
-      <MenuButton fx:id="SettingMenu" layoutX="750.0" layoutY="14.0" mnemonicParsing="false" onAction="#howToPlayDescription" styleClass="options-button" text="Setting">
+      <MenuButton fx:id="SettingMenu" layoutX="750.0" layoutY="14.0" mnemonicParsing="false" onAction="#howToPlayDescription" styleClass="options-button" text="Setting" textFill="#f6f6f6">
         <items>
+          <MenuItem mnemonicParsing="false" text="Quit" />
            <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" text="Help" />
-           <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
         </items>
       </MenuButton>
       <Text fill="#fffcfc" layoutX="344.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Label" text="Tic Tac Toe">
