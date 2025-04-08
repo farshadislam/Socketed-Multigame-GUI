@@ -8,8 +8,11 @@ import org.seng.leaderboard_matchmaking.connect4Stats;
 
 /**
  * Represents a game of checkers following basic game logic.
- * In our version of the game, black pieces are at the bottom and red pieces are the top of the board
- * Red piece will move first
+ * In our version of the game, black pieces are at the bottom and red pieces are the top of the board.
+ * Red piece, which is always assigned to Player 1, will move first.
+ * A piece can capture multiple pieces, but each capture is considered one turn. In this case, when a player's piece
+ * can capture more than once, then the turn will remain on that current player. The turn will switch only
+ * after the player can no longer capture any of the opponent's pieces.
  */
 public class CheckersGame {
 
@@ -35,7 +38,7 @@ public class CheckersGame {
         this.status = "Initialized";
         this.chatLog = new ArrayList<>();
         this.currentPlayer = players[0]; // First player starts
-        isRedTurn = true;
+        isRedTurn = true; // First player starts
         scanner = new Scanner(System.in);
     }
 
@@ -100,7 +103,11 @@ public class CheckersGame {
 
             if (isValidTurn(fromRow, fromCol)) {
                 if (board.isValidMove(fromRow, fromCol, toRow, toCol)) {
+
+                    // make a move
                     board.makeMove(fromRow, fromCol, toRow, toCol);
+
+                    // a Player wins. Update player stats and break out of game loop
                     if (checkWinCondition()) {
                         board.printBoard();
                         System.out.println((isRedTurn ? "Red" : "Black") + " wins!");
@@ -115,17 +122,32 @@ public class CheckersGame {
                         break;
                     }
 
-                    if (gameDraw()) { // checks if game is at a draw
+                    // no one wins - a tie. Update player stats and break out of game loop
+                    if (gameDraw()) {
                         players[0].getCheckersStats().tie();
                         players[1].getCheckersStats().tie();
+                        break;
                     }
-                    isRedTurn = !isRedTurn;
+
+                    // If the played piece has just captured an opponent's piece AND it can still capture more pieces, otherwise switch turn
+                    //     - Use isJumpMove(...) to check if there was a piece captured
+                    //     - Use getCapturablePieces(...) in CheckersBoard class to check if the piece at the new position can capture
+                    //       more opponent pieces
+                    //          - if it cannot, then that means getCapturablePieces(...) returns an empty list
+                    //          - the if-statement below makes sure that getCapturablePieces(...) is not empty
+                    if (!isJumpMove(fromRow, fromCol, toRow, toCol) && board.getCapturablePieces(toRow, toCol, board.getPieceAt(toRow, toCol)).isEmpty()) {
+                        // do nothing
+                    }
+                    else {
+                        switchPlayer();
+                    }
+
 
                 } else {
-                    System.out.println("Invalid move. Try again.");
+                    System.out.println("Invalid move. Try again.");  // translate to GUI - simply make selection invalid and error message
                 }
             } else {
-                System.out.println("That's not your piece. Try again.");
+                System.out.println("That's not your piece. Try again."); // translate to GUI - simply make selection invalid and error message
             }
         }
 
@@ -144,6 +166,25 @@ public class CheckersGame {
             return piece == CheckersBoard.Piece.RED || piece == CheckersBoard.Piece.RED_KING;
         } else {
             return piece == CheckersBoard.Piece.BLACK || piece == CheckersBoard.Piece.BLACK_KING;
+        }
+    }
+
+    /**
+     * Checks if a piece has been captured
+     * @return True if piece has captured an opponent's piece, false otherwise
+     */
+    public boolean isJumpMove(int fromRow, int fromCol, int toRow, int toCol) {
+        return Math.abs(fromRow - toRow) == 2 && Math.abs(fromCol - toCol) == 2;
+    }
+
+    // Switches turn to the next player/piece
+    public void switchPlayer() {
+        if (players[0] == currentPlayer) {
+            currentPlayer = players[1];
+            isRedTurn = false;
+        } else {
+            currentPlayer = players[0];
+            isRedTurn = true;
         }
     }
 
@@ -352,6 +393,7 @@ public class CheckersGame {
      * Main method to startGame the checkers game.
      * @param args Command-line arguments.
      */
+    // Main method may not be needed after integration with GUI
     public static void main(String[] args) {
         CheckersGame game = new CheckersGame();
         game.startGame();
