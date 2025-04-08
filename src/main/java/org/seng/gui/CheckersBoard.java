@@ -235,20 +235,20 @@ public class CheckersBoard {
 
     private void setupPieces() {
         // Black pieces
-        placePiece(a1, blackPieceImage); placePiece(c1, blackPieceImage);
-        placePiece(e1, blackPieceImage); placePiece(g1, blackPieceImage);
-        placePiece(b2, blackPieceImage); placePiece(d2, blackPieceImage);
-        placePiece(f2, blackPieceImage); placePiece(h2, blackPieceImage);
-        placePiece(a3, blackPieceImage); placePiece(c3, blackPieceImage);
-        placePiece(e3, blackPieceImage); placePiece(g3, blackPieceImage);
+        placePiece(b6, blackPieceImage); placePiece(d6, blackPieceImage);
+        placePiece(f6, blackPieceImage); placePiece(h6, blackPieceImage);
+        placePiece(a7, blackPieceImage); placePiece(c7, blackPieceImage);
+        placePiece(e7, blackPieceImage); placePiece(g7, blackPieceImage);
+        placePiece(b8, blackPieceImage); placePiece(d8, blackPieceImage);
+        placePiece(f8, blackPieceImage); placePiece(h8, blackPieceImage);
 
         // Red pieces
-        placePiece(b6, redPieceImage); placePiece(d6, redPieceImage);
-        placePiece(f6, redPieceImage); placePiece(h6, redPieceImage);
-        placePiece(a7, redPieceImage); placePiece(c7, redPieceImage);
-        placePiece(e7, redPieceImage); placePiece(g7, redPieceImage);
-        placePiece(b8, redPieceImage); placePiece(d8, redPieceImage);
-        placePiece(f8, redPieceImage); placePiece(h8, redPieceImage);
+        placePiece(a1, redPieceImage); placePiece(c1, redPieceImage);
+        placePiece(e1, redPieceImage); placePiece(g1, redPieceImage);
+        placePiece(b2, redPieceImage); placePiece(d2, redPieceImage);
+        placePiece(f2, redPieceImage); placePiece(h2, redPieceImage);
+        placePiece(a3, redPieceImage); placePiece(c3, redPieceImage);
+        placePiece(e3, redPieceImage); placePiece(g3, redPieceImage);
     }
 
     private void selectionHandle() {
