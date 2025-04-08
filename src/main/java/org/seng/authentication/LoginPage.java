@@ -90,7 +90,7 @@ public class LoginPage {
      * @param email
      * @return
      */
-    private boolean verifyEmailFormat(String email){
+    public boolean verifyEmailFormat(String email){
         if(!email.endsWith("@gmail.com") || email.indexOf("@") != email.lastIndexOf("@") || email.indexOf("@") <= 0){
             return false;
         }
@@ -134,7 +134,7 @@ public class LoginPage {
         return c == '.' || c == '_' || c == '-';
     }
 
-    private boolean verifyPasswordFormat(String password){
+    public boolean verifyPasswordFormat(String password){
         return password.length() >= 8 && !password.matches(".*\\s.*");
     }
 
