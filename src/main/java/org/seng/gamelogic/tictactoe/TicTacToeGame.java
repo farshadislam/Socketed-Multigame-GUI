@@ -225,16 +225,6 @@ public class TicTacToeGame {
     }
 
     /**
-     * This method resets the game by reseting the board
-     */
-    // Do not think we need this method because we did not discuss a 'reset' feature
-    public void resetGame() {
-        board.resetBoard();
-        currMark = Mark.X;
-        status = "In Progress";
-    }
-
-    /**
      * This method adds a message to the chatlog if it is valid
      */
 

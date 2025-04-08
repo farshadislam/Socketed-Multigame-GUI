@@ -13,7 +13,7 @@ public class TicTacToeGameTest {
     @BeforeEach
     public void setup() {
     TicTacToeBoard board = new TicTacToeBoard();
-    TicTacToePlayer[] players = new TicTacToePlayer[]{new TicTacToePlayer("Player1", 1, 'b', 1), new TicTacToePlayer("Player2", 2, 'y', 1)};
+    TicTacToePlayer[] players = new TicTacToePlayer[]{new TicTacToePlayer("Player1", "1", "b"), new TicTacToePlayer("Player2", "2", "y")};
     game = new TicTacToeGame(board, players, 2);
     }
 
@@ -59,13 +59,5 @@ public class TicTacToeGameTest {
     public void testSendMessage() {
         game.sendMessage("Hello!");
         assertEquals(1, game.getChatLog().size());
-    }
-
-    @Test
-    public void testResetGame() {
-        game.makeMove(0, 0);
-        game.resetGame();
-        assertEquals("In Progress", game.getStatus());
-        assertEquals(TicTacToeBoard.Mark.X, game.getCurrentMark());
     }
 }
