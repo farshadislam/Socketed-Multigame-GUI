@@ -193,7 +193,7 @@ public class Connect4Controller {
                 if (isPlayerOneTurn) {
                     cell.setStyle("-fx-background-color: #00F0FF;"); // Cyan
                 } else {
-                    cell.setStyle("-fx-background-color: #FFD700;"); // Yellow
+                    cell.setStyle("-fx-background-color: #da77f2;"); // Yellow
                 }
                 isPlayerOneTurn = !isPlayerOneTurn; // Switch turns
                 break;
