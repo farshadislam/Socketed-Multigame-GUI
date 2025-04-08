@@ -118,13 +118,6 @@ public class ConnectFourBoard {
     }
 
     /**
-     * Resets the board layout so that all Chips are marked as Empty by calling the initialize function
-     */
-    public void resetBoard() {
-        initializeBoard();
-    }
-
-    /**
      * Gets a Chip from the board
      * @param row the row the Chip is in
      * @param col the column the Chip is in

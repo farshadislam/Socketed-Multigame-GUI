@@ -14,8 +14,8 @@ public class ConnectFourBoardTest {
     @BeforeEach
     public void setUp() {
         board = new ConnectFourBoard();
-        playerBlue = new ConnectFourPlayer("BluePlayer", 1, 'b', 1);   // id: 1, rank: 1, symbol: 'b' -> Chip.BLUE
-        playerYellow = new ConnectFourPlayer("YellowPlayer", 2, 'y', 2); // id: 2, rank: 2, symbol: 'y' -> Chip.YELLOW
+        playerBlue = new ConnectFourPlayer("BluePlayer", "1", "b");   // id: 1, rank: 1, symbol: 'b' -> Chip.BLUE
+        playerYellow = new ConnectFourPlayer("YellowPlayer", "2", "y"); // id: 2, rank: 2, symbol: 'y' -> Chip.YELLOW
     }
 
     @Test
@@ -54,20 +54,6 @@ public class ConnectFourBoardTest {
         }
 
         assertTrue(board.columnFull(0), "Column should be full after 6 pieces");
-    }
-
-    @Test
-    public void testResetBoardClearsGrid() {
-        board.dropPiece(0, playerBlue);
-        board.dropPiece(1, playerYellow);
-
-        board.resetBoard();
-
-        for (int row = 0; row < ConnectFourBoard.ROW_COUNT; row++) {
-            for (int col = 0; col < ConnectFourBoard.COL_COUNT; col++) {
-                assertEquals(ConnectFourBoard.Chip.EMPTY, board.getChip(row, col), "All cells should be EMPTY after reset");
-            }
-        }
     }
 
     @Test

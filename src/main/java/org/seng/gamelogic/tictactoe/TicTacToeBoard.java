@@ -87,13 +87,6 @@ public class TicTacToeBoard {
     }
 
     /**
-     * Resets the board, setting all cells back to EMPTY.
-     */
-    public void resetBoard() {
-        initializeBoard();
-    }
-
-    /**
      * Displays the current board state in the console.
      */
     public void display() {
