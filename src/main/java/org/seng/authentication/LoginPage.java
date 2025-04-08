@@ -48,10 +48,6 @@ public class LoginPage {
             return State.USERNAME_FORMAT_WRONG;
         }
 
-        if (verifyUsernameFormat(username)){
-            return State.USERNAME_FORMAT_WRONG;
-        }
-
         if (!verifyEmailFormat(email)){
             return State.EMAIL_FORMAT_WRONG;
         }
