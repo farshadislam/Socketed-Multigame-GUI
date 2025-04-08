@@ -24,7 +24,7 @@ public class ExtendedAIBotCheckers extends CheckersPlayer {
      * @param board The board on which the AI will make moves.
      */
     public ExtendedAIBotCheckers(char symbol, CheckersGame game, CheckersBoard board) {
-        super("AIBot", 0, symbol, 0);
+        super("AIBot", "hi@gmail.com", "bloop");
         this.game = game;
         this.board = board;
         this.random = new Random();
@@ -113,25 +113,5 @@ public class ExtendedAIBotCheckers extends CheckersPlayer {
                 moves.add(new int[]{row, col, newRow, newCol});
             }
         }
-    }
-
-    /**
-     * Sets the symbol representing the AI's pieces.
-     *
-     * @param symbol The new symbol for the AI's pieces.
-     */
-    @Override
-    public void setSymbol(char symbol) {
-        this.symbol = symbol;
-    }
-
-    /**
-     * Retrieves the symbol representing the AI's pieces.
-     *
-     * @return The symbol of the AI's pieces.
-     */
-    @Override
-    public char getSymbol() {
-        return this.symbol;
     }
 }

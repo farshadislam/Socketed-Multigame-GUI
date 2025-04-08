@@ -1,9 +1,9 @@
 package org.seng.authentication;
-import org.seng.leaderboard.GeneralStats;
-import org.seng.leaderboard.checkersStats;
-import org.seng.leaderboard.connect4Stats;
-import org.seng.leaderboard.ticTacToeStats;
-import org.seng.leaderboard.Rank;
+import org.seng.leaderboard_matchmaking.GeneralStats;
+import org.seng.leaderboard_matchmaking.checkersStats;
+import org.seng.leaderboard_matchmaking.connect4Stats;
+import org.seng.leaderboard_matchmaking.ticTacToeStats;
+import org.seng.leaderboard_matchmaking.Rank;
 
 public class PlayerStats {
     // defined instance variable

@@ -1,5 +1,4 @@
 package org.seng.authentication;
-import org.seng.leaderboard.Rank;
 import org.seng.leaderboard_matchmaking.checkersStats;
 import org.seng.leaderboard_matchmaking.connect4Stats;
 import org.seng.leaderboard_matchmaking.ticTacToeStats;

@@ -14,7 +14,7 @@ public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
 
 
     public ExtendedAIBotTicTacToe(char symbol, TicTacToeGame game, TicTacToeBoard board) {
-        super("AI Bot", 0, symbol, 0); // passes username, player ID, symbol as char, rank
+        super("AI Bot", "hi"); // passes username, player ID, symbol as char, rank
         this.board = board;
         this.game = game;
         this.symbol = symbol; // either 'X' or 'O'
