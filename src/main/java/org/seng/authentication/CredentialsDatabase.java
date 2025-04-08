@@ -23,7 +23,7 @@ public class CredentialsDatabase {
         this.playerCredentials = new HashMap<>();
 
         // Loading the Database from the text file
-        loadDatabase("database.txt");
+        loadDatabase("output.txt");
     }
 
     public boolean usernameLookup(String username) {
@@ -107,7 +107,6 @@ public class CredentialsDatabase {
                         + checkers.getRank().name() + ","  // Store enum as name
                         + checkers.getMMR());
                 writer.newLine();
-                System.out.println("Success");
             }
         } catch (IOException e) {
             e.printStackTrace();

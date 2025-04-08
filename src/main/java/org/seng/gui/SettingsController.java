@@ -295,6 +295,8 @@ public class SettingsController {
         alert.setTitle("Delete Account");
         alert.setHeaderText("Are you sure you want to delete your account?");
         alert.setContentText("This action cannot be undone.");
+        setting.deleteAccount();
+        database.saveDatabase();
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {

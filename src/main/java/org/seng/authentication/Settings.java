@@ -33,16 +33,24 @@ public class Settings {
         this.database = database;
     }
 
+//    /**
+//     * method for deleting account
+//     * @param password the password for the account
+//     * @return true if the account is deleted, false otherwise
+//     */
+//    public boolean deleteAccount(String password){
+//        if (player.getPassword().equals(password)){
+//           return database.deleteExistingPlayer(player.getUsername());
+//        }
+//        return false;
+//    }
+
     /**
      * method for deleting account
-     * @param password the password for the account
      * @return true if the account is deleted, false otherwise
      */
-    public boolean deleteAccount(String password){
-        if (player.getPassword().equals(password)){
-           return database.deleteExistingPlayer(player.getUsername());
-        }
-        return false;
+    public boolean deleteAccount(){
+        return database.deleteExistingPlayer(player.getUsername());
     }
 
     /**
