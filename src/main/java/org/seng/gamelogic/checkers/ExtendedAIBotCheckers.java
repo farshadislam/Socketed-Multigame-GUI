@@ -16,6 +16,7 @@ public class ExtendedAIBotCheckers extends CheckersPlayer {
     private CheckersBoard board;
     private Random random;
 
+
     /**
      * Constructs an AI bot player for Checkers.
      *
