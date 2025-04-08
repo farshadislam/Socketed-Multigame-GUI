@@ -136,10 +136,10 @@ public class CheckersBoard {
     /**
      * Move a piece from its original location to a new location.
      */
-    public boolean makeMove(int fromRow, int fromCol, int toRow, int toCol) {
-        if (!isValidMove(fromRow, fromCol, toRow, toCol)) {
-            return false;
-        }
+    public void makeMove(int fromRow, int fromCol, int toRow, int toCol) {
+//        if (!isValidMove(fromRow, fromCol, toRow, toCol)) {
+//            return false;
+//        }
 
         Piece piece = board[fromRow][fromCol];
         board[toRow][toCol] = piece;
@@ -151,6 +151,9 @@ public class CheckersBoard {
             board[jumpedRow][jumpedCol] = Piece.EMPTY;
         }
 
+        // Promotion logic:
+        //      - Regular red piece gets promoted to king when it reaches bottom of board
+        //      - Regular black piece gets promoted to king when it reaches top of board
         if (piece == Piece.RED && toRow == (BOARD_SIZE - 1)) {
             board[toRow][toCol] = Piece.RED_KING;
         }
@@ -158,7 +161,6 @@ public class CheckersBoard {
             board[toRow][toCol] = Piece.BLACK_KING;
         }
 
-        return true;
     }
 
     /**

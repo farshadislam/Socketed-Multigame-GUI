@@ -3,8 +3,6 @@ package org.seng.gamelogic.checkers;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
-import org.seng.authentication.Player;
-import org.seng.leaderboard_matchmaking.connect4Stats;
 
 /**
  * Represents a game of checkers following basic game logic.
@@ -102,52 +100,44 @@ public class CheckersGame {
             int toCol = 0;
 
             if (isValidTurn(fromRow, fromCol)) {
-                if (board.isValidMove(fromRow, fromCol, toRow, toCol)) {
 
-                    // make a move
-                    board.makeMove(fromRow, fromCol, toRow, toCol);
+                // make a move
+                board.makeMove(fromRow, fromCol, toRow, toCol);
 
-                    // a Player wins. Update player stats and break out of game loop
-                    if (checkWinCondition()) {
-                        board.printBoard();
-                        System.out.println((isRedTurn ? "Red" : "Black") + " wins!");
-                        if (isRedTurn) { // red (Player 1) has won
-                            players[0].getCheckersStats().win(); // Player 1 wins Checkers game
-                            players[1].getCheckersStats().lose(); // Player 2 loses Checkers game
-                        }
-                        else { // black (Player 2) has won
-                            players[0].getCheckersStats().lose(); // Player 1 loses Checkers game
-                            players[1].getCheckersStats().win(); // Player 2 wins Checkers game
-                        }
-                        break;
+                // a Player wins. Update player stats and break out of game loop
+                if (checkWinCondition()) {
+                    board.printBoard();
+                    System.out.println((isRedTurn ? "Red" : "Black") + " wins!");
+                    if (isRedTurn) { // red (Player 1) has won
+                        players[0].getCheckersStats().win(); // Player 1 wins Checkers game
+                        players[1].getCheckersStats().lose(); // Player 2 loses Checkers game
                     }
-
-                    // no one wins - a tie. Update player stats and break out of game loop
-                    if (gameDraw()) {
-                        players[0].getCheckersStats().tie();
-                        players[1].getCheckersStats().tie();
-                        break;
+                    else { // black (Player 2) has won
+                        players[0].getCheckersStats().lose(); // Player 1 loses Checkers game
+                        players[1].getCheckersStats().win(); // Player 2 wins Checkers game
                     }
-
-                    // If the played piece has just captured an opponent's piece AND it can still capture more pieces, otherwise switch turn
-                    //     - Use isJumpMove(...) to check if there was a piece captured
-                    //     - Use getCapturablePieces(...) in CheckersBoard class to check if the piece at the new position can capture
-                    //       more opponent pieces
-                    //          - if it cannot, then that means getCapturablePieces(...) returns an empty list
-                    //          - the if-statement below makes sure that getCapturablePieces(...) is not empty
-                    if (!isJumpMove(fromRow, fromCol, toRow, toCol) && board.getCapturablePieces(toRow, toCol, board.getPieceAt(toRow, toCol)).isEmpty()) {
-                        // do nothing
-                    }
-                    else {
-                        switchPlayer();
-                    }
-
-
-                } else {
-                    System.out.println("Invalid move. Try again.");  // translate to GUI - simply make selection invalid and error message
+                    break;
                 }
-            } else {
-                System.out.println("That's not your piece. Try again."); // translate to GUI - simply make selection invalid and error message
+
+                // no one wins - a tie. Update player stats and break out of game loop
+                if (gameDraw()) {
+                    players[0].getCheckersStats().tie();
+                    players[1].getCheckersStats().tie();
+                    break;
+                }
+
+                // If the played piece has just captured an opponent's piece AND it can still capture more pieces, otherwise switch turn
+                //     - Use isJumpMove(...) to check if there was a piece captured
+                //     - Use getCapturablePieces(...) in CheckersBoard class to check if the piece at the new position can capture
+                //       more opponent pieces
+                //          - if it cannot, then that means getCapturablePieces(...) returns an empty list
+                //          - the if-statement below makes sure that getCapturablePieces(...) is not empty
+                if (!isJumpMove(fromRow, fromCol, toRow, toCol) && board.getCapturablePieces(toRow, toCol, board.getPieceAt(toRow, toCol)).isEmpty()) {
+                    // do nothing
+                }
+                else {
+                    switchPlayer();
+                }
             }
         }
 
