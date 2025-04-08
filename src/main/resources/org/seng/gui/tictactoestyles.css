@@ -7,6 +7,18 @@
     -fx-border-color: black;
     -fx-border-width: 2;
 }
+.options-button {
+    -fx-background-color: linear-gradient(to bottom, #8E2DE2, #4A00E0);
+    -fx-text-fill: white !important;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+    -fx-border-width: 1px;
+    -fx-padding: 8px 16px;
+    -fx-effect: dropshadow(gaussian, rgba(74, 0, 224, 0.4), 10, 0.3, 0, 4);
+}
 
 .option-button {
     -fx-background-color: linear-gradient(to bottom, #8E2DE2, #4A00E0);

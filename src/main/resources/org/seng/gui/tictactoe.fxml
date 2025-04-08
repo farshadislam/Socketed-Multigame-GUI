@@ -27,18 +27,14 @@
          </children>
       </FlowPane>
 
-      <Text fill="WHITE" layoutX="26.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OMG Games">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Text>
+
       <Label fx:id="turnLabel" layoutX="138.0" layoutY="331.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Player 1's Turn" textFill="white" />
 
 
 
       <!-- Chat & Settings -->
       <Button fx:id="inGameChatButton" layoutX="822.0" layoutY="551.0" onAction="#openChat" styleClass="option-button" text="Chat" />
-      <MenuButton fx:id="SettingMenu" layoutX="750.0" layoutY="14.0" mnemonicParsing="false" onAction="#howToPlayDescription" styleClass="option-button" text="Setting">
+      <MenuButton fx:id="SettingMenu" layoutX="750.0" layoutY="14.0" mnemonicParsing="false" onAction="#howToPlayDescription" styleClass="options-button" text="Setting">
         <items>
           <MenuItem mnemonicParsing="false" text="Quit" />
            <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" text="Help" />

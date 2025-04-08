@@ -6,6 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
@@ -23,9 +25,19 @@ public class ProfilePageController {
     @FXML private TableColumn<GameStat, Integer> lossesColumn;
     @FXML private TableColumn<GameStat, Integer> tiesColumn;
     @FXML private Button searchProfilesButton;
+    @FXML private ImageView backIcon;
+
 
     @FXML
     public void initialize() {
+        try {
+            Image backImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/backicon.png"));
+            backIcon.setImage(backImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        backIcon.setOnMouseClicked(event -> goBack());
         // Set up user profile dummy data
         usernameLabel.setText("MyUsername");
         lastOnlineLabel.setText("Last Online: Just now");
@@ -49,17 +61,19 @@ public class ProfilePageController {
     private void openSearchProfile() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("search-profile.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root, 700, 450);
+            Scene scene = new Scene(loader.load(), 700, 450);
             scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
-            Stage stage = new Stage();
-            stage.setTitle("Search Profiles");
+
+            Stage stage = (Stage) searchProfilesButton.getScene().getWindow();
             stage.setScene(scene);
+            stage.setTitle("Search Profiles");
             stage.show();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
+
 
     public void setProfileData(String playerName) {
     }
@@ -70,15 +84,46 @@ public class ProfilePageController {
         private final SimpleIntegerProperty wins;
         private final SimpleIntegerProperty losses;
         private final SimpleIntegerProperty ties;
+
         public GameStat(String game, int wins, int losses, int ties) {
             this.game = new SimpleStringProperty(game);
             this.wins = new SimpleIntegerProperty(wins);
             this.losses = new SimpleIntegerProperty(losses);
             this.ties = new SimpleIntegerProperty(ties);
         }
-        public SimpleStringProperty gameProperty() { return game; }
-        public SimpleIntegerProperty winsProperty() { return wins; }
-        public SimpleIntegerProperty lossesProperty() { return losses; }
-        public SimpleIntegerProperty tiesProperty() { return ties; }
+
+        public SimpleStringProperty gameProperty() {
+            return game;
+        }
+
+        public SimpleIntegerProperty winsProperty() {
+            return wins;
+        }
+
+        public SimpleIntegerProperty lossesProperty() {
+            return losses;
+        }
+
+        public SimpleIntegerProperty tiesProperty() {
+            return ties;
+        }
+
     }
-}
+        public void goBack() {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+                Scene dashboardScene = new Scene(fxmlLoader.load(), 700, 450);
+                dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+                Stage stage = (Stage) backIcon.getScene().getWindow();
+                stage.setScene(dashboardScene);
+                stage.show();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+
+
+    }
+
