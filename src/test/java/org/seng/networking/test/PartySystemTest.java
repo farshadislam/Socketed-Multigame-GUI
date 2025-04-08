@@ -1,4 +1,3 @@
-package org.seng.networking.test;
 
 import main.java.org.seng.networking.leaderboard_matchmaking.GameType;
 import org.junit.jupiter.api.*;
