@@ -21,7 +21,7 @@
         </HBox>
 
         <HBox alignment="center" spacing="10">
-            <Button fx:id="confirmButton" onAction="#confirmcode" styleClass="auth-button" text="Confirm" />
+            <Button fx:id="confirmButton" styleClass="auth-button" text="Confirm" />
             <Button fx:id="returnButton" styleClass="auth-button" text="Back" />
         </HBox>
 

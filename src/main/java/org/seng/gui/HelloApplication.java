@@ -27,7 +27,7 @@ public class HelloApplication extends Application {
 
         // Initialize the LoginPage and pass it to the controller
         database = new CredentialsDatabase(); //initialize in static way
-        database.loadDatabase("database.txt");
+        database.loadDatabase("output.txt");
         loginPage = new LoginPage(database);
         // Set up the stage
         stage.setTitle("OMG Platform");

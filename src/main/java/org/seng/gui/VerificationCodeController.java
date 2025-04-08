@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
+import org.seng.authentication.EmailVerificationService;
 import org.seng.authentication.LoginPage;
 
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class VerificationCodeController {
     @FXML
     public void initialize() {
         confirmButton.setOnAction(e -> handleVerification());
+
         returnButton.setOnAction(e -> returnToForgotPassword());
 
         // shift focus after entering a digit
@@ -141,10 +143,14 @@ public class VerificationCodeController {
         }
     }
 
-    @FXML
-    void confirmcode(ActionEvent event) {
-
-    }
-
+//    @FXML
+//    void confirmcode() {
+//        String code = code1.getText() + code2.getText() + code3.getText() + code4.getText();
+//
+//        if(EmailVerificationService.sendVerificationEmailForNewAccount(player.getUsername(), code)) {
+//            displayErrorMessage("Email Verified!");
+//        }
+//
+//    }
 
 }
