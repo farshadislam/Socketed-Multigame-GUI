@@ -120,18 +120,31 @@ public class Settings {
         return false;
     }
 
+//    /**
+//     * method for changing password
+//     * @param password current password being used
+//     * @param newPassword new password they want to use
+//     * @return true if the password was changed, false otherwise
+//     */
+//    public boolean changePassword(String password, String newPassword) {
+//        if (player.getPassword().equals(password)) {
+//            if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
+//                player.setPassword(newPassword);
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+
     /**
      * method for changing password
-     * @param password current password being used
      * @param newPassword new password they want to use
      * @return true if the password was changed, false otherwise
      */
-    public boolean changePassword(String password, String newPassword) {
-        if (player.getPassword().equals(password)) {
-            if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
-                player.setPassword(newPassword);
-                return true;
-            }
+    public boolean changePassword(String newPassword) {
+        if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
+            player.setPassword(newPassword);
+            return true;
         }
         return false;
     }

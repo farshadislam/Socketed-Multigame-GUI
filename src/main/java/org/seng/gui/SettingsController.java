@@ -19,6 +19,7 @@ import java.util.Optional;
 import static org.seng.gui.GameDashboardController.player;
 import static org.seng.gui.GameDashboardController.setting;
 import static org.seng.gui.HelloApplication.database;
+import static org.seng.gui.HelloApplication.loginPage;
 
 public class SettingsController {
     public Label passwordSuccess;
@@ -128,7 +129,7 @@ public class SettingsController {
     @FXML
     public void changeEmail() {
         String newEmail = emailField.getText();
-        if (!newEmail.contains("@") || !newEmail.contains(".")) {
+        if (!(loginPage.verifyEmailFormat(newEmail))) {
             emailField.setPromptText("Invalid email format");
             emailField.setStyle("-fx-border-color: red; -fx-prompt-text-fill: red;");
             emailField.clear();
@@ -213,7 +214,26 @@ public class SettingsController {
             });
             pause.play();
 
-        } else {
+        } else if (!(loginPage.verifyPasswordFormat(newPassword))) {
+            passwordError.setText("Password format incorrect.");
+            passwordError.setVisible(true);
+            passwordError.setManaged(true);
+            newPasswordField.setStyle("-fx-border-color: #f30d0d;");
+            confirmPasswordField.setStyle("-fx-border-color: #f30d0d;");
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(5));
+            pause.setOnFinished(e -> {
+                passwordError.setVisible(false);
+                passwordError.setManaged(false);
+                newPasswordField.setStyle("-fx-border-color: #f0f0f0;");
+                confirmPasswordField.setStyle("-fx-border-color: #ddd");
+            });
+            pause.play();
+        }
+
+        else {
+            setting.changePassword(newPassword);
+
             passwordSuccess.setText("Password updated.");
             passwordSuccess.setVisible(true);
             passwordSuccess.setManaged(true);
