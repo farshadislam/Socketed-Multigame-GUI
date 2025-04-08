@@ -106,7 +106,7 @@ public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
         return Mark.EMPTY;
     }
 
-
+//
     private char markToChar(Mark mark) {
         if (mark == Mark.X) {
             return 'X';
