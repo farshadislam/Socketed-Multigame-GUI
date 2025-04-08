@@ -51,6 +51,8 @@ public class Connect4Controller {
         dialogStage.setTitle("Confirm Quit");
 
         Label message = new Label("Are you sure you want to quit?");
+        message.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+
         Button yesButton = new Button("Yes");
         Button noButton = new Button("No");
 
@@ -66,9 +68,13 @@ public class Connect4Controller {
         VBox layout = new VBox(15, message, buttons);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
+        layout.getStyleClass().add("quit-background"); // ⭐ Add style class
 
         Scene scene = new Scene(layout, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); // ⭐ Load your CSS
+
         dialogStage.setScene(scene);
+
         dialogStage.show();
     }
 
