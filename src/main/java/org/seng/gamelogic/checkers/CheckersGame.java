@@ -319,16 +319,6 @@ public class CheckersGame {
             }
         }
 
-        // We need to check if this team can even make a move in the first place.
-        // If the team doesn't have a piece that can make a move, the game would result in a tie/draw
-
-        // A piece can move in two different ways:
-
-        // Red king AND black king moves up OR down 1 square diagonal
-        // A piece can move diagonally. Non-king pieces move forward diagonally. King pieces move forward or backward diagonally.
-        // A piece also move when capturing the opposing team's piece.
-        // The space 2 spots diagonally has to be empty to be able to capture
-
         // If either redHasMoves OR blackHasMoves is false gameDraw() is true
         if (!redHasMoves || !blackHasMoves) {
             return true;
@@ -337,6 +327,5 @@ public class CheckersGame {
         return false;
 
     }
-
 
 }
