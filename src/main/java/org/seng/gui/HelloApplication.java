@@ -9,6 +9,8 @@ import java.io.IOException;
 import org.seng.authentication.*;
 
 public class HelloApplication extends Application {
+    public static CredentialsDatabase database;
+    public static LoginPage loginPage;
     @Override
     public void start(Stage stage) throws IOException {
         Font.loadFont(getClass().getResourceAsStream("/org/seng/gui/fonts/Monoton-Regular.ttf"), 64);
@@ -24,13 +26,9 @@ public class HelloApplication extends Application {
         WelcomePageController controller = fxmlLoader.getController();
 
         // Initialize the LoginPage and pass it to the controller
-        CredentialsDatabase database = new CredentialsDatabase(); //initialize in static way
+        database = new CredentialsDatabase(); //initialize in static way
         database.loadDatabase("database.txt");
-        LoginPage loginPage = new LoginPage(database);
-
-        // Pass loginPage to the WelcomePageController
-        controller.setLoginPage(loginPage);
-
+        loginPage = new LoginPage(database);
         // Set up the stage
         stage.setTitle("OMG Platform");
         stage.setScene(scene);

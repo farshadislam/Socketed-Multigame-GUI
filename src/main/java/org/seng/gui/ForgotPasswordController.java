@@ -25,11 +25,7 @@ public class ForgotPasswordController {
 
     @FXML
     private Button backButton;
-    private LoginPage loginPage;
 
-    public void setLoginPage(LoginPage loginPage){
-        this.loginPage = loginPage;
-    }
 
     @FXML
     public void initialize() {
@@ -53,7 +49,7 @@ public class ForgotPasswordController {
 
     private void handlePasswordReset() {
         String username = usernameField.getText();
-        if (!this.loginPage.forgotPassword(username)) {
+        if (!HelloApplication.loginPage.forgotPassword(username)) {
             usernameField.setPromptText("USERNAME NOT FOUND!");
             usernameField.clear();
             usernameField.getStyleClass().add("error-prompt");
@@ -67,7 +63,7 @@ public class ForgotPasswordController {
             return;
         }
 
-        openVerificationCodeWindow(this.loginPage, username);
+        openVerificationCodeWindow(username);
     }
 
     private void goBack() {
@@ -78,8 +74,6 @@ public class ForgotPasswordController {
 
             // Load the original stylesheet
             welcomePageScene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-            WelcomePageController controller = fxmlLoader.getController();
-            controller.setLoginPage(this.loginPage);
             // Create a new stage for the welcome page
             Stage stage = new Stage();
             stage.setTitle("OMG Platform");
@@ -96,7 +90,7 @@ public class ForgotPasswordController {
         }
     }
 
-    private void openVerificationCodeWindow(LoginPage loginPage, String username) {
+    private void openVerificationCodeWindow(String username) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("verification-code.fxml"));
             Scene verificationScene = new Scene(fxmlLoader.load(), 700, 450);
@@ -110,7 +104,6 @@ public class ForgotPasswordController {
             Stage currentStage = (Stage) resetButton.getScene().getWindow();
             currentStage.close();
             VerificationCodeController controller = fxmlLoader.getController();
-            controller.setLoginPage(loginPage);
             controller.setUsername(username);
 
             // Show the verification code window
