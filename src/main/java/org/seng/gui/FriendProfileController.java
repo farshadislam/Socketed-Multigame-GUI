@@ -36,6 +36,8 @@ public class FriendProfileController {
     private TableColumn<ProfilePageController.GameStat, Integer> friendGameTiesColumn;
     @FXML
     private ImageView backIcon;
+    @FXML private Label friendMatchesLabel;
+
 
 
     @FXML
@@ -54,17 +56,20 @@ public class FriendProfileController {
         backIcon.setOnMouseClicked(event -> goBack());
 
     }
-
     public void setProfileData(String name, String lastOnline, int wins, int losses, int ties) {
         friendNameLabel.setText(name);
         friendLastOnlineLabel.setText(lastOnline);
         friendWinsLabel.setText(String.valueOf(wins));
         friendLossesLabel.setText(String.valueOf(losses));
         friendTiesLabel.setText(String.valueOf(ties));
+
+        int totalMatches = wins + losses + ties;
+        friendMatchesLabel.setText(String.valueOf(totalMatches));
+
         friendGameStatsTable.setItems(FXCollections.observableArrayList(
-                new ProfilePageController.GameStat("Checkers", 3, 1, 0),
-                new ProfilePageController.GameStat("Tic Tac Toe", 2, 2, 1),
-                new ProfilePageController.GameStat("Connect 4", 0, 0, 0)
+                new ProfilePageController.GameStat("Checkers", 3, 1, 1),
+                new ProfilePageController.GameStat("Tic Tac Toe", 2, 2, 0),
+                new ProfilePageController.GameStat("Connect 4", 1, 0, 2)
         ));
     }
 

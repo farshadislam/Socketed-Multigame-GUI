@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="450" prefWidth="700" styleClass="gradient-background" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.ProfilePageController">
     <children>
-        <Label alignment="CENTER" layoutX="0" layoutY="10" prefWidth="700" styleClass="title-label" text="My Profile" />
+        <Label fx:id="profileTitleText" alignment="CENTER" layoutX="0" layoutY="10" prefWidth="700" styleClass="title-label" text="My Profile" />
         <VBox layoutX="50" layoutY="100" prefWidth="600" spacing="15" styleClass="login-box">
             <HBox spacing="15">
                 <Circle fill="lightgray" radius="25" stroke="gray" strokeWidth="2" />
@@ -22,11 +22,13 @@
                 </VBox>
             </HBox>
             <HBox spacing="15">
-                <Label style="-fx-text-fill: #1d0e4d;" text="Wins:" />
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Matches" />
+                <Label fx:id="myTotalGamesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Wins" />
                 <Label fx:id="myWinsLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label style="-fx-text-fill: #1d0e4d;" text="Losses:" />
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Losses:" />
                 <Label fx:id="myLossesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label style="-fx-text-fill: #1d0e4d;" text="Ties:" />
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Ties:" />
                 <Label fx:id="myTiesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
             </HBox>
             <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1d0e4d;" text="Game Stats" />

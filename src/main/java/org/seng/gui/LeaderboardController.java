@@ -87,7 +87,9 @@ public class LeaderboardController {
             ProfilePageController controller = loader.getController();
             controller.setProfileData(playerName);
             Scene scene = new Scene(root, 700, 450);
-            Stage stage = new Stage();
+            scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            Stage stage = (Stage) playerListView.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle(playerName + "'s Profile");
             stage.show();
@@ -95,6 +97,7 @@ public class LeaderboardController {
             ex.printStackTrace();
         }
     }
+
 
     @FXML
     public void changeGameType() {

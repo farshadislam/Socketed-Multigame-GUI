@@ -21,13 +21,19 @@
                 </VBox>
             </HBox>
             <HBox spacing="15">
-                <Label style="-fx-text-fill: #1d0e4d;" text="Wins:" />
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Matches:" />
+                <Label fx:id="friendMatchesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
+
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Wins:" />
                 <Label fx:id="friendWinsLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label style="-fx-text-fill: #1d0e4d;" text="Losses:" />
+
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Losses:" />
                 <Label fx:id="friendLossesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label style="-fx-text-fill: #1d0e4d;" text="Ties:" />
+
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Ties:" />
                 <Label fx:id="friendTiesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
             </HBox>
+
             <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1d0e4d;" text="Game Stats" />
             <TableView fx:id="friendGameStatsTable" editable="false" prefHeight="90">
                 <columns>

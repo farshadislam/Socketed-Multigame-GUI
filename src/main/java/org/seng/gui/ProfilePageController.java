@@ -19,14 +19,17 @@ public class ProfilePageController {
     @FXML private Label myWinsLabel;
     @FXML private Label myLossesLabel;
     @FXML private Label myTiesLabel;
+    @FXML private Label myTotalGamesLabel;
+    @FXML private Label profileTitleText;
+
     @FXML private TableView<GameStat> gameStatsTable;
     @FXML private TableColumn<GameStat, String> gameColumn;
     @FXML private TableColumn<GameStat, Integer> winsColumn;
     @FXML private TableColumn<GameStat, Integer> lossesColumn;
     @FXML private TableColumn<GameStat, Integer> tiesColumn;
+
     @FXML private Button searchProfilesButton;
     @FXML private ImageView backIcon;
-
 
     @FXML
     public void initialize() {
@@ -38,24 +41,37 @@ public class ProfilePageController {
         }
 
         backIcon.setOnMouseClicked(event -> goBack());
-        // Set up user profile dummy data
-        usernameLabel.setText("MyUsername");
+
+        setProfileData("MyUsername");
+
+        searchProfilesButton.setOnAction(e -> openSearchProfile());
+    }
+
+    public void setProfileData(String playerName) {
+        usernameLabel.setText(playerName);
+        profileTitleText.setText(playerName + "'s Profile");
         lastOnlineLabel.setText("Last Online: Just now");
-        myWinsLabel.setText("5");
-        myLossesLabel.setText("2");
-        myTiesLabel.setText("1");
+
+        int wins = 5;
+        int losses = 2;
+        int ties = 1;
+        int total = wins + losses + ties;
+
+        myWinsLabel.setText(String.valueOf(wins));
+        myLossesLabel.setText(String.valueOf(losses));
+        myTiesLabel.setText(String.valueOf(ties));
+        myTotalGamesLabel.setText(String.valueOf(total));
 
         gameColumn.setCellValueFactory(data -> data.getValue().gameProperty());
         winsColumn.setCellValueFactory(data -> data.getValue().winsProperty().asObject());
         lossesColumn.setCellValueFactory(data -> data.getValue().lossesProperty().asObject());
         tiesColumn.setCellValueFactory(data -> data.getValue().tiesProperty().asObject());
-        gameStatsTable.setItems(FXCollections.observableArrayList(
-                new GameStat("Checkers", 10, 3, 2),
-                new GameStat("Tic Tac Toe", 15, 1, 1),
-                new GameStat("Connect 4", 8, 4, 0)
-        ));
 
-        searchProfilesButton.setOnAction(e -> openSearchProfile());
+        gameStatsTable.setItems(FXCollections.observableArrayList(
+                new GameStat("Checkers", 2, 1, 1),
+                new GameStat("Tic Tac Toe", 3, 1, 0),
+                new GameStat("Connect 4", 0, 0, 0)
+        ));
     }
 
     private void openSearchProfile() {
@@ -73,11 +89,19 @@ public class ProfilePageController {
         }
     }
 
+    public void goBack() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+            Scene dashboardScene = new Scene(fxmlLoader.load(), 700, 450);
+            dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
 
-
-    public void setProfileData(String playerName) {
+            Stage stage = (Stage) backIcon.getScene().getWindow();
+            stage.setScene(dashboardScene);
+            stage.show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
-
 
     public static class GameStat {
         private final SimpleStringProperty game;
@@ -107,23 +131,5 @@ public class ProfilePageController {
         public SimpleIntegerProperty tiesProperty() {
             return ties;
         }
-
     }
-        public void goBack() {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
-                Scene dashboardScene = new Scene(fxmlLoader.load(), 700, 450);
-                dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
-
-                Stage stage = (Stage) backIcon.getScene().getWindow();
-                stage.setScene(dashboardScene);
-                stage.show();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-
-
-
-    }
-
+}
