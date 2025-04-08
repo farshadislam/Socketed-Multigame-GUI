@@ -50,7 +50,7 @@ public class Connect4Controller {
         dialogStage.initStyle(StageStyle.UNDECORATED);
         dialogStage.setTitle("Confirm Quit");
 
-        Label message = new Label("Are you sure you want to quit?");
+        Label message = new Label("                      Are you sure?\nQuitting the game will result in a loss.");
         message.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
 
         Button yesButton = new Button("Yes");

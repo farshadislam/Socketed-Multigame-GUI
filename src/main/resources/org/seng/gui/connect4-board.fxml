@@ -64,7 +64,7 @@
       <MenuButton layoutX="730.0" layoutY="23.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="154.0" styleClass="option-button" text="Settings" textFill="#8e2de2">
         <items>
           <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" text="Help" />
-          <MenuItem fx:id="quitOption" mnemonicParsing="false" onAction="#handleQuit" styleClass="option" text="Quit" />
+          <MenuItem fx:id="quitOption" mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
         </items>
       </MenuButton>
       <Label fx:id="connect4Label" layoutX="358.0" layoutY="23.0" styleClass="connect4-label" text="Connect 4" />
