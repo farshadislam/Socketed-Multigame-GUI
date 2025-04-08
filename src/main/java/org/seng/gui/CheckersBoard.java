@@ -272,19 +272,26 @@ public class CheckersBoard {
     }
 
     private void handleButtonClick(Button clickedButton) {
-        if (clickedButton.getGraphic() != null) { // if the button clicked has a piece
-            if (selectedPiece != null && selectedPiece != clickedButton) { // deselects current piece if it is different from clicked one
-                deselectPiece();
-            }
-            if (selectedPiece == clickedButton) { // if the selected piece is the clicked again on clicked button it deselects it
-                deselectPiece();
-            } else {
+        // if no piece is selected it tries to select one
+        if (selectedPiece == null) { // if there is no piece selected
+            if (clickedButton.getGraphic() != null) { // if the button has a piece
                 selectPiece(clickedButton);
             }
         }
-        else {
-            if (selectedPiece != null) { // if it is empty deselect the piece
+        else { // if a piece is already selected it tries to move it
+            // if clicking on the same piece, deselect it
+            if (clickedButton == selectedPiece) {
                 deselectPiece();
+            }
+            //if clicking on empty square it moves the piece
+            else if (clickedButton.getGraphic() == null) {
+                movePiece(selectedPiece, clickedButton);
+                deselectPiece();
+            }
+            // if clicking on another piece it selects that one instead
+            else {
+                deselectPiece();
+                selectPiece(clickedButton);
             }
         }
     }
@@ -302,6 +309,12 @@ public class CheckersBoard {
             selectedPiece.setEffect(null);
             selectedPiece = null;
         }
+    }
+
+    private void movePiece(Button from, Button to) {
+        // moves the piece from one button to another
+        to.setGraphic(from.getGraphic());
+        from.setGraphic(null);
     }
 
     private void placePiece(Button button, Image pieceImage) {
