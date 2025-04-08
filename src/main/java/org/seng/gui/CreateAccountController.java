@@ -1,18 +1,8 @@
-package org.seng.gui;
-
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-import org.seng.authentication.LoginPage;
-
-import java.io.IOException;
+import org.seng.authentication.*;
+import org.seng.authentication.LoginPage.State;
 
 import java.io.IOException;
 
@@ -57,7 +47,7 @@ public class CreateAccountController {
 
         if (!HelloApplication.loginPage.verifyEmailFormat(email))   {
             displayEmailFormatError();
-            hasError = true; 
+            hasError = true;
         }
         if (!HelloApplication.loginPage.verifyUsernameFormat(username)){
             displayUsernameFormatError();
@@ -70,9 +60,9 @@ public class CreateAccountController {
             return;
         }
 
-        LoginPage.State state = HelloApplication.loginPage.register(username,email,password);
+        State state = HelloApplication.loginPage.register(username,email,password);
         System.out.println(state);
-        if(state == LoginPage.State.VERIFICATION_CODE_SENT)   {
+        if(state == State.VERIFICATION_CODE_SENT)   {
             openSuccessPage();
         }
     }
