@@ -314,6 +314,28 @@ public class CheckersGame {
                         else if (board.getPieceAt(row-1, col+1) == piece.EMPTY) {
                             blackHasMoves = true;
                         }
+
+                        // black piece can capture a red piece (this is a valid move)
+                        else if (board.getPieceAt(row+1, col-1) == piece.RED || board.getPieceAt(row+1, col-1) == piece.RED_KING) {
+                            if (board.getPieceAt(row+2, col-2) == piece.EMPTY) {
+                                blackHasMoves = true;
+                            }
+                        }
+                        else if (board.getPieceAt(row+1, col+1) == piece.RED || board.getPieceAt(row+1, col+1) == piece.RED_KING) {
+                            if (board.getPieceAt(row + 2, col + 2) == piece.EMPTY) {
+                                blackHasMoves = true;
+                            }
+                        }
+                        else if (board.getPieceAt(row-1, col-1) == piece.RED || board.getPieceAt(row-1, col-1) == piece.RED_KING) {
+                            if (board.getPieceAt(row-2, col-2) == piece.EMPTY) {
+                                blackHasMoves = true;
+                            }
+                        }
+                        else if (board.getPieceAt(row-1, col+1) == piece.RED || board.getPieceAt(row-1, col+1) == piece.RED_KING) {
+                            if (board.getPieceAt(row-2, col+2) == piece.EMPTY) {
+                                blackHasMoves = true;
+                            }
+                        }
                     }
                 }
             }
