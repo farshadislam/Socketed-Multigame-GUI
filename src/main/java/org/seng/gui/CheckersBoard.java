@@ -2,14 +2,20 @@ package org.seng.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -217,6 +223,11 @@ public class CheckersBoard {
     @FXML
     private MenuItem helpOption;
 
+    @FXML
+    private FlowPane board;
+
+
+
     private Button selectedPiece = null;
     private Image redPieceImage;
     private Image blackPieceImage;
@@ -399,6 +410,66 @@ public class CheckersBoard {
         dialogPane.setPrefWidth(400); // Set a preferred width
 
         alert.showAndWait();
+    }
+
+    @FXML
+    private void handleQuit() {
+        Stage dialogStage = new Stage();
+        dialogStage.initStyle(StageStyle.UNDECORATED);
+        dialogStage.setTitle("Confirm Quit");
+
+        Label message = new Label("                      Are you sure?\nQuitting the game will result in a loss.");
+        message.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+
+        Button yesButton = new Button("Yes");
+        Button noButton = new Button("No");
+
+        yesButton.setOnAction(e -> {
+            dialogStage.close();
+            openToGameDashboard();
+        });
+        noButton.setOnAction(e -> dialogStage.close());
+
+        HBox buttons = new HBox(10, yesButton, noButton);
+        buttons.setAlignment(Pos.CENTER);
+
+        VBox layout = new VBox(15, message, buttons);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.getStyleClass().add("quit-background"); // ⭐ Add style class
+
+        Scene scene = new Scene(layout, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); // ⭐ Load your CSS
+
+        dialogStage.setScene(scene);
+
+        Stage currentStage = (Stage) board.getScene().getWindow(); // 'board' is your main pane
+        dialogStage.initOwner(currentStage);
+
+        dialogStage.setX(currentStage.getX() + currentStage.getWidth() / 2 - 150); // 150 = half of popup width
+        dialogStage.setY(currentStage.getY() + currentStage.getHeight() / 2 - 100);  // 75 = half of popup height
+
+        dialogStage.show();
+    }
+
+    private void openToGameDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+            Scene dashboardScene = new Scene(loader.load(), 900, 600);
+            dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            Stage dashboardStage = new Stage();
+            dashboardStage.setTitle("Game Dashboard");
+            dashboardStage.setScene(dashboardScene);
+
+            // Close current window
+            Stage currentStage = (Stage) board.getScene().getWindow();
+            currentStage.close();
+
+            dashboardStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
