@@ -16,7 +16,6 @@ public class ExtendedAIBotCheckers extends CheckersPlayer {
     private CheckersBoard board;
     private Random random;
 
-
     /**
      * Constructs an AI bot player for Checkers.
      *
@@ -114,5 +113,25 @@ public class ExtendedAIBotCheckers extends CheckersPlayer {
                 moves.add(new int[]{row, col, newRow, newCol});
             }
         }
+    }
+
+    /**
+     * Sets the symbol representing the AI's pieces.
+     *
+     * @param symbol The new symbol for the AI's pieces.
+     */
+    @Override
+    public void setSymbol(char symbol) {
+        this.setSymbol(symbol);
+    }
+
+    /**
+     * Retrieves the symbol representing the AI's pieces.
+     *
+     * @return The symbol of the AI's pieces.
+     */
+    @Override
+    public char getSymbol() {
+        return this.getSymbol();
     }
 }

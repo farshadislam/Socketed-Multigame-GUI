@@ -20,6 +20,8 @@ public class CheckersGame {
     public String status;
     public ArrayList<String> chatLog;
 
+    public ExtendedAIBotCheckers AIBot;
+
     /**
      * Initializes a new checkers game with default settings.
      */
@@ -50,11 +52,18 @@ public class CheckersGame {
      */
     public void startGame() {
         System.out.println("Welcome to Console Checkers!");
+        initializePlayerSymbols();
+        if (players[0] instanceof ExtendedAIBotCheckers) {
+            AIBot = (ExtendedAIBotCheckers) players[0];
+        } else if (players[1] instanceof ExtendedAIBotCheckers) {
+            AIBot = (ExtendedAIBotCheckers) players[1];
+        } else {
+            AIBot = null;
+        }
         while (true) {
             board.printBoard();
-            initializePlayerSymbols();
             System.out.println((isRedTurn ? "Red" : "Black") + "'s turn");
-
+            AIBot.nextMove(board);
             System.out.print("Enter chat message: ");
             scanner.nextLine(); // Consume newline
             String chatMessage = scanner.nextLine();
