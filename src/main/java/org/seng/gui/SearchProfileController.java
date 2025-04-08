@@ -25,9 +25,9 @@ public class SearchProfileController {
 
 
     private final List<String> allProfiles = new ArrayList<String>() {{
-        add("Alice");
-        add("Bob");
-        add("Charlie");
+        add("JoyThief22");
+        add("FishEnjoyer2");
+        add("notAMinor66");
     }};
 
     @FXML
