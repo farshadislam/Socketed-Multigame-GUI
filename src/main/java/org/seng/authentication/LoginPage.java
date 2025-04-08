@@ -182,7 +182,7 @@ public class LoginPage {
         if(player == null){
             return false;
         }
-        if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
+        if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword) && player.getPassword().equals(password)) {
             player.setPassword(newPassword);
             return true;
         }

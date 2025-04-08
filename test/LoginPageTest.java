@@ -155,6 +155,7 @@ public class LoginPageTest {
         assertEquals(LoginPage.State.EMAIL_FORMAT_WRONG, result);
     }
 
+    // wrong email format - character before email
     @Test
     public void registerTest13(){
         LoginPage.State result = loginPage.register("player1",".player@gmail.com","player11");
@@ -167,10 +168,93 @@ public class LoginPageTest {
         LoginPage.State result = loginPage.register("player1","pl.a-ye_r@gmail.com","player11");
         assertEquals(LoginPage.State.VERIFICATION_CODE_SENT, result);
     }
+
+    // verification code
     @Test
     public void registerTest16(){
         LoginPage.State result = loginPage.register("player.1","player@gmail.com","player11");
         assertEquals(LoginPage.State.VERIFICATION_CODE_SENT, result);
+    }
+
+    // password short
+    @Test
+    public void registerTest17(){
+        LoginPage.State result = loginPage.register("player1","player@gmail.com","play");
+        assertEquals(LoginPage.State.PASSWORD_FORMAT_WRONG, result);
+    }
+
+    // username taken
+    @Test
+    public void registerTest18(){
+        Player p2 = new Player("player1", "player1@gmail.com", "player11");
+        database.addNewPlayer("player1", p2);
+        LoginPage.State result = loginPage.register("player1", "newemail@gmail.com", "newpassword");
+        assertEquals(LoginPage.State.USERNAME_TAKEN, result);
+    }
+
+    // email taken
+    @Test
+    public void registerTest19(){
+        loginPage.register("player1", "player1@gmail.com", "player11");
+        LoginPage.State result = loginPage.register("player2", "player1@gmail.com", "player22");
+        assertEquals(LoginPage.State.EMAIL_TAKEN, result);
+    }
+
+    // forgot password for nonexistent username
+    @Test
+    public void forgotPasswordTest1(){
+        boolean result = loginPage.forgotPassword("player123");
+        assertFalse(result);
+    }
+
+    // forgot password email sent
+    @Test
+    public void forgotPasswordTest2(){
+        loginPage.register("player1", "player1@gmail.com", "password");
+        boolean result = loginPage.forgotPassword("player1");
+        assertFalse(result);
+    }
+
+    // valid verification code
+    @Test
+    public void verifyEmailCodeForgotPasswordTest1(){
+        loginPage.register("player1", "player1@gmail.com", "password");
+        loginPage.forgotPassword("player1");
+        boolean result = loginPage.verifyEmailCodeForgotPassword("player1", "1234");
+        assertTrue(result);
+    }
+
+    // invalid verification code
+    @Test
+    public void verifyEmailCodeForgotPasswordTest2(){
+        loginPage.register("player1", "player1@gmail.com", "password");
+        loginPage.forgotPassword("player1");
+        boolean result = loginPage.verifyEmailCodeForgotPassword("player1", "wrongcode");
+        assertFalse(result);
+    }
+
+    // change password
+    @Test
+    public void changePasswordTest1(){
+       loginPage.register("player1", "player1@gmail.com", "oldpassword");
+        boolean result = loginPage.changePassword("player1", "oldpassword", "newpassword");
+        assertTrue(result);
+    }
+
+    // change password invalid
+    @Test
+    public void changePasswordTest2(){
+       loginPage.register("player1", "player1@gmail.com", "oldpassword");
+        boolean result = loginPage.changePassword("player1", "oldpassword", "short");
+        assertFalse(result);
+    }
+
+    // change password incorrect current password
+    @Test
+    public void changePasswordTest3(){
+        loginPage.register("player1", "player1@gmail.com", "oldpassword");
+        boolean result = loginPage.changePassword("player1", "wrongpassword", "newpassword");
+        assertFalse(result);
     }
 
 }

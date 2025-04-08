@@ -9,8 +9,9 @@ public enum Rank {
     MASTER,
     GRANDMASTER;
 
-    public Rank getRank(int mmr, int maxMMR, int minMMR) {
-        return null;
-    }
+//    public Rank getRank(int mmr, int maxMMR, int minMMR) {
+//
+//        return null;
+//    }
 
 }
