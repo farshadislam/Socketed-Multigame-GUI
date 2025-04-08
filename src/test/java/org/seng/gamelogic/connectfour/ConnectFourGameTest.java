@@ -15,7 +15,7 @@ class ConnectFourGameTest {
     @BeforeEach
     void setUp() {
         board = new ConnectFourBoard();
-        players = new ConnectFourPlayer[]{new ConnectFourPlayer("Player1", 1, 'b', 1), new ConnectFourPlayer("Player2", 2, 'y', 1)};
+        players = new ConnectFourPlayer[]{new ConnectFourPlayer("Player1", "test@gmail.com", "tester"), new ConnectFourPlayer("Player2", "practice@gmail.com", "practice")};
         game = new ConnectFourGame(board, players, 1);
     }
 
@@ -40,7 +40,7 @@ class ConnectFourGameTest {
 
     @Test
     void testSwitchTurn() {
-        Player initialPlayer = game.currentPlayer;
+        ConnectFourPlayer initialPlayer = game.currentPlayer;
         game.switchTurn();
         assertNotEquals(initialPlayer, game.currentPlayer);
     }
@@ -51,5 +51,52 @@ class ConnectFourGameTest {
         // Use mock data or prepare a specific board configuration where there is a winner
         assertTrue(game.checkWinner(ConnectFourBoard.Chip.BLUE));
         assertFalse(game.checkWinner(ConnectFourBoard.Chip.EMPTY));
+    }
+
+    @Test
+    void testBoardFullOne() {
+        assertFalse(game.boardFull());
+    }
+
+    @Test
+    void testBoardFullTwo() {
+        for (int row = 0; row < 6; row ++){
+            for (int col = 0; col < 7; col ++){
+                board.setChip(row, col, ConnectFourBoard.Chip.YELLOW);
+            }
+        }
+        assertTrue(game.boardFull());
+    }
+
+    @Test
+    void testMoveOne() {
+        game.currentPlayer = players[0];
+        game.makeMove(3);
+        assertSame(board.getChip(6, 3), ConnectFourBoard.Chip.BLUE);
+    }
+
+    @Test
+    void testMoveTwo() {
+        game.currentPlayer = players[0];
+        assertTrue(game.makeMove(3));
+    }
+
+    @Test
+    void testMoveThree() {
+        game.currentPlayer = players[0];
+        assertFalse(game.makeMove(7));
+    }
+
+    @Test
+    void testMoveFour() {
+        game.currentPlayer = players[1];
+        game.makeMove(3);
+        assertSame(board.getChip(6, 3), ConnectFourBoard.Chip.YELLOW);
+    }
+
+    @Test
+    void testSetStatus() {
+        game.setStatus(players[0], 2);
+        assertEquals(message)
     }
 }
