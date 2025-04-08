@@ -15,6 +15,10 @@ public class Settings {
         this.player = player;
     }
 
+    public void setDatabase(CredentialsDatabase database) {
+        this.database = database;
+    }
+
     public CredentialsDatabase getDatabase() {
         return database;
     }
