@@ -1,9 +1,11 @@
 package org.seng.gamelogic.connectfour;
-import org.seng.gamelogic.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
-// Do we need to extend or implement from GameGUI class?
+/**
+ * Represents a game of connect four following basic game logic.
+ */
 public class ConnectFourGame {
 
     public ConnectFourBoard board;
@@ -17,12 +19,12 @@ public class ConnectFourGame {
         this.board = board;
         this.players = players;
         this.gameID = gameID;
-        this.status = "In Progress"; // placeholder for status
+        this.status = "Initialized";
         this.chatLog = new ArrayList<>();
         this.currentPlayer = players[0]; // first player starts, this may be changed to implement a RNG decision?
     }
 
-    // Manage chat log (
+    // Manage chat log
     public void sendMessage(String message) {
         if (message != null && !message.trim().isEmpty()) {
             chatLog.add(message);
@@ -33,12 +35,64 @@ public class ConnectFourGame {
     public List<String> getChatLog() {
         return new ArrayList<>(chatLog);
     }
-    // need to integrate with GUI team (start/exit button)
-    public void startGame() {
 
+    /**
+     * Starts the game and handles turn-based gameplay.
+     * Connects with GUI through a START button
+     */
+    public void startGame() {
+        initializePlayerSymbols(); // assign symbols to players
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+
+        // once startGame() is called, status updates to "In Progress"
+        status = "In Progress";
+
+        // game loop continues as long as there has been no win, draw, or exit
+        while (!status.endsWith("Wins") && !status.equals("Draw") && !status.equals("Exiting Game")) {
+            board.display(); // display board (requires display() method in ConnectFourBoard)
+            System.out.println("Current Player: " + currentPlayer.getName() + " (" + currentPlayer.getSymbol() + ")");
+            System.out.print("Enter a column (0-6): ");
+
+            int column = scanner.nextInt();
+
+            // input validation
+            if (column < 0 || column >= ConnectFourBoard.COL_COUNT) {
+                System.out.println("Invalid column. Please choose a column between 0 and 6.");
+                continue;
+            }
+
+            if (!board.validMove(column)) {
+                System.out.println("Column is full. Try a different one.");
+                continue;
+            }
+
+            // make the move
+            makeMove(column);
+
+            // update status method
+            setStatus(currentPlayer, column);
+        }
+
+        board.display(); // final board state
+
+        // 3 cases to ending the game: win, draw, exit
+        if (status.endsWith("Wins")) {
+            System.out.println("Game Over! Status: " + status);
+        }
+        else if (status.equals("Draw")) {
+            System.out.println("Game Over! Draw.");
+        }
+        else if (status.equals("Exiting Game")) {
+            System.out.println("Game has been exited.");
+        }
+
+        scanner.close();
     }
 
+    // Connects with GUI through an exit button
     public void exitGame() {
+        // status updates to something that is NOT "In Progress" such that game loop in startGame() breaks
+        status = "Exiting Game";
     }
 
     // restrict movements to column choice only. Returns true if move is made
@@ -133,7 +187,4 @@ public class ConnectFourGame {
         String message = "Player " + gamePlayer.getName() + " has dropped a piece in column " + column;
         status = message;
     }
-
-
 }
-

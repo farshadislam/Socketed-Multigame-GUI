@@ -1,6 +1,6 @@
 package org.seng.gamelogic.checkers;
 
-import org.seng.gamelogic.Player;
+import org.seng.authentication.Player;
 import org.seng.gamelogic.checkers.CheckersBoard;
 
 /**
@@ -13,16 +13,16 @@ public class CheckersPlayer extends Player {
      * Constructs a new CheckersPlayer with the specified attributes.
      *
      * @param username The username of the player.
-     * @param playerID The unique identifier of the player.
+     * @param email The email of the player.
+     * @param password The password for the players.
      * @param symbol The symbol representing the player's pieces ('r' for red, 'b' for black).
-     * @param rank The player's rank in the game.
      */
-    public CheckersPlayer(String username, int playerID, char symbol, int rank) {
-        super(username, playerID, symbol, rank);
+    public CheckersPlayer(String username, String email, String password, char symbol) {
+        super(username, email, password);
     }
 
     /**
-     * Indicates whether the player is ready to start the game.
+     * Indicates whether the player is ready to startGame the game.
      * @return Always returns true, indicating the player is ready.
      */
     public boolean readyStart() {

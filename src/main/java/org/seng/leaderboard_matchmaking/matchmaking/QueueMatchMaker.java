@@ -1,4 +1,4 @@
-package main.java.org.seng.leaderboard_matchmaking.matchmaking;
+package org.seng.leaderboard_matchmaking.matchmaking;
 
 // Import necessary libraries
 import java.util.*;
@@ -7,9 +7,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 // Import game-specific classes from elsewhere
-import main.java.org.seng.leaderboard_matchmaking.*;
-import main.java.org.seng.networking.*;
-import main.java.org.seng.authentication.Player;
+import javafx.css.Match;
+import org.seng.leaderboard_matchmaking.*;
+import org.seng.networking.*;
+import org.seng.authentication.Player;
 
 
 public class QueueMatchMaker{

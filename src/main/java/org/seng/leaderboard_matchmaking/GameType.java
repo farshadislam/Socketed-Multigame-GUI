@@ -1,4 +1,4 @@
-package main.java.org.seng.leaderboard_matchmaking;
+package org.seng.leaderboard_matchmaking;
 
 public enum GameType {
     CONNECT4,

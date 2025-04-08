@@ -1,9 +1,9 @@
-package main.java.org.seng.leaderboard_matchmaking;
+package org.seng.leaderboard_matchmaking;
 
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import main.java.org.seng.authentication.Player;
+import org.seng.authentication.Player;
 
 /**
  * Manages the leaderboard data for players across multiple games.

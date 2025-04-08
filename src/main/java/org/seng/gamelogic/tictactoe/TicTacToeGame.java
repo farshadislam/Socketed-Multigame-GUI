@@ -1,29 +1,51 @@
 package org.seng.gamelogic.tictactoe;
+
 import org.seng.gamelogic.Player;
+import org.seng.gamelogic.connectfour.ConnectFourPlayer;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Represents a game of Tic-Tac-Toe.
+ */
 public class TicTacToeGame {
 
     private TicTacToeBoard board;
     private Mark currMark;
-    private String status;// Can be "In Progress", "X Wins", "O Wins", "Draw"
+    private String status; // Can be "In Progress", "X Wins", "O Wins", "Draw"
     private List<String> chatLog;
-    public TicTacToePlayer[] players;  // 2 players
+
+    public TicTacToePlayer[] players; // Array to store two players
+    public TicTacToePlayer currentPlayer;
     public int gameID;
 
+    /**
+     * Constructs a Tic-Tac-Toe game.
+     *
+     * @param board  The Tic-Tac-Toe board.
+     * @param players Array of two players participating in the game.
+     * @param gameID Unique identifier for the game.
+     */
     public TicTacToeGame(TicTacToeBoard board, TicTacToePlayer[] players, int gameID) {
         this.players = players;
         this.gameID = gameID;
         this.board = board;
-        currMark = Mark.X; // X starts
+        currMark = Mark.X; // X starts first
+        currentPlayer = players[0];
         status = "In Progress";
         chatLog = new ArrayList<>();
     }
 
+    /**
+     * Attempts to make a move at the specified row and column.
+     *
+     * @param row The row index (0-2).
+     * @param col The column index (0-2).
+     * @return true if the move was successful, false otherwise.
+     */
     public boolean makeMove(int row, int col) {
         if (status.equals("In Progress") && board.validMove(row, col)) {
             board.makeMove(row, col, currMark);
@@ -40,52 +62,31 @@ public class TicTacToeGame {
         return false;
     }
 
+    /**
+     * Checks if the given mark (X or O) has won the game.
+     *
+     * @param mark The mark to check.
+     * @return true if the mark has won, false otherwise.
+     */
     public boolean checkWinner(Mark mark) {
         for (int i = 0; i < TicTacToeBoard.SIZE; i++) {
-            //check if there is a winner in rows and columns
+            // Check rows and columns for a win
             if ((board.getMark(i, 0) == mark && board.getMark(i, 1) == mark && board.getMark(i, 2) == mark) ||
                     (board.getMark(0, i) == mark && board.getMark(1, i) == mark && board.getMark(2, i) == mark)) {
-                char symbolCheck;
-                if (mark == Mark.X) {
-                    symbolCheck = 'X';
-                } else {
-                    symbolCheck = 'O';
-                }
-                if (players[0].getSymbol() == symbolCheck) {
-                    players[0].incrementWins();
-                    players[1].incrementLosses();
-                } else {
-                    players[1].incrementWins();
-                    players[0].incrementLosses();
-                }
                 return true;
             }
         }
-
-        //check if there is a winner in a diagonal
-        if ((board.getMark(0, 0) == mark && board.getMark(1, 1) == mark && board.getMark(2, 2) == mark) ||
-                (board.getMark(0, 2) == mark && board.getMark(1, 1) == mark && board.getMark(2, 0) == mark)) {
-            char symbolCheck;
-            if (mark == Mark.X) {
-                symbolCheck = 'X';
-            } else {
-                symbolCheck = 'O';
-            }
-            if (players[0].getSymbol() == symbolCheck) {
-                players[0].incrementWins();
-                players[1].incrementLosses();
-            } else {
-                players[1].incrementWins();
-                players[0].incrementLosses();
-            }
-            return true;
-        } else {
-            return false;
-        }
+        // Check diagonals for a win
+        return (board.getMark(0, 0) == mark && board.getMark(1, 1) == mark && board.getMark(2, 2) == mark) ||
+                (board.getMark(0, 2) == mark && board.getMark(1, 1) == mark && board.getMark(2, 0) == mark);
     }
 
+    /**
+     * Checks if the board is full, indicating a draw.
+     *
+     * @return true if the board is full, false otherwise.
+     */
     public boolean boardFull() {
-        //checks for a draw
         for (int row = 0; row < TicTacToeBoard.SIZE; row++) {
             for (int col = 0; col < TicTacToeBoard.SIZE; col++) {
                 if (board.getMark(row, col) == Mark.EMPTY) {
@@ -95,7 +96,9 @@ public class TicTacToeGame {
         }
         return true;
     }
-
+    /**
+     * This method changes the turn to the other player.
+     */
     public void switchTurn() {
         if (currMark == Mark.X) {
             currMark = Mark.O;
@@ -103,24 +106,39 @@ public class TicTacToeGame {
             currMark = Mark.X;
         }
     }
-
+    /**
+     * This method returns the whole board
+     */
     public TicTacToeBoard getBoard() {
         return board;
     }
 
+    /**
+     * This method returns the mark(O or X) of the current player
+     */
     public Mark getCurrentMark() {
         return currMark;
     }
 
+    /**
+     * This method returns the status of the current game
+     */
     public String getStatus() {
         return status;
     }
 
+    /**
+     * This method resets the game by reseting the board
+     */
     public void resetGame() {
         board.resetBoard();
         currMark = Mark.X;
         status = "In Progress";
     }
+
+    /**
+     * This method adds a message to the chatlog if it is valid
+     */
 
     public void sendMessage(String message) {
         if (message != null && !message.trim().isEmpty()) {
@@ -128,16 +146,24 @@ public class TicTacToeGame {
         }
     }
 
+    /**
+     * This method returns the chatlog
+     */
     public List<String> getChatLog() {
         return new ArrayList<>(chatLog);
     }
 
+    /**
+     * This method initializes the different symbols for the player
+     */
     private void initializePlayerSymbols() {
         players[0].symbol = 'X';
         players[1].symbol = 'O';
     }
 
-    //Starts the game loop for console-based play Handles player input, move validation, win/draw checks and output.
+    /**
+     * Starts the game loop for console-based play Handles player input, move validation, win/draw checks and output.
+     */
     public void start() {
         Scanner scanner = new Scanner(System.in);
         initializePlayerSymbols(); // assign X and O to players
@@ -161,6 +187,25 @@ public class TicTacToeGame {
         board.display();
         System.out.println("Game Over! Status: " + status);
         scanner.close();
+    }
+
+    /**
+     * Changes the symbolCheck, currentPlayer and message/status based on the parameter row and column values.
+     */
+    public void setStatus(int row, int column) {
+        char symbolCheck;
+        if (currMark == Mark.X) {
+            symbolCheck = 'X';
+        } else {
+            symbolCheck = 'O';
+        }
+        if (players[0].getSymbol() == symbolCheck) {
+            currentPlayer = players[0];
+        } else {
+            currentPlayer = players[1];
+        }
+        String message = "Player " + currentPlayer.getName() + " has drawn an " + currentPlayer.getSymbol() + " in row " + row + " and column " + column;
+        status = message;
     }
 
 }
