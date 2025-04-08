@@ -5,6 +5,10 @@ import org.seng.leaderboard.connect4Stats;
 import org.seng.leaderboard.ticTacToeStats;
 import org.seng.leaderboard.Rank;
 
+import org.seng.leaderboard_matchmaking.Last5Matches;
+
+import java.util.List;
+
 public class PlayerStats {
     // defined instance variable
     private Player player;
@@ -130,6 +134,34 @@ public class PlayerStats {
             return CheckerStats.getRank();
         }
         return null;
+    }
+
+    //need to fix the merging issue with the leaderboard_matchmaking and go over the code again
+
+    //returning the last 5 matches
+    public List<List<Object>> getLast5Matches() {
+        Last5Matches history = player.getLast5Matches();
+        if (history != null) {
+            return history.getMatchHistory();
+        }
+        return null;
+    }
+
+    //returning a match at a given index
+    public List<Object> getMatchAtIndex(int index) {
+        Last5Matches history = player.getLast5Matches();
+        if (history != null) {
+            return history.getMatchAt(index);
+        }
+        return null;
+    }
+
+    //clearing the match history
+    public void clearLast5Matches() {
+        Last5Matches history = player.getLast5Matches();
+        if (history != null) {
+            history.clearHistory();
+        }
     }
 
 
