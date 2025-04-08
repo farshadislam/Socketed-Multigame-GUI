@@ -41,8 +41,8 @@ public class CheckersGame {
      * Initializes player symbols for red and black pieces.
      */
     private void initializePlayerSymbols() {
-        if (players[0] != null) players[0].symbol = 'r';
-        if (players[1] != null) players[1].symbol = 'b';
+        if (players[0] != null) players[0].setSymbol('r');
+        if (players[1] != null) players[1].setSymbol('b');
     }
 
     /**
@@ -76,7 +76,7 @@ public class CheckersGame {
                         System.out.println((isRedTurn ? "Red" : "Black") + " wins!");
                         if (isRedTurn) {
                             // need to put something here
-                            org.leaderboard_matchmaking.connect4Stats stats = players[0].getConnect4Stats();
+                            players[0].getConnect4Stats().
                         }
                         break;
                     }
@@ -140,7 +140,7 @@ public class CheckersGame {
             currentPlayer = players[1];
             symbol_color = "black";
         }
-        String message = "Player " + currentPlayer.getName() + "has moved a " + symbol_color + " piece from row " + row_start + " and column " + col_start + " to row " + row_end + " and column " + col_end + ".";
+        String message = "Player " + currentPlayer.getUsername() + "has moved a " + symbol_color + " piece from row " + row_start + " and column " + col_start + " to row " + row_end + " and column " + col_end + ".";
         status = message;
     }
 

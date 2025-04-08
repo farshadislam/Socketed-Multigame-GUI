@@ -9,15 +9,15 @@ import org.seng.gamelogic.checkers.CheckersBoard;
  */
 public class CheckersPlayer extends Player {
 
+
     /**
      * Constructs a new CheckersPlayer with the specified attributes.
      *
      * @param username The username of the player.
      * @param email The email of the player.
      * @param password The password for the players.
-     * @param symbol The symbol representing the player's pieces ('r' for red, 'b' for black).
      */
-    public CheckersPlayer(String username, String email, String password, char symbol) {
+    public CheckersPlayer(String username, String email, String password) {
         super(username, email, password);
     }
 
@@ -28,5 +28,6 @@ public class CheckersPlayer extends Player {
     public boolean readyStart() {
         return true;
     }
+
 
 }

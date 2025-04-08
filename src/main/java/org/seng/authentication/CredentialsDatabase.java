@@ -5,6 +5,9 @@ import java.util.HashMap;
 
 import org.seng.leaderboard.*;
 import org.seng.leaderboard.Rank;
+import org.seng.leaderboard_matchmaking.checkersStats;
+import org.seng.leaderboard_matchmaking.connect4Stats;
+import org.seng.leaderboard_matchmaking.ticTacToeStats;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

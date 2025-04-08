@@ -1,6 +1,6 @@
 package org.seng.gamelogic.connectfour;
 
-import org.seng.gamelogic.Player;
+import org.seng.authentication.Player;
 
 /**
  * Represents a player in a Connect Four game.
@@ -12,12 +12,11 @@ public class ConnectFourPlayer extends Player {
      * Constructs a new ConnectFourPlayer with the specified attributes.
      *
      * @param username The username of the player.
-     * @param playerID The unique identifier of the player.
-     * @param symbol   The symbol representing the player's pieces ('X' or 'O').
-     * @param rank     The player's rank in the game.
+     * @param email The email the player account is linked to.
+     * @param password The password the player uses to log on.
      */
-    public ConnectFourPlayer(String username, int playerID, char symbol, int rank) {
-        super(username, playerID, symbol, rank);
+    public ConnectFourPlayer(String username, String email, String password) {
+        super(username, email, password);
     }
 
     /**
