@@ -203,7 +203,9 @@ public class WelcomePageController {
             stage.setTitle("Game Dashboard");
             stage.setScene(scene);
             GameDashboardController controller = fxmlLoader.getController();
+            Player player = homePage.getPlayer();
             controller.setHomePage(homePage);
+            controller.setPlayer(player);
             stage.show();
 
             // Close the login window
