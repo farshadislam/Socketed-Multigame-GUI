@@ -10,8 +10,9 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-import org.seng.authentication.*;
-import org.seng.authentication.LoginPage.State;
+import org.seng.authentication.LoginPage;
+
+import java.io.IOException;
 
 import java.io.IOException;
 
@@ -69,9 +70,9 @@ public class CreateAccountController {
             return;
         }
 
-        State state = HelloApplication.loginPage.register(username,email,password);
+        LoginPage.State state = HelloApplication.loginPage.register(username,email,password);
         System.out.println(state);
-        if(state == State.VERIFICATION_CODE_SENT)   {
+        if(state == LoginPage.State.VERIFICATION_CODE_SENT)   {
             openSuccessPage();
         }
     }
