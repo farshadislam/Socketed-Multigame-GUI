@@ -47,8 +47,8 @@ public class ConnectFourGame {
         // once startGame() is called, status updates to "In Progress"
         status = "In Progress";
 
-        // game loops while status is "In Progress". Break out of game loop by winning, draw, or calling exitGame()
-        while (status.equals("In Progress")) {
+        // game loop continues as long as there has been no win, draw, or exit
+        while (!status.endsWith("Wins") && !status.equals("Draw") && !status.equals("Exiting Game")) {
             board.display(); // display board (requires display() method in ConnectFourBoard)
             System.out.println("Current Player: " + currentPlayer.getName() + " (" + currentPlayer.getSymbol() + ")");
             System.out.print("Enter a column (0-6): ");
@@ -71,9 +71,6 @@ public class ConnectFourGame {
 
             // update status method
             setStatus(currentPlayer, column);
-
-            // need to reset status to "In Progress" in order for game loop to keep looping
-            status = "In Progress";
         }
 
         board.display(); // final board state

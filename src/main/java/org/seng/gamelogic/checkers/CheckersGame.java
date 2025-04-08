@@ -3,6 +3,8 @@ package org.seng.gamelogic.checkers;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
+import org.seng.authentication.Player;
+import org.seng.leaderboard_matchmaking.connect4Stats;
 
 /**
  * Represents a game of checkers following basic game logic.
@@ -74,6 +76,7 @@ public class CheckersGame {
                         System.out.println((isRedTurn ? "Red" : "Black") + " wins!");
                         if (isRedTurn) {
                             // need to put something here
+                            org.leaderboard_matchmaking.connect4Stats stats = players[0].getConnect4Stats();
                         }
                         break;
                     }

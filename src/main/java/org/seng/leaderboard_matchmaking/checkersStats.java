@@ -1,4 +1,4 @@
-package main.java.org.seng.leaderboard_matchmaking;
+package org.seng.leaderboard_matchmaking;
 
 /**
  * Implementation of game-specific statistics for Checkers.

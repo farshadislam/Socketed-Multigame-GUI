@@ -1,4 +1,4 @@
-package main.java.org.seng.leaderboard_matchmaking.matchmaking;
+package org.seng.leaderboard_matchmaking.matchmaking;
 import java.util.ArrayList;
 import java.util.List;
 
