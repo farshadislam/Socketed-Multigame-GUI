@@ -2,7 +2,7 @@ package org.seng.authentication;
 import org.seng.leaderboard_matchmaking.*;
 import org.seng.leaderboard_matchmaking.Rank;
 
-//import org.seng.leaderboard.matchmaking.Last5Matches;
+import org.seng.leaderboard_matchmaking.Last5Matches;
 import org.seng.leaderboard_matchmaking.GameType;
 import org.seng.leaderboard_matchmaking.checkersStats;
 import org.seng.leaderboard_matchmaking.connect4Stats;
