@@ -133,7 +133,7 @@ public class CheckersGame {
                 //          - if it cannot, then that means getCapturablePieces(...) returns an empty list
                 //          - the if-statement below makes sure that getCapturablePieces(...) is not empty
                 if (!isJumpMove(fromRow, fromCol, toRow, toCol) && board.getCapturablePieces(toRow, toCol, board.getPieceAt(toRow, toCol)).isEmpty()) {
-                    // do nothing
+                    // do nothing so that in the next turn, same player makes a move to capture multiple pieces
                 }
                 else {
                     switchPlayer();
@@ -377,16 +377,6 @@ public class CheckersGame {
      */
     public List<String> getChatLog() {
         return new ArrayList<>(chatLog);
-    }
-
-    /**
-     * Main method to startGame the checkers game.
-     * @param args Command-line arguments.
-     */
-    // Main method may not be needed after integration with GUI
-    public static void main(String[] args) {
-        CheckersGame game = new CheckersGame();
-        game.startGame();
     }
 
 }
