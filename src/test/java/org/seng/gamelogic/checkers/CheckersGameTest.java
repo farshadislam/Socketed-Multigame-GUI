@@ -88,4 +88,42 @@ class CheckersGameTest {
             return (boolean) method.invoke(this);
         }
     }
+    @Test
+    public void testGameDraw() {
+        CheckersBoard board = new CheckersBoard();
+
+        // Clear the board first (assumes setPieceAt and EMPTY are accessible)
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (row == 1 || row == 3){
+                    if (col == 0 || col == 2 || col == 4 || col == 6){
+                        board.setPieceAt(row, col, CheckersBoard.Piece.RED);
+                    }else{
+                        board.setPieceAt(row, col, CheckersBoard.Piece.EMPTY);
+                    }
+                }else if (row == 2){
+                    if (col == 1 || col == 3 || col == 5 || col == 7){
+                        board.setPieceAt(row, col, CheckersBoard.Piece.RED);
+                    }else{
+                        board.setPieceAt(row, col, CheckersBoard.Piece.EMPTY);
+                    }
+                }else if (row == 4 || row == 6) {
+                    if (col == 1 || col == 3 || col == 5 || col == 7) {
+                        board.setPieceAt(row, col, CheckersBoard.Piece.BLACK);
+                    }else{
+                        board.setPieceAt(row, col, CheckersBoard.Piece.EMPTY);
+                    }
+                }else if (row == 5){
+                    if (col == 0 || col == 2 || col == 4 || col == 6) {
+                        board.setPieceAt(row, col, CheckersBoard.Piece.BLACK);
+                    }else{
+                        board.setPieceAt(row, col, CheckersBoard.Piece.EMPTY);
+                    }
+                }
+            }
+        }
+
+        // Now check that gameDraw returns true
+        assertTrue(game.gameDraw(), "Game should be a draw as neither player can move.");
+    }
 }
