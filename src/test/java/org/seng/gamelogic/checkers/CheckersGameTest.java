@@ -2,6 +2,8 @@ package org.seng.gamelogic.checkers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.seng.gamelogic.connectfour.ConnectFourBoard;
+import org.seng.gamelogic.connectfour.ConnectFourPlayer;
 
 import java.lang.reflect.Method;
 
@@ -9,11 +11,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CheckersGameTest {
 
+    private CheckersBoard board;
+    private CheckersPlayer[] players;
+    private int gameID;
     private CheckersGame game;
 
     @BeforeEach
     void setUp() {
-        game = new CheckersGame(); // uses default constructor
+        board = new CheckersBoard();
+        players = new CheckersPlayer[]{new CheckersPlayer("Player1", "a", "1"), new CheckersPlayer("Player2", "b", "2")};
+        gameID = 1;
+        game = new CheckersGame(board, players, gameID);
     }
 
     @Test
@@ -38,7 +46,7 @@ class CheckersGameTest {
             }
         }
 
-        TestableCheckersGame redWinGame = new TestableCheckersGame(board, true);
+        TestableCheckersGame redWinGame = new TestableCheckersGame(board, players, gameID, true);
         assertTrue(redWinGame.invokeCheckWinCondition(), "Red should win when no black pieces are left.");
     }
 
@@ -54,14 +62,14 @@ class CheckersGameTest {
             }
         }
 
-        TestableCheckersGame blackWinGame = new TestableCheckersGame(board, false);
+        TestableCheckersGame blackWinGame = new TestableCheckersGame(board, players, gameID, false);
         assertTrue(blackWinGame.invokeCheckWinCondition(), "Black should win when no red pieces are left.");
     }
 
     // Subclass to inject board and call private methods
     static class TestableCheckersGame extends CheckersGame {
-        public TestableCheckersGame(CheckersBoard board, boolean isRedTurn) {
-            super();
+        public TestableCheckersGame(CheckersBoard board, CheckersPlayer[] players, int gameID, boolean isRedTurn) {
+            super(board, players, gameID);
             try {
                 var boardField = CheckersGame.class.getDeclaredField("board");
                 var turnField = CheckersGame.class.getDeclaredField("isRedTurn");
