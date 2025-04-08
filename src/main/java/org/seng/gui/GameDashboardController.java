@@ -3,6 +3,7 @@ package org.seng.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -14,21 +15,30 @@ import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 import java.util.Optional;
 import org.seng.authentication.*;
+import org.seng.networking.SocketGameClient;
+import org.seng.networking.leaderboard_matchmaking.GameType;
+
+import static org.seng.gui.HelloApplication.database;
 
 import static org.seng.gui.HelloApplication.database;
 
 public class GameDashboardController {
 
-
     @FXML
     private ImageView statsIcon, profileIcon, playIcon, settingsIcon, logoutIcon;
-
 
     @FXML
     private VBox viewStatsPane, profilePane, playGamesPane;
     private HomePage homePage;
     public static Player player;
     public static Settings setting;
+    private Player localPlayer; // this holds the player who just joined (used in waiting room UI)
+    private GameType selectedGame; // this stores the game type they selected (Checkers, etc.)
+    private SocketGameClient client; // this is the networking connection client for this player
+
+    @FXML private Label player1Name;
+    @FXML private Label gameTypeLabel;
+
 
     @FXML
     public void initialize() {
@@ -56,6 +66,18 @@ public class GameDashboardController {
     public void setPlayer(Player player1){
         GameDashboardController.player = player1;
     }
+
+    // this method is called when the waiting room scene is loaded
+    // it gives the controller the needed info to update UI properly
+    public void init(Player player, GameType gameType, SocketGameClient client) {
+        this.localPlayer = player; // store the current player for reference
+        this.selectedGame = gameType; // store the selected game
+        this.client = client; // keep a reference to the networking client
+
+        player1Name.setText(player.getUsername()); // show name in UI
+        gameTypeLabel.setText("Game Mode: " + gameType.name()); // update game mode text
+    }
+
     @FXML
     public void openLeaderboardPage() {
         openNewPage("leaderboard-page.fxml", "Leaderboard");

@@ -15,13 +15,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.seng.networking.SocketGameClient;
 import org.seng.networking.leaderboard_matchmaking.GameType;
-
 import java.io.IOException;
 import java.net.URL;
 
 public class WaitingRoomController {
 
-    // all the UI elements hooked from the FXML file
     @FXML private Label gameTypeLabel;
     @FXML private ProgressBar matchProgressBar;
     @FXML private Label player1Name, player2Name;
@@ -33,29 +31,30 @@ public class WaitingRoomController {
     @FXML private Label systemMessage;
     @FXML private Button leaveButton;
 
-    private SocketGameClient client; // the actual connection to server
-    private String username; // store the name of this player
-    private GameType gameType; // store which game is being played
+    private SocketGameClient client;
+    private String username;
+    private GameType gameType;
+    private Timeline timerTimeline;
+    private int secondsElapsed = 0;
 
-    private Timeline timerTimeline; // to update the match waiting timer
-    private int secondsElapsed = 0; // keeps track of time passed
-
-    // called when the waiting room gets loaded
     public void init(String username, GameType gameType, SocketGameClient client) {
         this.username = username;
         this.gameType = gameType;
         this.client = client;
 
-        gameTypeLabel.setText("Game Mode: " + gameType); // shows the selected mode
-        player1Name.setText(username); // shows current player's name
-        player1Status.setText("\u2705 Loaded"); // shows loaded status with checkmark
-        player1StatusIndicator.setFill(Color.web("#a855f7")); // purple indicator to show ready
+        System.out.println("WaitingRoom init: " + username + ", type: " + gameType);
 
-        startTimerAndProgressBar(); // starts ticking timer + bar
-        listenForUpdates(); // begins listening for incoming server messages
+        gameTypeLabel.setText("Game Mode: " + gameType);
+        player1Name.setText(username);
+        player1Status.setText("\u2705 Loaded");
+        player1StatusIndicator.setFill(Color.web("#a855f7"));
+
+        startTimerAndProgressBar();
+        listenForUpdates();
+
+        leaveButton.setOnAction(e -> goBack());
     }
 
-    // tries to load the waiting-room.css for the theme
     private void applyFuturisticTheme() {
         Platform.runLater(() -> {
             Scene scene = readyButton.getScene();
@@ -71,53 +70,49 @@ public class WaitingRoomController {
         });
     }
 
-    // starts the match countdown and progress bar
     private void startTimerAndProgressBar() {
         timerTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            secondsElapsed++; // every second passed
-            matchTimer.setText(String.format("00:%02d", secondsElapsed)); // update label
-            double progress = Math.min(1.0, secondsElapsed / 30.0); // fills bar over 30 sec
-            matchProgressBar.setProgress(progress); // visually update the bar
+            secondsElapsed++;
+            matchTimer.setText(String.format("00:%02d", secondsElapsed));
+            double progress = Math.min(1.0, secondsElapsed / 30.0);
+            matchProgressBar.setProgress(progress);
         }));
-        timerTimeline.setCycleCount(Timeline.INDEFINITE); // keeps going until stopped
-        timerTimeline.play(); // actually starts it
+        timerTimeline.setCycleCount(Timeline.INDEFINITE);
+        timerTimeline.play();
 
-        applyFuturisticTheme(); // makes it look nice
+        applyFuturisticTheme();
     }
 
-    // starts a background thread to handle any messages coming from server
     private void listenForUpdates() {
         Thread listenerThread = new Thread(() -> {
             try {
                 String msg;
                 while ((msg = client.receiveMessage()) != null) {
                     String finalMsg = msg;
-                    Platform.runLater(() -> handleServerMessage(finalMsg)); // does UI work on main thread
+                    Platform.runLater(() -> handleServerMessage(finalMsg));
                 }
             } catch (IOException e) {
-                Platform.runLater(() -> systemMessage.setText("Disconnected from server.")); // shows disconnect msg
+                Platform.runLater(() -> systemMessage.setText("Disconnected from server."));
             }
         });
-        listenerThread.setDaemon(true); // won’t keep app alive if closed
-        listenerThread.start(); // go!
+        listenerThread.setDaemon(true);
+        listenerThread.start();
     }
 
-    // reacts to what the server sends us
     private void handleServerMessage(String message) {
         if (message.equals("OPPONENT_READY")) {
             player2ReadyStatus.setText("Ready: Yes");
             player2Status.setText("\u2705 Loaded");
-            player2StatusIndicator.setFill(Color.web("#a855f7")); // gives them their own purple dot
+            player2StatusIndicator.setFill(Color.web("#a855f7"));
         } else if (message.equals("START_GAME")) {
             systemMessage.setText("Both players ready. Launching game...");
-            if (timerTimeline != null) timerTimeline.stop(); // stops countdown
-            loadGameScene(); // switch screen
+            if (timerTimeline != null) timerTimeline.stop();
+            loadGameScene();
         } else if (message.startsWith("Welcome ")) {
-            systemMessage.setText(message); // sends greeting message
+            systemMessage.setText(message);
         }
     }
 
-    // loads the actual game scene based on which game was selected
     private void loadGameScene() {
         try {
             String fxml = switch (gameType) {
@@ -132,35 +127,33 @@ public class WaitingRoomController {
 
             Stage stage = (Stage) readyButton.getScene().getWindow();
             stage.setScene(scene);
-            stage.show(); // finally shows the actual game screen
+            stage.show();
         } catch (IOException e) {
             systemMessage.setText("Failed to load game scene.");
-            e.printStackTrace(); // something’s off
-        }
-    }
-
-    // when the user clicks ready
-    @FXML
-    public void onReadyClicked() {
-        try {
-            client.sendMessage("READY"); // tells server this player is ready
-            player1ReadyStatus.setText("Ready: Yes"); // updates label
-            systemMessage.setText("Waiting for opponent to be ready..."); // user feedback
-        } catch (IOException e) {
-            systemMessage.setText("Failed to send ready message."); // this is when something went wrong
             e.printStackTrace();
         }
     }
 
-    // when the user decides to leave the waiting room
+    @FXML
+    public void onReadyClicked() {
+        try {
+            client.sendMessage("READY");
+            player1ReadyStatus.setText("Ready: Yes");
+            systemMessage.setText("Waiting for opponent to be ready...");
+        } catch (IOException e) {
+            systemMessage.setText("Failed to send ready message.");
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     public void onLeaveClicked() {
         try {
             if (client != null) {
-                client.sendMessage("LEFT"); // this lets the server know we dipped
-                client.close(); // this closes connection
+                client.sendMessage("LEFT");
+                client.close();
             }
-            if (timerTimeline != null) timerTimeline.stop(); // this stops timer too
+            if (timerTimeline != null) timerTimeline.stop();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -178,10 +171,28 @@ public class WaitingRoomController {
 
             Stage stage = (Stage) leaveButton.getScene().getWindow();
             stage.setScene(scene);
-            stage.show(); // goes back to the games selection screen
+            stage.show();
         } catch (IOException e) {
             systemMessage.setText("\u26A0 Failed to load games page");
             e.printStackTrace();
         }
     }
+
+    private void goBack() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) leaveButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

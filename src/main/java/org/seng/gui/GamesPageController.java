@@ -23,23 +23,24 @@ public class GamesPageController {
     @FXML
     private ToggleButton playComputerButton, playOnlineButton;
 
-    private String playMode = "Computer";  // Default play mode
+    private String playMode = "Computer"; // default is local mode
 
     @FXML
     public void initialize() {
         try {
+            // load all the icon images
             Image backImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/backicon.png"));
-            backIcon.setImage(backImage);
-
             Image checkersImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/checkers.png"));
-            checkersIcon.setImage(checkersImage);
-
             Image ticTacToeImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/tictactoe.png"));
-            ticTacToeIcon.setImage(ticTacToeImage);
-
             Image connect4Image = new Image(getClass().getResourceAsStream("/org/seng/gui/images/connect4.png"));
+
+            // assign them to the views
+            backIcon.setImage(backImage);
+            checkersIcon.setImage(checkersImage);
+            ticTacToeIcon.setImage(ticTacToeImage);
             connect4Icon.setImage(connect4Image);
 
+            // default toggle is "Computer"
             playComputerButton.setSelected(true);
             playOnlineButton.setSelected(false);
         } catch (Exception ex) {
@@ -50,10 +51,12 @@ public class GamesPageController {
     @FXML
     public void goBack() {
         try {
+            // load the dashboard again
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
             Scene dashboardScene = new Scene(fxmlLoader.load(), 700, 450);
             dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
 
+            // switch the current stage to the dashboard
             Stage stage = (Stage) backIcon.getScene().getWindow();
             stage.setScene(dashboardScene);
             stage.show();
@@ -64,6 +67,7 @@ public class GamesPageController {
 
     @FXML
     public void togglePlayMode(ActionEvent event) {
+        // this lets you pick either "Computer" or "Online" mode
         ToggleButton clickedButton = (ToggleButton) event.getSource();
 
         if (clickedButton == playComputerButton) {
@@ -97,24 +101,24 @@ public class GamesPageController {
     private void handleGameClick(GameType gameType) {
         if ("Online".equals(playMode)) {
             try {
-                // Generate a random username for this client
+                // generate random name for this user
                 String username = "Player_" + UUID.randomUUID().toString().substring(0, 5);
 
-                // Connect to the server socket
+                // connect to multiplayer game server
                 SocketGameClient client = new SocketGameClient("localhost", 12345);
-                client.sendMessage(username);
-                client.sendMessage(getGameChoiceNumber(gameType)); // send "1", "2", or "3"
+                client.sendMessage(username); // tell server our name
+                client.sendMessage(getGameChoiceNumber(gameType)); // tell server what game we picked
 
-                // Load the waiting room FXML
+                // load the waiting room UI
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/seng/gui/waiting-room.fxml"));
                 Scene scene = new Scene(loader.load(), 700, 450);
                 scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
 
-                // Get controller and pass info to it
+                // give that controller the needed info
                 WaitingRoomController controller = loader.getController();
                 controller.init(username, gameType, client);
 
-                // Show the waiting room
+                // switch to waiting room
                 Stage stage = (Stage) checkersIcon.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
@@ -122,8 +126,9 @@ public class GamesPageController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         } else {
-            // Offline mode — just open the local game scene
+            // if we’re doing local play instead
             String fxmlFile = switch (gameType) {
                 case CHECKERS -> "checkers-game.fxml";
                 case TICTACTOE -> "tictactoe-game.fxml";
@@ -138,12 +143,14 @@ public class GamesPageController {
                 Stage stage = (Stage) checkersIcon.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    // this maps a GameType to what number we send the server
     private String getGameChoiceNumber(GameType gameType) {
         return switch (gameType) {
             case CHECKERS -> "1";

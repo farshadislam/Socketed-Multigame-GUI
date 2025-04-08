@@ -1,5 +1,6 @@
 package org.seng.networking;
 
+import org.seng.gui.GameDashboardController;
 import org.seng.networking.leaderboard_matchmaking.GameType;
 
 import java.io.*;
@@ -68,13 +69,24 @@ public class SocketMatchServer {
                 default:  selectedGame = GameType.CHECKERS; break; // this is default just in case
             }
 
-            // this creates a new player object from the input username
-            Player newPlayer = new Player(username, "");
+            // ✅ 1. Grab existing authenticated player object from GUI side
+            // ✅ 1. Try mapping from GUI-side Player into networking Player
+            org.seng.authentication.Player guiPlayer = GameDashboardController.player;
+            Player newPlayer;
+
+            if (guiPlayer != null && guiPlayer.getUsername().equals(username)) {
+                // Create networking-side Player using data from GUI-side one
+                newPlayer = new Player(guiPlayer.getUsername(), guiPlayer.getPassword()); // assuming getPassword() exists
+            } else {
+                newPlayer = new Player(username, ""); // fallback dummy
+            }
+
+            // create their socket handler and assign game type
             SocketGameHandler handler = new SocketGameHandler(clientSocket, username);
             handler.setGameType(selectedGame);
             newPlayer.setSocketHandler(handler);
 
-            // try to join matchmaking system
+            // ✅ 2. Try joining the matchmaking system
             Match match = matchmaking.joinQueue(newPlayer, selectedGame);
 
             if (match == null) {
