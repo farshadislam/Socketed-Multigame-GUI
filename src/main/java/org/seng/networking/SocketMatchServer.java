@@ -40,7 +40,7 @@ public class SocketMatchServer {
         }
     }
 
-    // this handles all the logic for connecting a single new player
+    /// this handles all the logic for connecting a single new player
     private void handleNewPlayer(Socket clientSocket) {
         try {
             // this is setup for reading input and sending output to this specific player
