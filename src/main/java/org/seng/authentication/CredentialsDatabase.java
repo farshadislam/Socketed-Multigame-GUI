@@ -5,9 +5,6 @@ import java.util.HashMap;
 
 import org.seng.leaderboard.*;
 import org.seng.leaderboard.Rank;
-import org.seng.leaderboard_matchmaking.checkersStats;
-import org.seng.leaderboard_matchmaking.connect4Stats;
-import org.seng.leaderboard_matchmaking.ticTacToeStats;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,8 +13,8 @@ import java.io.IOException;
 public class CredentialsDatabase {
 
     // Creating a HashMap field that will store the information of the player
-    private final HashMap<String, Player> playerCredentials;
-    private static final String FILE_PATH = "database.txt";
+    private HashMap<String, Player> playerCredentials;
+
 
     // Creating a constructor
     public CredentialsDatabase() {
@@ -26,7 +23,11 @@ public class CredentialsDatabase {
         this.playerCredentials = new HashMap<>();
 
         // Loading the Database from the text file
-        loadDatabase("database.txt");
+        loadDatabase("output.txt");
+    }
+
+    public HashMap<String, Player> getPlayerCredentials() {
+        return playerCredentials;
     }
 
     public boolean usernameLookup(String username) {
@@ -60,7 +61,7 @@ public class CredentialsDatabase {
         return null;
     }
 
-    public boolean emailTaken(String email) {
+    public boolean emailTaken(String email){
         for (Player player : playerCredentials.values()) {
             if (player.getEmail().equalsIgnoreCase(email)) {
                 return true;
@@ -70,7 +71,7 @@ public class CredentialsDatabase {
     }
 
     public void saveDatabase() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))) {
 
             // Iterating over the keys in HashMap
             for (String username : playerCredentials.keySet()) {
@@ -173,6 +174,30 @@ public class CredentialsDatabase {
             System.out.println("Error reading file: " + fileName);
             e.printStackTrace();
         }
+    }
+
+    public boolean updateKey(String oldUsername, String newUsername) {
+        String oldKey = oldUsername.toLowerCase();
+        String newKey = newUsername.toLowerCase();
+
+        // Check if old username exists and new one doesn't
+        if (!playerCredentials.containsKey(oldUsername)){
+            return false;
+        }
+        if (playerCredentials.containsKey(newUsername)){
+            return false;
+        }
+
+        // Get the player object
+        Player player = playerCredentials.remove(oldKey);
+
+        // Update the player's username field
+        player.setUsername(newKey);
+
+        // Re-insert with the new username as the key
+        playerCredentials.put(newKey, player);
+
+        return true;
     }
 
 
