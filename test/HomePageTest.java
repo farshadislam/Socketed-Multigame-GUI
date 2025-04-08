@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import org.seng.authentication.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.seng.leaderboard.Rank.BRONZE;
+import static org.seng.leaderboard_matchmaking.Rank.BRONZE;
 
 
 public class HomePageTest {

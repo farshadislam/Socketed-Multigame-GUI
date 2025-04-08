@@ -1,6 +1,5 @@
-package org.seng.leaderboard;
+package org.seng.leaderboard_matchmaking;
 
-// create rank enum with all the tiers
 public enum Rank {
     BRONZE,
     SILVER,

@@ -1,4 +1,4 @@
-package org.seng.leaderboard;
+package org.seng.leaderboard_matchmaking;
 
 /**
  * Implementation of game-specific statistics for Connect4.
@@ -39,7 +39,7 @@ public class connect4Stats extends GeneralStats {
     @Override
     protected void updateMMR(boolean win) {
         if (win) {
-            connect4mmr += (int) Math.round(RANK_STEP);
+            connect4mmr += (int) Math.round(RANK_STEP / 2.0);
         } else {
             connect4mmr -= (int) Math.round(RANK_STEP / 2.0);
         }
@@ -63,7 +63,7 @@ public class connect4Stats extends GeneralStats {
      * Rank is determined by dividing the MMR range into equal steps.
      */
     @Override
-    protected void updateRank() {
+    public void updateRank() {
         double relativeMMR = connect4mmr - MIN_MMR;
         int rankIndex = (int) (relativeMMR / RANK_STEP);
 
@@ -100,27 +100,33 @@ public class connect4Stats extends GeneralStats {
         return losses;
     }
 
-    /**
-     * Returns a string representation of Connect4 statistics.
-     *
-     * @return String representation of connect4Stats.
-     */
     @Override
-    public String toString() {
-        return "Connect4Stats [playerID=" + playerID
-                + ", gamesPlayed=" + gamesPlayed
-                + ", wins=" + wins
-                + ", losses=" + losses
-                + ", ties=" + ties
-                + ", connect4mmr=" + connect4mmr
-                + ", rank=" + rank
-                + "]";
+    public void setGamesPlayed(int games_Played) {
+        this.gamesPlayed = games_Played;
     }
 
-    // METHOD IMPLEMENTED BY THE AUTHENTICATION
+    @Override
+    public void setWins(int num_of_wins) {
+        this.wins = num_of_wins;
+    }
+
+    @Override
+    public void setLosses(int num_of_losses) {
+        this.losses = num_of_losses;
+    }
+
+    @Override
+    public void setTies(int num_of_ties) {
+        this.ties = num_of_ties;
+    }
+
+    @Override
+    public void setRank(Rank player_rank) {
+        this.rank = player_rank;
+    }
+
     @Override
     public void setMMR (int game_specific_MMR) {
         this.connect4mmr = game_specific_MMR;
     }
-
 }
