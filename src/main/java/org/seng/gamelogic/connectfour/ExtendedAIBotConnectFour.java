@@ -32,14 +32,15 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
             return false;
         }
         // ensure its not null, and player matches ai
-        if ( == null || move.player != this) {
+        if (game == null || game.getCurrentPlayer() != this) {
             return false;
         }
 
-        if (board.dropPiece(move.column, this)) {
+        Integer column = findNextMove(board);
+        if (column == null) {
             return true;
         }
-        return false;
+        return board.dropPiece(column, this);
     }
 
     /**
@@ -66,7 +67,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
      * @param board ConnectFourBoard to find a move
      * @return ConnectFourMove object showing the next move, or null if there is no moves available
      */
-    public int nextMove(ConnectFourBoard board) {
+    public ConnectFourMove nextMove(ConnectFourBoard board) {
         // checking if its ai's turn
         if (game.currentPlayer != this) {
             return null; // other player's turn
@@ -77,7 +78,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
             return null; //no valid moves are available
         }
         // set row to -1 right now, will be changed when the move is made
-        return new ConnectFourMove(this, column, );
+        return new ConnectFourMove(this, column, -1);
 
     }
 
@@ -122,7 +123,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
      * */
     @Override
     public char getSymbol() {
-        return this.symbol);
+        return this.symbol;
     }
 
 }
