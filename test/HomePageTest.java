@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.seng.authentication.*;
-import org.seng.authentication.PlayerStats;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.seng.leaderboard.Rank.BRONZE;
@@ -21,28 +20,28 @@ public class HomePageTest {
 
     @Test
     public void testViewYourOwnRecords(){
-        PlayerStats playerStats = homePage.viewYourOwnRecords();
-        assertNotNull(playerStats);
-        assertEquals(0, player.getTotalWins());
-        assertEquals(0, player.getTotalLosses());
-        assertEquals(0, player.getTotalLosses());
-        assertSame(BRONZE, playerStats.getRankForChecker());
-        assertSame(BRONZE, playerStats.getRankForConnect4());
-        assertSame(BRONZE, playerStats.getRankForTicTacToe());
+        Player playerRecords = homePage.viewYourOwnRecords();
+        assertNotNull(playerRecords);
+        assertEquals(0, playerRecords.getTotalWins());
+        assertEquals(0, playerRecords.getTotalLosses());
+        assertEquals(0, playerRecords.getTotalLosses());
+        assertSame(BRONZE, playerRecords.getCheckersStats().getRank());
+        assertSame(BRONZE, playerRecords.getConnect4Stats().getRank());
+        assertSame(BRONZE, playerRecords.getTicTacToeStats().getRank());
     }
 
     @Test
     public void testViewOtherPlayerRecords(){
         Player otherPlayer = new Player("otheruser", "other@example.com", "password345");
-        PlayerStats playerStats = homePage.viewOtherPlayerRecords(otherPlayer);
-        assertNotNull(playerStats);
+        Player playerRecords = homePage.viewOtherPlayerRecords(otherPlayer);
+        assertNotNull(playerRecords);
         assertEquals("otheruser", otherPlayer.getUsername());
         assertEquals(0, player.getTotalWins());
         assertEquals(0, player.getTotalLosses());
         assertEquals(0, player.getTotalTies());
-        assertSame(BRONZE, playerStats.getRankForChecker());
-        assertSame(BRONZE, playerStats.getRankForConnect4());
-        assertSame(BRONZE, playerStats.getRankForTicTacToe());
+        assertSame(BRONZE, playerRecords.getCheckersStats().getRank());
+        assertSame(BRONZE, playerRecords.getConnect4Stats().getRank());
+        assertSame(BRONZE, playerRecords.getTicTacToeStats().getRank());
     }
 
     @Test
