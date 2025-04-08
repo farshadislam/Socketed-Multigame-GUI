@@ -1,9 +1,15 @@
+package org.seng.gui;
+
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-import org.seng.authentication.*;
-import org.seng.authentication.LoginPage.State;
-
 import java.io.IOException;
 
 public class CreateAccountController {
