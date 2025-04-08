@@ -181,8 +181,12 @@ public class CredentialsDatabase {
         String newKey = newUsername.toLowerCase();
 
         // Check if old username exists and new one doesn't
-        if (!playerCredentials.containsKey(oldUsername)) return false;
-        if (playerCredentials.containsKey(newUsername)) return false;
+        if (!playerCredentials.containsKey(oldUsername)){
+            return false;
+        }
+        if (playerCredentials.containsKey(newUsername)){
+            return false;
+        }
 
         // Get the player object
         Player player = playerCredentials.remove(oldKey);

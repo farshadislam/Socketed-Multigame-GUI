@@ -3,7 +3,7 @@ import javafx.css.Match;
 import org.seng.leaderboard.*;
 import org.seng.leaderboard.Rank;
 
-import org.seng.leaderboard.matchmaking.Last5Matches;
+//import org.seng.leaderboard.matchmaking.Last5Matches;
 import org.seng.leaderboard.GameType;
 
 
@@ -21,8 +21,8 @@ public class Player {
     private checkersStats CheckersStats;
     private String verificationCode;
 
-    //last 5 matches field
-    private Last5Matches last5Matches;
+//    //last 5 matches field
+//    private Last5Matches last5Matches;
 
     /**
      * Constructor that also sets initial wins for each game.
@@ -39,7 +39,7 @@ public class Player {
         this.CheckersStats = new checkersStats(username);
         this.TicTacToeStats = new ticTacToeStats(username);
         //initializing the constructor
-        this.last5Matches = new Last5Matches();
+//        this.last5Matches = new Last5Matches();
     }
 
     // setters and getters
@@ -160,25 +160,25 @@ public class Player {
         return Objects.equals(username, player.username) && Objects.equals(email, player.email);
     }
 
-    public Last5Matches getLast5MatchesObject(){
-        return this.last5Matches;
-    }
-
-    public void updateLast5Matches(GameType gameType, Player player) {
-        last5Matches.update(gameType, player);
-    }
-
-    public List<List<Object>> getLast5Matches() {
-        return last5Matches.getMatchHistory();
-    }
-
-    public List<Object> getLastMatchAt(int index){
-        return last5Matches.getLastMatchAt(index);
-    }
-
-    public void clearLast5Matches(){
-        last5Matches.clearHistory();
-    }
+//    public Last5Matches getLast5MatchesObject(){
+//        return this.last5Matches;
+//    }
+//
+//    public void updateLast5Matches(GameType gameType, Player player) {
+//        last5Matches.update(gameType, player);
+//    }
+//
+//    public List<List<Object>> getLast5Matches() {
+//        return last5Matches.getMatchHistory();
+//    }
+//
+//    public List<Object> getLastMatchAt(int index){
+//        return last5Matches.getLastMatchAt(index);
+//    }
+//
+//    public void clearLast5Matches(){
+//        last5Matches.clearHistory();
+//    }
 
 }
 

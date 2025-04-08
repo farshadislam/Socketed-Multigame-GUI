@@ -149,6 +149,7 @@ public class LoginPageTest {
         assertEquals(LoginPage.State.EMAIL_FORMAT_WRONG, result);
     }
 
+    // . before email
     @Test
     public void registerTest12(){
         LoginPage.State result = loginPage.register("player1","player.@gmail.com","player11");
@@ -200,6 +201,42 @@ public class LoginPageTest {
         LoginPage.State result = loginPage.register("player2", "player1@gmail.com", "player22");
         assertEquals(LoginPage.State.EMAIL_TAKEN, result);
     }
+
+    // valid username
+    @Test
+    public void registerTest20(){
+        LoginPage.State result = loginPage.register("thisisuser","player1@gmail.com","player11");
+        assertEquals(LoginPage.State.VERIFICATION_CODE_SENT, result);
+    }
+
+    // short username
+    @Test
+    public void registerTest21(){
+        LoginPage.State result = loginPage.register("usr","player1@gmail.com","player11");
+        assertEquals(LoginPage.State.USERNAME_FORMAT_WRONG, result);
+    }
+
+    // username no alphabet
+    @Test
+    public void registerTest22(){
+        LoginPage.State result = loginPage.register("12345","player1@gmail.com","player11");
+        assertEquals(LoginPage.State.USERNAME_FORMAT_WRONG, result);
+    }
+
+    // username consecutive special characters
+    @Test
+    public void registerTest23(){
+        LoginPage.State result = loginPage.register("user...name","player1@gmail.com","player11");
+        assertEquals(LoginPage.State.USERNAME_FORMAT_WRONG, result);
+    }
+
+    //Wrong email format - invalid character
+    @Test
+    public void registerTest24(){
+        LoginPage.State result = loginPage.register("player1","player$#@gmail.com","player11");
+        assertEquals(LoginPage.State.EMAIL_FORMAT_WRONG, result);
+    }
+
 
     // forgot password for nonexistent username
     @Test

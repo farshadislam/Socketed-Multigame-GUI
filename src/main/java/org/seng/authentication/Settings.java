@@ -61,6 +61,9 @@ public class Settings {
     public boolean changeUsername(String newUsername){
         String oldUsername = player.getUsername();
         if (newUsername!=null && !(newUsername.isEmpty()) && verifyUsernameFormat(newUsername)){
+            if (database.usernameLookup(newUsername.toLowerCase())) {
+                return false;
+            }
             database.updateKey(oldUsername, newUsername);
             return true;
         }
