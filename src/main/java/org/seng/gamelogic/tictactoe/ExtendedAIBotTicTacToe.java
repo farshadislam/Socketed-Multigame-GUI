@@ -1,6 +1,5 @@
 package org.seng.gamelogic.tictactoe;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
-import org.seng.gamelogic.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -9,12 +8,12 @@ import java.util.Random;
 public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
     private TicTacToeBoard board; // BH: changed from boardRef to board to keep names simple/consistent
     private TicTacToeGame game;
-    private char symbol;
+    private Mark symbol;
     private Random random;
 
 
-    public ExtendedAIBotTicTacToe(char symbol, TicTacToeGame game, TicTacToeBoard board) {
-        super("AI Bot", "hi"); // passes username, player ID, symbol as char, rank
+    public ExtendedAIBotTicTacToe(Mark symbol, TicTacToeGame game, TicTacToeBoard board) {
+        super("AI Bot", "hi", "9"); // passes username, player ID, symbol as char, rank
         this.board = board;
         this.game = game;
         this.symbol = symbol; // either 'X' or 'O'
@@ -24,20 +23,23 @@ public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
 
     /**
      * @param board TheTicTacToeBoard for AIBot.
-     * @param move TheTicTacToeMove that have row, column and symbol.
+     * @param game TheTicTacToeGame that have row, column and symbol.
      * @return true if the move was successful, if not false.
      * */
-    public boolean makeMove(TicTacToeBoard board, TicTacToeMove move) {
+    public boolean makeMove(TicTacToeBoard board, TicTacToeGame game) {
         if (this.board != board) {
     //        System.out.println("Board does not match");
             return false;
         }
         // ensure its not null, and matches AI symbol
-        if (move == null || move.getSymbol() != this.symbol) {
+        if (game == null || game.getCurrentMark() != this.symbol) {
             return false;
         }
-        if (board.makeMove(move.getRow(), move.getCol(), charToMark(this.symbol))) {
-            return true;
+        int[] move = findNextMove(board);
+        if (move != null) {
+            if (game.makeMove(move[0], move[1])) {
+                return true;
+            }
         }
         return false; // if AiBot failed to place a move
 
@@ -69,23 +71,23 @@ public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
 
 
 
-    /**
+    /*
      * @param board TheTicTacToeBoard to generate a move
      * @return TicTacToeMove object for a next move, or null if no moves are available, or not AI's turn
      * */
-
-    public TicTacToeMove nextMove(TicTacToeBoard board) {
-        Mark mark = game.getCurrentMark();
-        if (game.getCurrentMark() != charToMark(this.symbol)) {
-            return null; // not AI's turn
-        }
-        int[] move = findNextMove(board);
-        if (move == null) {
-            return null;
-        }
-        //convert the AI's mark to char for TicTacToeMove
-        return new TicTacToeMove(move[1], move[0], this.symbol);
-    }
+//
+//    public TicTacToeBoard nextMove(TicTacToeBoard board) {
+//        Mark mark = game.getCurrentMark();
+//        if (game.getCurrentMark() != charToMark(this.symbol)) {
+//            return null; // not AI's turn
+//        }
+//        int[] move = findNextMove(board);
+//        if (move == null) {
+//            return null;
+//        }
+//        //convert the AI's mark to char for TicTacToeMove
+//        return new TicTacToeMove(move[1], move[0], this.symbol);
+//    }
 
 
 
@@ -104,12 +106,7 @@ public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
         return Mark.EMPTY;
     }
 
-    /**
-     * converts a Mark to a char symbol
-     *
-     * @param mark The Mark to convert
-     * @return X, O, or ' '
-     */
+
     private char markToChar(Mark mark) {
         if (mark == Mark.X) {
             return 'X';
@@ -117,5 +114,14 @@ public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
             return 'O';
         }
         return ' ';
+    }
+
+    public void setSymbol(char symbol) {
+        this.symbol = charToMark(symbol);
+    }
+
+
+    public char getSymbol() {
+        return markToChar(this.symbol);
     }
 }
