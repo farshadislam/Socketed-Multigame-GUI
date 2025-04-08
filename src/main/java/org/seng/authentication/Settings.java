@@ -33,16 +33,24 @@ public class Settings {
         this.database = database;
     }
 
+//    /**
+//     * method for deleting account
+//     * @param password the password for the account
+//     * @return true if the account is deleted, false otherwise
+//     */
+//    public boolean deleteAccount(String password){
+//        if (player.getPassword().equals(password)){
+//           return database.deleteExistingPlayer(player.getUsername());
+//        }
+//        return false;
+//    }
+
     /**
      * method for deleting account
-     * @param password the password for the account
      * @return true if the account is deleted, false otherwise
      */
-    public boolean deleteAccount(String password){
-        if (player.getPassword().equals(password)){
-           return database.deleteExistingPlayer(player.getUsername());
-        }
-        return false;
+    public boolean deleteAccount(){
+        return database.deleteExistingPlayer(player.getUsername());
     }
 
     /**
@@ -51,14 +59,10 @@ public class Settings {
      * @return true if the username is changed, false otherwise
      */
     public boolean changeUsername(String newUsername){
-        if (newUsername!=null && !(newUsername.isEmpty())){
-            if(!database.usernameLookup(newUsername.toLowerCase()) && verifyUsernameFormat(newUsername)) {
-                database.deleteExistingPlayer(player.getUsername());
-                player.setUsername(newUsername);
-                database.addNewPlayer(newUsername.toLowerCase(), player);
-                return true;
-            }
-            return false;
+        String oldUsername = player.getUsername();
+        if (newUsername!=null && !(newUsername.isEmpty()) && verifyUsernameFormat(newUsername)){
+            database.updateKey(oldUsername, newUsername);
+            return true;
         }
         return false;
     }
@@ -124,18 +128,31 @@ public class Settings {
         return false;
     }
 
+//    /**
+//     * method for changing password
+//     * @param password current password being used
+//     * @param newPassword new password they want to use
+//     * @return true if the password was changed, false otherwise
+//     */
+//    public boolean changePassword(String password, String newPassword) {
+//        if (player.getPassword().equals(password)) {
+//            if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
+//                player.setPassword(newPassword);
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+
     /**
      * method for changing password
-     * @param password current password being used
      * @param newPassword new password they want to use
      * @return true if the password was changed, false otherwise
      */
-    public boolean changePassword(String password, String newPassword) {
-        if (player.getPassword().equals(password)) {
-            if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
-                player.setPassword(newPassword);
-                return true;
-            }
+    public boolean changePassword(String newPassword) {
+        if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
+            player.setPassword(newPassword);
+            return true;
         }
         return false;
     }

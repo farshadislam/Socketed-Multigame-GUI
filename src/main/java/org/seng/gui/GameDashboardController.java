@@ -15,7 +15,10 @@ import java.io.IOException;
 import java.util.Optional;
 import org.seng.authentication.*;
 
+import static org.seng.gui.HelloApplication.database;
+
 public class GameDashboardController {
+
 
     @FXML
     private ImageView statsIcon, profileIcon, playIcon, settingsIcon, logoutIcon;
@@ -25,6 +28,8 @@ public class GameDashboardController {
     private VBox viewStatsPane, profilePane, playGamesPane;
     private HomePage homePage;
     public static Player player;
+    public static Settings setting;
+
     @FXML
     public void initialize() {
         try {
@@ -124,6 +129,9 @@ public class GameDashboardController {
 
     @FXML
     public void openSettings() {
+        // Initializing the Setting object
+        setting = new Settings(player, database);
+        System.out.println("success");
         animateGear();
     }
 
