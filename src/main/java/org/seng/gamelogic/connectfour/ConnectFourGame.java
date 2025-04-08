@@ -49,7 +49,7 @@ public class ConnectFourGame {
         // once startGame() is called, status updates to "In Progress"
         status = "In Progress";
 
-        initializePlayerSymbols();
+        // checks if the human player has selected to play against AI bot
         if (players[0] instanceof ExtendedAIBotConnectFour) {
             AIBot = (ExtendedAIBotConnectFour) players[0];
             AISymbol = 'b';
@@ -60,10 +60,15 @@ public class ConnectFourGame {
             AIBot = null;
             AISymbol = 'n';
         }
+
         // game loop continues as long as there has been no win, draw, or exit
         while (true) {
+
+            // display board
             board.display();
             System.out.println("Current Player: " + currentPlayer.getUsername() + " (" + currentPlayer.getSymbol() + ")");
+
+            // AI bot
             if (currentPlayer.getSymbol() == 'b' && AISymbol == 'b') {
                 AIBot.makeMove(board, this);
                 continue;

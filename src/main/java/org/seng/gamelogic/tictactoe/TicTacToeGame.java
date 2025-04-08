@@ -1,6 +1,5 @@
 package org.seng.gamelogic.tictactoe;
 
-import org.seng.gamelogic.connectfour.ExtendedAIBotConnectFour;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
 
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import java.util.Scanner;
 
 /**
  * Represents a game of Tic-Tac-Toe.
+ * The 'X' mark, which is always assigned to Player 1, will move first.
  */
 public class TicTacToeGame {
 
@@ -25,7 +25,6 @@ public class TicTacToeGame {
 
     /**
      * Constructs a Tic-Tac-Toe game.
-     *
      * @param board  The Tic-Tac-Toe board.
      * @param players Array of two players participating in the game.
      * @param gameID Unique identifier for the game.
@@ -36,8 +35,85 @@ public class TicTacToeGame {
         this.board = board;
         currMark = Mark.X; // X starts first
         currentPlayer = players[0];
-        status = "In Progress";
+        status = "Initialized";
         chatLog = new ArrayList<>();
+    }
+
+    /**
+     * This method initializes the different symbols for the player
+     */
+    private void initializePlayerSymbols() {
+        players[0].setSymbol('X');
+        players[1].setSymbol('O');
+    }
+
+    /**
+     * Starts the game loop for console-based play Handles player input, move validation, win/draw checks and output.
+     */
+    public void startGame() {
+        initializePlayerSymbols(); // assign X and O to players
+        Scanner scanner = new Scanner(System.in);
+
+        // once startGame() is called, status updates to "In Progress"
+        status = "In Progress";
+
+        // checks if the human player has selected to play against AI bot
+        if (players[0] instanceof ExtendedAIBotTicTacToe) {
+            AIBot = (ExtendedAIBotTicTacToe) players[0];
+            AISymbol = 'X';
+        } else if (players[1] instanceof ExtendedAIBotTicTacToe) {
+            AIBot = (ExtendedAIBotTicTacToe) players[1];
+            AISymbol = 'O';
+        } else {
+            AIBot = null;
+            AISymbol = 'n';
+        }
+
+        // game loop continues as long as there has been no win, draw, or exit
+        while (true) {
+
+            // display board
+            board.display();
+            System.out.println("Current Player: " + currentPlayer.getUsername() + " (" + currentPlayer.getSymbol() + ")");
+
+            if (currMark == Mark.X && AISymbol == 'X') {
+                AIBot.makeMove(board, this);
+                continue;
+            } else if (currMark == Mark.O && AISymbol == 'O'){
+                AIBot.makeMove(board, this);
+                continue;
+            }
+
+            // need to figure out GUI input below
+            System.out.print("Enter row (0-2): ");
+            int row = scanner.nextInt();
+            System.out.print("Enter column (0-2): ");
+            int col = scanner.nextInt();
+
+            // make the move, which also switches the turn
+            makeMove(row, col);
+
+            // check the 3 cases to ending the game: win, draw, exit
+            if (status.endsWith("Wins")) {
+                System.out.println("Game Over! Status: " + status);
+                break;
+            }
+            else if (status.equals("Draw")) {
+                System.out.println("Game Over! Draw.");
+                break;
+            }
+            else if (status.equals("Exiting Game")) {
+                System.out.println("Game has been exited.");
+                break;
+            }
+
+            // update status method
+            setStatus(row, col);
+        }
+
+        board.display(); // final state of the board
+
+        scanner.close();
     }
 
     /**
@@ -108,14 +184,23 @@ public class TicTacToeGame {
         }
         return true;
     }
+
+    // Connects with GUI through an exit button
+    public void exitGame() {
+        // status updates to something that is NOT "In Progress" such that game loop in startGame() breaks
+        status = "Exiting Game";
+    }
+
     /**
      * This method changes the turn to the other player.
      */
     public void switchTurn() {
         if (currMark == Mark.X) {
             currMark = Mark.O;
+            currentPlayer = players[1];
         } else {
             currMark = Mark.X;
+            currentPlayer = players[0];
         }
     }
     /**
@@ -164,58 +249,6 @@ public class TicTacToeGame {
      */
     public List<String> getChatLog() {
         return new ArrayList<>(chatLog);
-    }
-
-    /**
-     * This method initializes the different symbols for the player
-     */
-    private void initializePlayerSymbols() {
-        players[0].setSymbol('X');
-        players[1].setSymbol('O');
-    }
-
-    /**
-     * Starts the game loop for console-based play Handles player input, move validation, win/draw checks and output.
-     */
-    public void start() {
-        Scanner scanner = new Scanner(System.in);
-        initializePlayerSymbols(); // assign X and O to players
-        if (players[0] instanceof ExtendedAIBotTicTacToe) {
-            AIBot = (ExtendedAIBotTicTacToe) players[0];
-            AISymbol = 'X';
-        } else if (players[1] instanceof ExtendedAIBotTicTacToe) {
-            AIBot = (ExtendedAIBotTicTacToe) players[1];
-            AISymbol = 'O';
-        } else {
-            AIBot = null;
-            AISymbol = 'n';
-        }
-        while (status.equals("In Progress")) {
-            board.display();
-
-            System.out.println("Current player: " + currMark);
-            if (currMark == Mark.X && AISymbol == 'X') {
-                AIBot.makeMove(board, this);
-                continue;
-            } else if (currMark == Mark.O && AISymbol == 'O'){
-                AIBot.makeMove(board, this);
-                continue;
-            }
-            System.out.print("Enter row (0-2): ");
-            int row = scanner.nextInt();
-            System.out.print("Enter column (0-2): ");
-            int col = scanner.nextInt();
-
-            boolean moveMade = makeMove(row, col);
-
-            if (!moveMade) {
-                System.out.println("Invalid move! Try again.");
-            }
-        }
-
-        board.display(); // final state of the board
-        System.out.println("Game Over! Status: " + status);
-        scanner.close();
     }
 
     /**

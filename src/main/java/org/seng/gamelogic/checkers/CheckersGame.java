@@ -72,6 +72,7 @@ public class CheckersGame {
             board.display(); // to be integrated with GUI
             System.out.println((isRedTurn ? "Red" : "Black") + "'s turn"); // to be integrated with GUI
 
+            // AI bot
             if (isRedTurn) {
                 if (AISymbol == 'r') {
                     AIBot.nextMove(board);
