@@ -85,11 +85,10 @@ public class CheckersGame {
                 sendMessage((isRedTurn ? "Red" : "Black") + ": " + chatMessage);
             }
 
-            System.out.print("Enter move (fromRow fromCol toRow toCol): ");
-            int fromRow = scanner.nextInt();
-            int fromCol = scanner.nextInt();
-            int toRow = scanner.nextInt();
-            int toCol = scanner.nextInt();
+            int fromRow = 0; // changed from scanner.nextInt, 0 is a placeholder for now - based on user selection from GUI
+            int fromCol = 0;
+            int toRow = 0;
+            int toCol = 0;
 
             if (isValidTurn(fromRow, fromCol)) {
                 if (board.isValidMove(fromRow, fromCol, toRow, toCol)) {
@@ -106,6 +105,11 @@ public class CheckersGame {
                             players[1].getCheckersStats().win(); // Player 2 wins Checkers game
                         }
                         break;
+                    }
+
+                    if (gameDraw()) { // checks if game is at a draw
+                        players[0].getCheckersStats().tie();
+                        players[1].getCheckersStats().tie();
                     }
                     isRedTurn = !isRedTurn;
 
@@ -203,8 +207,8 @@ public class CheckersGame {
      * Checks if there is a draw in the game.
      * @return A boolean is returned. True means the game is at a draw. False means the game is not at a draw..
      */
-    public void gameDraw(){
-
+    public boolean gameDraw(){
+        return true; // placeholder for a boolean
     }
 
 
