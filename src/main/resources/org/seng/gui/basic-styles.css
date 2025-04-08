@@ -2,16 +2,30 @@
     -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #5f579b, #4915d0);
 }
 
+@font-face {
+    font-family: "Monoton";
+    src: url("fonts/Monoton-Regular.ttf");
+}
+
+.dashboard-title-label {
+    -fx-font-family: "Monoton";
+    -fx-text-fill: #f0f0f0;
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-translate-y: -12px;
+}
+
 .title-label {
     -fx-text-fill: #f0f0f0;
-    -fx-font-size: 32px;
+    -fx-font-size: 28px;
     -fx-font-weight: bold;
     -fx-alignment: center;
 }
 
 .light-title-label {
     -fx-font-size: 32px;
-    -fx-text-fill: #f0f0f0;  /* Closer to white for better contrast */
+    -fx-text-fill: #f0f0f0;
     -fx-font-weight: bold;
     -fx-alignment: center;
 }
@@ -24,6 +38,7 @@
     -fx-border-color: #ddd;
     -fx-border-radius: 6px;
     -fx-background-radius: 6px;
+    -fx-border-width: 2px;
 }
 
 .auth-button {
@@ -76,7 +91,7 @@
 
 .error-message {
     -fx-text-fill: #f30d0d;
-    -fx-font-size: 16px;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-alignment: center;
     -fx-padding: 5px;
@@ -96,23 +111,261 @@
     -fx-padding: 5px;
 }
 
-.dashboard-hbox {
-    -fx-spacing: 10;
-    -fx-padding: 10;
-}
-
 .dashboard-pane {
-    -fx-background-color: rgb(242, 241, 255);
+    -fx-background-color: rgb(62, 25, 150);
     -fx-background-radius: 12px;
     -fx-padding: 20px;
     -fx-alignment: center;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 255, 0.6), 15, 0.3, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgba(102, 0, 255, 0.6), 15, 0.3, 0, 0);
+}
+
+.dashboard-hbox {
+    -fx-spacing: 15;
+    -fx-padding: 15 15 15 15;
+}
+.dashboard-pane:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0.7, 0, 4);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
 }
 
 .dashboard-label {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: #1d0e4d;
+    -fx-text-fill: #f0f0f0;
 }
 
+.image-icon {
+    -fx-opacity: 0.8;
+    -fx-padding: 10px;
+}
 
+.image-icon:hover {
+    -fx-opacity: 1.0;
+}
+
+.image-view {
+    -fx-cursor: hand;
+    -fx-padding: 5px;
+}
+
+.image-view:hover {
+    -fx-opacity: 0.8;
+}
+
+.top-right-icons {
+    -fx-spacing: 15;
+    -fx-padding: 15;
+}
+
+.settings-sidebar {
+    -fx-background-color: #2c1270;
+    -fx-padding: 20;
+    -fx-spacing: 20;
+    -fx-pref-width: 200;
+    -fx-pref-height: 100%;
+}
+
+.sidebar-title {
+    -fx-font-size: 20px;
+    -fx-text-fill: #f0f0f0;
+    -fx-font-weight: bold;
+}
+
+.sidebar-button {
+    -fx-background-color: #6c63ff;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 6px;
+    -fx-background-radius: 8px;
+    -fx-max-width: 180;
+}
+
+.form-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #f0f0f0;
+    -fx-font-weight: bold;
+}
+
+.error-label {
+    -fx-text-fill: red;
+    -fx-font-size: 12px;
+}
+
+.auth-button {
+    -fx-background-color: #6c63ff;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px;
+    -fx-background-radius: 8px;
+    -fx-pref-width: 250px;
+    -fx-max-width: Infinity;
+}
+
+.auth-button:hover {
+    -fx-background-color: #5750cc;
+}
+
+.vbox {
+    -fx-spacing: 20;
+    -fx-padding: 20;
+}
+
+.delete-button {
+    -fx-background-color: #a20b0b;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 6px;
+    -fx-background-radius: 8px;
+    -fx-max-width: 180;
+}
+
+.sidebar-button:hover, .delete-button:hover {
+    -fx-background-color: #5750cc;
+}
+
+.delete-button:hover {
+    -fx-background-color: #a20b0b;
+}
+
+.back-icon {
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+    -fx-cursor: hand;
+}
+
+.back-icon:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.back-icon img {
+    -fx-fit-width: 24px;
+    -fx-fit-height: 24px;
+}
+
+.password-input-field {
+    -fx-pref-width: 200px;
+    -fx-padding: 8px;
+    -fx-font-size: 16px;
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-border-width: 3px;
+}
+
+.toggle-button {
+    -fx-background-color: #6c63ff;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 24px;
+    -fx-background-radius: 10px;
+    -fx-min-width: 200px;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #5750cc;
+    -fx-text-fill: #fff;
+    -fx-border-color: #f0f0f0;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+}
+
+.toggle-button:hover {
+    -fx-background-color: #4940b2;
+}
+
+.toggle-button:pressed {
+    -fx-background-color: #3d378d;
+}
+
+.toggle-button:selected:hover {
+    -fx-background-color: #4940b2;
+}
+
+.game-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 5px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.dropdown {
+    -fx-pref-width: 160px;
+    -fx-background-color: #4f13cf;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+}
+
+.dropdown .arrow-button .arrow {
+    -fx-background-color: white;
+}
+
+.dropdown .text {
+    -fx-fill: white;
+}
+
+.dropdown .combo-box-popup .list-view .list-cell {
+    -fx-background-color: #4f13cf; /* Background color of dropdown items */
+    -fx-text-fill: white;
+}
+
+.dropdown .combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #5750cc;
+}
+
+.dropdown .combo-box-popup .list-view .list-cell:filled:selected {
+    -fx-background-color: #4940b2;
+    -fx-text-fill: white;
+}
+
+.first-place-label, .second-place-label, .third-place-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.first-place-label {
+    -fx-text-fill: gold;
+}
+
+.second-place-label {
+    -fx-text-fill: silver;
+}
+
+.third-place-label {
+    -fx-text-fill: #cd7f32;
+}
+
+.podium-label {
+    -fx-font-size: 21px;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 5px;
+}
+
+.player-list {
+    -fx-background-color: #6c63ff;
+    -fx-border-color: #ddd;
+    -fx-border-width: 2px;
+    -fx-padding: 5px;
+    -fx-background-radius: 8px;
+    -fx-max-height: 250px;
+    -fx-pref-width: 700px;
+}
+
+.player-list .list-cell {
+    -fx-background-color: #6c63ff;
+    -fx-text-fill: white;
+    -fx-padding: 8px;
+    -fx-font-size: 16px;
+    -fx-border-color: transparent;
+}
+
+.player-list .list-cell:hover {
+    -fx-background-color: #5750cc;
+    -fx-cursor: hand;
+}

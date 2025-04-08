@@ -24,7 +24,7 @@ public class HelloApplication extends Application {
         WelcomePageController controller = fxmlLoader.getController();
 
         // Initialize the LoginPage and pass it to the controller
-        CredentialsDatabase database = new CredentialsDatabase();
+        CredentialsDatabase database = new CredentialsDatabase(); //initialize in static way
         database.loadDatabase("database.txt");
         LoginPage loginPage = new LoginPage(database);
 

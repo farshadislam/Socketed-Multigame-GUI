@@ -5,6 +5,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -12,27 +13,38 @@
             prefHeight="400.0" prefWidth="600.0"
             styleClass="gradient-background">
 
+    <HBox spacing="10" alignment="center"
+          AnchorPane.topAnchor="15.0" AnchorPane.leftAnchor="15.0">
+        <ImageView fx:id="logoutIcon" fitWidth="40" fitHeight="40" onMouseClicked="#handleLogout"/>
+    </HBox>
+
+    <HBox spacing="10" alignment="center"
+          AnchorPane.topAnchor="15.0" AnchorPane.rightAnchor="15.0">
+        <ImageView fx:id="settingsIcon" fitWidth="40" fitHeight="40" onMouseClicked="#openSettings"/>
+    </HBox>
+
+    <Label text="OMG Games" styleClass="dashboard-title-label"
+           AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"
+           alignment="center"/>
+
     <HBox spacing="10" styleClass="dashboard-hbox"
-          AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="20.0"
+          AnchorPane.topAnchor="60.0" AnchorPane.bottomAnchor="20.0"
           AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
 
-        <!-- Left Pane: View Stats -->
-        <VBox alignment="center" spacing="10" styleClass="dashboard-pane" HBox.hgrow="ALWAYS">
-            <Label text="View Stats" styleClass="dashboard-label"/>
+        <VBox fx:id="viewStatsPane" alignment="center" spacing="10" styleClass="dashboard-pane" HBox.hgrow="ALWAYS" onMouseClicked="#openLeaderboardPage">
+            <Label text="Leaderboard" styleClass="dashboard-label"/>
+            <ImageView fx:id="statsIcon" fitWidth="50" fitHeight="50"/>
         </VBox>
 
-        <!-- Center Pane: Your Profile -->
-        <VBox alignment="center" spacing="10" styleClass="dashboard-pane" HBox.hgrow="ALWAYS">
-            <Label text="Your Profile" styleClass="dashboard-label"/>
+        <VBox fx:id="profilePane" alignment="center" spacing="10" styleClass="dashboard-pane" HBox.hgrow="ALWAYS" onMouseClicked="#openProfilePage">
+            <Label text="Player Profiles" styleClass="dashboard-label"/>
+            <ImageView fx:id="profileIcon" fitWidth="50" fitHeight="50"/>
         </VBox>
 
-        <!-- Right Pane: Play Games -->
-        <VBox alignment="center" spacing="10" styleClass="dashboard-pane" HBox.hgrow="ALWAYS">
+        <VBox fx:id="playGamesPane" alignment="center" spacing="10" styleClass="dashboard-pane" HBox.hgrow="ALWAYS" onMouseClicked="#openGamesPage">
             <Label text="Play Games" styleClass="dashboard-label"/>
+            <ImageView fx:id="playIcon" fitWidth="50" fitHeight="50"/>
         </VBox>
-
     </HBox>
 </AnchorPane>
-
-
 

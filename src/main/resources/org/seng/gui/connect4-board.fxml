@@ -60,14 +60,13 @@
 
            </children>
       </FlowPane>
-      <Label fx:id="omgLabel" layoutX="14.0" layoutY="23.0" styleClass="omg-label" text="OMG   Platform" />
       <Button fx:id="inGameChatButton" layoutX="776.0" layoutY="533.0" mnemonicParsing="false" onAction="#openChat" prefHeight="48.0" prefWidth="96.0" styleClass="option-button" text="Chat" textFill="#8e2de2" />
       <MenuButton layoutX="730.0" layoutY="23.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="154.0" styleClass="option-button" text="Settings" textFill="#8e2de2">
         <items>
-          <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" text="Help" />
-          <MenuItem mnemonicParsing="false" text="Quit" />
+          <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" styleClass="menu-item" text="Help" />
+          <MenuItem fx:id="quitOption" mnemonicParsing="false" onAction="#handleQuit" styleClass="menu-item" text="Quit" />
         </items>
       </MenuButton>
-      <Label fx:id="connect4Label" layoutX="387.0" layoutY="23.0" styleClass="connect4-Label" text="Connect 4" />
+      <Label fx:id="connect4Label" layoutX="387.0" layoutY="23.0" styleClass="connect4-label" text="Connect 4" />
    </children>
 </AnchorPane>
