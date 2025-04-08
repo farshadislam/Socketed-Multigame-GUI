@@ -195,7 +195,8 @@ public class LoginPageTest {
     // email taken
     @Test
     public void registerTest19(){
-        loginPage.register("player1", "player1@gmail.com", "player11");
+        Player player1 = new Player("player1", "player1@gmail.com", "player11");
+        database.addNewPlayer("player1", player1);
         LoginPage.State result = loginPage.register("player2", "player1@gmail.com", "player22");
         assertEquals(LoginPage.State.EMAIL_TAKEN, result);
     }
@@ -210,15 +211,17 @@ public class LoginPageTest {
     // forgot password email sent
     @Test
     public void forgotPasswordTest2(){
-        loginPage.register("player1", "player1@gmail.com", "password");
+        Player player1 = new Player("player1", "player1@gmail.com", "password");
+        database.addNewPlayer("player1", player1);
         boolean result = loginPage.forgotPassword("player1");
-        assertFalse(result);
+        assertTrue(result);
     }
 
     // valid verification code
     @Test
     public void verifyEmailCodeForgotPasswordTest1(){
-        loginPage.register("player1", "player1@gmail.com", "password");
+        Player player1 = new Player("player1", "player1@gmail.com", "password");
+        database.addNewPlayer("player1", player1); // Simulate verified registration
         loginPage.forgotPassword("player1");
         boolean result = loginPage.verifyEmailCodeForgotPassword("player1", "1234");
         assertTrue(result);
@@ -236,8 +239,9 @@ public class LoginPageTest {
     // change password
     @Test
     public void changePasswordTest1(){
-       loginPage.register("player1", "player1@gmail.com", "oldpassword");
-        boolean result = loginPage.changePassword("player1", "oldpassword", "newpassword");
+        Player player1 = new Player("player1", "player1@gmail.com", "password");
+        database.addNewPlayer("player1", player1);
+        boolean result = loginPage.changePassword("player1", "password", "newpassword");
         assertTrue(result);
     }
 
