@@ -165,7 +165,9 @@ public class CheckersGame {
         return Math.abs(fromRow - toRow) == 2 && Math.abs(fromCol - toCol) == 2;
     }
 
-    // Switches turn to the next player/piece
+    /**
+     * Switches turn to the other player
+     */
     public void switchPlayer() {
         if (players[0] == currentPlayer) {
             currentPlayer = players[1];
