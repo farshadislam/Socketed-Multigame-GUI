@@ -13,14 +13,17 @@ import javafx.util.Duration;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 import java.util.Optional;
+import org.seng.authentication.*;
 
 public class GameDashboardController {
 
     @FXML
     private ImageView statsIcon, profileIcon, playIcon, settingsIcon, logoutIcon;
 
+
     @FXML
     private VBox viewStatsPane, profilePane, playGamesPane;
+    private HomePage homePage;
 
     @FXML
     public void initialize() {
@@ -39,6 +42,10 @@ public class GameDashboardController {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void setHomePage(HomePage homePage){
+        this.homePage = homePage;
     }
 
     @FXML

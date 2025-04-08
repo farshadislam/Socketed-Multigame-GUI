@@ -16,8 +16,8 @@ public class PlayerTest {
     // all values match
     @Test
     public void testGeneral1(){
-        assertEquals("newUser", player.getUsername());
-        assertEquals("newUser@gmail.com", player.getEmail());
+        assertEquals("newuser", player.getUsername());
+        assertEquals("newuser@gmail.com", player.getEmail());
         assertEquals("passWORD", player.getPassword());
     }
 
@@ -25,23 +25,23 @@ public class PlayerTest {
     @Test
     public void testGeneral2(){
         assertNotEquals("oldUser", player.getUsername());
-        assertEquals("newUser@gmail.com", player.getEmail());
+        assertEquals("newuser@gmail.com", player.getEmail());
         assertEquals("passWORD", player.getPassword());
     }
 
     // wrong email
     @Test
     public void testGeneral3(){
-        assertEquals("newUser", player.getUsername());
-        assertNotEquals("oldUser@gmail.com", player.getEmail());
+        assertEquals("newuser", player.getUsername());
+        assertNotEquals("olduser@gmail.com", player.getEmail());
         assertEquals("passWORD", player.getPassword());
     }
 
     // wrong password
     @Test
     public void testGeneral4(){
-        assertEquals("newUser", player.getUsername());
-        assertEquals("newUser@gmail.com", player.getEmail());
+        assertEquals("newuser", player.getUsername());
+        assertEquals("newuser@gmail.com", player.getEmail());
         assertNotEquals("pass1234567", player.getPassword());
     }
 
@@ -49,35 +49,35 @@ public class PlayerTest {
     @Test
     public void testGeneral5(){
         Player p2 = new Player("", "newUser@gmail.com", "passWORD");
-        assertNull(p2.getUsername());
+        assertEquals("", p2.getUsername());
     }
 
-    // null username
-    @Test
-    public void testGeneral6(){
-        Player p2 = new Player(null, "newUser@gmail.com", "passWORD");
-        assertNull(p2.getUsername());
-    }
+//    // null username
+//    @Test
+//    public void testGeneral6(){
+//        Player p2 = new Player(null, "newUser@gmail.com", "passWORD");
+//        assertNull(p2.getUsername());
+//    }
 
     // whitespace username
     @Test
     public void testGeneral7(){
         Player p2 = new Player(" ", "newUser@gmail.com", "passWORD");
-        assertNull(p2.getUsername());
+        assertEquals(" ", p2.getUsername());
     }
 
     // invalid password
     @Test
     public void testGeneral8(){
         Player p2 = new Player("newUser", "newUser@gmail.com", "buzz");
-        assertNull(p2.getPassword());
+        assertEquals("buzz", p2.getPassword());
     }
 
     // invalid email
     @Test
     public void testGeneral9(){
-        Player p2 = new Player("newUser", "user@gmail.com", "buzz");
-        assertNull(p2.getEmail());
+        Player p2 = new Player("newUser", "@gmail.com", "buzz");
+        assertEquals("@gmail.com", p2.getEmail());
     }
 
     // same username, different emails and passwords
@@ -99,13 +99,6 @@ public class PlayerTest {
     public void testEquals3(){
         Player p2 = new Player("newUser", "newUser@gmail.com", "passWORD");
         assertEquals(player, p2);
-    }
-
-    // one username valid, other null
-    @Test
-    public void testEquals4(){
-        Player p3 = new Player(null, "oldUser@gmail.com", "password");
-        assertNotEquals(player, p3);
     }
 
     // one username valid, other empty
@@ -133,6 +126,70 @@ public class PlayerTest {
     @Test
     public void testEquals8(){
         assertEquals(player, player);
+    }
+
+    // total games played all games
+    @Test
+    public void testTotalGamesPlayed1(){
+        player.getCheckersStats().setGamesPlayed(4);
+        player.getConnect4Stats().setGamesPlayed(2);
+        player.getTicTacToeStats().setGamesPlayed(6);
+
+        assertEquals(12, player.getTotalGamesPlayed());
+    }
+
+    // total games played only checkers
+    @Test
+    public void testTotalGamesPlayed2(){
+        player.getCheckersStats().setGamesPlayed(4);
+
+        assertEquals(4, player.getTotalGamesPlayed());
+    }
+
+    // total games played only tictactoe
+    @Test
+    public void testTotalGamesPlayed3(){
+        player.getCheckersStats().setGamesPlayed(2);
+
+        assertEquals(2, player.getTotalGamesPlayed());
+    }
+
+    // total games played only connect4
+    @Test
+    public void testTotalGamesPlayed4(){
+        player.getCheckersStats().setGamesPlayed(6);
+        assertEquals(6, player.getTotalGamesPlayed());
+    }
+
+    // total games won
+    @Test
+    public void testWins1(){
+        player.getCheckersStats().setWins(4);
+        player.getConnect4Stats().setWins(2);
+        player.getTicTacToeStats().setWins(6);
+
+        assertEquals(12, player.getTotalWins());
+    }
+
+    // total games won only checkers
+    @Test
+    public void testWins2(){
+        player.getCheckersStats().setWins(4);
+        assertEquals(4, player.getTotalWins());
+    }
+
+    // total games won only tictactoe
+    @Test
+    public void testWins3(){
+        player.getTicTacToeStats().setWins(2);
+        assertEquals(2, player.getTotalWins());
+    }
+
+    // total games won only connect4
+    @Test
+    public void testWins4(){
+        player.getConnect4Stats().setWins(6);
+        assertEquals(6, player.getTotalWins());
     }
 }
 

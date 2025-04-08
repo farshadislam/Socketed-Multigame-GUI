@@ -40,5 +40,7 @@
             <Hyperlink fx:id="forgotPasswordLink" text="Click here" styleClass="forgot-link"/>
         </HBox>
     </VBox>
+    <Label fx:id="errorLabel" styleClass="error-label" text="" visible="false"
+           AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="320.0" />
 
 </AnchorPane>

@@ -5,23 +5,23 @@ import org.seng.authentication.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TemporaryPlayerStorageTest {
-    private Player tempPlayer;
+    private Player tempuser;
 
     @BeforeEach
     public void setUp() {
-        tempPlayer = new Player("tempUser", "temp@example.com", "passWordTemp");
+        tempuser = new Player("tempUser", "temp@example.com", "passWordTemp");
         TemporaryPlayerStorage.removePlayer("tempUser");
     }
 
     @Test
     public void testAddPlayer() {
-        TemporaryPlayerStorage.addPlayer("tempUser", tempPlayer);
+        TemporaryPlayerStorage.addPlayer("tempUser", tempuser);
         assertTrue(TemporaryPlayerStorage.findUsername("tempUser"));
     }
 
     @Test
     public void testFindUsername(){
-        TemporaryPlayerStorage.addPlayer("tempUser",tempPlayer);
+        TemporaryPlayerStorage.addPlayer("tempUser",tempuser);
         assertTrue(TemporaryPlayerStorage.findUsername("tempUser"));
         assertTrue(TemporaryPlayerStorage.findUsername("TempUser"));
         assertFalse(TemporaryPlayerStorage.findUsername("UnknownUser"));
@@ -29,15 +29,15 @@ public class TemporaryPlayerStorageTest {
 
     @Test
     public void testGetPlayer(){
-        TemporaryPlayerStorage.addPlayer("tempUser",tempPlayer);
+        TemporaryPlayerStorage.addPlayer("tempUser",tempuser);
         Player takenPlayer = TemporaryPlayerStorage.getPlayer("tempUser");
         assertNotNull(takenPlayer);
-        assertEquals("tempPlayer", takenPlayer.getUsername());
+        assertEquals("tempuser", takenPlayer.getUsername());
     }
 
     @Test
     public void testRemovePlayer(){
-        TemporaryPlayerStorage.addPlayer("tempUser",tempPlayer);
+        TemporaryPlayerStorage.addPlayer("tempUser",tempuser);
         TemporaryPlayerStorage.removePlayer("tempUser");
         assertFalse(TemporaryPlayerStorage.findUsername("tempUser"));
     }

@@ -90,7 +90,7 @@ public class LoginPage {
      * @param email
      * @return
      */
-    private boolean verifyEmailFormat(String email){
+    public boolean verifyEmailFormat(String email){
         if(!email.endsWith("@gmail.com") || email.indexOf("@") != email.lastIndexOf("@") || email.indexOf("@") <= 0){
             return false;
         }
@@ -134,7 +134,7 @@ public class LoginPage {
         return c == '.' || c == '_' || c == '-';
     }
 
-    private boolean verifyPasswordFormat(String password){
+    public boolean verifyPasswordFormat(String password){
         return password.length() >= 8 && !password.matches(".*\\s.*");
     }
 
@@ -157,16 +157,16 @@ public class LoginPage {
         return true;
     }
 
-    public State forgotPassword(String username){
+    public boolean forgotPassword(String username){
         if(!database.usernameLookup(username)){
-            return State.USERNAME_NOT_FOUND; //username not found
+            return false; //username not found
         }
         EmailVerificationService.setDatabase(database);
         String code = EmailVerificationService.generateVerificationCode();
         if(EmailVerificationService.sendVerificationEmailForgotPassword(username,code)){
-            return State.VERIFICATION_CODE_SENT;
+            return true;
         }
-        return State.ERROR;
+        return false;
     }
 
     public boolean verifyEmailCodeForgotPassword(String username,String code){

@@ -20,9 +20,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.seng.authentication.*;
+
 
 public class WelcomePageController {
     public VBox loginBox;
+
     @FXML
     private TextField usernameField;
 
@@ -80,8 +83,6 @@ public class WelcomePageController {
         // handle login button click
         loginButton.setOnAction(e -> handleLogin());
 
-        // handle create account button click
-        createAccountButton.setOnAction(e -> handleCreateAccount());
 
         // handle forgot password link click
         forgotPasswordLink.setOnAction(e -> openForgotPasswordWindow());
@@ -176,14 +177,11 @@ public class WelcomePageController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        // hardcoded credentials for testing
-        String storedUsername = "baka";
-        String storedPassword = "123";
-
-        if (username.equals(storedUsername) && password.equals(storedPassword)) {
-            openGameDashboard();
-        } else {
-            displayErrorMessage("Invalid username or password");
+        HomePage homePage = HelloApplication.loginPage.login(username,password);
+        if(homePage!=null){
+            openGameDashboard(homePage);
+        }else{
+            displayErrorMessage("Invalid Username or Password!");
         }
     }
     private void displayErrorMessage(String message) {
@@ -195,12 +193,8 @@ public class WelcomePageController {
         pause.play();
     }
 
-    // create account button click handler
-    private void handleCreateAccount() {
-        System.out.println("Create Account Clicked");
-    }
 
-    private void openGameDashboard() {
+    private void openGameDashboard(HomePage homePage) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 700, 450);
@@ -208,6 +202,8 @@ public class WelcomePageController {
             Stage stage = new Stage();
             stage.setTitle("Game Dashboard");
             stage.setScene(scene);
+            GameDashboardController controller = fxmlLoader.getController();
+            controller.setHomePage(homePage);
             stage.show();
 
             // Close the login window
@@ -236,7 +232,7 @@ public class WelcomePageController {
             // close current welcome stage
             Stage currentStage = (Stage) loginButton.getScene().getWindow();
             currentStage.close();
-
+            ForgotPasswordController controller = fxmlLoader.getController();
             // show forgot password window
             stage.show();
         } catch (IOException ex) {
@@ -247,10 +243,12 @@ public class WelcomePageController {
     private void openCreateAccountPage() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("create-account.fxml"));
+
             Scene scene = new Scene(fxmlLoader.load(), 700, 450);
             scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
             Stage stage = new Stage();
             stage.setScene(scene);
+
             stage.setTitle("Create Account");
             stage.show();
 

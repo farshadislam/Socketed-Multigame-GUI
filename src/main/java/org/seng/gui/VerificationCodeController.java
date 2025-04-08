@@ -1,5 +1,6 @@
 package org.seng.gui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
+import org.seng.authentication.LoginPage;
+
 import java.io.IOException;
 
 public class VerificationCodeController {
@@ -22,7 +25,8 @@ public class VerificationCodeController {
     @FXML
     private Label errorLabel;
 
-    private String verificationCode = "";  // store 4 digit code
+    private String verificationCode = "";
+    private String username;// store 4 digit code
 
     @FXML
     public void initialize() {
@@ -34,6 +38,10 @@ public class VerificationCodeController {
         setupCodeField(code2, code1, code3);
         setupCodeField(code3, code2, code4);
         setupCodeField(code4, code3, null); // doesn't move after last one
+    }
+
+    public void setUsername(String username){
+        this.username = username;
     }
 
     // text field moves after each input and handles backspace
@@ -69,15 +77,14 @@ public class VerificationCodeController {
     // update stored verification code
     private void updateVerificationCode() {
         verificationCode = code1.getText() + code2.getText() + code3.getText() + code4.getText();
-        System.out.println("Current Code: " + verificationCode);
     }
 
     // compare verification code against stored
     private void handleVerification() {
-        if (verificationCode.equals("1234")) {
-            openNewPasswordWindow();
+        if (HelloApplication.loginPage.verifyEmailCodeForgotPassword(this.username, this.verificationCode)) {
+            openNewPasswordWindow(this.username);
         } else {
-            displayErrorMessage("Incorrect verification code");
+            displayErrorMessage("Incorrect Verification Code!");
         }
     }
 
@@ -92,7 +99,7 @@ public class VerificationCodeController {
         pause.play();
     }
 
-    private void openNewPasswordWindow() {
+    private void openNewPasswordWindow(String username) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("new-password.fxml"));
             Scene newPasswordScene = new Scene(fxmlLoader.load(), 700, 450);
@@ -105,7 +112,8 @@ public class VerificationCodeController {
             // Close current window
             Stage currentStage = (Stage) confirmButton.getScene().getWindow();
             currentStage.close();
-
+            NewPasswordController controller = fxmlLoader.getController();
+            controller.setUsername(username);
             stage.show();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -132,5 +140,11 @@ public class VerificationCodeController {
             ex.printStackTrace();
         }
     }
+
+    @FXML
+    void confirmcode(ActionEvent event) {
+
+    }
+
 
 }

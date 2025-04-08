@@ -1,11 +1,16 @@
 package org.seng.gui;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -13,6 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class Connect4Controller {
@@ -36,6 +42,53 @@ public class Connect4Controller {
             }
         }
         clearChatHistory();
+    }
+    @FXML
+    private void handleQuit() {
+        Stage dialogStage = new Stage();
+        dialogStage.initStyle(StageStyle.UNDECORATED);
+        dialogStage.setTitle("Confirm Quit");
+
+        Label message = new Label("Are you sure you want to quit?");
+        Button yesButton = new Button("Yes");
+        Button noButton = new Button("No");
+
+        yesButton.setOnAction(e -> {
+            dialogStage.close();
+            openToGameDashboard();
+        });
+        noButton.setOnAction(e -> dialogStage.close());
+
+        HBox buttons = new HBox(10, yesButton, noButton);
+        buttons.setAlignment(Pos.CENTER);
+
+        VBox layout = new VBox(15, message, buttons);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+
+        Scene scene = new Scene(layout, 300, 150);
+        dialogStage.setScene(scene);
+        dialogStage.show();
+    }
+
+    private void openToGameDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+            Scene dashboardScene = new Scene(loader.load(), 900, 600);
+            dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            Stage dashboardStage = new Stage();
+            dashboardStage.setTitle("Game Dashboard");
+            dashboardStage.setScene(dashboardScene);
+
+            // Close current window
+            Stage currentStage = (Stage) board.getScene().getWindow();
+            currentStage.close();
+
+            dashboardStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
