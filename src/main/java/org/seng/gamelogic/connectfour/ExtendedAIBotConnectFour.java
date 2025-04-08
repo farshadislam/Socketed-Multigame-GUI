@@ -85,16 +85,6 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
         return ' ';
     }
 
-    @Override
-    public void setSymbol(char symbol) {
-        this.symbol = symbol;
-    }
-
-    @Override
-    public char getSymbol() {
-        return this.symbol;
-    }
-
     // === Inner class starts here ===
     public static class ConnectFourMove {
         private final ConnectFourPlayer player;

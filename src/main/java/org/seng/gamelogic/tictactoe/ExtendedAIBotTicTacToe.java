@@ -87,15 +87,6 @@ public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
         return new TicTacToeMove(move[1], move[0], this.symbol);
     }
 
-    @Override
-    public void setSymbol(char symbol) {
-        this.symbol = symbol;
-    }
-
-    @Override
-    public char getSymbol() {
-        return symbol;
-    }
 
 
     /**
