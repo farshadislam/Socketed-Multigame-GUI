@@ -24,7 +24,7 @@ public class GameDashboardController {
     @FXML
     private VBox viewStatsPane, profilePane, playGamesPane;
     private HomePage homePage;
-
+    public static Player player;
     @FXML
     public void initialize() {
         try {
@@ -48,6 +48,9 @@ public class GameDashboardController {
         this.homePage = homePage;
     }
 
+    public void setPlayer(Player player1){
+        GameDashboardController.player = player1;
+    }
     @FXML
     public void openLeaderboardPage() {
         openNewPage("leaderboard-page.fxml", "Leaderboard");
