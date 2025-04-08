@@ -66,7 +66,7 @@ public class ConnectFourBoard {
                         grid[row - 1][col] = Chip.YELLOW;
                         return true;
                     }
-                // If the current row is the last row of the board, places the chip
+                    // If the current row is the last row of the board, places the chip
                 } else if (row == ROW_COUNT - 1) {
                     if (player.getSymbol() == 'b') {
                         grid[row][col] = Chip.BLUE;
@@ -109,6 +109,15 @@ public class ConnectFourBoard {
     }
 
     /**
+     * Checks whether a move can be made in the selected column
+     * @param col the column to check
+     * @return true if the move is valid (column exists and is not full), false otherwise
+     */
+    public boolean validMove(int col) {
+        return isColumn(col) && !columnFull(col);
+    }
+
+    /**
      * Resets the board layout so that all Chips are marked as Empty by calling the initialize function
      */
     public void resetBoard() {
@@ -126,12 +135,37 @@ public class ConnectFourBoard {
     }
 
     /**
-     *
-     * @param row
-     * @param col
-     * @param chip
+     * Sets a Chip value in the board
+     * @param row the row of the board
+     * @param col the column of the board
+     * @param chip the Chip to be placed
      */
     public void setChip(int row, int col, Chip chip) {
         grid[row][col] = chip;
+    }
+
+    /**
+     * Displays the current board layout in the console for visual reference
+     * Prints b for BLUE, y for YELLOW, and . for EMPTY
+     */
+    public void display() {
+        System.out.println("Current board:");
+        for (int row = 0; row < ROW_COUNT; row++) {
+            for (int col = 0; col < COL_COUNT; col++) {
+                switch (grid[row][col]) {
+                    case BLUE:
+                        System.out.print("b ");
+                        break;
+                    case YELLOW:
+                        System.out.print("y ");
+                        break;
+                    default:
+                        System.out.print(". ");
+                        break;
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("0 1 2 3 4 5 6"); // column index labels
     }
 }

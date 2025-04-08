@@ -33,9 +33,40 @@ public class ConnectFourGame {
     public List<String> getChatLog() {
         return new ArrayList<>(chatLog);
     }
+
     // need to integrate with GUI team (start/exit button)
     public void startGame() {
+        initializePlayerSymbols(); // assign symbols to players
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
 
+        while (status.equals("In Progress")) {
+            board.display(); // display board (requires display() method in ConnectFourBoard)
+            System.out.println("Current Player: " + currentPlayer.getName() + " (" + currentPlayer.getSymbol() + ")");
+            System.out.print("Enter a column (0-6): ");
+
+            int column = scanner.nextInt();
+
+            // input validation
+            if (column < 0 || column >= ConnectFourBoard.COL_COUNT) {
+                System.out.println("Invalid column. Please choose a column between 0 and 6.");
+                continue;
+            }
+
+            if (!board.validMove(column)) {
+                System.out.println("Column is full. Try a different one.");
+                continue;
+            }
+
+            // make the move
+            makeMove(column);
+
+            // update status method
+            setStatus(currentPlayer, column);
+        }
+
+        board.display(); // final board state
+        System.out.println("Game Over! Status: " + status);
+        scanner.close();
     }
 
     public void exitGame() {
@@ -133,7 +164,4 @@ public class ConnectFourGame {
         String message = "Player " + gamePlayer.getName() + " has dropped a piece in column " + column;
         status = message;
     }
-
-
 }
-
