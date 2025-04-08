@@ -52,13 +52,6 @@ public class PlayerTest {
         assertEquals("", p2.getUsername());
     }
 
-//    // null username
-//    @Test
-//    public void testGeneral6(){
-//        Player p2 = new Player(null, "newUser@gmail.com", "passWORD");
-//        assertNull(p2.getUsername());
-//    }
-
     // whitespace username
     @Test
     public void testGeneral7(){
@@ -138,9 +131,19 @@ public class PlayerTest {
         assertEquals(12, player.getTotalGamesPlayed());
     }
 
-    // total games played only checkers
+    // total games played all games
     @Test
     public void testTotalGamesPlayed2(){
+        player.getCheckersStats().setGamesPlayed(4);
+        player.getConnect4Stats().setGamesPlayed(2);
+        player.getTicTacToeStats().setGamesPlayed(6);
+
+        assertNotEquals(0, player.getTotalGamesPlayed());
+    }
+
+    // total games played only checkers
+    @Test
+    public void testTotalGamesPlayed3(){
         player.getCheckersStats().setGamesPlayed(4);
 
         assertEquals(4, player.getTotalGamesPlayed());
@@ -148,7 +151,7 @@ public class PlayerTest {
 
     // total games played only tictactoe
     @Test
-    public void testTotalGamesPlayed3(){
+    public void testTotalGamesPlayed4(){
         player.getCheckersStats().setGamesPlayed(2);
 
         assertEquals(2, player.getTotalGamesPlayed());
@@ -156,7 +159,7 @@ public class PlayerTest {
 
     // total games played only connect4
     @Test
-    public void testTotalGamesPlayed4(){
+    public void testTotalGamesPlayed5(){
         player.getCheckersStats().setGamesPlayed(6);
         assertEquals(6, player.getTotalGamesPlayed());
     }
@@ -171,25 +174,132 @@ public class PlayerTest {
         assertEquals(12, player.getTotalWins());
     }
 
-    // total games won only checkers
+    // total games won
     @Test
     public void testWins2(){
+        player.getCheckersStats().setWins(4);
+        player.getConnect4Stats().setWins(2);
+        player.getTicTacToeStats().setWins(6);
+
+        assertNotEquals(0, player.getTotalWins());
+    }
+
+    // total games won only checkers
+    @Test
+    public void testWins3(){
         player.getCheckersStats().setWins(4);
         assertEquals(4, player.getTotalWins());
     }
 
     // total games won only tictactoe
     @Test
-    public void testWins3(){
+    public void testWins4(){
         player.getTicTacToeStats().setWins(2);
         assertEquals(2, player.getTotalWins());
     }
 
     // total games won only connect4
     @Test
-    public void testWins4(){
+    public void testWins5(){
         player.getConnect4Stats().setWins(6);
         assertEquals(6, player.getTotalWins());
     }
+
+    // total games lost all games
+    @Test
+    public void testTotalLosses1(){
+        player.getCheckersStats().setLosses(4);
+        player.getConnect4Stats().setLosses(2);
+        player.getTicTacToeStats().setLosses(6);
+
+        assertEquals(12, player.getTotalLosses());
+    }
+
+    // total games lost all games
+    @Test
+    public void testTotalLosses2(){
+        player.getCheckersStats().setLosses(4);
+        player.getConnect4Stats().setLosses(2);
+        player.getTicTacToeStats().setLosses(6);
+
+        assertNotEquals(0, player.getTotalLosses());
+    }
+
+    // total games lost checkers
+    @Test
+    public void testTotalLosses3(){
+        player.getCheckersStats().setLosses(4);
+
+        assertEquals(4, player.getTotalLosses());
+    }
+
+    // total games lost tictactoe
+    @Test
+    public void testTotalLosses4(){
+        player.getTicTacToeStats().setLosses(2);
+
+        assertEquals(2, player.getTotalLosses());
+    }
+
+    // total games lost connect4
+    @Test
+    public void testTotalLosses5(){
+        player.getConnect4Stats().setLosses(6);
+
+        assertEquals(6, player.getTotalLosses());
+    }
+
+    // total games tied all games
+    @Test
+    public void testTotalTied1(){
+        player.getCheckersStats().setTies(4);
+        player.getConnect4Stats().setTies(2);
+        player.getTicTacToeStats().setTies(6);
+
+        assertEquals(12, player.getTotalTies());
+    }
+
+    // total games tied all games
+    @Test
+    public void testTotalTied2(){
+        player.getCheckersStats().setTies(4);
+        player.getConnect4Stats().setTies(2);
+        player.getTicTacToeStats().setTies(6);
+
+        assertNotEquals(0, player.getTotalTies());
+    }
+
+    // total games tied checkers
+    @Test
+    public void testTotalTies3(){
+        player.getCheckersStats().setTies(4);
+
+        assertEquals(4, player.getTotalTies());
+    }
+
+    // total games tied tictactoe
+    @Test
+    public void testTotalTied4(){
+        player.getTicTacToeStats().setTies(2);
+
+        assertEquals(2, player.getTotalTies());
+    }
+
+    // total games tied connect4
+    @Test
+    public void testTotalTies5(){
+        player.getConnect4Stats().setTies(6);
+
+        assertEquals(6, player.getTotalTies());
+    }
+
+    // verification code
+    @Test
+    public void testVerificationCode1() {
+        String code = "12345";
+        player.setVerificationCode(code);
+        assertEquals(code, player.getVerificationCode());
+    }
+
 }
 

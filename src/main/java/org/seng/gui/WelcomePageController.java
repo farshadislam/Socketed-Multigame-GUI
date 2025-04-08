@@ -188,7 +188,7 @@ public class WelcomePageController {
         errorLabel.setText(message);
         errorLabel.setVisible(true);
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(e -> errorLabel.setVisible(false));
         pause.play();
     }
@@ -203,7 +203,9 @@ public class WelcomePageController {
             stage.setTitle("Game Dashboard");
             stage.setScene(scene);
             GameDashboardController controller = fxmlLoader.getController();
+            Player player = homePage.getPlayer();
             controller.setHomePage(homePage);
+            controller.setPlayer(player);
             stage.show();
 
             // Close the login window
