@@ -21,6 +21,7 @@ public class CheckersGame {
     public ArrayList<String> chatLog;
 
     public ExtendedAIBotCheckers AIBot;
+    public char AISymbol;
 
     /**
      * Initializes a new checkers game with default settings.
@@ -55,15 +56,28 @@ public class CheckersGame {
         initializePlayerSymbols();
         if (players[0] instanceof ExtendedAIBotCheckers) {
             AIBot = (ExtendedAIBotCheckers) players[0];
+            AISymbol = 'r';
         } else if (players[1] instanceof ExtendedAIBotCheckers) {
             AIBot = (ExtendedAIBotCheckers) players[1];
+            AISymbol = 'b';
         } else {
             AIBot = null;
+            AISymbol = 'n';
         }
         while (true) {
             board.printBoard();
             System.out.println((isRedTurn ? "Red" : "Black") + "'s turn");
-            AIBot.nextMove(board);
+            if (isRedTurn) {
+                if (AISymbol == 'r') {
+                    AIBot.nextMove(board);
+                    continue;
+                }
+            } else {
+                if (AISymbol == 'b') {
+                    AIBot.nextMove(board);
+                    continue;
+                }
+            }
             System.out.print("Enter chat message: ");
             scanner.nextLine(); // Consume newline
             String chatMessage = scanner.nextLine();

@@ -1,5 +1,7 @@
 package org.seng.gamelogic.connectfour;
 
+import org.seng.gamelogic.checkers.ExtendedAIBotCheckers;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,9 @@ public class ConnectFourGame {
     public int gameID;
     public String status;
     public ArrayList<String> chatLog;
+
+    public ExtendedAIBotConnectFour AIBot;
+    public char AISymbol;
 
     public ConnectFourGame(ConnectFourBoard board, ConnectFourPlayer[] players, int gameID) {
         this.board = board;
@@ -46,11 +51,29 @@ public class ConnectFourGame {
 
         // once startGame() is called, status updates to "In Progress"
         status = "In Progress";
-
+        System.out.println("Welcome to Console Checkers!");
+        initializePlayerSymbols();
+        if (players[0] instanceof ExtendedAIBotConnectFour) {
+            AIBot = (ExtendedAIBotConnectFour) players[0];
+            AISymbol = 'b';
+        } else if (players[1] instanceof ExtendedAIBotConnectFour) {
+            AIBot = (ExtendedAIBotConnectFour) players[1];
+            AISymbol = 'y';
+        } else {
+            AIBot = null;
+            AISymbol = 'n';
+        }
         // game loop continues as long as there has been no win, draw, or exit
         while (!status.endsWith("Wins") && !status.equals("Draw") && !status.equals("Exiting Game")) {
             board.display(); // display board (requires display() method in ConnectFourBoard)
             System.out.println("Current Player: " + currentPlayer.getUsername() + " (" + currentPlayer.getSymbol() + ")");
+            if (currentPlayer.getSymbol() == 'b' && AISymbol == 'b') {
+                AIBot.makeMove(board, this);
+                continue;
+            } else if (currentPlayer.getSymbol() == 'y' && AISymbol == 'y'){
+                AIBot.makeMove(board, this);
+                continue;
+            }
             System.out.print("Enter a column (0-6): ");
 
             int column = scanner.nextInt();

@@ -1,5 +1,6 @@
 package org.seng.gamelogic.tictactoe;
 
+import org.seng.gamelogic.connectfour.ExtendedAIBotConnectFour;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard.Mark;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class TicTacToeGame {
     public TicTacToePlayer[] players; // Array to store two players
     public TicTacToePlayer currentPlayer;
     public int gameID;
+    public ExtendedAIBotTicTacToe AIBot;
+    public char AISymbol;
 
     /**
      * Constructs a Tic-Tac-Toe game.
@@ -177,11 +180,27 @@ public class TicTacToeGame {
     public void start() {
         Scanner scanner = new Scanner(System.in);
         initializePlayerSymbols(); // assign X and O to players
-
+        if (players[0] instanceof ExtendedAIBotTicTacToe) {
+            AIBot = (ExtendedAIBotTicTacToe) players[0];
+            AISymbol = 'X';
+        } else if (players[1] instanceof ExtendedAIBotTicTacToe) {
+            AIBot = (ExtendedAIBotTicTacToe) players[1];
+            AISymbol = 'O';
+        } else {
+            AIBot = null;
+            AISymbol = 'n';
+        }
         while (status.equals("In Progress")) {
             board.display(); // requires a display() method in TicTacToeBoard
 
             System.out.println("Current player: " + currMark);
+            if (currMark == Mark.X && AISymbol == 'X') {
+                AIBot.makeMove(board, this);
+                continue;
+            } else if (currMark == Mark.O && AISymbol == 'O'){
+                AIBot.makeMove(board, this);
+                continue;
+            }
             System.out.print("Enter row (0-2): ");
             int row = scanner.nextInt();
             System.out.print("Enter column (0-2): ");
