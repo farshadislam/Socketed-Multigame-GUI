@@ -116,16 +116,9 @@
 }
 
 /* Style each MenuItem within the MenuButton */
-.menu-item {
-    -fx-background-color: linear-gradient(to bottom, #8E2DE2, #4A00E0);
-    -fx-text-fill: white;
-    -fx-font-size: 13px;
-}
 
-/* Optional hover effect for MenuItems */
-.menu-item:hover {
-    -fx-background-color: #6a1cc2;
-}
+
+
 
 
 
