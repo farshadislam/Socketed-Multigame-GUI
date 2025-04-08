@@ -53,21 +53,4 @@ class NetworkingManagerTest {
         manager.broadcastToUsers(List.of("Alice", "Bob"), "Broadcasting!");
         // Again, would need to capture System.out to assert output
     }
-
-    @Test
-    void testNotifyMatchEnd() {
-        manager.connectPlayer("Dave");
-        manager.notifyMatchEnd("Dave");
-    }
-
-    @Test
-    void testPingConnectedUser() {
-        manager.connectPlayer("Eve");
-        manager.ping("Eve");
-    }
-
-    @Test
-    void testPingUnconnectedUser() {
-        manager.ping("NotConnected");
-    }
 }

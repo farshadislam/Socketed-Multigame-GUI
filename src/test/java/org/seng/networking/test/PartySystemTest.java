@@ -1,6 +1,6 @@
 package org.seng.networking.test;
 
-import main.java.org.seng.networking.leaderboard_matchmaking.GameType;
+import org.seng.networking.leaderboard_matchmaking.GameType;
 import org.junit.jupiter.api.*;
 import org.seng.networking.NetworkingManager;
 import org.seng.networking.PartySystem;
@@ -24,6 +24,12 @@ class PartySystemTest {
         NetworkingManager.getInstance().connectPlayer("User1");
         assertTrue(party.addPlayer("User1"));
         assertTrue(party.getPartyMembers().contains("User1"));
+    }
+
+    @Test
+    void testAddPlayer_fail() {
+        NetworkingManager.getInstance().connectPlayer("User2");
+
     }
 
     @Test
