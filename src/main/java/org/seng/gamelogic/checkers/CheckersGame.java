@@ -8,6 +8,8 @@ import org.seng.leaderboard_matchmaking.connect4Stats;
 
 /**
  * Represents a game of checkers following basic game logic.
+ * In our version of the game, black pieces are at the bottom and red pieces are the top of the board
+ * Red piece will move first
  */
 public class CheckersGame {
 
@@ -52,8 +54,10 @@ public class CheckersGame {
      * Starts the game and handles turn-based gameplay.
      */
     public void startGame() {
-        System.out.println("Welcome to Console Checkers!");
+
         initializePlayerSymbols();
+
+        // checks if the human player has selected to play against AI bot
         if (players[0] instanceof ExtendedAIBotCheckers) {
             AIBot = (ExtendedAIBotCheckers) players[0];
             AISymbol = 'r';
@@ -64,9 +68,12 @@ public class CheckersGame {
             AIBot = null;
             AISymbol = 'n';
         }
+
+        // game loop starts
         while (true) {
-            board.printBoard();
-            System.out.println((isRedTurn ? "Red" : "Black") + "'s turn");
+            board.printBoard(); // to be integrated with GUI
+            System.out.println((isRedTurn ? "Red" : "Black") + "'s turn"); // to be integrated with GUI
+
             if (isRedTurn) {
                 if (AISymbol == 'r') {
                     AIBot.nextMove(board);
@@ -78,6 +85,7 @@ public class CheckersGame {
                     continue;
                 }
             }
+
             System.out.print("Enter chat message: ");
             scanner.nextLine(); // Consume newline
             String chatMessage = scanner.nextLine();
@@ -107,7 +115,7 @@ public class CheckersGame {
                         break;
                     }
 
-                    if (gameDraw(board)) { // checks if game is at a draw
+                    if (gameDraw()) { // checks if game is at a draw
                         players[0].getCheckersStats().tie();
                         players[1].getCheckersStats().tie();
                     }
@@ -176,38 +184,10 @@ public class CheckersGame {
     }
 
     /**
-     * Sends a chat message and logs it.
-     * @param message The message to send.
-     */
-    public void sendMessage(String message) {
-        if (message != null && !message.trim().isEmpty()) {
-            chatLog.add(message);
-            System.out.println("Chat: " + message);
-        }
-    }
-
-    /**
-     * Retrieves the chat log.
-     * @return A list of chat messages.
-     */
-    public List<String> getChatLog() {
-        return new ArrayList<>(chatLog);
-    }
-
-    /**
-     * Main method to startGame the checkers game.
-     * @param args Command-line arguments.
-     */
-    public static void main(String[] args) {
-        CheckersGame game = new CheckersGame();
-        game.startGame();
-    }
-
-    /**
      * Checks if there is a draw in the game.
-     * @return A boolean is returned. True means the game is at a draw. False means the game is not at a draw..
+     * @return A boolean is returned. True means the game is at a draw. False means the game is not at a draw.
      */
-    public boolean gameDraw(CheckersBoard board){
+    public boolean gameDraw(){
         boolean redHasMoves = false; // if true, then at least one red piece can move
         boolean blackHasMoves = false; // if true, then at least one black piece can move
 
@@ -347,7 +327,34 @@ public class CheckersGame {
         }
 
         return false;
+    }
 
+    /**
+     * Sends a chat message and logs it.
+     * @param message The message to send.
+     */
+    public void sendMessage(String message) {
+        if (message != null && !message.trim().isEmpty()) {
+            chatLog.add(message);
+            System.out.println("Chat: " + message);
+        }
+    }
+
+    /**
+     * Retrieves the chat log.
+     * @return A list of chat messages.
+     */
+    public List<String> getChatLog() {
+        return new ArrayList<>(chatLog);
+    }
+
+    /**
+     * Main method to startGame the checkers game.
+     * @param args Command-line arguments.
+     */
+    public static void main(String[] args) {
+        CheckersGame game = new CheckersGame();
+        game.startGame();
     }
 
 }
