@@ -14,7 +14,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
     private Random random;
 
     public ExtendedAIBotConnectFour(char symbol, ConnectFourGame game, ConnectFourBoard board) {
-        super("AIBot", 0, symbol, 0); // passes username, player ID, symbol as char, rank
+        super("AIBot", String.valueOf(0), String.valueOf(symbol)); // passes username, player ID, symbol as char, rank
         this.game = game;
         this.board = board;
         this.random = new Random();
