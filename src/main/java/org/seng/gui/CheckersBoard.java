@@ -230,6 +230,7 @@ public class CheckersBoard {
 
         setupPieces();
         selectionHandle();
+        clearChatHistory();
     }
 
     private void setupPieces() {
@@ -361,6 +362,16 @@ public class CheckersBoard {
         chatStage.setScene(scene);
         chatStage.show();
     }
+
+    private void clearChatHistory() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH))) {
+            writer.write(""); // Clear the contents
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     // how to play rules
     @FXML

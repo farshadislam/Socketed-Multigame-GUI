@@ -27,7 +27,7 @@
 
         <HBox spacing="10" alignment="center">
             <Button fx:id="backButton" text="Back" styleClass="auth-button"/>
-            <Button fx:id="registerButton" text="Register" styleClass="auth-button"/>
+            <Button fx:id="registerButton" text="Verify" styleClass="auth-button"/>
         </HBox>
     </VBox>
 </AnchorPane>

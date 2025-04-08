@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.seng.authentication.Player;
+import org.seng.leaderboard.checkersStats;
+import org.seng.leaderboard.connect4Stats;
+import org.seng.leaderboard.ticTacToeStats;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -119,6 +122,18 @@ public class PlayerTest {
     @Test
     public void testEquals8(){
         assertEquals(player, player);
+    }
+
+    // null player
+    @Test
+    public void testEquals9(){
+        assertNotEquals(player, null);
+    }
+
+    // new object
+    @Test
+    public void testEquals10(){
+        assertNotEquals(player, new Object());
     }
 
     // total games played all games
@@ -299,6 +314,46 @@ public class PlayerTest {
         String code = "12345";
         player.setVerificationCode(code);
         assertEquals(code, player.getVerificationCode());
+    }
+
+    // correct symbol
+    @Test
+    public void testSymbol1(){
+        player.setSymbol('M');
+        assertEquals('M', player.getSymbol());
+
+    }
+
+    // incorrect symbol
+    @Test
+    public void testSymbol2(){
+        player.setSymbol('M');
+        assertNotEquals(' ', player.getSymbol());
+
+    }
+
+    // setter and getter for Connect4Stats
+    @Test
+    public void testConnect4Stats() {
+        connect4Stats connect4 = new connect4Stats("newUser");
+        player.setConnect4Stats(connect4);
+        assertEquals(connect4, player.getConnect4Stats());
+    }
+
+    // setter and getter for TicTacToeStats
+    @Test
+    public void testTicTacToeStats() {
+        ticTacToeStats ticTacToe = new ticTacToeStats("newUser");
+        player.setTicTacToeStats(ticTacToe);
+        assertEquals(ticTacToe, player.getTicTacToeStats());
+    }
+
+    // setter and getter for CheckersStats
+    @Test
+    public void testCheckersStats() {
+        checkersStats checkers = new checkersStats("newUser");
+        player.setCheckersStats(checkers);
+        assertEquals(checkers, player.getCheckersStats());
     }
 
 }

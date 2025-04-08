@@ -3,6 +3,9 @@ import org.junit.jupiter.api.Test;
 import org.seng.authentication.CredentialsDatabase;
 import org.seng.authentication.Player;
 import org.seng.authentication.Settings;
+import org.seng.leaderboard.checkersStats;
+import org.seng.leaderboard.connect4Stats;
+import org.seng.leaderboard.ticTacToeStats;
 
 import static org.junit.jupiter.api.Assertions.*;
 //import static org.seng.authentication.EmailVerificationService.database;
@@ -18,6 +21,33 @@ public class SettingsTest {
         player = new Player("newUser", "newUser@gmail.com", "passWORD");
         database = new CredentialsDatabase();
         settings = new Settings(player, database);
+    }
+
+    // get player
+    @Test
+    public void general1(){
+        assertEquals(player, settings.getPlayer());
+    }
+
+    // set player
+    @Test
+    public void general2(){
+        settings.setPlayer(player);  // Set the new player
+        assertEquals(player, settings.getPlayer());
+    }
+
+    // get database
+    @Test
+    public void general3() {
+        assertEquals(database, settings.getDatabase());
+    }
+
+    // set database
+    @Test
+    public void general4() {
+        CredentialsDatabase newDatabase = new CredentialsDatabase();
+        settings.setDatabase(newDatabase);
+        assertEquals(newDatabase, settings.getDatabase());
     }
 
     // valid username
@@ -71,10 +101,29 @@ public class SettingsTest {
         assertFalse(settings.changeUsername("user__user"));
     }
 
-    //doesn't contain alphabet username
+    // doesn't contain alphabet username
     @Test
     public void testChangeUsername9(){
         assertFalse(settings.changeUsername("123456"));
+    }
+
+    // same user
+    @Test
+    public void testChangeUsername10(){
+        database.addNewPlayer("newUser", player);
+        assertFalse(settings.changeUsername("newUser"));
+    }
+
+    // special character
+    @Test
+    public void testChangeUsername11(){
+        assertFalse(settings.changeUsername("newUser#123"));
+    }
+
+    // whitespace username
+    @Test
+    public void testChangeUsername12(){
+        assertFalse(settings.changeUsername("new user"));
     }
 
     // valid email
@@ -97,12 +146,6 @@ public class SettingsTest {
         assertFalse(settings.changeEmail(""));
     }
 
-//    // null email
-//    @Test
-//    public void testChangeEmail4(){
-//        assertNull(settings.changeEmail(null));
-//    }
-
     // whitespace email
     @Test
     public void testChangeEmail5(){
@@ -121,9 +164,30 @@ public class SettingsTest {
         assertFalse(settings.changeEmail("@gmail.com"));
     }
 
-    // email with user that doesn't have alphabet
+    // same email
+    @Test
+    public void testChangeEmail8(){
+        database.addNewPlayer("newUser", player);
+        assertFalse(settings.changeEmail("newUser@gmail.com"));
+    }
 
-    // email with user that has consecutive valid character
+    // fake domain email
+    @Test
+    public void testChangeEmail9(){
+        assertFalse(settings.changeEmail("newUser@blahhhh.com"));
+    }
+
+    // email no domain
+    @Test
+    public void testChangeEmail10(){
+        assertFalse(settings.changeEmail("newUser@"));
+    }
+
+    // email with space
+    @Test
+    public void testChangeEmail11(){
+        assertFalse(settings.changeEmail("new user@gmail.com"));
+    }
 
     // valid password
     @Test
@@ -156,6 +220,19 @@ public class SettingsTest {
         assertFalse(settings.changePassword("passWORD", ""));
     }
 
+    // wrong password
+    @Test
+    public void testChangePassword6(){
+        assertFalse(settings.changePassword("password", "heysoulsister"));
+    }
+
+    // both empty password
+    @Test
+    public void testChangePassword7(){
+        assertFalse(settings.changePassword("", ""));
+    }
+
+
     // player deleted
     @Test
     public void deleteAccount1(){
@@ -166,7 +243,46 @@ public class SettingsTest {
     // player not deleted (wrong password)
     @Test
     public void deleteAccount2(){
+        database.addNewPlayer("newUser", player);
         assertFalse(settings.deleteAccount("password"));
+    }
+
+    // player not exists
+    @Test
+    public void deleteAccount3(){
+        assertFalse(settings.deleteAccount("password"));
+    }
+
+    // player already deleted
+    @Test
+    public void deleteAccount4(){
+        database.addNewPlayer(player.getUsername(), player);
+        settings.deleteAccount("passWORD");
+        assertFalse(settings.deleteAccount("passWORD"));
+    }
+
+    // setter and getter for TicTacToeStats
+    @Test
+    public void testTicTacToeStats() {
+        ticTacToeStats ticTacToe = new ticTacToeStats("newUser");
+        player.setTicTacToeStats(ticTacToe);
+        assertEquals(ticTacToe, player.getTicTacToeStats());
+    }
+
+    // setter and getter for CheckersStats
+    @Test
+    public void testCheckersStats() {
+        checkersStats checkers = new checkersStats("newUser");
+        player.setCheckersStats(checkers);
+        assertEquals(checkers, player.getCheckersStats());
+    }
+
+    // setter and getter for CheckersStats
+    @Test
+    public void testConnect4Stats() {
+        connect4Stats connect4 = new connect4Stats("newUser");
+        player.setConnect4Stats(connect4);
+        assertEquals(connect4, player.getConnect4Stats());
     }
 
 

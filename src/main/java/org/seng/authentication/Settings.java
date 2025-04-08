@@ -15,6 +15,10 @@ public class Settings {
         this.player = player;
     }
 
+    public void setDatabase(CredentialsDatabase database) {
+        this.database = database;
+    }
+
     public CredentialsDatabase getDatabase() {
         return database;
     }
@@ -49,7 +53,9 @@ public class Settings {
     public boolean changeUsername(String newUsername){
         if (newUsername!=null && !(newUsername.isEmpty())){
             if(!database.usernameLookup(newUsername.toLowerCase()) && verifyUsernameFormat(newUsername)) {
+                database.deleteExistingPlayer(player.getUsername());
                 player.setUsername(newUsername);
+                database.addNewPlayer(newUsername.toLowerCase(), player);
                 return true;
             }
             return false;

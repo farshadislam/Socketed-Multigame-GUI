@@ -10,8 +10,7 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-import org.seng.authentication.*;
-import org.seng.authentication.LoginPage.State;
+import org.seng.authentication.LoginPage;
 
 import java.io.IOException;
 
@@ -48,51 +47,28 @@ public class CreateAccountController {
             displayPasswordsMatchingError();
             return;
         }
-
         if (!HelloApplication.loginPage.verifyPasswordFormat(password)) {
             displayPasswordsFormatError();
             hasError = true;
         }
-
         if (!HelloApplication.loginPage.verifyEmailFormat(email))   {
             displayEmailFormatError();
-            hasError = true; 
+            hasError = true;
         }
         if (!HelloApplication.loginPage.verifyUsernameFormat(username)){
             displayUsernameFormatError();
             hasError = true;
         }
-
-
         // If any field has an error, stop the registration process
         if (hasError) {
             return;
         }
 
-        State state = HelloApplication.loginPage.register(username,email,password);
+        LoginPage.State state = HelloApplication.loginPage.register(username,email,password);
         System.out.println(state);
-        if(state == State.VERIFICATION_CODE_SENT)   {
-            openSuccessPage();
+        if(state == LoginPage.State.VERIFICATION_CODE_SENT)   {
+            openVerificationPage(username);
         }
-    }
-
-
-    private void resetPrompt(TextField field, String defaultPrompt) {
-        field.getStyleClass().remove("error-prompt");
-        field.setPromptText(defaultPrompt);
-    }
-    private void indicateFieldError(TextField field, String message) {
-        field.getStyleClass().add("error-prompt");
-        field.setPromptText(message);
-        field.clear();
-
-        // Remove the error style after a short delay
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
-        pause.setOnFinished(e -> {
-            field.getStyleClass().remove("error-prompt");
-            field.setPromptText(field == usernameField ? "Username" : "Email");
-        });
-        pause.play();
     }
 
     private void displayUsernameFormatError(){
@@ -174,14 +150,16 @@ public class CreateAccountController {
         }
     }
 
-    private void openSuccessPage() {
+    private void openVerificationPage(String username) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("email-verification.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("create-account-verification.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 700, 450);
             scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.setTitle("Email Verification");
+            stage.setTitle("Verify Your Email");
+            CreateAccountVerificationController controller = fxmlLoader.getController();
+            controller.setUsername(username);
             stage.show();
 
             Stage currentStage = (Stage) registerButton.getScene().getWindow();
