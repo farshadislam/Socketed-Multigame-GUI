@@ -1,38 +1,110 @@
 package org.seng.gui;
 
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.collections.FXCollections;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
+import javafx.stage.StageStyle;
 
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.MenuItem;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.ResourceBundle;
+
 public class Connect4Controller {
     @FXML
+    private FlowPane board;
+
+    private static final int ROWS = 6;
+    private static final int COLS = 7;
+    private boolean isPlayerOneTurn = true;
+
+    private Button[][] boardButtons = new Button[ROWS][COLS];
+
+    @FXML
     public void initialize() {
+        int buttonIndex = 0;
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS; col++) {
+                Button btn = (Button) board.getChildren().get(buttonIndex++);
+                int finalCol = col;
+                boardButtons[row][col] = btn;
+                btn.setOnAction(e -> handleColumnClick(finalCol));
+            }
+        }
+        clearChatHistory();
+    }
+    @FXML
+    private void handleQuit() {
+        Stage dialogStage = new Stage();
+        dialogStage.initStyle(StageStyle.UNDECORATED);
+        dialogStage.setTitle("Confirm Quit");
+
+        Label message = new Label("                      Are you sure?\nQuitting the game will result in a loss.");
+        message.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+
+        Button yesButton = new Button("Yes");
+        Button noButton = new Button("No");
+
+        yesButton.setOnAction(e -> {
+            dialogStage.close();
+            openToGameDashboard();
+        });
+        noButton.setOnAction(e -> dialogStage.close());
+
+        HBox buttons = new HBox(10, yesButton, noButton);
+        buttons.setAlignment(Pos.CENTER);
+
+        VBox layout = new VBox(15, message, buttons);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.getStyleClass().add("quit-background"); // ⭐ Add style class
+
+        Scene scene = new Scene(layout, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); // ⭐ Load your CSS
+
+        dialogStage.setScene(scene);
+
+        Stage currentStage = (Stage) board.getScene().getWindow(); // 'board' is your main pane
+        dialogStage.initOwner(currentStage);
+
+        dialogStage.setX(currentStage.getX() + currentStage.getWidth() / 2 - 150); // 150 = half of popup width
+        dialogStage.setY(currentStage.getY() + currentStage.getHeight() / 2 - 100);  // 75 = half of popup height
+
+        dialogStage.show();
+    }
+
+    private void openToGameDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+            Scene dashboardScene = new Scene(loader.load(), 900, 600);
+            dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            Stage dashboardStage = new Stage();
+            dashboardStage.setTitle("Game Dashboard");
+            dashboardStage.setScene(dashboardScene);
+
+            // Close current window
+            Stage currentStage = (Stage) board.getScene().getWindow();
+            currentStage.close();
+
+            dashboardStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
-    @FXML
 
     private void saveMessage(String message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
@@ -85,6 +157,7 @@ public class Connect4Controller {
                 messageField.clear();
             }
         });
+
         messageField.setOnAction(e -> sendButton.fire());
         chatBox.getChildren().addAll(chatDisplay, messageField, sendButton);
 
@@ -95,25 +168,44 @@ public class Connect4Controller {
     }
 
     @FXML
-    void howToPlayDescription(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.NONE); // No default icon
-
+    void howToPlayDescription() {
+        Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("Help");
         alert.setHeaderText("How to Play");
 
-        // Set the content
         alert.setContentText(
-                  "1. Players take turns dropping pieces.\n\n"
-                + "2. Connect four in a row, column, or diagonal.\n\n"
-                + "3. First player to do so wins!\n\n"
-                + "4. If the board is full, it's a draw.\n");
+                "1. Players take turns dropping pieces.\n\n"
+                        + "2. Connect four in a row, column, or diagonal.\n\n"
+                        + "3. First player to do so wins!\n\n"
+                        + "4. If the board is full, it's a draw.\n");
 
-        alert.getButtonTypes().add(javafx.scene.control.ButtonType.OK);
-        // Apply CSS file
+        alert.getButtonTypes().add(ButtonType.OK);
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
 
         alert.showAndWait();
+    }
+
+    private void handleColumnClick(int col) {
+        for (int row = ROWS - 1; row >= 0; row--) {
+            Button cell = boardButtons[row][col];
+            if (cell.getStyle().isEmpty()) {
+                if (isPlayerOneTurn) {
+                    cell.setStyle("-fx-background-color: #00F0FF;"); // Cyan
+                } else {
+                    cell.setStyle("-fx-background-color: #da77f2;"); // Yellow
+                }
+                isPlayerOneTurn = !isPlayerOneTurn; // Switch turns
+                break;
+            }
+        }
+    }
+    private void clearChatHistory() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH))) {
+            writer.write(""); // Clear the contents
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

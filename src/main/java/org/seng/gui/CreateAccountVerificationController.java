@@ -12,7 +12,7 @@ import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import java.io.IOException;
 
-public class VerificationCodeController {
+public class CreateAccountVerificationController {
 
     @FXML
     private TextField code1, code2, code3, code4;
@@ -28,7 +28,7 @@ public class VerificationCodeController {
     @FXML
     public void initialize() {
         confirmButton.setOnAction(e -> handleVerification());
-        returnButton.setOnAction(e -> returnToForgotPassword());
+        returnButton.setOnAction(e -> returnToCreateAccount());
 
         // shift focus after entering a digit
         setupCodeField(code1, null, code2);
@@ -76,7 +76,7 @@ public class VerificationCodeController {
     // compare verification code against stored
     private void handleVerification() {
         if (verificationCode.equals("1234")) {
-            openNewPasswordWindow();
+            openSuccessPage();
         } else {
             displayErrorMessage("Incorrect verification code");
         }
@@ -93,15 +93,15 @@ public class VerificationCodeController {
         pause.play();
     }
 
-    private void openNewPasswordWindow() {
+    private void openSuccessPage() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("new-password.fxml"));
-            Scene newPasswordScene = new Scene(fxmlLoader.load(), 700, 450);
-            newPasswordScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("registration-success.fxml"));
+            Scene successScene = new Scene(fxmlLoader.load(), 700, 450);
+            successScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
 
             Stage stage = new Stage();
-            stage.setTitle("New Password");
-            stage.setScene(newPasswordScene);
+            stage.setTitle("Registration Success");
+            stage.setScene(successScene);
 
             // Close current window
             Stage currentStage = (Stage) confirmButton.getScene().getWindow();
@@ -113,16 +113,16 @@ public class VerificationCodeController {
         }
     }
 
-    // back button click handler - return to forgot password page
-    private void returnToForgotPassword() {
+    // back button click handler - return to create account page
+    private void returnToCreateAccount() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("forgot-password.fxml"));
-            Scene forgotPasswordScene = new Scene(fxmlLoader.load(), 700, 450);
-            forgotPasswordScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("create-account.fxml"));
+            Scene createAccountScene = new Scene(fxmlLoader.load(), 700, 450);
+            createAccountScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
 
             Stage stage = new Stage();
-            stage.setTitle("Reset Your Password");
-            stage.setScene(forgotPasswordScene);
+            stage.setTitle("Create Your Account");
+            stage.setScene(createAccountScene);
 
             // Close the current verification code window
             Stage currentStage = (Stage) returnButton.getScene().getWindow();
@@ -136,8 +136,6 @@ public class VerificationCodeController {
 
     @FXML
     void confirmcode(ActionEvent event) {
-
+        handleVerification();
     }
-
-
 }

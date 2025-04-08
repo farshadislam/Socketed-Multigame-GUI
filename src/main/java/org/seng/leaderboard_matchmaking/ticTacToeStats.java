@@ -1,4 +1,4 @@
-package org.seng.leaderboard_matchmaking;
+package main.java.org.seng.leaderboard_matchmaking;
 
 /**
  * Implementation of game-specific statistics for TicTacToe.
@@ -44,7 +44,7 @@ public class ticTacToeStats extends GeneralStats {
     @Override
     protected void updateMMR(boolean win) {
         if (win) {
-            tictactoemmr += (int) Math.round(RANK_STEP);
+            tictactoemmr += (int) Math.round(RANK_STEP / 2.0);
         } else {
             tictactoemmr -= (int) Math.round(RANK_STEP / 2.0);
         }
@@ -70,7 +70,7 @@ public class ticTacToeStats extends GeneralStats {
      * Rank is determined by dividing the MMR range into equal steps.
      */
     @Override
-    protected void updateRank() {
+    public void updateRank() {
         double relativeMMR = tictactoemmr - MIN_MMR;
         int rankIndex = (int) (relativeMMR / RANK_STEP);
         if (rankIndex < 0) rankIndex = 0;
@@ -135,22 +135,5 @@ public class ticTacToeStats extends GeneralStats {
     @Override
     public void setMMR (int game_specific_MMR) {
         this.tictactoemmr = game_specific_MMR;
-    }
-
-    /**
-     * Returns a string representation of TicTacToe statistics.
-     *
-     * @return String representation of ticTacToeStats.
-     */
-    @Override
-    public String toString() {
-        return "TicTacToeStats [playerID=" + playerID +
-                ", gamesPlayed=" + gamesPlayed +
-                ", wins=" + wins +
-                ", losses=" + losses +
-                ", ties=" + ties +
-                ", tictactoemmr=" + tictactoemmr +
-                ", rank=" + rank +
-                "]";
     }
 }

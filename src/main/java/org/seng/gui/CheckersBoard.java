@@ -217,26 +217,80 @@ public class CheckersBoard {
     @FXML
     private MenuItem helpOption;
 
+    private Button selectedPiece = null;
+    private Image redPieceImage;
+    private Image blackPieceImage;
+
+
     @FXML
     public void initialize() {
-        setupPieces();
-    }
-    private Button selectPiece = null;
+        // Load images
+        redPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/redpiece.png"));
+        blackPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/blackpiece.png"));
 
+        setupPieces();
+        selectionHandle();
+        clearChatHistory();
+    }
 
     private void setupPieces() {
-        Image redPiece = new Image(getClass().getResourceAsStream("/org/seng/gui/images/redpiece.png"));
-        Image blackPiece = new Image(getClass().getResourceAsStream("/org/seng/gui/images/blackpiece.png"));
+        // Black pieces
+        placePiece(a1, blackPieceImage); placePiece(c1, blackPieceImage);
+        placePiece(e1, blackPieceImage); placePiece(g1, blackPieceImage);
+        placePiece(b2, blackPieceImage); placePiece(d2, blackPieceImage);
+        placePiece(f2, blackPieceImage); placePiece(h2, blackPieceImage);
+        placePiece(a3, blackPieceImage); placePiece(c3, blackPieceImage);
+        placePiece(e3, blackPieceImage); placePiece(g3, blackPieceImage);
 
-        // Place red pieces
-        placePiece(a1, blackPiece); placePiece(c1, blackPiece); placePiece(e1, blackPiece); placePiece(g1, blackPiece);
-        placePiece(b2, blackPiece); placePiece(d2, blackPiece); placePiece(f2, blackPiece); placePiece(h2, blackPiece);
-        placePiece(a3, blackPiece); placePiece(c3, blackPiece); placePiece(e3, blackPiece); placePiece(g3, blackPiece);
+        // Red pieces
+        placePiece(b6, redPieceImage); placePiece(d6, redPieceImage);
+        placePiece(f6, redPieceImage); placePiece(h6, redPieceImage);
+        placePiece(a7, redPieceImage); placePiece(c7, redPieceImage);
+        placePiece(e7, redPieceImage); placePiece(g7, redPieceImage);
+        placePiece(b8, redPieceImage); placePiece(d8, redPieceImage);
+        placePiece(f8, redPieceImage); placePiece(h8, redPieceImage);
+    }
 
-        // Place black
-        placePiece(b6, redPiece); placePiece(d6, redPiece); placePiece(f6, redPiece); placePiece(h6, redPiece);
-        placePiece(a7, redPiece); placePiece(c7, redPiece); placePiece(e7, redPiece); placePiece(g7, redPiece);
-        placePiece(b8, redPiece); placePiece(d8, redPiece); placePiece(f8, redPiece); placePiece(h8, redPiece);
+    private void selectionHandle() {
+        Button[] allButtons = {a1, a2, a3, a4, a5, a6, a7, a8, b1, b2, b3, b4, b5, b6, b7, b8, c1, c2, c3, c4, c5, c6, c7, c8, d1, d2, d3, d4, d5, d6, d7, d8,
+                e1, e2, e3, e4, e5, e6, e7, e8, f1, f2, f3, f4, f5, f6, f7, f8, g1, g2, g3, g4, g5, g6, g7, g8, h1, h2, h3, h4, h5, h6, h7, h8};
+
+        for (Button button : allButtons) {
+            button.setOnAction(e -> handleButtonClick(button));
+        }
+    }
+
+    private void handleButtonClick(Button clickedButton) {
+        if (clickedButton.getGraphic() != null) { // if the button clicked has a piece
+            if (selectedPiece != null && selectedPiece != clickedButton) { // deselects current piece if it is different from clicked one
+                deselectPiece();
+            }
+            if (selectedPiece == clickedButton) { // if the selected piece is the clicked again on clicked button it deselects it
+                deselectPiece();
+            } else {
+                selectPiece(clickedButton);
+            }
+        }
+        else {
+            if (selectedPiece != null) { // if it is empty deselect the piece
+                deselectPiece();
+            }
+        }
+    }
+
+    private void selectPiece(Button button) {
+        selectedPiece = button;
+        DropShadow highlight = new DropShadow();
+        highlight.setColor(Color.GREENYELLOW);
+        highlight.setRadius(40);
+        button.setEffect(highlight);
+    }
+
+    private void deselectPiece() {
+        if (selectedPiece != null) {
+            selectedPiece.setEffect(null);
+            selectedPiece = null;
+        }
     }
 
     private void placePiece(Button button, Image pieceImage) {
@@ -244,24 +298,6 @@ public class CheckersBoard {
         imageView.setFitWidth(33);
         imageView.setFitHeight(33);
         button.setGraphic(imageView);
-
-        button.setOnAction(e -> selectedPiece(button)); // highlights the piece that is selected currently
-    }
-
-    private void selectedPiece(Button button){
-        if (selectPiece != null) {
-            selectPiece.setEffect(null);  // the previously selected piece is removed
-        }
-
-        if (selectPiece == button) {
-            selectPiece = null;
-        } else {
-            DropShadow highlight = new DropShadow();
-            highlight.setColor(Color.GREENYELLOW);
-            highlight.setRadius(40);
-            button.setEffect(highlight);
-            selectPiece = button;
-        }
     }
 
 
@@ -326,6 +362,16 @@ public class CheckersBoard {
         chatStage.setScene(scene);
         chatStage.show();
     }
+
+    private void clearChatHistory() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH))) {
+            writer.write(""); // Clear the contents
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     // how to play rules
     @FXML
