@@ -61,8 +61,8 @@ public class ConnectFourGame {
             AISymbol = 'n';
         }
         // game loop continues as long as there has been no win, draw, or exit
-        while (!status.endsWith("Wins") && !status.equals("Draw") && !status.equals("Exiting Game")) {
-            board.display(); // display board (requires display() method in ConnectFourBoard)
+        while (true) {
+            board.display();
             System.out.println("Current Player: " + currentPlayer.getUsername() + " (" + currentPlayer.getSymbol() + ")");
             if (currentPlayer.getSymbol() == 'b' && AISymbol == 'b') {
                 AIBot.makeMove(board, this);
@@ -86,25 +86,28 @@ public class ConnectFourGame {
                 continue;
             }
 
-            // make the move
+            // make the move, which also switches the turn
             makeMove(column);
+
+            // check the 3 cases to ending the game: win, draw, exit
+            if (status.endsWith("Wins")) {
+                System.out.println("Game Over! Status: " + status);
+                break;
+            }
+            else if (status.equals("Draw")) {
+                System.out.println("Game Over! Draw.");
+                break;
+            }
+            else if (status.equals("Exiting Game")) {
+                System.out.println("Game has been exited.");
+                break;
+            }
 
             // update status method
             setStatus(currentPlayer, column);
         }
 
         board.display(); // final board state
-
-        // 3 cases to ending the game: win, draw, exit
-        if (status.endsWith("Wins")) {
-            System.out.println("Game Over! Status: " + status);
-        }
-        else if (status.equals("Draw")) {
-            System.out.println("Game Over! Draw.");
-        }
-        else if (status.equals("Exiting Game")) {
-            System.out.println("Game has been exited.");
-        }
 
         scanner.close();
     }
@@ -162,7 +165,7 @@ public class ConnectFourGame {
         // update board here so that the Connect Four piece is dropped in the correct column
     }
 
-    // made after move is made. We can also add a "skip turn" functionality if we have time, work with GUI/integration.
+    // after a player makes a move, switches turn to next player
     public void switchTurn() {
         if (players[0] == currentPlayer) {
             currentPlayer = players[1];
