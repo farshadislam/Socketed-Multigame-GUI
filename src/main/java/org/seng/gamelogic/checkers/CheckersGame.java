@@ -199,6 +199,10 @@ public class CheckersGame {
         return isRedTurn ? !blackExists : !redExists;
     }
 
+
+    /**
+     * This method creates a string message about what a player has done in a single turn and stores it as status.
+     */
     public void setStatus(int row_start, int col_start, int row_end, int col_end) {
         String symbol_color;
         if (isRedTurn) {
