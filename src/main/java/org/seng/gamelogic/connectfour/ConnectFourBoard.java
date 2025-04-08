@@ -47,7 +47,7 @@ public class ConnectFourBoard {
      * @param player the player that is playing the chip, which determines the color of the dropped chip
      * @return true if the chip was successfully dropped, false otherwise
      */
-    public boolean dropPiece(int col, Player player) {
+    public boolean dropPiece(int col, ConnectFourPlayer player) {
         // Checks if the column is a valid column number
         if (!isColumn(col)){
             return false;

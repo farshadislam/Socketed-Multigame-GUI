@@ -121,7 +121,7 @@ public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
 
         @Override
         public String toString() {
-            return "Move[player=" + player.getName() + ", column=" + column + ", row=" + row + "]";
+            return "Move[player=" + player.getUsername() + ", column=" + column + ", row=" + row + "]";
         }
     }
 }

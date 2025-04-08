@@ -1,6 +1,6 @@
 package org.seng.gamelogic.tictactoe;
 
-import org.seng.gamelogic.Player;
+import org.seng.authentication.Player;
 
 /**
  * Represents a Tic-Tac-Toe player, extending the generic Player class.
@@ -13,13 +13,12 @@ public class TicTacToePlayer extends Player {
     /**
      * Constructs a TicTacToePlayer with the specified attributes.
      *
-     * @param name     The name of the player.
-     * @param playerID The unique identifier for the player.
-     * @param symbol   The character representing the player's mark (X or O).
-     * @param rank     The player's rank (if applicable).
+     * @param username     The name of the player.
+     * @param email The email connected to the player account.
+     * @param password The password for the player account.
      */
-    public TicTacToePlayer(String name, int playerID, char symbol, int rank) {
-        super(name, playerID, symbol, rank);
+    public TicTacToePlayer(String username, String email, String password) {
+        super(username, email, password);
     }
 
     /**
@@ -32,21 +31,4 @@ public class TicTacToePlayer extends Player {
         return true;
     }
 
-    /**
-     * Retrieves the player's symbol (X or O).
-     *
-     * @return The character representing the player's mark.
-     */
-    public char getSymbol() {
-        return symbol;
-    }
-
-    /**
-     * Sets the player's symbol (X or O).
-     *
-     * @param symbol The character to assign as the player's mark.
-     */
-    public void setSymbol(char symbol) {
-        this.symbol = symbol;
-    }
 }

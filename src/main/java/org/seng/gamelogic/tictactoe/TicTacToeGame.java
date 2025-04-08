@@ -157,8 +157,8 @@ public class TicTacToeGame {
      * This method initializes the different symbols for the player
      */
     private void initializePlayerSymbols() {
-        players[0].symbol = 'X';
-        players[1].symbol = 'O';
+        players[0].setSymbol('X');
+        players[1].setSymbol('O');
     }
 
     /**
@@ -204,7 +204,7 @@ public class TicTacToeGame {
         } else {
             currentPlayer = players[1];
         }
-        String message = "Player " + currentPlayer.getName() + " has drawn an " + currentPlayer.getSymbol() + " in row " + row + " and column " + column;
+        String message = "Player " + currentPlayer.getUsername() + " has drawn an " + currentPlayer.getSymbol() + " in row " + row + " and column " + column;
         status = message;
     }
 

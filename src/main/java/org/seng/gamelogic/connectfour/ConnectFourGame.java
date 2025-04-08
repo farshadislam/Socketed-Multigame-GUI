@@ -50,7 +50,7 @@ public class ConnectFourGame {
         // game loop continues as long as there has been no win, draw, or exit
         while (!status.endsWith("Wins") && !status.equals("Draw") && !status.equals("Exiting Game")) {
             board.display(); // display board (requires display() method in ConnectFourBoard)
-            System.out.println("Current Player: " + currentPlayer.getName() + " (" + currentPlayer.getSymbol() + ")");
+            System.out.println("Current Player: " + currentPlayer.getUsername() + " (" + currentPlayer.getSymbol() + ")");
             System.out.print("Enter a column (0-6): ");
 
             int column = scanner.nextInt();
@@ -179,12 +179,12 @@ public class ConnectFourGame {
     }
 
     private void initializePlayerSymbols() {
-        if (players[0] != null) players[0].symbol = 'b';
-        if (players[1] != null) players[1].symbol = 'y';
+        if (players[0] != null) players[0].setSymbol('b');
+        if (players[1] != null) players[1].setSymbol('y');
     }
 
     public void setStatus(ConnectFourPlayer gamePlayer, int column) {
-        String message = "Player " + gamePlayer.getName() + " has dropped a piece in column " + column;
+        String message = "Player " + gamePlayer.getUsername() + " has dropped a piece in column " + column;
         status = message;
     }
 }
