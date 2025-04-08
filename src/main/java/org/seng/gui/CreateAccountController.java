@@ -70,6 +70,7 @@ public class CreateAccountController {
         }
 
         State state = HelloApplication.loginPage.register(username,email,password);
+        System.out.println(state);
         if(state == State.VERIFICATION_CODE_SENT)   {
             openSuccessPage();
         }
@@ -175,12 +176,12 @@ public class CreateAccountController {
 
     private void openSuccessPage() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("registration-success.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("email-verification.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 700, 450);
             scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.setTitle("Registration Success");
+            stage.setTitle("Email Verification");
             stage.show();
 
             Stage currentStage = (Stage) registerButton.getScene().getWindow();

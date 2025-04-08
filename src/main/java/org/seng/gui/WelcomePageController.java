@@ -188,7 +188,7 @@ public class WelcomePageController {
         errorLabel.setText(message);
         errorLabel.setVisible(true);
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(e -> errorLabel.setVisible(false));
         pause.play();
     }
