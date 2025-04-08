@@ -29,18 +29,15 @@ public class CheckersGame {
     /**
      * Initializes a new checkers game with default settings.
      */
-    public CheckersGame() {
-        this.board = new CheckersBoard();
-        this.players = new CheckersPlayer[2];
-        this.gameID = 0; // Default game ID, should be set properly
+    public CheckersGame(CheckersBoard board, CheckersPlayer[] players, int gameID) {
+        this.board = board;
+        this.players = players;
+        this.gameID = gameID;
         this.status = "Initialized";
         this.chatLog = new ArrayList<>();
         this.currentPlayer = players[0]; // First player starts
         isRedTurn = true; // First player starts
         scanner = new Scanner(System.in);
-    }
-
-    public CheckersGame(CheckersBoard board, CheckersPlayer[] checkersPlayers, int i) {
     }
 
     /**
