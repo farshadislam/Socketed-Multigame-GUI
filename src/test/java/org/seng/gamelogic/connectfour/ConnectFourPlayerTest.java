@@ -10,15 +10,15 @@ class ConnectFourPlayerTest {
 
     @BeforeEach
     void setUp() {
-        player = new ConnectFourPlayer("Player1", 1, 'b', 1);
+        player = new ConnectFourPlayer("Player1", "login@gmail.com", "loginpassword");
     }
 
     @Test
     void testConstructor() {
         // Access the username field directly if there's no getter
-        assertEquals("Player1", player.username);  // Use player.username if it's accessible directly
-        assertEquals(1, player.playerID);          // Same for playerID if it's accessible
-        assertEquals('b', player.getSymbol());
+        assertEquals("Player1", player.getUsername());  // Use player.username if it's accessible directly
+        assertEquals("login@gmail.com", player.getEmail());          // Same for playerID if it's accessible
+        assertEquals("loginpassword", player.getPassword());
     }
     @Test
     void testReadyStart() {

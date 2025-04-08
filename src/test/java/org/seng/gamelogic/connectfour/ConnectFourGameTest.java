@@ -97,6 +97,6 @@ class ConnectFourGameTest {
     @Test
     void testSetStatus() {
         game.setStatus(players[0], 2);
-        assertEquals(message)
+        assertEquals(game.status, "Player Player1 has dropped a piece in column 2");
     }
 }
