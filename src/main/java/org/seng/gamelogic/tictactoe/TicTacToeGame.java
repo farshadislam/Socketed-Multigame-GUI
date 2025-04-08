@@ -191,7 +191,7 @@ public class TicTacToeGame {
             AISymbol = 'n';
         }
         while (status.equals("In Progress")) {
-            board.display(); // requires a display() method in TicTacToeBoard
+            board.display();
 
             System.out.println("Current player: " + currMark);
             if (currMark == Mark.X && AISymbol == 'X') {
@@ -213,7 +213,7 @@ public class TicTacToeGame {
             }
         }
 
-        board.display();
+        board.display(); // final state of the board
         System.out.println("Game Over! Status: " + status);
         scanner.close();
     }

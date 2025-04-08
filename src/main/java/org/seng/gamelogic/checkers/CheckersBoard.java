@@ -55,9 +55,9 @@ public class CheckersBoard {
     }
 
     /**
-     * Prints the board to the console using characters to represent pieces.
+     * Displays the board to the console using characters to represent pieces.
      */
-    public void printBoard() {
+    public void display() {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 System.out.print(pieceToChar(board[row][col]) + " ");

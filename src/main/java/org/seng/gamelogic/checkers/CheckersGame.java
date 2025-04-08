@@ -69,7 +69,7 @@ public class CheckersGame {
 
         // game loop starts
         while (true) {
-            board.printBoard(); // to be integrated with GUI
+            board.display(); // to be integrated with GUI
             System.out.println((isRedTurn ? "Red" : "Black") + "'s turn"); // to be integrated with GUI
 
             if (isRedTurn) {
@@ -103,7 +103,7 @@ public class CheckersGame {
 
                 // a Player wins. Update player stats and break out of game loop
                 if (checkWinCondition()) {
-                    board.printBoard();
+                    board.display();
                     System.out.println((isRedTurn ? "Red" : "Black") + " wins!");
                     if (isRedTurn) { // red (Player 1) has won
                         players[0].getCheckersStats().win(); // Player 1 wins Checkers game
