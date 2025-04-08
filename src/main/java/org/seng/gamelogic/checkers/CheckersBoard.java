@@ -32,9 +32,9 @@ public class CheckersBoard {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 if ((row + col) % 2 == 1) { // only dark squares
                     if (row < 3) {
-                        board[row][col] = Piece.BLACK;
-                    } else if (row > 4) {
                         board[row][col] = Piece.RED;
+                    } else if (row > 4) {
+                        board[row][col] = Piece.BLACK;
                     } else {
                         board[row][col] = Piece.EMPTY;
                     }
