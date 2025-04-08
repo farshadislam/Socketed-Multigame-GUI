@@ -26,6 +26,10 @@ public class CredentialsDatabase {
         loadDatabase("output.txt");
     }
 
+    public HashMap<String, Player> getPlayerCredentials() {
+        return playerCredentials;
+    }
+
     public boolean usernameLookup(String username) {
         if (playerCredentials.containsKey(username.toLowerCase())) {
             return true;

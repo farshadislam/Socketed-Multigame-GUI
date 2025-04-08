@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 
+import static org.seng.gui.GameDashboardController.player;
+
 public class ProfilePageController {
 
     @FXML private Label usernameLabel;
@@ -27,20 +29,20 @@ public class ProfilePageController {
     @FXML
     public void initialize() {
         // Set up user profile dummy data
-        usernameLabel.setText("MyUsername");
+        usernameLabel.setText(player.getUsername());
         lastOnlineLabel.setText("Last Online: Just now");
-        myWinsLabel.setText("5");
-        myLossesLabel.setText("2");
-        myTiesLabel.setText("1");
+        myWinsLabel.setText(String.valueOf(player.getTotalWins()));
+        myLossesLabel.setText(String.valueOf(player.getTotalLosses()));
+        myTiesLabel.setText(String.valueOf(player.getTotalTies()));
 
         gameColumn.setCellValueFactory(data -> data.getValue().gameProperty());
         winsColumn.setCellValueFactory(data -> data.getValue().winsProperty().asObject());
         lossesColumn.setCellValueFactory(data -> data.getValue().lossesProperty().asObject());
         tiesColumn.setCellValueFactory(data -> data.getValue().tiesProperty().asObject());
         gameStatsTable.setItems(FXCollections.observableArrayList(
-                new GameStat("Checkers", 10, 3, 2),
-                new GameStat("Tic Tac Toe", 15, 1, 1),
-                new GameStat("Connect 4", 8, 4, 0)
+                new GameStat("Checkers", player.getCheckersStats().getWins(), player.getCheckersStats().getLosses(), player.getCheckersStats().get_ties()),
+                new GameStat("Tic Tac Toe", player.getTicTacToeStats().getWins(), player.getTicTacToeStats().getLosses(), player.getTicTacToeStats().get_ties()),
+                new GameStat("Connect 4", player.getConnect4Stats().getWins(), player.getConnect4Stats().getLosses(), player.getConnect4Stats().get_ties())
         ));
 
         searchProfilesButton.setOnAction(e -> openSearchProfile());
@@ -62,9 +64,8 @@ public class ProfilePageController {
     }
 
     public void setProfileData(String playerName) {
+
     }
-
-
     public static class GameStat {
         private final SimpleStringProperty game;
         private final SimpleIntegerProperty wins;
