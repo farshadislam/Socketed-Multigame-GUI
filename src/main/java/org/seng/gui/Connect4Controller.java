@@ -75,10 +75,10 @@ public class Connect4Controller {
         VBox layout = new VBox(15, message, buttons);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
-        layout.getStyleClass().add("quit-background"); // ⭐ Add style class
+        layout.getStyleClass().add("quit-background"); //
 
         Scene scene = new Scene(layout, 300, 150);
-        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); // ⭐ Load your CSS
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); //
 
         dialogStage.setScene(scene);
 

@@ -5,13 +5,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.seng.gamelogic.tictactoe.*;
 
 import java.io.BufferedWriter;
@@ -325,30 +328,66 @@ public class TicTacToeController {
         alert.showAndWait();
     }
 
+    private void openToGameDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+            Scene dashboardScene = new Scene(loader.load(), 900, 600);
+            dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            Stage dashboardStage = new Stage();
+            dashboardStage.setTitle("Game Dashboard");
+            dashboardStage.setScene(dashboardScene);
+
+            // Close current window
+            Stage currentStage = (Stage) board.getScene().getWindow();
+            currentStage.close();
+
+            dashboardStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private void handleQuit() {
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Confirm Quit");
-        confirmAlert.setHeaderText("Are you sure you want to quit?");
-        confirmAlert.setContentText("Any unsaved progress will be lost.");
+        Stage dialogStage = new Stage();
+        dialogStage.initStyle(StageStyle.UNDECORATED);
+        dialogStage.setTitle("Confirm Quit");
 
-        confirmAlert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
-                    Scene dashboardScene = new Scene(loader.load());
-                    dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+        Label message = new Label("                      Are you sure?\nQuitting the game will result in a loss.");
+        message.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
 
-                    // Get current stage from any node in the current scene (like the board)
-                    Stage currentStage = (Stage) board.getScene().getWindow();
-                    currentStage.setScene(dashboardScene);
-                    currentStage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        Button yesButton = new Button("Yes");
+        Button noButton = new Button("No");
+
+        yesButton.setOnAction(e -> {
+            dialogStage.close();
+            openToGameDashboard();
         });
+        noButton.setOnAction(e -> dialogStage.close());
+
+        HBox buttons = new HBox(10, yesButton, noButton);
+        buttons.setAlignment(Pos.CENTER);
+
+        VBox layout = new VBox(15, message, buttons);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.getStyleClass().add("quit-background"); //
+
+        Scene scene = new Scene(layout, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); //
+
+        dialogStage.setScene(scene);
+
+        Stage currentStage = (Stage) board.getScene().getWindow(); // 'board' is your main pane
+        dialogStage.initOwner(currentStage);
+
+        dialogStage.setX(currentStage.getX() + currentStage.getWidth() / 2 - 150); // 150 = half of popup width
+        dialogStage.setY(currentStage.getY() + currentStage.getHeight() / 2 - 100);  // 75 = half of popup height
+
+        dialogStage.show();
     }
+
 }
 
 
