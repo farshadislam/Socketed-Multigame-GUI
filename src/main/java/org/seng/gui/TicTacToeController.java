@@ -31,6 +31,8 @@ public class TicTacToeController {
 
     private boolean isPlayerXTurn = true;
 
+    private int alternatingSymbol = 1;
+
     private Map<Button, int[]> buttonPositionMap = new HashMap<>();
 
     @FXML private Button button11, button12, button13;
@@ -53,25 +55,48 @@ public class TicTacToeController {
         game = new TicTacToeGame(board, new TicTacToePlayer[]{localPlayer, remotePlayer}, 1);
         game.initializePlayerSymbols();
 
-        button11.setOnAction(e -> handleMove(button11));
-        button12.setOnAction(e -> handleMove(button12));
-        button13.setOnAction(e -> handleMove(button13));
-        button21.setOnAction(e -> handleMove(button21));
-        button22.setOnAction(e -> handleMove(button22));
-        button23.setOnAction(e -> handleMove(button23));
-        button31.setOnAction(e -> handleMove(button31));
-        button32.setOnAction(e -> handleMove(button32));
-        button33.setOnAction(e -> handleMove(button33));
+//        button11.setOnAction(e -> handleMove(button11));
+//        button12.setOnAction(e -> handleMove(button12));
+//        button13.setOnAction(e -> handleMove(button13));
+//        button21.setOnAction(e -> handleMove(button21));
+//        button22.setOnAction(e -> handleMove(button22));
+//        button23.setOnAction(e -> handleMove(button23));
+//        button31.setOnAction(e -> handleMove(button31));
+//        button32.setOnAction(e -> handleMove(button32));
+//        button33.setOnAction(e -> handleMove(button33));
+//
+//        buttonPositionMap.put(button11, new int[]{0, 0});
+//        buttonPositionMap.put(button12, new int[]{0, 1});
+//        buttonPositionMap.put(button13, new int[]{0, 2});
+//        buttonPositionMap.put(button21, new int[]{1, 0});
+//        buttonPositionMap.put(button22, new int[]{1, 1});
+//        buttonPositionMap.put(button23, new int[]{1, 2});
+//        buttonPositionMap.put(button31, new int[]{2, 0});
+//        buttonPositionMap.put(button32, new int[]{2, 1});
+//        buttonPositionMap.put(button33, new int[]{2, 2});
 
-        buttonPositionMap.put(button11, new int[]{0, 0});
-        buttonPositionMap.put(button12, new int[]{0, 1});
-        buttonPositionMap.put(button13, new int[]{0, 2});
-        buttonPositionMap.put(button21, new int[]{1, 0});
-        buttonPositionMap.put(button22, new int[]{1, 1});
-        buttonPositionMap.put(button23, new int[]{1, 2});
-        buttonPositionMap.put(button31, new int[]{2, 0});
-        buttonPositionMap.put(button32, new int[]{2, 1});
-        buttonPositionMap.put(button33, new int[]{2, 2});
+//        String details = nextTurn();
+//        String[] currentState = details.split(":");
+//        currentState[0]
+//
+//        for (int i = 0; i < 9; i++) {
+//
+//        }
+        button11.setOnAction(e -> handleMove(0, 0, button11));  // First row, first column
+        button12.setOnAction(e -> handleMove(0, 1, button12));  // First row, second column
+        button13.setOnAction(e -> handleMove(0, 2, button13));  // First row, third column
+
+        button21.setOnAction(e -> handleMove(1, 0, button21));  // Second row, first column
+        button22.setOnAction(e -> handleMove(1, 1, button22));  // Second row, second column
+        button23.setOnAction(e -> handleMove(1, 2, button23));  // Second row, third column
+
+        button31.setOnAction(e -> handleMove(2, 0, button31));  // Third row, first column
+        button32.setOnAction(e -> handleMove(2, 1, button32));  // Third row, second column
+        button33.setOnAction(e -> handleMove(2, 2, button33));  // Third row, third column
+    }
+
+    private String nextTurn() {
+        return "";
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
@@ -101,41 +126,93 @@ public class TicTacToeController {
         }
     }
 
-    private void handleMove(Button button) {
-        int[] location = buttonPositionMap.get(button);
-        int row = location[0];
-        int col = location[1];
+    private void handleMove(int row, int col, Button button) {
+        // Check if the button has already been clicked (i.e., it already has a symbol)
+        if (!button.getText().isEmpty()) {
+            return;  // If the button is already clicked, do nothing
+        }
 
-        if (!button.getText().isEmpty()) return;
+        // Place the symbol on the button
+        String symbol = isPlayerXTurn ? "X" : "O";  // Toggle between X and O
+        button.setText(symbol);
 
+        // Disable the button to prevent re-clicking
+        button.setDisable(true);
+
+        // Make the move on the game board
         boolean moveMade = game.makeMove(row, col);
 
         if (moveMade) {
-            String symbol = game.getCurrentMark() == TicTacToeBoard.Mark.X ? "O" : "X";
-            button.setText(symbol);
-
+            // Update the game status
             String status = game.getStatus();
             if (status.endsWith("Wins")) {
                 turnLabel.setText("Game Over! " + status);
-                disableAllButtons();
+                disableAllButtons();  // Disable all buttons when the game ends
             } else if (status.equals("Draw")) {
                 turnLabel.setText("It's a Draw!");
-                disableAllButtons();
+                disableAllButtons();  // Disable all buttons in case of a draw
             } else {
                 turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
             }
 
-            if (game.AIBot != null && game.getCurrentMark() == game.getCurrentMark()) {
-                game.AIBot.makeMove(game.getBoard(), game);
-                updateBoardButtons();
-                String newStatus = game.getStatus();
-                if (newStatus.endsWith("Wins") || newStatus.equals("Draw")) {
-                    turnLabel.setText("Game Over! " + newStatus);
-                    disableAllButtons();
-                }
-            }
+            // Switch to the other player's turn
+            togglePlayerTurn();
         }
+
+//        initNum++;
+//        if (initNum == 1){
+//            clearChatHistory();
+//
+//            // Setup player data
+//            localPlayer = new TicTacToePlayer("usernameOne", "emailOne",  "passwordOne");
+//            remotePlayer = new TicTacToePlayer("usernameTwo", "emailTwo",  "passwordTwo");
+//
+//            TicTacToeBoard board = new TicTacToeBoard();
+//            game = new TicTacToeGame(board, new TicTacToePlayer[]{localPlayer, remotePlayer}, 1);
+//            game.initializePlayerSymbols();
+//        }
+
+//        if (!button.getText().isEmpty()) return;
+//
+//        boolean moveMade = game.makeMove(row, col);
+//
+//        if (moveMade) {
+//            String symbol = game.getCurrentMark() == TicTacToeBoard.Mark.X ? "O" : "X";
+//            button.setText(symbol);
+//
+//            String status = game.getStatus();
+//            if (status.endsWith("Wins")) {
+//                turnLabel.setText("Game Over! " + status);
+//                disableAllButtons();
+//            } else if (status.equals("Draw")) {
+//                turnLabel.setText("It's a Draw!");
+//                disableAllButtons();
+//            } else {
+//                turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
+//            }
+//
+//            if (game.AIBot != null && game.getCurrentMark() == game.getCurrentMark()) {
+//                game.AIBot.makeMove(game.getBoard(), game);
+//                updateBoardButtons();
+//                String newStatus = game.getStatus();
+//                if (newStatus.endsWith("Wins") || newStatus.equals("Draw")) {
+//                    turnLabel.setText("Game Over! " + newStatus);
+//                    disableAllButtons();
+//                }
+//            }
+//        }
     }
+
+    // Function to toggle player turns (just a sample, adjust based on your existing logic)
+    private void togglePlayerTurn() {
+        isPlayerXTurn = !isPlayerXTurn;
+    }
+
+    // Function to check if it's Player X's turn (adjust based on your existing logic)
+    private boolean isPlayerXTurn() {
+        return isPlayerXTurn;
+    }
+
 
     private void updateBoardButtons() {
         for (Map.Entry<Button, int[]> entry : buttonPositionMap.entrySet()) {
