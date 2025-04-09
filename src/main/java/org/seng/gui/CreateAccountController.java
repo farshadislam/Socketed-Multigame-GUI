@@ -59,6 +59,15 @@ public class CreateAccountController {
             displayUsernameFormatError();
             hasError = true;
         }
+        if(HelloApplication.database.usernameLookup(username)){
+            displayUsernameTakenError();
+            hasError = true;
+        }
+        if(HelloApplication.database.emailTaken(email)){
+            displayEmailTakenError();
+            hasError = true;
+        }
+
         // If any field has an error, stop the registration process
         if (hasError) {
             return;
@@ -83,10 +92,34 @@ public class CreateAccountController {
         });
         pause.play();
     }
+    private void displayUsernameTakenError(){
+        usernameField.getStyleClass().add("error-prompt");
+        usernameField.setPromptText("Username is already taken!");
+        usernameField.clear();
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(e -> {
+            usernameField.getStyleClass().remove("error-prompt");
+            usernameField.setPromptText("Username");
+        });
+        pause.play();
+    }
 
     private void displayEmailFormatError(){
         emailField.getStyleClass().add("error-prompt");
         emailField.setPromptText("Please enter a valid email!");
+        emailField.clear();
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(e -> {
+            emailField.getStyleClass().remove("error-prompt");
+            emailField.setPromptText("Email");
+        });
+        pause.play();
+    }
+    private void displayEmailTakenError(){
+        emailField.getStyleClass().add("error-prompt");
+        emailField.setPromptText("Email is already taken!");
         emailField.clear();
 
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
