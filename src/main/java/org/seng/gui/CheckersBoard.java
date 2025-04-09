@@ -26,7 +26,7 @@ import java.nio.file.Paths;
 public class CheckersBoard {
 
     @FXML
-    private Button a1;
+    public Button a1;
 
     @FXML
     private Button a2;
@@ -228,7 +228,7 @@ public class CheckersBoard {
 
 
 
-    private Button selectedPiece = null;
+    public Button selectedPiece = null;
     private Image redPieceImage;
     private Image blackPieceImage;
 
@@ -271,7 +271,7 @@ public class CheckersBoard {
         }
     }
 
-    private void handleButtonClick(Button clickedButton) {
+    public void handleButtonClick(Button clickedButton) {
         // if no piece is selected it tries to select one
         if (selectedPiece == null) { // if there is no piece selected
             if (clickedButton.getGraphic() != null) { // if the button has a piece
@@ -327,7 +327,7 @@ public class CheckersBoard {
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
 
-    private void saveMessage(String message) {
+    public void saveMessage(String message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
             writer.write(message);
             writer.newLine();
@@ -336,7 +336,7 @@ public class CheckersBoard {
         }
     }
 
-    private String loadChatHistory() {
+    public String loadChatHistory() {
         try {
             return Files.readString(Paths.get(CHAT_LOG_PATH));
         } catch (IOException e) {
