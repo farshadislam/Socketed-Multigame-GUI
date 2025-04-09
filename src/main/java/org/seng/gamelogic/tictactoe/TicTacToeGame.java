@@ -23,6 +23,7 @@ public class TicTacToeGame {
     public AIBotTicTacToe AIBot;
     public char AISymbol;
 
+
     /**
      * Constructs a Tic-Tac-Toe game.
      * @param board  The Tic-Tac-Toe board.
@@ -85,10 +86,7 @@ public class TicTacToeGame {
             }
 
             // need to figure out GUI input below
-            System.out.print("Enter row (0-2): ");
-            int row = scanner.nextInt();
-            System.out.print("Enter column (0-2): ");
-            int col = scanner.nextInt();
+
 
             // make the move, which also switches the turn
             makeMove(row, col);
@@ -106,7 +104,6 @@ public class TicTacToeGame {
                 System.out.println("Game has been exited.");
                 break;
             }
-
             // update status method
             setStatus(row, col);
         }

@@ -29,6 +29,8 @@ public class TicTacToeController {
     private boolean isAIMode = false;
     private boolean isOnlineMode = false;
 
+    public int[] buttonLocation;
+
     private Map<Button, int[]> buttonPositionMap = new HashMap<>();
 
     @FXML private Button button11, button12, button13;
@@ -60,7 +62,7 @@ public class TicTacToeController {
         buttonPositionMap.put(button31, new int[]{2, 0});
         buttonPositionMap.put(button32, new int[]{2, 1});
         buttonPositionMap.put(button33, new int[]{2, 2});
-
+        GameDashboardController.tictactoeGame.startGame();
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
@@ -159,9 +161,11 @@ public class TicTacToeController {
         if (button.getText().isEmpty()) {
             if (isPlayerOneTurn) {
                 button.setText("X");
+                buttonLocation = buttonPositionMap.get(button);
                 turnLabel.setText("Player 2's Turn");
             } else {
                 button.setText("O");
+                buttonLocation = buttonPositionMap.get(button);
                 turnLabel.setText("Player 1's Turn");
             }
             isPlayerOneTurn = !isPlayerOneTurn;
