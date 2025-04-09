@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
@@ -35,21 +36,29 @@ public class TicTacToeController {
 
     private Map<Button, int[]> buttonPositionMap = new HashMap<>();
 
-    @FXML private Button button11, button12, button13;
-    @FXML private Button button21, button22, button23;
-    @FXML private Button button31, button32, button33;
+    @FXML
+    private Button button11, button12, button13;
+    @FXML
+    private Button button21, button22, button23;
+    @FXML
+    private Button button31, button32, button33;
 
-    @FXML private Button inGameChatButton;
-    @FXML private MenuItem helpOption;
-    @FXML private Label turnLabel;
-    @FXML private FlowPane board;
+    @FXML
+    private Button inGameChatButton;
+    @FXML
+    private MenuItem helpOption;
+    @FXML
+    private Label turnLabel;
+    @FXML
+    private FlowPane board;
 
-    @FXML public void initialize() {
+    @FXML
+    public void initialize() {
         clearChatHistory();
 
         // Setup player data
-        localPlayer = new TicTacToePlayer("usernameOne", "emailOne",  "passwordOne");
-        remotePlayer = new TicTacToePlayer("usernameTwo", "emailTwo",  "passwordTwo");
+        localPlayer = new TicTacToePlayer("usernameOne", "emailOne", "passwordOne");
+        remotePlayer = new TicTacToePlayer("usernameTwo", "emailTwo", "passwordTwo");
 
         TicTacToeBoard board = new TicTacToeBoard();
         game = new TicTacToeGame(board, new TicTacToePlayer[]{localPlayer, remotePlayer}, 1);
@@ -134,9 +143,9 @@ public class TicTacToeController {
         }
 
         // Place the symbol on the button
-        if (valForAlternation % 2 == 0){
+        if (valForAlternation % 2 == 0) {
             button.setText("O");
-        }else{
+        } else {
             button.setText("x");
         }
 //        String symbol = isPlayerXTurn ? "X" : "O";  // Toggle between X and O
@@ -295,7 +304,6 @@ public class TicTacToeController {
     }
 
 
-
     @FXML
     void howToPlayDescription(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.NONE);
@@ -322,14 +330,27 @@ public class TicTacToeController {
         confirmAlert.setHeaderText("Are you sure you want to quit?");
         confirmAlert.setContentText("Any unsaved progress will be lost.");
 
-        // Show the dialog and wait for the user's response
         confirmAlert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                Platform.exit();
-                System.exit(0);
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+                    Scene dashboardScene = new Scene(loader.load());
+                    dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+                    // Get current stage from any node in the current scene (like the board)
+                    Stage currentStage = (Stage) board.getScene().getWindow();
+                    currentStage.setScene(dashboardScene);
+                    currentStage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
+}
+
+
+
 
 //    @FXML
 //    private void handleButtonClick(ActionEvent event) {
@@ -344,4 +365,4 @@ public class TicTacToeController {
 //        }
 //    }
 
-}
+
