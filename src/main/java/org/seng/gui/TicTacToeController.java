@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.seng.gamelogic.tictactoe.*;
@@ -48,7 +49,7 @@ public class TicTacToeController {
     @FXML
     private Label turnLabel;
     @FXML
-    private FlowPane board;
+    private GridPane board;
 
     @FXML
     public void initialize() {
