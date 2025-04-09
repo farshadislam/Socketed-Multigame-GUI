@@ -200,9 +200,15 @@ public class Connect4Controller {
                     if (checkWinner(row, col)) {
 
                     }
+                    if (boardFull()) {
+
+                    }
                 } else {
                     cell.setStyle("-fx-background-color: #da77f2;"); // Yellow
                     if (checkWinner(row, col)) {
+
+                    }
+                    if (boardFull()) {
 
                     }
                 }
@@ -295,6 +301,18 @@ public class Connect4Controller {
             }
         }
         return false; // no winner found
+    }
+
+    public boolean boardFull() {
+        boolean full = true;
+        for (int rowCounter = 0; rowCounter < ROWS; rowCounter++) { //make sure i and j are within the borders of the board
+            for (int colCounter = 0; colCounter < COLS; colCounter++) {
+                if (!boardButtons[rowCounter][colCounter].getStyle().isEmpty()) {
+                    full = false;
+                }
+            }
+        }
+        return full;
     }
 }
 
