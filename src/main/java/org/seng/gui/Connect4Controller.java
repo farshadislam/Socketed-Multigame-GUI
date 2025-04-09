@@ -198,15 +198,15 @@ public class Connect4Controller {
                 if (isPlayerOneTurn) {
                     cell.setStyle("-fx-background-color: #00F0FF;"); // Cyan
                     if (checkWinner(row, col)) {
-
+                        checkWinner();
                     }
                     if (boardFull()) {
 
                     }
                 } else {
                     cell.setStyle("-fx-background-color: #da77f2;"); // Yellow
-                    if (checkWinner(row, col)) {
-
+                    if (checkWinner(row, col)) { // winningPage.fxml connected
+                        checkWinner();
                     }
                     if (boardFull()) {
 
@@ -216,6 +216,25 @@ public class Connect4Controller {
                 updatePlayerTurnIndicator();
                 break;
             }
+        }
+    }
+
+
+
+    private void checkWin(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) .getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
