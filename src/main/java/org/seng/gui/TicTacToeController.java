@@ -1,5 +1,6 @@
 package org.seng.gui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,9 @@ public class TicTacToeController {
     private TicTacToePlayer remotePlayer;
     private boolean isAIMode = false;
     private boolean isOnlineMode = false;
+    private Stage chatStage = null;
+
+    private boolean isPlayerXTurn = true;
 
     private Map<Button, int[]> buttonPositionMap = new HashMap<>();
 
@@ -157,7 +161,13 @@ public class TicTacToeController {
 
     @FXML
     private void openChat() {
-        Stage chatStage = new Stage();
+        // Close existing window if it's open
+        if (chatStage != null && chatStage.isShowing()) {
+            chatStage.close();
+        }
+
+        // Create a new window
+        chatStage = new Stage();
         chatStage.setTitle("In-Game Chat");
 
         VBox chatBox = new VBox(10);
@@ -194,8 +204,14 @@ public class TicTacToeController {
         Scene scene = new Scene(chatBox, 350, 300);
         scene.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
         chatStage.setScene(scene);
+
+        // Reset the reference when closed
+        chatStage.setOnHidden(e -> chatStage = null);
+
         chatStage.show();
     }
+
+
 
     @FXML
     void howToPlayDescription(ActionEvent event) {
@@ -215,4 +231,34 @@ public class TicTacToeController {
 
         alert.showAndWait();
     }
+
+    @FXML
+    private void handleQuit() {
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Quit");
+        confirmAlert.setHeaderText("Are you sure you want to quit?");
+        confirmAlert.setContentText("Any unsaved progress will be lost.");
+
+        // Show the dialog and wait for the user's response
+        confirmAlert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+    }
+
+//    @FXML
+//    private void handleButtonClick(ActionEvent event) {
+//        Button clickedButton = (Button) event.getSource();
+//        if (clickedButton.getText().isEmpty()) {
+//            if (isPlayerXTurn) {
+//                clickedButton.setText("X");
+//            } else {
+//                clickedButton.setText("O");
+//            }
+//            isPlayerXTurn = !isPlayerXTurn; // Toggle turn
+//        }
+//    }
+
 }

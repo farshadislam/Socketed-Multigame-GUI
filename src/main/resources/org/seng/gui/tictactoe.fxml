@@ -1,49 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.seng.gui.TicTacToeController"
-            prefHeight="600.0" prefWidth="800.0"
-            styleClass="gradient-background">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.TicTacToeController">
    <!-- Title -->
-   <Label text="Tic Tac Toe" styleClass="light-title-label"
-          AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-          alignment="center"/>
+   <Label alignment="center" styleClass="light-title-label" text="Tic Tac Toe" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0" />
 
    <!-- Turn Indicator -->
-   <Label fx:id="turnLabel" text="Player 1's Turn" alignment="center"
-          styleClass="game-label"
-          AnchorPane.topAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+   <Label fx:id="turnLabel" alignment="center" styleClass="game-label" text="Player 1's Turn" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
 
    <!-- Game Board -->
-   <GridPane hgap="10" vgap="10"
-             AnchorPane.topAnchor="120.0" AnchorPane.leftAnchor="225.0">
-      <Button fx:id="button11" prefWidth="80" prefHeight="80" />
-      <Button fx:id="button12" prefWidth="80" prefHeight="80" GridPane.columnIndex="1"/>
-      <Button fx:id="button13" prefWidth="80" prefHeight="80" GridPane.columnIndex="2"/>
-
-      <Button fx:id="button21" prefWidth="80" prefHeight="80" GridPane.rowIndex="1"/>
-      <Button fx:id="button22" prefWidth="80" prefHeight="80" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-      <Button fx:id="button23" prefWidth="80" prefHeight="80" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
-
-      <Button fx:id="button31" prefWidth="80" prefHeight="80" GridPane.rowIndex="2"/>
-      <Button fx:id="button32" prefWidth="80" prefHeight="80" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-      <Button fx:id="button33" prefWidth="80" prefHeight="80" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+   <GridPane hgap="10" vgap="10" AnchorPane.leftAnchor="225.0" AnchorPane.topAnchor="120.0">
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
    </GridPane>
 
    <!-- Chat and Settings -->
-   <Button fx:id="inGameChatButton" text="Chat" styleClass="auth-button"
-           AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" onAction="#openChat"/>
+   <Button fx:id="inGameChatButton" layoutX="34.0" layoutY="560.0" onAction="#openChat" style="-fx-background-radius: 20; -fx-border-radius: 20;" styleClass="auth-button" text="Chat" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="34.0" />
 
-   <MenuButton fx:id="SettingMenu" text="Settings" styleClass="auth-button"
-               AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="50.0">
+   <MenuButton fx:id="SettingMenu" layoutX="689.0" layoutY="560.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-text-fill: #2c3e50;" styleClass="auth-button" text="Settings" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="31.0">
       <items>
-         <MenuItem text="Quit"/>
-         <MenuItem fx:id="helpOption" text="Help" onAction="#howToPlayDescription"/>
+         <MenuItem fx:id="quitOption" onAction="#handleQuit" text="Quit" />
+         <MenuItem fx:id="helpOption" onAction="#howToPlayDescription" text="Help" />
       </items>
    </MenuButton>
+   <Button fx:id="button22" layoutX="491.0" layoutY="116.0" prefHeight="80" prefWidth="80" />
+   <Button fx:id="button11" layoutX="231.0" layoutY="116.0" prefHeight="80" prefWidth="80" />
+
+   <Button fx:id="button21" layoutX="231.0" layoutY="246.0" prefHeight="80" prefWidth="80" />
+   <Button fx:id="button13" layoutX="491.0" layoutY="246.0" prefHeight="80" prefWidth="80" />
+
+   <Button fx:id="button31" layoutX="231.0" layoutY="376.0" prefHeight="80" prefWidth="80" />
+   <Button fx:id="button33" layoutX="491.0" layoutY="376.0" prefHeight="80" prefWidth="80" />
+   <Button fx:id="button32" layoutX="361.0" layoutY="376.0" prefHeight="80" prefWidth="80" />
+   <Button fx:id="button23" layoutX="361.0" layoutY="246.0" prefHeight="80" prefWidth="80" />
+   <Button fx:id="button12" layoutX="361.0" layoutY="116.0" prefHeight="80" prefWidth="80" />
 </AnchorPane>
