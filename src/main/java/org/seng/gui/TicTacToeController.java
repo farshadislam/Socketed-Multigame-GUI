@@ -169,19 +169,35 @@ public class TicTacToeController {
     private boolean isPlayerOneTurn = true;
     private void handleMove(Button button) {
         if (button.getText().isEmpty()) {
-            if (isPlayerOneTurn) {
-                button.setText("X");
-                buttonLocation = buttonPositionMap.get(button);
-                turnLabel.setText("Player 2's Turn");
-            } else {
-                button.setText("O");
-                buttonLocation = buttonPositionMap.get(button);
-                turnLabel.setText("Player 1's Turn");
+            int[] location = buttonPositionMap.get(button);
+            int row = location[0];
+            int col = location[1];
+
+            boolean moveMade = game.makeMove(row, col);
+
+            if (moveMade) {
+                String symbol = game.getCurrentMark() == TicTacToeBoard.Mark.O ? "X" : "O"; // show previous mark
+                button.setText(symbol);
+
+                // Check game status
+                String status = game.getStatus();
+                if (status.endsWith("Wins")) {
+                    turnLabel.setText("Game Over! " + status);
+                    disableAllButtons();
+                } else if (status.equals("Draw")) {
+                    turnLabel.setText("It's a Draw!");
+                    disableAllButtons();
+                } else {
+                    turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
+                }
             }
-            isPlayerOneTurn = !isPlayerOneTurn;
         }
     }
-
+    private void disableAllButtons() {
+        for (Button b : buttonPositionMap.keySet()) {
+            b.setDisable(true);
+        }
+    }
 }
 
 
