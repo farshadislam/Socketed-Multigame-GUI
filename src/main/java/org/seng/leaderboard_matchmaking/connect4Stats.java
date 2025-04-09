@@ -1,4 +1,4 @@
-package main.java.org.seng.leaderboard_matchmaking;
+package org.seng.leaderboard_matchmaking;
 
 /**
  * Implementation of game-specific statistics for Connect4.
@@ -63,7 +63,7 @@ public class connect4Stats extends GeneralStats {
      * Rank is determined by dividing the MMR range into equal steps.
      */
     @Override
-    public void updateRank() {
+    protected void updateRank() {
         double relativeMMR = connect4mmr - MIN_MMR;
         int rankIndex = (int) (relativeMMR / RANK_STEP);
 
@@ -128,5 +128,22 @@ public class connect4Stats extends GeneralStats {
     @Override
     public void setMMR (int game_specific_MMR) {
         this.connect4mmr = game_specific_MMR;
+    }
+
+    /**
+     * Returns a string representation of Connect4 statistics.
+     *
+     * @return String representation of connect4Stats.
+     */
+    @Override
+    public String toString() {
+        return "Connect4Stats [playerID=" + playerID
+                + ", gamesPlayed=" + gamesPlayed
+                + ", wins=" + wins
+                + ", losses=" + losses
+                + ", ties=" + ties
+                + ", connect4mmr=" + connect4mmr
+                + ", rank=" + rank
+                + "]";
     }
 }

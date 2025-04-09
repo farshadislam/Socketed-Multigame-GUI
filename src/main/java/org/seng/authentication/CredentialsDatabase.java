@@ -3,8 +3,8 @@ package org.seng.authentication;
 import java.io.*;
 import java.util.HashMap;
 
-import org.seng.leaderboard.*;
-import org.seng.leaderboard.Rank;
+import org.seng.leaderboard_matchmaking.*;
+import org.seng.leaderboard_matchmaking.Rank;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

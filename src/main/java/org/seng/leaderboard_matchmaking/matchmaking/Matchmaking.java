@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 
 // Import game-specific classes
 import leaderboard_matchmaking.*;
+import org.seng.authentication.Player;
+import org.seng.leaderboard_matchmaking.GameType;
 
 
 public class Matchmaking {
