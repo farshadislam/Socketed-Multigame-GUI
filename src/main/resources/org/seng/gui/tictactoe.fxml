@@ -14,7 +14,6 @@
 
    <children>
 
-      <!-- Title -->
       <Text layoutX="320.0" layoutY="50.0" fill="white" strokeType="OUTSIDE" strokeWidth="0.0"
             styleClass="light-title-label" text="Tic Tac Toe" textAlignment="CENTER">
          <font>
@@ -22,33 +21,37 @@
          </font>
       </Text>
 
-      <!-- Turn Indicator -->
       <Label fx:id="turnLabel" layoutX="330.0" layoutY="80.0"
              styleClass="game-label" text="Player 1's Turn" textFill="white"/>
 
-      <!-- Game Board -->
       <FlowPane fx:id="board" layoutX="250.0" layoutY="120.0"
                 prefHeight="280.0" prefWidth="300.0" hgap="10" vgap="10">
          <children>
-            <Button fx:id="button11" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button12" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button13" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button21" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button22" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button23" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button31" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button32" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button33" prefHeight="80.0" prefWidth="80.0"/>
+            <Button fx:id="button11" styleClass="tic-tac-toe-button" prefHeight="80.0" prefWidth="80.0"/>
+            <Button fx:id="button12" styleClass="tic-tac-toe-button" prefHeight="80.0" prefWidth="80.0"/>
+            <Button fx:id="button13" styleClass="tic-tac-toe-button" prefHeight="80.0" prefWidth="80.0"/>
+            <Button fx:id="button21" styleClass="tic-tac-toe-button" prefHeight="80.0" prefWidth="80.0"/>
+            <Button fx:id="button22" styleClass="tic-tac-toe-button" prefHeight="80.0" prefWidth="80.0"/>
+            <Button fx:id="button23" styleClass="tic-tac-toe-button" prefHeight="80.0" prefWidth="80.0"/>
+            <Button fx:id="button31" styleClass="tic-tac-toe-button" prefHeight="80.0" prefWidth="80.0"/>
+            <Button fx:id="button32" styleClass="tic-tac-toe-button" prefHeight="80.0" prefWidth="80.0"/>
+            <Button fx:id="button33" styleClass="tic-tac-toe-button" prefHeight="80.0" prefWidth="80.0"/>
          </children>
       </FlowPane>
 
-      <!-- Chat Button (Bottom Right) -->
-      <Button fx:id="inGameChatButton" layoutX="680.0" layoutY="540.0"
-              text="Chat" onAction="#openChat" styleClass="option-button"/>
+      <Button fx:id="inGameChatButton"
+              text="Chat"
+              onAction="#openChat"
+              styleClass="option-button"
+              AnchorPane.rightAnchor="20.0"
+              AnchorPane.bottomAnchor="20.0"/>
 
-      <!-- Settings Menu (Top Right) -->
-      <MenuButton fx:id="SettingMenu" layoutX="670.0" layoutY="20.0"
-                  text="Settings" textFill="aliceblue" styleClass="menu-bar">
+      <MenuButton fx:id="SettingMenu"
+                  text="Settings"
+                  textFill="aliceblue"
+                  styleClass="menu-bar"
+                  AnchorPane.topAnchor="20.0"
+                  AnchorPane.rightAnchor="20.0">
          <items>
             <MenuItem fx:id="helpOption" onAction="#howToPlayDescription" text="Help"/>
             <MenuItem fx:id="quitOption" onAction="#handleQuit" text="Quit"/>

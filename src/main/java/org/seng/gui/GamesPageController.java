@@ -144,7 +144,7 @@ public class GamesPageController {
             // if we’re doing local play instead
             String cssFile = switch (gameType) {
                 case CHECKERS -> "checkerstyles.css";
-                case TICTACTOE -> "tictactoestyles.css";
+                case TICTACTOE -> "basic-styles.css";
                 case CONNECT4 -> "connectfourstyles.css";
             };
             String fxmlFile = switch (gameType) {

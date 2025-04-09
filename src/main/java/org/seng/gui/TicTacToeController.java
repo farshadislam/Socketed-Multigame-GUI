@@ -141,8 +141,10 @@ public class TicTacToeController {
         // Place the symbol on the button
         if (valForAlternation % 2 == 0) {
             button.setText("O");
+            button.setStyle("-fx-font-size: 36px; -fx-text-fill: red;");
         } else {
-            button.setText("x");
+            button.setText("X");
+            button.setStyle("-fx-font-size: 36px; -fx-text-fill: deepskyblue;");
         }
 //        String symbol = isPlayerXTurn ? "X" : "O";  // Toggle between X and O
 //        button.setText(symbol);

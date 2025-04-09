@@ -3,9 +3,8 @@
 }
 
 .button {
-    -fx-background-color: transparent;
+    -fx-background-color: white;
     -fx-border-color: black;
-    -fx-border-width: 2;
 }
 .options-button {
     -fx-background-color: linear-gradient(to bottom, #8E2DE2, #4A00E0);
