@@ -235,6 +235,8 @@ public class CheckersBoardController {
     private int selectedColumn = -1;
     private Image redPieceImage;
     private Image blackPieceImage;
+    private Image RedPieceImageKing;
+    private Image BlackPieceKing;
 
 
     @FXML
@@ -242,6 +244,9 @@ public class CheckersBoardController {
         // Load images
         redPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/redpiece.png"));
         blackPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/blackpiece.png"));
+        RedPieceImageKing = new Image(getClass().getResourceAsStream("/org/seng/gui/images/RedPieceKing.png"));
+        BlackPieceKing = new Image(getClass().getResourceAsStream("/org/seng/gui/images/BlackPieceKing.png"));
+
 
         setupPieces();
         selectionHandle();
