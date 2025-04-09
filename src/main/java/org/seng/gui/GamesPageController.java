@@ -96,6 +96,7 @@ public class GamesPageController {
         handleGameClick(GameType.CHECKERS);
     }
 
+
     @FXML
     public void onTicTacToeClicked(MouseEvent event) {
         handleGameClick(GameType.TICTACTOE);
