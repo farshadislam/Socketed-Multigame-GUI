@@ -1,44 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.seng.gui.FriendProfileController"
-            prefWidth="700" prefHeight="450"
-            styleClass="gradient-background">
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<AnchorPane prefHeight="450" prefWidth="700" styleClass="gradient-background" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.2" fx:controller="org.seng.gui.FriendProfileController">
     <children>
-        <Label text="Friend Profile" layoutX="0" layoutY="10" prefWidth="700"
-               alignment="CENTER" styleClass="title-label"/>
+        <Label alignment="CENTER" layoutX="0" layoutY="10" prefWidth="700" styleClass="title-label" text="Friend Profile" />
         <VBox layoutX="50" layoutY="80" prefWidth="600" spacing="15" styleClass="login-box">
             <HBox spacing="15">
-                <Circle radius="25" fill="lightgray" stroke="gray" strokeWidth="2"/>
+                <Circle fill="lightgray" radius="25" stroke="gray" strokeWidth="2" />
                 <VBox spacing="5">
-                    <Label fx:id="friendNameLabel" text="FriendName" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
-                    <Label fx:id="friendLastOnlineLabel" text="Last Online: ..." style="-fx-text-fill: #1d0e4d;"/>
+                    <Label fx:id="friendNameLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="FriendName" />
+                    <Label fx:id="friendLastOnlineLabel" style="-fx-text-fill: #1d0e4d;" text="Last Online: ..." />
                 </VBox>
             </HBox>
             <HBox spacing="15">
-                <Label text="Wins:" style="-fx-text-fill: #1d0e4d;"/>
-                <Label fx:id="friendWinsLabel" text="0" style="-fx-text-fill: #1d0e4d;"/>
-                <Label text="Losses:" style="-fx-text-fill: #1d0e4d;"/>
-                <Label fx:id="friendLossesLabel" text="0" style="-fx-text-fill: #1d0e4d;"/>
-                <Label text="Ties:" style="-fx-text-fill: #1d0e4d;"/>
-                <Label fx:id="friendTiesLabel" text="0" style="-fx-text-fill: #1d0e4d;"/>
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Matches:" />
+                <Label fx:id="friendMatchesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
+
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Wins:" />
+                <Label fx:id="friendWinsLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
+
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Losses:" />
+                <Label fx:id="friendLossesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
+
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Ties:" />
+                <Label fx:id="friendTiesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
             </HBox>
-            <Label text="Game Stats" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1d0e4d;"/>
-            <TableView fx:id="friendGameStatsTable" prefHeight="90" editable="false">
+
+            <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1d0e4d;" text="Game Stats" />
+            <TableView fx:id="friendGameStatsTable" editable="false" prefHeight="200">
                 <columns>
-                    <TableColumn fx:id="friendGameColumn" text="Game" prefWidth="180"/>
-                    <TableColumn fx:id="friendGameWinsColumn" text="Wins" prefWidth="100"/>
-                    <TableColumn fx:id="friendGameLossesColumn" text="Losses" prefWidth="100"/>
-                    <TableColumn fx:id="friendGameTiesColumn" text="Ties" prefWidth="100"/>
+                    <TableColumn fx:id="friendGameColumn" prefWidth="120" text="Game" />
+                    <TableColumn fx:id="friendRankColumn" prefWidth="100" text="Rank" />
+                    <TableColumn fx:id="friendMmrColumn" prefWidth="100" text="MMR" />
+                    <TableColumn fx:id="friendGameWinsColumn" prefWidth="80" text="Wins" />
+                    <TableColumn fx:id="friendGameLossesColumn" prefWidth="80" text="Losses" />
+                    <TableColumn fx:id="friendGameTiesColumn" prefWidth="80" text="Ties" />
                 </columns>
             </TableView>
         </VBox>
     </children>
+    <ImageView fx:id="backIcon" fitHeight="30.0" fitWidth="30.0" layoutX="656.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+
 </AnchorPane>

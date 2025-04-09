@@ -4,15 +4,16 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane prefHeight="450" prefWidth="700" styleClass="gradient-background" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.2" fx:controller="org.seng.gui.ProfilePageController">
+<AnchorPane prefHeight="513.0" prefWidth="767.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.ProfilePageController">
     <children>
-        <Label alignment="CENTER" layoutX="0" layoutY="10" prefWidth="700" styleClass="title-label" text="My Profile" />
-        <VBox layoutX="50" layoutY="100" prefWidth="600" spacing="15" styleClass="login-box">
+        <Label fx:id="profileTitleText" alignment="CENTER" layoutX="0" layoutY="10" prefWidth="700" styleClass="title-label" text="My Profile" />
+        <VBox layoutX="17.0" layoutY="97.0" prefHeight="391.0" prefWidth="713.0" spacing="15" styleClass="login-box">
             <HBox spacing="15">
                 <Circle fill="lightgray" radius="25" stroke="gray" strokeWidth="2" />
                 <VBox spacing="5">
@@ -21,23 +22,31 @@
                 </VBox>
             </HBox>
             <HBox spacing="15">
-                <Label style="-fx-text-fill: #1d0e4d;" text="Wins:" />
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Matches" />
+                <Label fx:id="myTotalGamesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Wins" />
                 <Label fx:id="myWinsLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label style="-fx-text-fill: #1d0e4d;" text="Losses:" />
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Losses:" />
                 <Label fx:id="myLossesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label style="-fx-text-fill: #1d0e4d;" text="Ties:" />
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Ties:" />
                 <Label fx:id="myTiesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
             </HBox>
             <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1d0e4d;" text="Game Stats" />
-            <TableView fx:id="gameStatsTable" editable="false" prefHeight="90">
+            <TableView fx:id="gameStatsTable" editable="false" prefHeight="97.0" prefWidth="671.0">
                 <columns>
                     <TableColumn fx:id="gameColumn" prefWidth="180" text="Game" />
+                    <TableColumn fx:id="Rank" prefWidth="100" text="Rank" />
+                    <TableColumn fx:id="MMR" prefWidth="100" text="MMR" />
                     <TableColumn fx:id="winsColumn" prefWidth="100" text="Wins" />
                     <TableColumn fx:id="lossesColumn" prefWidth="100" text="Losses" />
                     <TableColumn fx:id="tiesColumn" prefWidth="100" text="Ties" />
+
+
                 </columns>
             </TableView>
             <Button fx:id="searchProfilesButton" styleClass="auth-button" text="Search Profiles" />
         </VBox>
+        <ImageView fx:id="backIcon" fitHeight="30.0" fitWidth="30.0" layoutX="656.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+
     </children>
 </AnchorPane>
