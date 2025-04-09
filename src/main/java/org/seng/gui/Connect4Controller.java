@@ -198,7 +198,7 @@ public class Connect4Controller {
                 if (isPlayerOneTurn) {
                     cell.setStyle("-fx-background-color: #00F0FF;"); // Cyan
                     if (checkWinner(row, col)) {
-                        checkWinner();
+                        checkWin(cell);
                     }
                     if (boardFull()) {
 
@@ -206,7 +206,7 @@ public class Connect4Controller {
                 } else {
                     cell.setStyle("-fx-background-color: #da77f2;"); // Yellow
                     if (checkWinner(row, col)) { // winningPage.fxml connected
-                        checkWinner();
+                        checkWin(cell);
                     }
                     if (boardFull()) {
 
@@ -221,7 +221,7 @@ public class Connect4Controller {
 
 
 
-    private void checkWin(){
+    private void checkWin(Button sourceButton){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 700, 450);
@@ -231,7 +231,7 @@ public class Connect4Controller {
             stage.setTitle("OMG Platform");
             stage.show();
 
-            Stage currentStage = (Stage) .getScene().getWindow();
+            Stage currentStage = (Stage) sourceButton.getScene().getWindow();
             currentStage.close();
         } catch (IOException ex) {
             ex.printStackTrace();
