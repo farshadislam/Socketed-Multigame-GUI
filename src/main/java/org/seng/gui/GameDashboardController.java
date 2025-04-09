@@ -14,6 +14,9 @@ import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 import java.util.Optional;
 import org.seng.authentication.*;
+import org.seng.gamelogic.checkers.CheckersGame;
+import org.seng.gamelogic.connectfour.ConnectFourGame;
+import org.seng.gamelogic.tictactoe.TicTacToeGame;
 
 import static org.seng.gui.HelloApplication.database;
 
@@ -29,6 +32,12 @@ public class GameDashboardController {
     private HomePage homePage;
     public static Player player;
     public static Settings setting;
+
+    public static CheckersGame checkersGame;
+
+    public static TicTacToeGame tictactoeGame;
+
+    public static ConnectFourGame connectFourGame;
 
     @FXML
     public void initialize() {

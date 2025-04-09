@@ -9,6 +9,18 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
+import org.seng.gamelogic.checkers.CheckersBoard;
+import org.seng.gamelogic.checkers.CheckersGame;
+import org.seng.gamelogic.checkers.CheckersPlayer;
+import org.seng.gamelogic.checkers.ExtendedAIBotCheckers;
+import org.seng.gamelogic.connectfour.ConnectFourBoard;
+import org.seng.gamelogic.connectfour.ConnectFourGame;
+import org.seng.gamelogic.connectfour.ConnectFourPlayer;
+import org.seng.gamelogic.connectfour.ExtendedAIBotConnectFour;
+import org.seng.gamelogic.tictactoe.ExtendedAIBotTicTacToe;
+import org.seng.gamelogic.tictactoe.TicTacToeBoard;
+import org.seng.gamelogic.tictactoe.TicTacToeGame;
+import org.seng.gamelogic.tictactoe.TicTacToePlayer;
 import org.seng.networking.SocketGameClient;
 import org.seng.networking.leaderboard_matchmaking.GameType;
 
@@ -129,6 +141,25 @@ public class GamesPageController {
                 case TICTACTOE -> "tictactoe-game.fxml";
                 case CONNECT4 -> "connect4-game.fxml";
             };
+            if (gameType == GameType.CHECKERS) {
+                CheckersBoard board = new CheckersBoard();
+                CheckersPlayer[] players = new CheckersPlayer[]{new CheckersPlayer(GameDashboardController.player.getUsername(), GameDashboardController.player.getEmail(), GameDashboardController.player.getPassword()), new CheckersPlayer("AIBot", "test", "test")};
+                GameDashboardController.checkersGame = new CheckersGame(board, players, 1);
+                ExtendedAIBotCheckers AIBot = new ExtendedAIBotCheckers('O', GameDashboardController.checkersGame, board);
+                GameDashboardController.checkersGame.players[1] = AIBot;
+            } else if (gameType == GameType.TICTACTOE) {
+                TicTacToeBoard board = new TicTacToeBoard();
+                TicTacToePlayer[] players = new TicTacToePlayer[]{new TicTacToePlayer(GameDashboardController.player.getUsername(), GameDashboardController.player.getEmail(), GameDashboardController.player.getPassword()), new TicTacToePlayer("AIBot", "test", "test")};
+                GameDashboardController.tictactoeGame = new TicTacToeGame(board, players, 1);
+                ExtendedAIBotTicTacToe AIBot = new ExtendedAIBotTicTacToe('O', GameDashboardController.tictactoeGame, board);
+                GameDashboardController.tictactoeGame.players[1] = AIBot;
+            } else if (gameType == GameType.CONNECT4) {
+                ConnectFourBoard board = new ConnectFourBoard();
+                ConnectFourPlayer[] players = new ConnectFourPlayer[]{new ConnectFourPlayer(GameDashboardController.player.getUsername(), GameDashboardController.player.getEmail(), GameDashboardController.player.getPassword()), new ConnectFourPlayer("AIBot", "test", "test")};
+                GameDashboardController.connectFourGame = new ConnectFourGame(board, players, 1);
+                ExtendedAIBotConnectFour AIBot = new ExtendedAIBotConnectFour('O', GameDashboardController.connectFourGame, board);
+                GameDashboardController.connectFourGame.players[1] = AIBot;
+            }
 
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));

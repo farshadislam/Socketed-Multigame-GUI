@@ -8,11 +8,11 @@ import java.util.Random;
 public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
     private TicTacToeBoard board; // BH: changed from boardRef to board to keep names simple/consistent
     private TicTacToeGame game;
-    private Mark symbol;
+    private char symbol;
     private Random random;
 
 
-    public ExtendedAIBotTicTacToe(Mark symbol, TicTacToeGame game, TicTacToeBoard board) {
+    public ExtendedAIBotTicTacToe(char symbol, TicTacToeGame game, TicTacToeBoard board) {
         super("AI Bot", "hi", "9"); // passes username, player ID, symbol as char, rank
         this.board = board;
         this.game = game;
@@ -32,7 +32,7 @@ public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
             return false;
         }
         // ensure its not null, and matches AI symbol
-        if (game == null || game.getCurrentMark() != this.symbol) {
+        if (game == null || game.getCurrentMark() != charToMark(symbol)) {
             return false;
         }
         int[] move = findNextMove(board);
@@ -117,11 +117,11 @@ public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
     }
 
     public void setSymbol(char symbol) {
-        this.symbol = charToMark(symbol);
+        this.symbol = symbol;
     }
 
 
     public char getSymbol() {
-        return markToChar(this.symbol);
+        return this.symbol;
     }
 }

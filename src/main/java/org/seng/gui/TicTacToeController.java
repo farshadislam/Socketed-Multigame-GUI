@@ -6,6 +6,8 @@ import javafx.scene.control.*;
 
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.seng.gamelogic.tictactoe.TicTacToeBoard;
+import org.seng.gamelogic.tictactoe.TicTacToeGame;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -35,6 +37,7 @@ public class TicTacToeController {
         button31.setOnAction(e -> handleMove(button31));
         button32.setOnAction(e -> handleMove(button32));
         button33.setOnAction(e -> handleMove(button33));
+
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
