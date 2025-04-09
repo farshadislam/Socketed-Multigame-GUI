@@ -2,7 +2,6 @@ package org.seng.networking.test;
 
 import org.junit.jupiter.api.Test;
 import org.seng.networking.Leaderboard;
-import org.seng.networking.Player;
 
 
 import java.util.List;

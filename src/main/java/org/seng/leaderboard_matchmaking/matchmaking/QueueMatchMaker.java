@@ -7,9 +7,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 // Import game-specific classes from elsewhere
+import org.seng.networking.leaderboard_matchmaking.GameType;
 import org.seng.leaderboard_matchmaking.*;
 //import org.seng.networking.*;
 import org.seng.authentication.Player;
+import org.seng.networking.Match;
+import org.seng.networking.NetworkingManager;
+import org.seng.leaderboard_matchmaking.*;
 
 
 public class QueueMatchMaker{
@@ -324,13 +328,34 @@ public class QueueMatchMaker{
                             player1 = queueA.dequeue();
                             player2 = queueB.dequeue();
 
-//                            // Start a match and connect players
-//                            Match match = Matchmaking.joinMatch(player1, player2, game);
-//                            Matchmaking.connectPlayers(match);
+                            // 1) Create a new match for these two players and the chosen game type
+                            Match match = new Match(player1, player2, game);
 
-                            // Update each player's Last5Matches
-                            player1.getLast5MatchesObject().update(game,player2); //Player 1's Last5Matches Updated
-                            player2.getLast5MatchesObject().update(game,player1); //Player 2's Last5Matches Updated
+// 2) Set the match reference in both players (so they know which match they belong to)
+                            player1.setCurrentMatch(match);
+                            player2.setCurrentMatch(match);
+
+// 3) Optionally add the match to your global queue/pool (if you use it for tracking)
+                            Match.addAvailableMatch(match);
+
+// 4) If both players have socket handlers, tell each handler who the opponent is
+                            if (player1.getSocketHandler() != null && player2.getSocketHandler() != null) {
+                                player1.getSocketHandler().setOpponent(player2.getSocketHandler());
+                                player2.getSocketHandler().setOpponent(player1.getSocketHandler());
+                            }
+
+// 5) (Optional) If you have a thread pool or a place to start these socket handlers, do it now
+// e.g. pool.execute(player1.getSocketHandler());
+//      pool.execute(player2.getSocketHandler());
+
+// 6) You can send them any initial messages as needed
+// (e.g. “OPPONENT_READY”, “START_GAME”, etc.)
+                            NetworkingManager.getInstance().notifyPlayersMatched(player1, player2, match);
+
+// Or do direct socket calls, for example:
+// player1.getSocketHandler().sendMessage("START_GAME");
+// player2.getSocketHandler().sendMessage("START_GAME");
+
                         }
                     }
                 }

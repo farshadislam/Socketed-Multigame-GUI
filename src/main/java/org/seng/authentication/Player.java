@@ -1,17 +1,13 @@
 package org.seng.authentication;
-import javafx.css.Match;
+
 import org.seng.leaderboard_matchmaking.*;
-import org.seng.leaderboard_matchmaking.Rank;
-
-//import org.seng.leaderboard.matchmaking.Last5Matches;
-import org.seng.leaderboard_matchmaking.GameType;
-
-
-import java.util.List;
+import org.seng.networking.Match;
+import org.seng.networking.SocketGameHandler;
 import java.util.Objects;
+import org.seng.networking.leaderboard_matchmaking.GameType;
 
 public class Player {
-    // create fields for all the methods
+    // Core player fields
     private String username;
     private String email;
     private String password;
@@ -22,16 +18,15 @@ public class Player {
     private String verificationCode;
     private Last5Matches last5Matches;
 
-//    //last 5 matches field
-//    private Last5Matches last5Matches;
+    // Networking/session/matchmaking fields
+    private boolean loggedIn = false;
+    private Match currentMatch;
+    private SocketGameHandler socketHandler;
+    private int playerID;
+    private int rank;
+    private int wins;
+    private int losses;
 
-    /**
-     * Constructor that also sets initial wins for each game.
-     * The 'rank' parameter is applied to each game’s rank as a default.
-     * @param username username of the player
-     * @param email email of the player
-     * @param password password of the player
-     */
     public Player(String username, String email, String password) {
         this.username = username.toLowerCase();
         this.email = email.toLowerCase();
@@ -40,11 +35,10 @@ public class Player {
         this.CheckersStats = new checkersStats(username);
         this.TicTacToeStats = new ticTacToeStats(username);
         this.last5Matches = new Last5Matches();
-        //initializing the constructor
-//        this.last5Matches = new Last5Matches();
     }
 
-    // setters and getters
+    // === General Getters and Setters ===
+
     public char getSymbol() {
         return symbol;
     }
@@ -54,7 +48,7 @@ public class Player {
     }
 
     public connect4Stats getConnect4Stats() {
-        return this.Connect4Stats;
+        return Connect4Stats;
     }
 
     public void setConnect4Stats(connect4Stats connect4Stats) {
@@ -62,7 +56,7 @@ public class Player {
     }
 
     public ticTacToeStats getTicTacToeStats() {
-        return this.TicTacToeStats;
+        return TicTacToeStats;
     }
 
     public void setTicTacToeStats(ticTacToeStats ticTacToeStats) {
@@ -70,7 +64,7 @@ public class Player {
     }
 
     public checkersStats getCheckersStats() {
-        return this.CheckersStats;
+        return CheckersStats;
     }
 
     public void setCheckersStats(checkersStats checkersStats) {
@@ -78,7 +72,7 @@ public class Player {
     }
 
     public String getUsername() {
-        return this.username.toLowerCase();
+        return username.toLowerCase();
     }
 
     public void setUsername(String username) {
@@ -86,7 +80,7 @@ public class Player {
     }
 
     public String getEmail() {
-        return this.email.toLowerCase();
+        return email.toLowerCase();
     }
 
     public void setEmail(String email) {
@@ -94,83 +88,170 @@ public class Player {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public Last5Matches getLast5MatchesObject() {return this.last5Matches;}
+    public String getVerificationCode() {
+        return verificationCode;
+    }
 
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
     }
 
-    public String getVerificationCode() {
-        return this.verificationCode;
+    public Last5Matches getLast5MatchesObject() {
+        return this.last5Matches;
     }
 
-
-//    Adding totals from playerStats, since we are planning to remove it
+    // === Aggregated Stats ===
 
     public int getTotalGamesPlayed() {
-        connect4Stats Connect4Stats = this.Connect4Stats;
-        ticTacToeStats TicTacToeStats = this.TicTacToeStats;
-        checkersStats CheckersStats = this.CheckersStats;
-        return Connect4Stats.getGamesPlayed() + TicTacToeStats.getGamesPlayed() + CheckersStats.getGamesPlayed();
+        return Connect4Stats.getGamesPlayed() +
+                TicTacToeStats.getGamesPlayed() +
+                CheckersStats.getGamesPlayed();
     }
 
     public int getTotalWins() {
-        connect4Stats Connect4Stats = this.Connect4Stats;
-        ticTacToeStats TicTacToeStats = this.TicTacToeStats;
-        checkersStats CheckersStats = this.CheckersStats;
-        return Connect4Stats.get_wins() + TicTacToeStats.get_wins() + CheckersStats.get_wins();
+        return Connect4Stats.get_wins() +
+                TicTacToeStats.get_wins() +
+                CheckersStats.get_wins();
     }
 
     public int getTotalLosses() {
-        connect4Stats Connect4Stats = this.Connect4Stats;
-        ticTacToeStats TicTacToeStats = this.TicTacToeStats;
-        checkersStats CheckersStats = this.CheckersStats;
-        return Connect4Stats.get_losses() + TicTacToeStats.get_losses() + CheckersStats.get_losses();
+        return Connect4Stats.get_losses() +
+                TicTacToeStats.get_losses() +
+                CheckersStats.get_losses();
     }
 
     public int getTotalTies() {
-        connect4Stats Connect4Stats = this.Connect4Stats;
-        ticTacToeStats TicTacToeStats = this.TicTacToeStats;
-        checkersStats CheckersStats = this.CheckersStats;
-        return Connect4Stats.get_ties() + TicTacToeStats.get_ties() + CheckersStats.get_ties();
+        return Connect4Stats.get_ties() +
+                TicTacToeStats.get_ties() +
+                CheckersStats.get_ties();
     }
 
+    // === Login/Session ===
 
-    /**
-     * override method for equals
-     * @param object the object being used for comparing
-     * @return true if its equal, false otherwise
-     */
+    public boolean login(String password) {
+        if (this.password.equals(password)) {
+            loggedIn = true;
+            System.out.println(username + " logged in.");
+            return true;
+        }
+        System.out.println("Login failed for " + username);
+        return false;
+    }
+
+    public void logout() {
+        loggedIn = false;
+        currentMatch = null;
+        System.out.println(username + " logged out.");
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void disconnect() {
+        logout();
+        System.out.println(username + " disconnected.");
+    }
+
+    // === Matchmaking ===
+
+    public void joinMatch(Player opponent, GameType gameType) {
+        Match match = new Match(this, opponent, gameType);
+        this.currentMatch = match;
+        opponent.setCurrentMatch(match);
+        Match.addAvailableMatch(match);
+        System.out.println("Match joined: " + this.username + " vs " + opponent.getUsername());
+    }
+
+    public void leaveMatch() {
+        currentMatch = null;
+        System.out.println(username + " left the match.");
+    }
+
+    public boolean isInMatch() {
+        return currentMatch != null && currentMatch.isReady();
+    }
+
+    public Match getCurrentMatch() {
+        return currentMatch;
+    }
+
+    public void setCurrentMatch(Match match) {
+        this.currentMatch = match;
+    }
+
+    // === Networking ===
+
+    public void setSocketHandler(SocketGameHandler handler) {
+        this.socketHandler = handler;
+    }
+
+    public SocketGameHandler getSocketHandler() {
+        return socketHandler;
+    }
+
+    // === Game Logic Utilities ===
+
+    public String getName() {
+        return username;
+    }
+
+    public void setName(String username) {
+        setUsername(username);
+    }
+
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
+
+    public void incrementWins() {
+        wins++;
+    }
+
+    public void incrementLosses() {
+        losses++;
+    }
+
+    // === Equality Check ===
+
     @Override
     public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-            // if both references point to the same object (itself), true
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-            // if one object is null or a different class (not a player), false
-        }
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
         Player player = (Player) object;
-        // cast object into Player object and compare
-        return Objects.equals(username, player.username) && Objects.equals(email, player.email);
+        return Objects.equals(username, player.username) &&
+                Objects.equals(email, player.email);
     }
 
-//    public Last5Matches getLast5MatchesObject(){
-//        return this.last5Matches;
-//    }
-//
-//
-//    public List<Object> getLastMatchAt(int index){
-//        return last5Matches.getLastMatchAt(index);
-//    }
-//
+    @Override
+    public int hashCode() {
+        return Objects.hash(username);
+    }
 }
-

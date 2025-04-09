@@ -2,6 +2,7 @@ package org.seng.networking;
 
 import org.seng.networking.leaderboard_matchmaking.GameType;
 import java.util.*;
+import org.seng.authentication.Player;
 
 /**
  * This is the matchmaking system that pairs players into matches.

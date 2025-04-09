@@ -1,6 +1,7 @@
 package org.seng.networking;
 
 import org.seng.networking.leaderboard_matchmaking.GameType;
+import org.seng.authentication.Player;
 import java.io.*;
 import java.net.Socket;
 

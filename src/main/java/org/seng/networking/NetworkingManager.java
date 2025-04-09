@@ -3,6 +3,8 @@ package org.seng.networking;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.seng.authentication.Player;
+import java.io.*;
 
 /**
  * This class simulates the network that sends messages between players.
