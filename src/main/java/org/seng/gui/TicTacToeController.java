@@ -8,15 +8,28 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard;
 import org.seng.gamelogic.tictactoe.TicTacToeGame;
+import org.seng.gamelogic.tictactoe.TicTacToeGame;
+import org.seng.gamelogic.tictactoe.TicTacToePlayer;
+import org.seng.gamelogic.tictactoe.TicTacToePlayer;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class TicTacToeController {
+
+    private TicTacToeGame game;
+    private TicTacToePlayer localPlayer;
+    private TicTacToePlayer remotePlayer;
+    private boolean isAIMode = false;
+    private boolean isOnlineMode = false;
+
+    private Map<Button, int[]> buttonPositionMap = new HashMap<>();
 
     @FXML private Button button11, button12, button13;
     @FXML private Button button21, button22, button23;
@@ -37,6 +50,16 @@ public class TicTacToeController {
         button31.setOnAction(e -> handleMove(button31));
         button32.setOnAction(e -> handleMove(button32));
         button33.setOnAction(e -> handleMove(button33));
+
+        buttonPositionMap.put(button11, new int[]{0, 0});
+        buttonPositionMap.put(button12, new int[]{0, 1});
+        buttonPositionMap.put(button13, new int[]{0, 2});
+        buttonPositionMap.put(button21, new int[]{1, 0});
+        buttonPositionMap.put(button22, new int[]{1, 1});
+        buttonPositionMap.put(button23, new int[]{1, 2});
+        buttonPositionMap.put(button31, new int[]{2, 0});
+        buttonPositionMap.put(button32, new int[]{2, 1});
+        buttonPositionMap.put(button33, new int[]{2, 2});
 
     }
 
