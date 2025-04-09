@@ -1,4 +1,4 @@
-package org.seng.leaderboard;
+package org.seng.leaderboard_matchmaking;
 
 
 /**
@@ -24,7 +24,7 @@ public abstract class GeneralStats {
     protected int tictactoemmr;
 
     // The player's current rank.
-    protected Rank rank;
+    protected  Rank rank;
 
     /**
      * Constructs a new GeneralStats object with initial values.
@@ -86,7 +86,7 @@ public abstract class GeneralStats {
      *
      * @return The player's current Rank.
      */
-    public Rank getRank() {
+    public  Rank getRank() {
         return rank;
     }
 
@@ -95,7 +95,7 @@ public abstract class GeneralStats {
      * This method is empty by default and can be overridden in subclasses to implement
      * game-specific ranking logic.
      */
-    protected void updateRank() {
+    public void updateRank() {
     }
 
     /**
@@ -120,7 +120,7 @@ public abstract class GeneralStats {
      *
      * @return The win count.
      */
-    public int get_wins() {
+    public  int get_wins() {
         return wins;
     }
 
@@ -129,7 +129,7 @@ public abstract class GeneralStats {
      *
      * @return The loss count.
      */
-    public int get_losses() {
+    public  int get_losses() {
         return losses;
     }
 
@@ -138,7 +138,7 @@ public abstract class GeneralStats {
      *
      * @return The tie count.
      */
-    public int get_ties() {
+    public  int get_ties() {
         return ties;
     }
 
@@ -182,42 +182,13 @@ public abstract class GeneralStats {
         updateRank();
     }
 
-    /**
-     * Returns a string representation of the player's general statistics.
-     *
-     * @return A string containing playerID, games played, wins, losses, ties, and rank.
-     */
-    @Override
-    public String toString() {
-        return "GeneralStats [playerID=" + playerID + ", gamesPlayed=" + gamesPlayed +
-                ", wins=" + wins + ", losses=" + losses + ", ties=" + ties +
-                ", rank=" + rank + "]";
-    }
-
-    // Methods added by the Authentication Team
-
-    public void setGamesPlayed(int num_of_gamesPlayed) {
-        this.gamesPlayed = num_of_gamesPlayed;
-    }
-
-    public void setWins(int num_of_wins) {
-        this.wins = num_of_wins;
-    }
-
-    public void setLosses(int num_of_losses) {
-        this.losses = num_of_losses;
-    }
-
-    public void setTies(int num_of_ties) {
-        this.ties = num_of_ties;
-    }
-
-    public void setRank(Rank player_rank) {
-        this.rank = player_rank;
-    }
-
+    // Setters
+    public abstract void setGamesPlayed(int num_of_gamesPlayed);
+    public abstract void setWins(int num_of_wins);
+    public abstract void setLosses(int num_of_losses);
+    public abstract void setTies(int num_of_ties);
+    public abstract void setRank(Rank player_rank);
     public abstract void setMMR (int game_specific_MMR);
-
 }
 
 

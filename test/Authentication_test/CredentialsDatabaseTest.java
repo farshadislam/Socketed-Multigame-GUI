@@ -3,7 +3,7 @@ package Authentication_test;
 import org.junit.jupiter.api.*;
 import org.seng.authentication.CredentialsDatabase;
 import org.seng.authentication.Player;
-import org.seng.leaderboard.*;
+import org.seng.leaderboard_matchmaking.*;
 
 import java.io.*;
 import java.nio.file.*;

@@ -1,4 +1,4 @@
-package org.seng.leaderboard;
+package org.seng.leaderboard_matchmaking;
 
 public enum GameType {
     CONNECT4,
