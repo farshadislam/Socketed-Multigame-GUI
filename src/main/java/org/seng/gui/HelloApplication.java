@@ -17,9 +17,10 @@ public class HelloApplication extends Application {
 
         // Load style sheet
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        //scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm());
-        //scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
-        //scene.getStylesheets().add(getClass().getResource("tictactoestyles.css").toExternalForm());
+//        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm());
+//        scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+//        scene.getStylesheets().add(getClass().getResource("tictactoestyles.css").toExternalForm());
+//        scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
 
         stage.setTitle("OMG Platform");
         stage.setScene(scene);
