@@ -52,7 +52,7 @@ public class SocketMatchServer {
             String username = in.readLine();
 
             // connect player to system
-            netManager.connectPlayer(username); // ✅ mark this player as connected
+            netManager.connectPlayer(username); // mark this player as connected
 
             // next it then asks them what game they want to play
             out.write("Select game:\n1. Checkers\n2. Connect Four\n3. Tic Tac Toe\nYour choice: ");
