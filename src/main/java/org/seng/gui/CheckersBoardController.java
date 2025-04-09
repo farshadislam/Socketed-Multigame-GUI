@@ -229,6 +229,10 @@ public class CheckersBoardController {
 
 
     private Button selectedPiece = null;
+
+    private int selectedRow = -1;
+
+    private int selectedColumn = -1;
     private Image redPieceImage;
     private Image blackPieceImage;
 
@@ -351,6 +355,7 @@ public class CheckersBoardController {
         if (selectedPiece == null) { // if there is no piece selected
             if (clickedButton.getGraphic() != null) { // if the button has a piece
                 selectPiece(clickedButton);
+
             }
         }
         else { // if a piece is already selected it tries to move it
@@ -384,6 +389,30 @@ public class CheckersBoardController {
             selectedPiece.setEffect(null);
             selectedPiece = null;
         }
+    }
+
+    private void selectRow(int row) {
+        selectedRow = row;
+    }
+
+    private void selectColumn(int col) {
+        selectedColumn = col;
+    }
+
+    private void deselectRow(int row) {
+        selectedRow = -1;
+    }
+
+    private void deselectColumn(int col) {
+        selectedColumn = col;
+    }
+
+    private int getSelectedRow() {
+        return selectedRow;
+    }
+
+    private int getSelectedColumn() {
+        return selectedColumn;
     }
 
     private void movePiece(Button from, Button to) {
