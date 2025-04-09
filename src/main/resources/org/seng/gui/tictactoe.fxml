@@ -4,11 +4,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+
 <AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.seng.gui.TicTacToeController"
             prefHeight="600.0" prefWidth="800.0"
             styleClass="gradient-background">
-
    <!-- Title -->
    <Label text="Tic Tac Toe" styleClass="light-title-label"
           AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"

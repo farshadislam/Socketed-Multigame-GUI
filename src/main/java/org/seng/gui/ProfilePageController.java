@@ -52,10 +52,10 @@ public class ProfilePageController {
         profileTitleText.setText(playerName + "'s Profile");
         lastOnlineLabel.setText("Last Online: Just now");
 
-        int wins = 5;
+        int wins = 5;  // player.getTotalWins();
         int losses = 2;
         int ties = 1;
-        int total = wins + losses + ties;
+        int total = wins + losses + ties; // player.getTotalGamesPlayed();
 
         myWinsLabel.setText(String.valueOf(wins));
         myLossesLabel.setText(String.valueOf(losses));
@@ -68,9 +68,9 @@ public class ProfilePageController {
         tiesColumn.setCellValueFactory(data -> data.getValue().tiesProperty().asObject());
 
         gameStatsTable.setItems(FXCollections.observableArrayList(
-                new GameStat("Checkers", 2, 1, 1),
-                new GameStat("Tic Tac Toe", 3, 1, 0),
-                new GameStat("Connect 4", 0, 0, 0)
+                new ProfilePageController.GameStat("Checkers", "Silver", 3, 3, 1, 1), // player.getCheckersStats().get_wins(),  player.getCheckersStats().get_losses(),player.getCheckersStats().get_ties())
+                new ProfilePageController.GameStat("Tic Tac Toe", "Gold", 2, 2, 2, 0),
+                new ProfilePageController.GameStat("Connect 4", "Bronze", 1, 1, 0, 2)
         ));
     }
 
@@ -105,19 +105,33 @@ public class ProfilePageController {
 
     public static class GameStat {
         private final SimpleStringProperty game;
+        private final SimpleStringProperty rank;
+        private final SimpleIntegerProperty mmr;
+
         private final SimpleIntegerProperty wins;
         private final SimpleIntegerProperty losses;
         private final SimpleIntegerProperty ties;
 
-        public GameStat(String game, int wins, int losses, int ties) {
+        public GameStat(String game, String rank, int mmr, int wins, int losses, int ties)
+        {
             this.game = new SimpleStringProperty(game);
+            this.rank = new SimpleStringProperty(rank);
+            this.mmr = new SimpleIntegerProperty(mmr);
             this.wins = new SimpleIntegerProperty(wins);
             this.losses = new SimpleIntegerProperty(losses);
             this.ties = new SimpleIntegerProperty(ties);
+
         }
 
         public SimpleStringProperty gameProperty() {
             return game;
+        }
+
+        public SimpleStringProperty rankProperty() {
+            return rank;
+        }
+        public SimpleIntegerProperty mmrProperty() {
+            return mmr;
         }
 
         public SimpleIntegerProperty winsProperty() {

@@ -1,9 +1,16 @@
 package org.seng.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard;
@@ -11,6 +18,7 @@ import org.seng.gamelogic.tictactoe.TicTacToeGame;
 import org.seng.gamelogic.tictactoe.TicTacToeGame;
 import org.seng.gamelogic.tictactoe.TicTacToePlayer;
 import org.seng.gamelogic.tictactoe.TicTacToePlayer;
+import javafx.stage.StageStyle;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -40,6 +48,7 @@ public class TicTacToeController {
     @FXML private Button inGameChatButton;
     @FXML private MenuItem helpOption;
     @FXML private Label turnLabel;
+    @FXML private FlowPane board;
 
     @FXML public void initialize() {
         clearChatHistory();
@@ -191,6 +200,7 @@ public class TicTacToeController {
                     turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
                 }
             }
+            isPlayerOneTurn = !isPlayerOneTurn;
         }
     }
     private void disableAllButtons() {

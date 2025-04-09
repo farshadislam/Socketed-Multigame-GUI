@@ -35,12 +35,14 @@
             </HBox>
 
             <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1d0e4d;" text="Game Stats" />
-            <TableView fx:id="friendGameStatsTable" editable="false" prefHeight="90">
+            <TableView fx:id="friendGameStatsTable" editable="false" prefHeight="200">
                 <columns>
-                    <TableColumn fx:id="friendGameColumn" prefWidth="180" text="Game" />
-                    <TableColumn fx:id="friendGameWinsColumn" prefWidth="100" text="Wins" />
-                    <TableColumn fx:id="friendGameLossesColumn" prefWidth="100" text="Losses" />
-                    <TableColumn fx:id="friendGameTiesColumn" prefWidth="100" text="Ties" />
+                    <TableColumn fx:id="friendGameColumn" prefWidth="120" text="Game" />
+                    <TableColumn fx:id="friendRankColumn" prefWidth="100" text="Rank" />
+                    <TableColumn fx:id="friendMmrColumn" prefWidth="100" text="MMR" />
+                    <TableColumn fx:id="friendGameWinsColumn" prefWidth="80" text="Wins" />
+                    <TableColumn fx:id="friendGameLossesColumn" prefWidth="80" text="Losses" />
+                    <TableColumn fx:id="friendGameTiesColumn" prefWidth="80" text="Ties" />
                 </columns>
             </TableView>
         </VBox>
