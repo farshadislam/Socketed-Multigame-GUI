@@ -263,11 +263,21 @@ public class CheckersBoardController {
     }
 
     private void selectionHandle() {
-        Button[] allButtons = {a1, a2, a3, a4, a5, a6, a7, a8, b1, b2, b3, b4, b5, b6, b7, b8, c1, c2, c3, c4, c5, c6, c7, c8, d1, d2, d3, d4, d5, d6, d7, d8,
-                e1, e2, e3, e4, e5, e6, e7, e8, f1, f2, f3, f4, f5, f6, f7, f8, g1, g2, g3, g4, g5, g6, g7, g8, h1, h2, h3, h4, h5, h6, h7, h8};
+        Button[] row1 = {a1, a2, a3, a4, a5, a6, a7, a8};
+        Button[] row2 = {b1, b2, b3, b4, b5, b6, b7, b8};
+        Button[] row3 = {c1, c2, c3, c4, c5, c6, c7, c8};
+        Button[] row4 = {d1, d2, d3, d4, d5, d6, d7, d8};
+        Button[] row5 = {e1, e2, e3, e4, e5, e6, e7, e8};
+        Button[] row6 = {f1, f2, f3, f4, f5, f6, f7, f8};
+        Button[] row7 = {g1, g2, g3, g4, g5, g6, g7, g8};
+        Button[] row8 = {h1, h2, h3, h4, h5, h6, h7, h8};
+        Button[][] allButtons = {row1, row2, row3, row4, row5, row6, row7, row8};
 
-        for (Button button : allButtons) {
-            button.setOnAction(e -> handleButtonClick(button));
+        for (int rowCounter = 0; rowCounter < 8; rowCounter++) {
+            for (int buttonCounter = 0; buttonCounter < 8; buttonCounter ++) {
+                Button button = allButtons[rowCounter][buttonCounter];
+                button.setOnAction(e -> {handleButtonClick(button);});
+            }
         }
     }
 
