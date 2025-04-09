@@ -375,3 +375,38 @@
     -fx-background-color: #5750cc;
     -fx-cursor: hand;
 }
+
+/* Light Purple TableView Theme */
+.table-view {
+    -fx-background-color: #f3efff; /* Light purple background */
+    -fx-border-color: #d1c4e9;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #d1c4e9; /* Muted purple for headers */
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #3c2174; /* Deep purple for header text */
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f9f5ff; /* Slightly lighter purple for alt rows */
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #c9b6f1; /* Light purple selection */
+    -fx-text-fill: white;
+}
+
+.table-cell {
+    -fx-text-fill: #3c2174;
+}
