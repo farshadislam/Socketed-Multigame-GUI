@@ -1,14 +1,13 @@
 package org.seng.authentication;
+import javafx.css.Match;
 import org.seng.leaderboard_matchmaking.*;
 import org.seng.leaderboard_matchmaking.Rank;
 
 //import org.seng.leaderboard.matchmaking.Last5Matches;
 import org.seng.leaderboard_matchmaking.GameType;
-import org.seng.leaderboard_matchmaking.checkersStats;
-import org.seng.leaderboard_matchmaking.connect4Stats;
-import org.seng.leaderboard_matchmaking.ticTacToeStats;
 
 
+import java.util.List;
 import java.util.Objects;
 
 public class Player {
@@ -21,6 +20,7 @@ public class Player {
     private ticTacToeStats TicTacToeStats;
     private checkersStats CheckersStats;
     private String verificationCode;
+    private Last5Matches last5Matches;
 
 //    //last 5 matches field
 //    private Last5Matches last5Matches;
@@ -39,6 +39,7 @@ public class Player {
         this.Connect4Stats = new connect4Stats(username);
         this.CheckersStats = new checkersStats(username);
         this.TicTacToeStats = new ticTacToeStats(username);
+        this.last5Matches = new Last5Matches();
         //initializing the constructor
 //        this.last5Matches = new Last5Matches();
     }
@@ -100,6 +101,7 @@ public class Player {
         this.password = password;
     }
 
+    public Last5Matches getLast5MatchesObject() {return this.last5Matches;}
 
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
@@ -165,21 +167,10 @@ public class Player {
 //        return this.last5Matches;
 //    }
 //
-//    public void updateLast5Matches(GameType gameType, Player player) {
-//        last5Matches.update(gameType, player);
-//    }
-//
-//    public List<List<Object>> getLast5Matches() {
-//        return last5Matches.getMatchHistory();
-//    }
 //
 //    public List<Object> getLastMatchAt(int index){
 //        return last5Matches.getLastMatchAt(index);
 //    }
 //
-//    public void clearLast5Matches(){
-//        last5Matches.clearHistory();
-//    }
-
 }
 
