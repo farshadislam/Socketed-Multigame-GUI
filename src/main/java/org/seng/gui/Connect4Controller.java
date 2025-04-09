@@ -24,22 +24,16 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class Connect4Controller {
-    @FXML
-    private FlowPane board;
-
-    @FXML
-    private Label player1Label;
-
-    @FXML
-    private Label player2Label;
+    @FXML private FlowPane board;
+    @FXML private Label player1Label;
+    @FXML private Label player2Label;
 
     private static final int ROWS = 6;
     private static final int COLS = 7;
     private ScaleTransition player1Pulse;
     private ScaleTransition player2Pulse;
-
+    private final String CHAT_LOG_PATH = "chatlog.txt";
     private boolean isPlayerOneTurn = true;
-
     private Button[][] boardButtons = new Button[ROWS][COLS];
 
     @FXML
@@ -55,7 +49,6 @@ public class Connect4Controller {
         }
         clearChatHistory();
         updatePlayerTurnIndicator();
-        clearChatHistory();
     }
     @FXML
     private void handleQuit() {
@@ -116,8 +109,6 @@ public class Connect4Controller {
             e.printStackTrace();
         }
     }
-
-    private final String CHAT_LOG_PATH = "chatlog.txt";
 
     private void saveMessage(String message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {

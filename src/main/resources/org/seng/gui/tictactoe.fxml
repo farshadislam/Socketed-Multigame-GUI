@@ -5,16 +5,21 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.TicTacToeController">
    <!-- Title -->
    <Label alignment="center" styleClass="light-title-label" text="Tic Tac Toe" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0" />
 
-   <!-- Turn Indicator -->
-   <Label fx:id="turnLabel" alignment="center" styleClass="game-label" text="Player 1's Turn" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
+    <!-- Turn Indicator -->
+    <Label fx:id="turnLabel" alignment="center" styleClass="game-label" text="Player 1's Turn" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
+
 
    <!-- Game Board -->
    <GridPane hgap="10" vgap="10" AnchorPane.leftAnchor="225.0" AnchorPane.topAnchor="120.0">
@@ -31,23 +36,26 @@
    </GridPane>
 
    <!-- Chat and Settings -->
-   <Button fx:id="inGameChatButton" layoutX="34.0" layoutY="560.0" onAction="#openChat" style="-fx-background-radius: 20; -fx-border-radius: 20;" styleClass="auth-button" text="Chat" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="34.0" />
+   <Button fx:id="inGameChatButton" layoutX="34.0" layoutY="560.0" onAction="#openChat" style="-fx-background-radius: 20; -fx-border-radius: 20;" styleClass="option-button" text="Chat" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="34.0" />
 
-   <MenuButton fx:id="SettingMenu" layoutX="689.0" layoutY="560.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-text-fill: #2c3e50;" styleClass="auth-button" text="Settings" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="31.0">
+   <MenuButton fx:id="SettingMenu" layoutX="689.0" layoutY="560.0" style="-fx-background-radius: 20; -fx-border-radius: 20;" textFill="aliceblue" styleClass="menu-bar" text="Settings" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="31.0">
       <items>
          <MenuItem fx:id="quitOption" onAction="#handleQuit" text="Quit" />
          <MenuItem fx:id="helpOption" onAction="#howToPlayDescription" text="Help" />
       </items>
    </MenuButton>
-   <Button fx:id="button22" layoutX="491.0" layoutY="116.0" prefHeight="80" prefWidth="80" />
-   <Button fx:id="button11" layoutX="231.0" layoutY="116.0" prefHeight="80" prefWidth="80" />
 
-   <Button fx:id="button21" layoutX="231.0" layoutY="246.0" prefHeight="80" prefWidth="80" />
-   <Button fx:id="button13" layoutX="491.0" layoutY="246.0" prefHeight="80" prefWidth="80" />
-
-   <Button fx:id="button31" layoutX="231.0" layoutY="376.0" prefHeight="80" prefWidth="80" />
-   <Button fx:id="button33" layoutX="491.0" layoutY="376.0" prefHeight="80" prefWidth="80" />
-   <Button fx:id="button32" layoutX="361.0" layoutY="376.0" prefHeight="80" prefWidth="80" />
-   <Button fx:id="button23" layoutX="361.0" layoutY="246.0" prefHeight="80" prefWidth="80" />
-   <Button fx:id="button12" layoutX="361.0" layoutY="116.0" prefHeight="80" prefWidth="80" />
+   <FlowPane fx:id="board" layoutX="288.0" layoutY="188.0" prefHeight="280.0" prefWidth="300.0">
+      <children>
+         <Button fx:id="button22" layoutX="491.0" layoutY="116.0" prefHeight="80" prefWidth="80" />
+         <Button fx:id="button11" layoutX="231.0" layoutY="116.0" prefHeight="80" prefWidth="80" />
+         <Button fx:id="button21" layoutX="231.0" layoutY="246.0" prefHeight="80" prefWidth="80" />
+         <Button fx:id="button13" layoutX="491.0" layoutY="246.0" prefHeight="80" prefWidth="80" />
+         <Button fx:id="button31" layoutX="231.0" layoutY="376.0" prefHeight="80" prefWidth="80" />
+         <Button fx:id="button33" layoutX="491.0" layoutY="376.0" prefHeight="80" prefWidth="80" />
+         <Button fx:id="button32" layoutX="361.0" layoutY="376.0" prefHeight="80" prefWidth="80" />
+         <Button fx:id="button23" layoutX="361.0" layoutY="246.0" prefHeight="80" prefWidth="80" />
+         <Button fx:id="button12" layoutX="361.0" layoutY="116.0" prefHeight="80" prefWidth="80" />
+      </children>
+   </FlowPane>
 </AnchorPane>

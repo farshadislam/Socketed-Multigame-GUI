@@ -16,6 +16,7 @@
     -fx-alignment: center;
 }
 
+
 .controller-icon {
     -fx-opacity: 0.15;
 }
@@ -330,3 +331,4 @@
     -fx-background-radius: 5;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.5, 0, 2);
 }
+
