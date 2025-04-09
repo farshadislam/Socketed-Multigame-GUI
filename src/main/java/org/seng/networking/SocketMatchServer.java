@@ -7,6 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.seng.authentication.Player;
+import java.io.*;
 
 // this class is the actual multiplayer game server that accepts player connections
 // and handles matchmaking them into games using the queue
@@ -16,6 +18,9 @@ public class SocketMatchServer {
 
     // this is a thread pool so we can run lots of clients at once (if many different pairs wanna play)
     private ExecutorService pool = Executors.newCachedThreadPool();
+
+    private final Matchmaking matchmaking = Matchmaking.getInstance(); // this is our matchmaking system
+    private final NetworkingManager netManager = NetworkingManager.getInstance(); // this tracks who's connected
 
     // this sets up the server socket on the port we pass in
     public SocketMatchServer(int port) throws IOException {
@@ -48,6 +53,9 @@ public class SocketMatchServer {
             out.flush();
             String username = in.readLine();
 
+            // this marks this player as connected in the network manager
+            netManager.connectPlayer(username); // this tracks that the player has joined
+
             // next it then asks them what game they want to play
             out.write("Select game:\n1. Checkers\n2. Connect Four\n3. Tic Tac Toe\nYour choice: ");
             out.flush();
@@ -55,48 +63,58 @@ public class SocketMatchServer {
             GameType selectedGame;
 
             // this maps the input to an actual GameType
-            switch (choice) {
-                case "1": selectedGame = GameType.CHECKERS; break;
-                case "2": selectedGame = GameType.CONNECT4; break;
-                case "3": selectedGame = GameType.TICTACTOE; break;
-                default:  selectedGame = GameType.CHECKERS; break; // this is default just in case
+            if (choice.equals("1")) {
+                selectedGame = GameType.CHECKERS;
+            } else if (choice.equals("2")) {
+                selectedGame = GameType.CONNECT4;
+            } else if (choice.equals("3")) {
+                selectedGame = GameType.TICTACTOE;
+            } else {
+                selectedGame = GameType.CHECKERS; // this defaults to Checkers if invalid input
             }
 
             // this creates a new player object from the input username
-            Player newPlayer = new Player(username, "");
+            Player newPlayer = new Player(username, "", "");
 
             // this creates the actual handler connection to the client socket
             SocketGameHandler handler = new SocketGameHandler(clientSocket, username);
-            handler.setGameType(selectedGame); // save the game mode they picked
-            newPlayer.setSocketHandler(handler); // attach this handler to their player obj
+            handler.setGameType(selectedGame); // this saves the game mode they picked
+            newPlayer.setSocketHandler(handler); // this stores the handler in their player obj
 
-            // this uses  the Matchmaking system to try joining the queue or get matched
-            Matchmaking matchmaking = Matchmaking.getInstance();
+            // try to join matchmaking system
             Match match = matchmaking.joinQueue(newPlayer, selectedGame);
 
-            // CASE 1: no one was waiting yet → this player just got queued
+            // this is if no one matched yet and the player waits
             if (match == null) {
-                // do nothing yet, just wait for opponent to join and pick up the match later
                 System.out.println(username + " is waiting for opponent...");
                 return;
             }
 
-            // CASE 2: match got made! this player is second one to join
-            Player player1 = match.getPlayer1(); // already waiting
-            Player player2 = match.getPlayer2(); // just joined (this guy)
+            // this is if the players have matched and identifies which player is who
+            Player opponent;
+            if (match.getPlayer1().equals(newPlayer)) {
+                opponent = match.getPlayer2(); // this person is second to join
+            } else {
+                opponent = match.getPlayer1(); // this person is second to join
+            }
 
-            // mark the match as no longer available (prevents double usage)
-            match.markAsNotReady();
+            // this hooks up both socket handlers to each other
+            opponent.getSocketHandler().setOpponent(handler); // tells the opponent who joined
+            handler.setOpponent(opponent.getSocketHandler()); // this tells this player too
 
-            // set opponents
-            player1.getSocketHandler().setOpponent(handler);
-            handler.setOpponent(player1.getSocketHandler());
+            // this determines the player positions
+            boolean isNewPlayerOne = match.getPlayer1().equals(newPlayer);
 
-            // run both threads
-            pool.execute(player1.getSocketHandler());
+            // this sends opponent info to both players
+            handler.sendOpponentInfo(opponent.getUsername(), isNewPlayerOne);
+            opponent.getSocketHandler().sendOpponentInfo(newPlayer.getUsername(), !isNewPlayerOne);
+
+            // this notifies both players the match is made
+            netManager.notifyPlayersMatched(newPlayer, opponent, match);
+
+            // this launches both threads
+            pool.execute(opponent.getSocketHandler());
             pool.execute(handler);
-
-            System.out.println("Match made: " + player1.getUsername() + " vs " + player2.getUsername());
 
         } catch (IOException e) {
             // this prints out what went wrong if something failed

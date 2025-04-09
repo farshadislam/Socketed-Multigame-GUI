@@ -2,6 +2,7 @@ package org.seng.networking;
 
 import org.seng.networking.leaderboard_matchmaking.GameType;
 import java.util.*;
+import org.seng.authentication.Player;
 
 /**
  * This is the matchmaking system that pairs players into matches.
@@ -9,9 +10,9 @@ import java.util.*;
  */
 public class Matchmaking {
 
-    private static Matchmaking instance; 
+    private static Matchmaking instance; // singleton instance
 
-    //this  holds a waiting queue for each game type
+    // holds a waiting queue for each game type
     private final Map<GameType, Queue<Player>> queues;
 
     private Matchmaking() {
@@ -23,7 +24,7 @@ public class Matchmaking {
         }
     }
 
-    // this returns the one global matchmaking instance
+    // returns the one global matchmaking instance
     public static Matchmaking getInstance() {
         if (instance == null) {
             instance = new Matchmaking();

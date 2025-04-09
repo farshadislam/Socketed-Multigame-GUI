@@ -2,7 +2,9 @@ package org.seng.networking;
 
 import org.seng.networking.leaderboard_matchmaking.GameType;
 import java.util.*;
+import org.seng.authentication.Player;
 
+import java.io.*;
 /**
  * this class represents one single match between 2 players
  * doesn't actually run the game logic anymore — that's handled somewhere else (like the GUI/game logic package)
@@ -28,7 +30,7 @@ public class Match {
         this.isReady = true; // by default, a new match is ready unless we mark it not ready
     }
 
-    // these aer basic getters just to grab info from this match
+    // these are basic getters just to grab info from this match
     public String getMatchID() { return matchID; }
     public Player getPlayer1() { return player1; }
     public Player getPlayer2() { return player2; }
@@ -37,7 +39,6 @@ public class Match {
 
     // we can manually flip this to not ready if it already got used or we don't wanna reuse it again
     public void markAsNotReady() { this.isReady = false; }
-
 
     // this adds a match into the global match pool — which will be grabbed by the next person who joins
     public static void addAvailableMatch(Match match) {

@@ -2,6 +2,8 @@ package org.seng.networking;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.seng.authentication.Player;
+import java.io.*;
 
 public class GameSessionManager {
 
