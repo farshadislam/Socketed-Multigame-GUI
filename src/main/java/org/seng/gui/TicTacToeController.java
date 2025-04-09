@@ -1,9 +1,16 @@
 package org.seng.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.seng.gamelogic.tictactoe.TicTacToeBoard;
@@ -11,6 +18,7 @@ import org.seng.gamelogic.tictactoe.TicTacToeGame;
 import org.seng.gamelogic.tictactoe.TicTacToeGame;
 import org.seng.gamelogic.tictactoe.TicTacToePlayer;
 import org.seng.gamelogic.tictactoe.TicTacToePlayer;
+import javafx.stage.StageStyle;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -40,9 +48,20 @@ public class TicTacToeController {
     @FXML private Button inGameChatButton;
     @FXML private MenuItem helpOption;
     @FXML private Label turnLabel;
+    @FXML private FlowPane board;
 
     @FXML public void initialize() {
         clearChatHistory();
+
+        // Setup player data
+        localPlayer = new TicTacToePlayer("usernameOne", "emailOne",  "passwordOne"); // optionally replace with actual usernames
+        remotePlayer = new TicTacToePlayer("usernameTwo", "emailTwo",  "passwordTwo");
+
+        TicTacToeBoard board = new TicTacToeBoard();
+        game = new TicTacToeGame(board, new TicTacToePlayer[]{localPlayer, remotePlayer}, 1); // gameID = 1
+
+        game.startGame();
+
         button11.setOnAction(e -> handleMove(button11));
         button12.setOnAction(e -> handleMove(button12));
         button13.setOnAction(e -> handleMove(button13));
@@ -159,19 +178,36 @@ public class TicTacToeController {
     private boolean isPlayerOneTurn = true;
     private void handleMove(Button button) {
         if (button.getText().isEmpty()) {
-            if (isPlayerOneTurn) {
-                button.setText("X");
-                buttonLocation = buttonPositionMap.get(button);
-                turnLabel.setText("Player 2's Turn");
-            } else {
-                button.setText("O");
-                buttonLocation = buttonPositionMap.get(button);
-                turnLabel.setText("Player 1's Turn");
+            int[] location = buttonPositionMap.get(button);
+            int row = location[0];
+            int col = location[1];
+
+            boolean moveMade = game.makeMove(row, col);
+
+            if (moveMade) {
+                String symbol = game.getCurrentMark() == TicTacToeBoard.Mark.O ? "X" : "O"; // show previous mark
+                button.setText(symbol);
+
+                // Check game status
+                String status = game.getStatus();
+                if (status.endsWith("Wins")) {
+                    turnLabel.setText("Game Over! " + status);
+                    disableAllButtons();
+                } else if (status.equals("Draw")) {
+                    turnLabel.setText("It's a Draw!");
+                    disableAllButtons();
+                } else {
+                    turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
+                }
             }
             isPlayerOneTurn = !isPlayerOneTurn;
         }
     }
-
+    private void disableAllButtons() {
+        for (Button b : buttonPositionMap.keySet()) {
+            b.setDisable(true);
+        }
+    }
 }
 
 

@@ -68,5 +68,7 @@
         </items>
       </MenuButton>
       <Label fx:id="connect4Label" layoutX="302.0" layoutY="23.0" styleClass="connect4-label" text="Connect 4" />
+      <Label fx:id="player1Label" layoutX="96.0" layoutY="300.0" text="Player 1" />
+      <Label fx:id="player2Label" layoutX="662.0" layoutY="300.0" text="Player 2" />
    </children>
 </AnchorPane>

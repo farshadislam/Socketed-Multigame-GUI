@@ -13,7 +13,7 @@ public class SocketGameHandler implements Runnable {
     private BufferedReader in;  // used to read messages coming from the client
     private BufferedWriter out; // used to send messages back to the client
     private String playerName;  // the player's username
-    private SocketGameHandler opponent; // the other player in the match
+    public SocketGameHandler opponent; // the other player in the match
 
     private GameType gameType; // this is the game type this player is playing
 
