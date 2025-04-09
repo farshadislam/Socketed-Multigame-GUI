@@ -1,4 +1,4 @@
-package org.seng.leaderboard;
+package org.seng.leaderboard_matchmaking;
 
 /**
  * Implementation of game-specific statistics for Checkers.
@@ -39,9 +39,9 @@ public class checkersStats extends GeneralStats {
     @Override
     protected void updateMMR(boolean win) {
         if (win) {
-            checkersmmr += (int) Math.round(RANK_STEP);
+            checkersmmr += (int) Math.round(RANK_STEP / 2.0);
         } else {
-            checkersmmr -= (int) Math.round(RANK_STEP);
+            checkersmmr -= (int) Math.round(RANK_STEP / 2.0);
         }
         if (checkersmmr < MIN_MMR) {
             checkersmmr = MIN_MMR;
@@ -63,7 +63,7 @@ public class checkersStats extends GeneralStats {
      * Rank is determined by dividing the MMR range into equal steps.
      */
     @Override
-    protected void updateRank() {
+    public void updateRank() {
         double relativeMMR = checkersmmr - MIN_MMR;
         int rankIndex = (int) (relativeMMR / RANK_STEP);
         if (rankIndex < 0) rankIndex = 0;
@@ -99,29 +99,33 @@ public class checkersStats extends GeneralStats {
         return losses;
     }
 
-
-    /**
-     * Returns a string representation of Checkers statistics.
-     *
-     * @return String representation of checkersStats.
-     */
     @Override
-    public String toString() {
-        return "CheckersStats [playerID=" + playerID
-                + ", gamesPlayed=" + gamesPlayed
-                + ", wins=" + wins
-                + ", losses=" + losses
-                + ", ties=" + ties
-                + ", checkersmmr=" + checkersmmr
-                + ", rank=" + rank
-                + "]";
+    public void setGamesPlayed(int games_Played) {
+        this.gamesPlayed = games_Played;
     }
 
-    // METHOD IMPLEMENTED BY THE AUTHENTICATION
     @Override
-    public void setMMR (int game_specific_MMR) {
+    public void setWins(int num_of_wins) {
+        this.wins = num_of_wins;
+    }
+
+    @Override
+    public void setLosses(int num_of_losses) {
+        this.losses = num_of_losses;
+    }
+
+    @Override
+    public void setTies(int num_of_ties) {
+        this.ties = num_of_ties;
+    }
+
+    @Override
+    public void setRank(Rank player_rank) {
+        this.rank = player_rank;
+    }
+
+    @Override
+    public void setMMR(int game_specific_MMR) {
         this.checkersmmr = game_specific_MMR;
     }
-
 }
-

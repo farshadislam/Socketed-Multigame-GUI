@@ -1,6 +1,7 @@
 package org.seng.gui;
 
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -89,6 +90,9 @@ public class WelcomePageController {
 
         // handle create account button click
         createAccountButton.setOnAction(e -> openCreateAccountPage());
+        Platform.runLater(() -> {
+            loginButton.requestFocus();
+        });
     }
 
     private void addControllerIcons() {

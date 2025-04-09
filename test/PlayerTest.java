@@ -1,9 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.seng.authentication.Player;
-import org.seng.leaderboard.checkersStats;
-import org.seng.leaderboard.connect4Stats;
-import org.seng.leaderboard.ticTacToeStats;
+import org.seng.leaderboard_matchmaking.checkersStats;
+import org.seng.leaderboard_matchmaking.connect4Stats;
+import org.seng.leaderboard_matchmaking.ticTacToeStats;
 
 import static org.junit.jupiter.api.Assertions.*;
 
