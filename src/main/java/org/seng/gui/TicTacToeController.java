@@ -24,8 +24,6 @@ import java.util.Map;
 public class TicTacToeController {
 
     private TicTacToeGame game;
-    private TicTacToePlayer localPlayer;
-    private TicTacToePlayer remotePlayer;
     private boolean isAIMode = false;
     private boolean isOnlineMode = false;
     private Stage chatStage = null;
@@ -55,14 +53,6 @@ public class TicTacToeController {
     @FXML
     public void initialize() {
         clearChatHistory();
-
-        // Setup player data
-        localPlayer = new TicTacToePlayer("usernameOne", "emailOne", "passwordOne");
-        remotePlayer = new TicTacToePlayer("usernameTwo", "emailTwo", "passwordTwo");
-
-        TicTacToeBoard board = new TicTacToeBoard();
-        game = new TicTacToeGame(board, new TicTacToePlayer[]{localPlayer, remotePlayer}, 1);
-        game.initializePlayerSymbols();
 
 //        button11.setOnAction(e -> handleMove(button11));
 //        button12.setOnAction(e -> handleMove(button12));
@@ -102,6 +92,12 @@ public class TicTacToeController {
         button31.setOnAction(e -> handleMove(2, 0, button31));  // Third row, first column
         button32.setOnAction(e -> handleMove(2, 1, button32));  // Third row, second column
         button33.setOnAction(e -> handleMove(2, 2, button33));  // Third row, third column
+
+        Button[] row1 = {button11, button12, button13};
+        Button[] row2 = {button21, button22, button23};
+        Button[] row3 = {button31, button32, button33};
+
+        Button[][] board = {row1, row2, row3};
     }
 
     private String nextTurn() {
