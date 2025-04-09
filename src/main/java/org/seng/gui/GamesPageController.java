@@ -142,10 +142,15 @@ public class GamesPageController {
 
         } else {
             // if we’re doing local play instead
+            String cssFile = switch (gameType) {
+                case CHECKERS -> "checkerstyles.css";
+                case TICTACTOE -> "tictactoestyles.css";
+                case CONNECT4 -> "connectfourstyles.css";
+            };
             String fxmlFile = switch (gameType) {
-                case CHECKERS -> "checkers-game.fxml";
-                case TICTACTOE -> "tictactoe-game.fxml";
-                case CONNECT4 -> "connect4-game.fxml";
+                case CHECKERS -> "checkersBoard.fxml";
+                case TICTACTOE -> "tictactoe.fxml";
+                case CONNECT4 -> "connect4-board.fxml";
             };
             if (gameType == GameType.CHECKERS) {
                 CheckersBoard board = new CheckersBoard();
@@ -170,7 +175,7 @@ public class GamesPageController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
                 Scene scene = new Scene(loader.load(), 700, 450);
-                scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+                scene.getStylesheets().add(getClass().getResource(cssFile).toExternalForm());
 
                 Stage stage = (Stage) checkersIcon.getScene().getWindow();
                 stage.setScene(scene);
