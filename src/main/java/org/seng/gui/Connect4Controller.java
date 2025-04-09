@@ -240,7 +240,7 @@ public class Connect4Controller {
 
     private void checkTie(Button tieButton){
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("tiePage.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 700, 450);
             scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
             Stage stage = new Stage();
@@ -340,15 +340,14 @@ public class Connect4Controller {
     }
 
     public boolean boardFull() {
-        boolean full = true;
-        for (int rowCounter = 0; rowCounter < ROWS; rowCounter++) { //make sure i and j are within the borders of the board
+        for (int rowCounter = 0; rowCounter < ROWS; rowCounter++) {
             for (int colCounter = 0; colCounter < COLS; colCounter++) {
-                if (!boardButtons[rowCounter][colCounter].getStyle().isEmpty()) {
-                    full = false;
+                if (boardButtons[rowCounter][colCounter].getStyle().isEmpty()) {
+                    return false;
                 }
             }
         }
-        return full;
+        return true;
     }
 }
 
