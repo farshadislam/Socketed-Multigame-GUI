@@ -70,6 +70,11 @@ public class CredentialsDatabase {
         return false;
     }
 
+    public void clearDatabase() {
+        playerCredentials.clear();
+    }
+
+
     public void saveDatabase() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))) {
 
