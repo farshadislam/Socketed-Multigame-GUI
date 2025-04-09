@@ -31,7 +31,7 @@ public class TicTacToeController {
 
     private boolean isPlayerXTurn = true;
 
-    private int alternatingSymbol = 1;
+    private int valForAlternation = 0;
 
     private Map<Button, int[]> buttonPositionMap = new HashMap<>();
 
@@ -127,14 +127,20 @@ public class TicTacToeController {
     }
 
     private void handleMove(int row, int col, Button button) {
+        valForAlternation++;
         // Check if the button has already been clicked (i.e., it already has a symbol)
         if (!button.getText().isEmpty()) {
             return;  // If the button is already clicked, do nothing
         }
 
         // Place the symbol on the button
-        String symbol = isPlayerXTurn ? "X" : "O";  // Toggle between X and O
-        button.setText(symbol);
+        if (valForAlternation % 2 == 0){
+            button.setText("X");
+        }else{
+            button.setText("O");
+        }
+//        String symbol = isPlayerXTurn ? "X" : "O";  // Toggle between X and O
+//        button.setText(symbol);
 
         // Disable the button to prevent re-clicking
         button.setDisable(true);
