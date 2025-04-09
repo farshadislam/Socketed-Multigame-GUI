@@ -293,7 +293,7 @@ public class CheckersBoardController {
             if (clickedButton == selectedPiece) {
                 deselectPiece();
             }
-            //if clicking on empty square it moves the piece
+            //if clicking on empty square it tries to move the piece
             else if (clickedButton.getGraphic() == null) {
                 movePiece(selectedPiece, clickedButton);
                 deselectPiece();
@@ -322,9 +322,21 @@ public class CheckersBoardController {
     }
 
     private void movePiece(Button from, Button to) {
+        //todo: check if new position is valid. return early otherwise
+
         // moves the piece from one button to another
         to.setGraphic(from.getGraphic());
         from.setGraphic(null);
+
+        //todo: check win conditions for the player that just played
+    }
+
+    /**
+     *
+     * @param button the button in which the piece to be removed is
+     */
+    private void removePiece(Button button){
+        return;
     }
 
     private void placePiece(Button button, Image pieceImage) {
