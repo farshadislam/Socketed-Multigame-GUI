@@ -71,9 +71,7 @@
 .option-button .label {
     -fx-text-fill: white !important;
 }
-.option-button .arrow {
-    -fx-background-color: white !important;
-}
+
 
 .menu-button .arrow {
     -fx-background-color: white;
@@ -120,11 +118,7 @@
     -fx-background-color: white;
 }
 
-/* Optional: hover effect for menu items */
-.menu-item:hover {
-    -fx-background-color: #9932CC; /* lighter purple on hover */
-    -fx-text-fill: white;
-}
+
 
 
 
