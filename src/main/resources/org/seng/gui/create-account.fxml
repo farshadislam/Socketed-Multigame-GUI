@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.seng.gui.CreateAccountController"
-            prefHeight="400.0" prefWidth="600.0"
-            styleClass="gradient-background">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.CreateAccountController">
 
-    <VBox alignment="center" spacing="15"
-          AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0"
-          AnchorPane.topAnchor="80.0">
+    <VBox alignment="center" spacing="15" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="80.0">
 
-        <Label fx:id="titleLabel" text="Create Your Account" styleClass="light-title-label"/>
+        <Label fx:id="titleLabel" styleClass="light-title-label" text="Create Your Account" />
 
-        <TextField fx:id="usernameField" promptText="Username" styleClass="input-field"/>
-        <TextField fx:id="emailField" promptText="Email" styleClass="input-field"/>
-        <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>
-        <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" styleClass="input-field"/>
+        <TextField fx:id="usernameField" promptText="Username" styleClass="input-field" />
+        <TextField fx:id="emailField" promptText="Email" styleClass="input-field" />
+        <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field" />
+        <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" styleClass="input-field" />
 
-        <Label fx:id="errorLabel" text="" styleClass="error-message" visible="false"/>
+        <Label fx:id="errorLabel" styleClass="error-message" text="" visible="false" />
 
-        <HBox spacing="10" alignment="center">
-            <Button fx:id="backButton" text="Back" styleClass="auth-button"/>
-            <Button fx:id="registerButton" text="Verify" styleClass="auth-button"/>
+        <HBox alignment="center" spacing="10">
+            <Button fx:id="backButton" styleClass="auth-button" text="Back" />
+            <Button fx:id="registerButton" styleClass="auth-button" text="Verify" />
         </HBox>
     </VBox>
+   <Button fx:id="reqInfo" layoutX="422.0" layoutY="23.0" onAction="#reqClick" text="Account Requirements" />
 </AnchorPane>
-
