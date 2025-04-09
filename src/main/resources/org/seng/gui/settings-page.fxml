@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.seng.gui.SettingsController" styleClass="gradient-background" prefWidth="800" prefHeight="600">
+    <Button fx:id="backButton" onAction="#goBack" styleClass="back-icon" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10">
+        <graphic>
+            <ImageView fx:id="backIcon" fitWidth="30" fitHeight="30"/>
+        </graphic>
+    </Button>
+    <VBox fx:id="sidebar" styleClass="settings-sidebar" spacing="20" alignment="TOP_LEFT" prefHeight="Infinity" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
+        <Label text="Settings" styleClass="sidebar-title"/>
+        <Button text="Manage Account" onAction="#showManageAccount" styleClass="sidebar-button"/>
+        <Button text="Network Connectivity" onAction="#showNetworkConnectivity" styleClass="sidebar-button"/>
+        <VBox spacing="20" alignment="BOTTOM_LEFT" AnchorPane.bottomAnchor="20">
+            <Button text="Logout" onAction="#handleLogout" styleClass="sidebar-button"/>
+            <Button text="Delete Account" onAction="#deleteAccount" styleClass="sidebar-button, delete-button"/>
+        </VBox>
+    </VBox>
+
+    <VBox fx:id="manageAccountArea" layoutX="240" layoutY="20" spacing="8">
+        <Label fx:id="contentTitle" text="Manage Account" styleClass="light-title-label"/>
+        <Label text="Change Username:" styleClass="form-label"/>
+        <TextField fx:id="usernameField" promptText="New Username" styleClass="input-field"/>
+        <Button text="Update Username" onAction="#changeUsername" styleClass="auth-button"/>
+        <Label fx:id="usernameError" text="" visible="false" managed="false" styleClass="error-message"/>
+        <Label fx:id="usernameSuccessPrompt" text="" visible="false" managed="false" styleClass="success-message"/>
+
+        <Label text="Change Email:" styleClass="form-label"/>
+        <TextField fx:id="emailField" promptText="New email" styleClass="input-field"/>
+        <Button text="Verify Email" onAction="#changeEmail" styleClass="auth-button"/>
+        <Label fx:id="emailError" text="" visible="false" managed="false" styleClass="error-message"/>
+        <Label fx:id="emailSuccessPrompt" text="" visible="false" managed="false" styleClass="success-message"/>
+
+        <Label text="Change Password:" styleClass="form-label"/>
+        <HBox spacing="10">
+            <PasswordField fx:id="newPasswordField" promptText="Type new password" styleClass="password-input-field"/>
+            <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" styleClass="password-input-field"/>
+        </HBox>
+        <Button text="Update Password" onAction="#updatePassword" styleClass="auth-button"/>
+        <Label fx:id="passwordError" text="" visible="false" managed="false" styleClass="error-message"/>
+        <Label fx:id="passwordSuccess" text="" visible="false" managed="false" styleClass="success-message"/>
+    </VBox>
+
+    <VBox fx:id="networkConnectivityArea" layoutX="240" layoutY="20" spacing="15" visible="false" managed="false">
+        <Label text="Network Connectivity" styleClass="light-title-label"/>
+    </VBox>
+</AnchorPane>

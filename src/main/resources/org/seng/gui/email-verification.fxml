@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.seng.gui.EmailVerificationController"
+            prefHeight="400.0" prefWidth="600.0"
+            styleClass="gradient-background">
+
+    <VBox alignment="center" spacing="15"
+          AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0"
+          AnchorPane.topAnchor="100.0">
+
+        <Label text="Enter Verification Code" styleClass="title-label"/>
+
+        <HBox spacing="10" alignment="center">
+            <TextField fx:id="code1" styleClass="code-box"/>
+            <TextField fx:id="code2" styleClass="code-box"/>
+            <TextField fx:id="code3" styleClass="code-box"/>
+            <TextField fx:id="code4" styleClass="code-box"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="center">
+            <Button fx:id="confirmButton" text="Confirm" styleClass="auth-button"/>
+            <Button fx:id="returnButton" text="Cancel" styleClass="auth-button"/>
+        </HBox>
+
+        <Label fx:id="errorLabel" text="" styleClass="error-message" visible="false"/>
+    </VBox>
+</AnchorPane>
