@@ -387,7 +387,7 @@ public class CheckersBoard {
         chatStage.show();
     }
 
-    private void clearChatHistory() {
+    public void clearChatHistory() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH))) {
             writer.write(""); // Clear the contents
         } catch (IOException e) {

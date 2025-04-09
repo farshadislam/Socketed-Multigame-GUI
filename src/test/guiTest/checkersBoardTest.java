@@ -14,12 +14,21 @@ public class checkersBoardTest {
 
         board.saveMessage(testMessage);
 
-        String fileContent = board.loadChatHistory();
-        assertTrue(fileContent.contains(testMessage));
+        String string = board.loadChatHistory();
+        assertTrue(string.contains(testMessage));
     }
 
+    @Test
+    public void testInGameChatClear() {
+        CheckersBoard board = new CheckersBoard();
+        board.saveMessage("checking1234");
 
+        board.clearChatHistory();
 
+        String string = board.loadChatHistory();
+        assertTrue(string.isEmpty());
+
+    }
 
 
 
