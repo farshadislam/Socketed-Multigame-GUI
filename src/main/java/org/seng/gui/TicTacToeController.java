@@ -43,6 +43,16 @@ public class TicTacToeController {
 
     @FXML public void initialize() {
         clearChatHistory();
+
+        // Setup player data
+        localPlayer = new TicTacToePlayer("usernameOne", "emailOne",  "passwordOne"); // optionally replace with actual usernames
+        remotePlayer = new TicTacToePlayer("usernameTwo", "emailTwo",  "passwordTwo");
+
+        TicTacToeBoard board = new TicTacToeBoard();
+        game = new TicTacToeGame(board, new TicTacToePlayer[]{localPlayer, remotePlayer}, 1); // gameID = 1
+
+        game.startGame();
+
         button11.setOnAction(e -> handleMove(button11));
         button12.setOnAction(e -> handleMove(button12));
         button13.setOnAction(e -> handleMove(button13));
