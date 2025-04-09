@@ -20,7 +20,7 @@ public class TicTacToeGame {
     public TicTacToePlayer[] players; // Array to store two players
     public TicTacToePlayer currentPlayer;
     public int gameID;
-    public ExtendedAIBotTicTacToe AIBot;
+    public AIBotTicTacToe AIBot;
     public char AISymbol;
 
     /**
@@ -58,11 +58,11 @@ public class TicTacToeGame {
         status = "In Progress";
 
         // checks if the human player has selected to play against AI bot
-        if (players[0] instanceof ExtendedAIBotTicTacToe) {
-            AIBot = (ExtendedAIBotTicTacToe) players[0];
+        if (players[0] instanceof AIBotTicTacToe) {
+            AIBot = (AIBotTicTacToe) players[0];
             AISymbol = 'X';
-        } else if (players[1] instanceof ExtendedAIBotTicTacToe) {
-            AIBot = (ExtendedAIBotTicTacToe) players[1];
+        } else if (players[1] instanceof AIBotTicTacToe) {
+            AIBot = (AIBotTicTacToe) players[1];
             AISymbol = 'O';
         } else {
             AIBot = null;

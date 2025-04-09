@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Random;
 
 
-public class ExtendedAIBotTicTacToe extends TicTacToePlayer {
+public class AIBotTicTacToe extends TicTacToePlayer {
     private TicTacToeBoard board; // BH: changed from boardRef to board to keep names simple/consistent
     private TicTacToeGame game;
     private Mark symbol;
     private Random random;
 
 
-    public ExtendedAIBotTicTacToe(Mark symbol, TicTacToeGame game, TicTacToeBoard board) {
+    public AIBotTicTacToe(Mark symbol, TicTacToeGame game, TicTacToeBoard board) {
         super("AI Bot", "hi", "9"); // passes username, player ID, symbol as char, rank
         this.board = board;
         this.game = game;
