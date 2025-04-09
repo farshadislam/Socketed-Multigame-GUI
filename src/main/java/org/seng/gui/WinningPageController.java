@@ -2,14 +2,19 @@ package org.seng.gui;
 
 import javafx.animation.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -59,6 +64,9 @@ public class WinningPageController {
 
         trophyIconPane.widthProperty().addListener((obs, oldVal, newVal) -> addControllerIcons());
         trophyIconPane.heightProperty().addListener((obs, oldVal, newVal) -> addControllerIcons());
+
+        returnLobby.setOnAction(e -> goBack());
+        rematch.setOnAction(e -> goNewGame());
     }
 
     private void addControllerIcons() {
@@ -121,6 +129,40 @@ public class WinningPageController {
             new ParallelTransition(icon, floatAnim, rotateAnim, scaleAnim).play();
 
             trophyIconPane.getChildren().add(icon);
+        }
+    }
+
+    private void goBack() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) returnLobby.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void goNewGame(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("games-page.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) returnLobby.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 

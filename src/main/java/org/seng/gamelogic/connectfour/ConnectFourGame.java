@@ -1,6 +1,6 @@
 package org.seng.gamelogic.connectfour;
 
-import org.seng.gamelogic.checkers.ExtendedAIBotCheckers;
+import org.seng.gamelogic.checkers.AIBotCheckers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class ConnectFourGame {
     public String status;
     public ArrayList<String> chatLog;
 
-    public ExtendedAIBotConnectFour AIBot;
+    public AIBotConnectFour AIBot;
     public char AISymbol;
 
     public ConnectFourGame(ConnectFourBoard board, ConnectFourPlayer[] players, int gameID) {
@@ -50,11 +50,11 @@ public class ConnectFourGame {
         status = "In Progress";
 
         // checks if the human player has selected to play against AI bot
-        if (players[0] instanceof ExtendedAIBotConnectFour) {
-            AIBot = (ExtendedAIBotConnectFour) players[0];
+        if (players[0] instanceof AIBotConnectFour) {
+            AIBot = (AIBotConnectFour) players[0];
             AISymbol = 'b';
-        } else if (players[1] instanceof ExtendedAIBotConnectFour) {
-            AIBot = (ExtendedAIBotConnectFour) players[1];
+        } else if (players[1] instanceof AIBotConnectFour) {
+            AIBot = (AIBotConnectFour) players[1];
             AISymbol = 'y';
         } else {
             AIBot = null;

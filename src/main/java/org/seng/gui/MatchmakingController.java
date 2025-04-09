@@ -34,7 +34,7 @@ public class MatchmakingController {
             String username = "Player_" + UUID.randomUUID().toString().substring(0, 5);
 
             // Set up client socket
-            SocketGameClient client = new SocketGameClient("localhost", 12345);
+            SocketGameClient client = new SocketGameClient("10.13.180.57", 12345);
             client.sendMessage(username); // send username
             client.sendMessage(getGameChoiceNumber(selectedGame)); // send game selection (1/2/3)
 
