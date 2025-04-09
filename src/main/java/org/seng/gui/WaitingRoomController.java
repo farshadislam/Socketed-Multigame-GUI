@@ -140,25 +140,6 @@ public class WaitingRoomController {
                 case CONNECT4 -> "/org/seng/gui/connect4-game.fxml";
                 case TICTACTOE -> "/org/seng/gui/tictactoe-game.fxml";
             };
-            if (gameType == GameType.CHECKERS) {
-                CheckersBoard board = new CheckersBoard();
-                CheckersPlayer[] players = new CheckersPlayer[]{new CheckersPlayer(GameDashboardController.player.getUsername(), GameDashboardController.player.getEmail(), GameDashboardController.player.getPassword()), new CheckersPlayer("AIBot", "test", "test")};
-                GameDashboardController.checkersGame = new CheckersGame(board, players, 1);
-                AIBotCheckers AIBot = new AIBotCheckers('O', GameDashboardController.checkersGame, board);
-                GameDashboardController.checkersGame.players[1] = AIBot;
-            } else if (gameType == GameType.TICTACTOE) {
-                TicTacToeBoard board = new TicTacToeBoard();
-                TicTacToePlayer[] players = new TicTacToePlayer[]{new TicTacToePlayer(GameDashboardController.player.getUsername(), GameDashboardController.player.getEmail(), GameDashboardController.player.getPassword()), new TicTacToePlayer("AIBot", "test", "test")};
-                GameDashboardController.tictactoeGame = new TicTacToeGame(board, players, 1);
-                AIBotTicTacToe AIBot = new AIBotTicTacToe('O', GameDashboardController.tictactoeGame, board);
-                GameDashboardController.tictactoeGame.players[1] = AIBot;
-            } else if (gameType == GameType.CONNECT4) {
-                ConnectFourBoard board = new ConnectFourBoard();
-                ConnectFourPlayer[] players = new ConnectFourPlayer[]{new ConnectFourPlayer(GameDashboardController.player.getUsername(), GameDashboardController.player.getEmail(), GameDashboardController.player.getPassword()), new ConnectFourPlayer("AIBot", "test", "test")};
-                GameDashboardController.connectFourGame = new ConnectFourGame(board, players, 1);
-                AIBotConnectFour AIBot = new AIBotConnectFour('O', GameDashboardController.connectFourGame, board);
-                GameDashboardController.connectFourGame.players[1] = AIBot;
-            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Scene scene = new Scene(loader.load(), 700, 450);
             scene.getStylesheets().add(getClass().getResource("/org/seng/gui/styles/basic-styles.css").toExternalForm());

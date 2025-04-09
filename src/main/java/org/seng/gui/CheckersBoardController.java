@@ -271,11 +271,11 @@ public class CheckersBoardController {
         Button[] row6 = {f1, f2, f3, f4, f5, f6, f7, f8};
         Button[] row7 = {g1, g2, g3, g4, g5, g6, g7, g8};
         Button[] row8 = {h1, h2, h3, h4, h5, h6, h7, h8};
-        Button[][] allButtons = {row1, row2, row3, row4, row5, row6, row7, row8};
+        Button[][] Board = {row1, row2, row3, row4, row5, row6, row7, row8};
 
         for (int rowCounter = 0; rowCounter < 8; rowCounter++) {
             for (int buttonCounter = 0; buttonCounter < 8; buttonCounter ++) {
-                Button button = allButtons[rowCounter][buttonCounter];
+                Button button = Board[rowCounter][buttonCounter];
                 button.setOnAction(e -> {handleButtonClick(button);});
             }
         }

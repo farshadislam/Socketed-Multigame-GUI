@@ -162,12 +162,15 @@ public class TicTacToeController {
             String status = game.getStatus();
             if (status.endsWith("Wins")) {
                 turnLabel.setText("Game Over! " + status);
+                System.out.print(turnLabel);
                 disableAllButtons();  // Disable all buttons when the game ends
             } else if (status.equals("Draw")) {
                 turnLabel.setText("It's a Draw!");
+                System.out.print(turnLabel);
                 disableAllButtons();  // Disable all buttons in case of a draw
             } else {
                 turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
+                System.out.print(turnLabel);
             }
 
             // Switch to the other player's turn
