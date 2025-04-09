@@ -298,4 +298,109 @@ public class LoginPageTest {
         assertFalse(result);
     }
 
+    // valid username
+    @Test
+    public void verifyUsernameFormatTest1(){
+        assertTrue(loginPage.verifyUsernameFormat("user_123"));
+    }
+
+    // invalid username with spaces
+    @Test
+    public void verifyUsernameFormatTest2(){
+        assertFalse(loginPage.verifyUsernameFormat("user 123"));
+    }
+
+    // invalid username with consecutive special characters
+    @Test
+    public void verifyUsernameFormatTest3(){
+        assertFalse(loginPage.verifyUsernameFormat("user__123"));
+    }
+
+    // invalid username too short
+    @Test
+    public void verifyUsernameFormatTest4(){
+        assertFalse(loginPage.verifyUsernameFormat("usr"));
+    }
+
+    // invalid username with no alphabet
+    @Test
+    public void verifyUsernameFormatTest5(){
+        assertFalse(loginPage.verifyUsernameFormat("12345"));
+    }
+
+    // valid password
+    @Test
+    public void verifyPasswordFormatTest1(){
+        assertTrue(loginPage.verifyPasswordFormat("password123"));
+    }
+
+    // invalid password with space
+    @Test
+    public void verifyPasswordFormatTest2(){
+        assertFalse(loginPage.verifyPasswordFormat("password 123"));
+    }
+
+    // invalid password too short
+    @Test
+    public void verifyPasswordFormatTest3(){
+        assertFalse(loginPage.verifyPasswordFormat("short"));
+    }
+    // valid email
+    @Test
+    public void verifyEmailFormatTest1(){
+        assertTrue(loginPage.verifyEmailFormat("user.name123@gmail.com"));
+    }
+
+    // invalid email character before '@'
+    @Test
+    public void verifyEmailFormatTest2(){
+        assertFalse(loginPage.verifyEmailFormat(".user.name123@gmail.com"));
+    }
+
+    // invalid email missing '@'
+    @Test
+    public void verifyEmailFormatTest3(){
+        assertFalse(loginPage.verifyEmailFormat("usernamegmail.com"));
+    }
+
+    // invalid email with multiple '@'
+    @Test
+    public void verifyEmailFormatTest4(){
+        assertFalse(loginPage.verifyEmailFormat("username@@gmail.com"));
+    }
+
+    // invalid email  with incorrect domain
+    @Test
+    public void verifyEmailFormatTest5(){
+        assertFalse(loginPage.verifyEmailFormat("username@gmail.comm"));
+    }
+
+    // email code verification with correct code
+    @Test
+    public void verifyEmailCodeForRegisterTest1(){
+        loginPage.register("player1", "player1@gmail.com", "password");
+        String validCode = "1234";
+        assertTrue(loginPage.verifyEmailCodeForRegister("player1", validCode));
+    }
+
+    // email code verification long
+    @Test
+    public void verifyEmailCodeForRegisterTest2(){
+        loginPage.register("player1", "player1@gmail.com", "password");
+        String invalidCode = "00000";
+        assertFalse(loginPage.verifyEmailCodeForRegister("player1", invalidCode));
+    }
+
+    // verification for non-registered player
+    @Test
+    public void verifyEmailCodeForRegisterTest3(){
+        String invalidPlayer = "user123";
+        assertFalse(loginPage.verifyEmailCodeForRegister(invalidPlayer, "1234"));
+    }
+
+    // verification for empty player
+    @Test
+    public void verifyEmailCodeForRegisterTest4(){
+        assertFalse(loginPage.verifyEmailCodeForRegister("", "1234"));
+    }
 }

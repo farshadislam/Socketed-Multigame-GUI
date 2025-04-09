@@ -32,9 +32,10 @@ class CredentialsDatabaseTest {
 
     @Test
     void testAddNewPlayer() {
-        boolean result = db.addNewPlayer("Hamna", player1);
+        Player p2 = new Player("Varisha", "varisha@gmail.com", "varisha12345");
+        boolean result = db.addNewPlayer("Varisha", p2);
         assertTrue(result);
-        assertEquals(player1, db.findPlayerByUsername("Hamna"));
+        assertEquals(p2, db.findPlayerByUsername("Varisha"));
     }
 
     @Test
@@ -43,6 +44,7 @@ class CredentialsDatabaseTest {
         boolean result = db.addNewPlayer("Maham", player2);
         assertFalse(result);
     }
+
 
     @Test
     void testUsernameLookup() {
@@ -62,6 +64,92 @@ class CredentialsDatabaseTest {
     void testDeleteNonExistentPlayerFails() {
         assertFalse(db.deleteExistingPlayer("ghostUser"));
     }
+
+    @Test
+    void testFindPlayerByUsername() {
+        Player p2 = new Player("testUser", "user@gmail.com", "password");
+        db.addNewPlayer("testUser", p2);
+        Player result = db.findPlayerByUsername("testUser");
+        assertEquals("testuser", result.getUsername());
+    }
+
+    @Test
+    void testFindNonExistentPlayer() {
+        Player p2 = new Player("testUser", "user@gmail.com", "password");
+        db.addNewPlayer("testUser", p2);
+        Player result = db.findPlayerByUsername("nonExistent");
+        assertNull(result);
+    }
+
+    @Test
+    void testEmailTaken() {
+        db.addNewPlayer("testUser", player1);
+        assertTrue(db.emailTaken("hamna@gmail.com"));
+        assertFalse(db.emailTaken("newEmail@example.com"));
+    }
+
+    @Test
+    void testEmailCaseInsensitivity() {
+        db.addNewPlayer("testUser", player1);
+        assertTrue(db.emailTaken("HAMNA@GMAIL.COM"));
+    }
+
+
+    @Test
+    void testSaveDatabaseWhenNoPlayers() {
+        db.saveDatabase();
+    }
+
+//    @Test
+//    void testAddPlayerWithEmptyUsernameFails() {
+//        Player p2 = new Player("", "user@gmail.com", "password");
+//        boolean result = db.addNewPlayer("", p2);
+//        assertFalse(result);
+//    }
+//
+//    @Test
+//    void testAddPlayerWithNullUsernameFails() {
+//        boolean result = db.addNewPlayer(null, player1);
+//        assertFalse(result);
+//    }
+//
+//    @Test
+//    void testAddPlayerWithEmptyEmailFails() {
+//        player1.setEmail(""); // Set email to empty string
+//        boolean result = db.addNewPlayer("testUser", player1);
+//        assertFalse(result);
+//    }
+//
+//    @Test
+//    void testAddPlayerWithInvalidEmailFails() {
+//        player1.setEmail("invalidEmail.com"); // Invalid email format
+//        boolean result = db.addNewPlayer("testUser", player1);
+//        assertFalse(result);
+//    }
+
+    @Test
+    void testUpdateUsernameToExistingUsername() {
+        db.addNewPlayer("ExistingUser", player2);
+        db.addNewPlayer("NewUser", player1);
+        boolean result = db.updateKey("NewUser", "ExistingUser");
+        assertFalse(result);
+    }
+
+    @Test
+    void testUpdateNonExistentUsername() {
+        boolean result = db.updateKey("NonExistentUser", "NewUser");
+        assertFalse(result);
+    }
+
+    @Test
+    void testSaveDatabaseWithSpecialCharacters() {
+        player1.setUsername("user!@#");
+        db.addNewPlayer("user!@#", player1);
+        db.saveDatabase(); // No assertion, checking for exceptions
+    }
+
+
+}
 
 //    @Test
 //    void testFindPlayerByUsername() {
@@ -91,10 +179,10 @@ class CredentialsDatabaseTest {
 //        newDb.loadDatabase(tempFile);
 //        Player loaded = newDb.findPlayerByUsername("testUser");
 //
-//        assertNotNull(loaded);
-//        assertEquals("test@example.com", loaded.getEmail());
-//
-//        // Cleanup
-//        Files.deleteIfExists(Paths.get(tempFile));
-//    }
-}
+////        assertNotNull(loaded);
+////        assertEquals("test@example.com", loaded.getEmail());
+////
+////        // Cleanup
+////        Files.deleteIfExists(Paths.get(tempFile));
+////    }
+//}

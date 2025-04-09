@@ -233,34 +233,27 @@ public class SettingsTest {
         assertFalse(settings.changePassword(""));
     }
 
+    // player deleted
+    @Test
+    public void deleteAccount1(){
+        database.addNewPlayer(player.getUsername(), player);
+        assertTrue(settings.deleteAccount());
+    }
 
-//    // player deleted
-//    @Test
-//    public void deleteAccount1(){
-//        database.addNewPlayer(player.getUsername(), player);
-//        assertTrue(settings.deleteAccount("passWORD"));
-//    }
-//
-//    // player not deleted (wrong password)
-//    @Test
-//    public void deleteAccount2(){
-//        database.addNewPlayer("newUser", player);
-//        assertFalse(settings.deleteAccount("password"));
-//    }
-//
-//    // player not exists
-//    @Test
-//    public void deleteAccount3(){
-//        assertFalse(settings.deleteAccount("password"));
-//    }
-//
-//    // player already deleted
-//    @Test
-//    public void deleteAccount4(){
-//        database.addNewPlayer(player.getUsername(), player);
-//        settings.deleteAccount("passWORD");
-//        assertFalse(settings.deleteAccount("passWORD"));
-//    }
+
+    // player not exists
+    @Test
+    public void deleteAccount3(){
+        assertFalse(settings.deleteAccount());
+    }
+
+    // player already deleted
+    @Test
+    public void deleteAccount4(){
+        database.addNewPlayer(player.getUsername(), player);
+        settings.deleteAccount();
+        assertFalse(settings.deleteAccount());
+    }
 
     // setter and getter for TicTacToeStats
     @Test
@@ -284,6 +277,51 @@ public class SettingsTest {
         connect4Stats connect4 = new connect4Stats("newUser");
         player.setConnect4Stats(connect4);
         assertEquals(connect4, player.getConnect4Stats());
+    }
+
+    // valid email code
+    @Test
+    void testVerifyEmailCodeForNewEmail1() {
+        String oldEmail = "oldEmail@example.com";
+        String newEmail = "newEmail@example.com";
+        String verificationCode = "1234";
+
+        player.setEmail(oldEmail);
+        player.setVerificationCode("1234");
+
+        boolean result = settings.verifyEmailCodeForNewEmail(newEmail, verificationCode);
+        assertTrue(result);
+        assertEquals(newEmail.toLowerCase(), player.getEmail());
+    }
+
+    // invalid email code
+    @Test
+    void testVerifyEmailCodeForNewEmail2() {
+        String oldEmail = "oldEmail@example.com";
+        String newEmail = "newEmail@example.com";
+        String verificationCode = "abcd";
+
+        player.setEmail(oldEmail);
+        player.setVerificationCode("1234");
+
+        boolean result = settings.verifyEmailCodeForNewEmail(newEmail, verificationCode);
+        assertFalse(result);
+        assertEquals(oldEmail.toLowerCase(), player.getEmail());
+    }
+
+    // invalid email code too short
+    @Test
+    void testVerifyEmailCodeForNewEmail3() {
+        String oldEmail = "oldEmail@example.com";
+        String newEmail = "newEmail@example.com";
+        String verificationCode = "12";
+
+        player.setEmail(oldEmail);
+        player.setVerificationCode("1234");
+
+        boolean result = settings.verifyEmailCodeForNewEmail(newEmail, verificationCode);
+        assertFalse(result);
+        assertEquals(oldEmail.toLowerCase(), player.getEmail());
     }
 
 
