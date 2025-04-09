@@ -201,7 +201,7 @@ public class Connect4Controller {
                         checkWin(cell);
                     }
                     if (boardFull()) {
-
+                        checkTie(cell);
                     }
                 } else {
                     cell.setStyle("-fx-background-color: #da77f2;"); // Yellow
@@ -209,7 +209,7 @@ public class Connect4Controller {
                         checkWin(cell);
                     }
                     if (boardFull()) {
-
+                        checkTie(cell);
                     }
                 }
                 isPlayerOneTurn = !isPlayerOneTurn; // Switch turns
@@ -232,6 +232,23 @@ public class Connect4Controller {
             stage.show();
 
             Stage currentStage = (Stage) sourceButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void checkTie(Button tieButton){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) tieButton.getScene().getWindow();
             currentStage.close();
         } catch (IOException ex) {
             ex.printStackTrace();
