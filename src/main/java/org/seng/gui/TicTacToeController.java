@@ -215,13 +215,13 @@ public class TicTacToeController {
             e.printStackTrace();
         }
     }
-    @FXML
-    private void handleButtonClick(ActionEvent event) {
-        Button clickedButton = (Button) event.getSource();
-        if (clickedButton.getText().isEmpty()) {
-            clickedButton.setText("X"); // Or "O" depending on game state
-        }
-    }
+//    @FXML
+//    private void handleButtonClick(ActionEvent event) {
+//        Button clickedButton = (Button) event.getSource();
+//        if (clickedButton.getText().isEmpty()) {
+//            clickedButton.setText("X");
+//        }
+//    }
 }
 
 
