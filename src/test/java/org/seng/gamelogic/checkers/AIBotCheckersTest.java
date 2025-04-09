@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ExtendedAIBotCheckersTest {
+public class AIBotCheckersTest {
 
     private CheckersGame game;
     private CheckersBoard board;
@@ -22,7 +22,7 @@ public class ExtendedAIBotCheckersTest {
         game = new CheckersGame(board, new CheckersPlayer[]{player},10);
 
         // initialize AI bot as player 2 with black piece
-        aiBot = new ExtendedAIBotCheckers('b', game, board);
+        aiBot = new AIBotCheckers('b', game, board);
 
 
     }

@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ExtendedAIBotConnectFour extends ConnectFourPlayer {
+public class AIBotConnectFour extends ConnectFourPlayer {
     private ConnectFourGame game;
     private ConnectFourBoard board;
     private char symbol;
     private Random random;
 
-    public ExtendedAIBotConnectFour(char symbol, ConnectFourGame game, ConnectFourBoard board) {
+    public AIBotConnectFour(char symbol, ConnectFourGame game, ConnectFourBoard board) {
         super("AIBot", String.valueOf(0), String.valueOf(symbol)); // passes username, player ID, symbol as char, rank
         this.game = game;
         this.board = board;

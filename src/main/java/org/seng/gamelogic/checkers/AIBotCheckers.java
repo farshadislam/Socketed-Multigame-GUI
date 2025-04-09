@@ -1,7 +1,5 @@
 package org.seng.gamelogic.checkers;
 
-import org.seng.gamelogic.checkers.CheckersBoard;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,7 +9,7 @@ import java.util.Random;
  * Represents an AI-controlled player in a Checkers game.
  * This bot determines its moves based on available valid moves and selects one randomly.
  */
-public class ExtendedAIBotCheckers extends CheckersPlayer {
+public class AIBotCheckers extends CheckersPlayer {
     private CheckersGame game;
     private CheckersBoard board;
     private Random random;
@@ -23,7 +21,7 @@ public class ExtendedAIBotCheckers extends CheckersPlayer {
      * @param game The Checkers game instance the AI is participating in.
      * @param board The board on which the AI will make moves.
      */
-    public ExtendedAIBotCheckers(char symbol, CheckersGame game, CheckersBoard board) {
+    public AIBotCheckers(char symbol, CheckersGame game, CheckersBoard board) {
         super("AIBot", "hi@gmail.com", "bloop");
         this.game = game;
         this.board = board;

@@ -4,12 +4,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.seng.gamelogic.Player;
-import org.seng.gamelogic.connectfour.ConnectFourBoard;
-import org.seng.gamelogic.connectfour.ConnectFourGame;
-import org.seng.gamelogic.connectfour.ConnectFourPlayer;
-import org.seng.gamelogic.tictactoe.*;
 
-public class ExtendedAIBotTicTacToeTest {
+public class AIBotTicTacToeTest {
 
     private TicTacToeBoard board;
     private Player[] players;
@@ -25,7 +21,7 @@ public class ExtendedAIBotTicTacToeTest {
 
         @Test
         public void testFindNextMoveNotNull () {
-            ExtendedAIBotTicTacToe bot = new ExtendedAIBotTicTacToe('X', game, board);
+            AIBotTicTacToe bot = new AIBotTicTacToe('X', game, board);
 
             int[] move = bot.findNextMove(board);
             assertNotNull(move);
@@ -33,7 +29,7 @@ public class ExtendedAIBotTicTacToeTest {
 
         @Test
         public void testMakeMoveSuccess () {
-            ExtendedAIBotTicTacToe bot = new ExtendedAIBotTicTacToe('X', game, board);
+            AIBotTicTacToe bot = new AIBotTicTacToe('X', game, board);
 
             TicTacToeMove move = new TicTacToeMove(1, 1, 'X');
             boolean result = bot.makeMove(board, move);
@@ -42,7 +38,7 @@ public class ExtendedAIBotTicTacToeTest {
 
         @Test
         public void testNextMoveReturnsMove () {
-            ExtendedAIBotTicTacToe bot = new ExtendedAIBotTicTacToe('X', game, board);
+            AIBotTicTacToe bot = new AIBotTicTacToe('X', game, board);
 
             bot.setSymbol('X');
             game.makeMove(0, 0); //Makes X's move
@@ -52,7 +48,7 @@ public class ExtendedAIBotTicTacToeTest {
 
         @Test
         public void testSetAndGetSymbol () {
-            ExtendedAIBotTicTacToe bot = new ExtendedAIBotTicTacToe('X', game, board);
+            AIBotTicTacToe bot = new AIBotTicTacToe('X', game, board);
             assertEquals('X', bot.getSymbol());
             bot.setSymbol('O');
             assertEquals('O', bot.getSymbol());

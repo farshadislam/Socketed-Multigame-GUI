@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ExtendedAIBotConnectFourTest {
+class AIBotConnectFourTest {
 
     private ConnectFourGame game;
     private ConnectFourBoard board;
-    private ExtendedAIBotConnectFour aiBot;
+    private AIBotConnectFour aiBot;
     private ConnectFourPlayer player1;
     private ConnectFourPlayer player2;
 
@@ -23,7 +23,7 @@ class ExtendedAIBotConnectFourTest {
         game = new ConnectFourGame(board, new ConnectFourPlayer[]{player1, player2}, 1);
 
         // Initialize AI bot with player2 (yellow) symbol
-        aiBot = new ExtendedAIBotConnectFour('y', game, board);
+        aiBot = new AIBotConnectFour('y', game, board);
     }
 
     @Test

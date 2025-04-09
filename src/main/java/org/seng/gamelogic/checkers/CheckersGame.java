@@ -23,7 +23,7 @@ public class CheckersGame {
     public String status;
     public ArrayList<String> chatLog;
 
-    public ExtendedAIBotCheckers AIBot;
+    public AIBotCheckers AIBot;
     public char AISymbol;
 
     /**
@@ -56,11 +56,11 @@ public class CheckersGame {
         initializePlayerSymbols();
 
         // checks if the human player has selected to play against AI bot
-        if (players[0] instanceof ExtendedAIBotCheckers) {
-            AIBot = (ExtendedAIBotCheckers) players[0];
+        if (players[0] instanceof AIBotCheckers) {
+            AIBot = (AIBotCheckers) players[0];
             AISymbol = 'r';
-        } else if (players[1] instanceof ExtendedAIBotCheckers) {
-            AIBot = (ExtendedAIBotCheckers) players[1];
+        } else if (players[1] instanceof AIBotCheckers) {
+            AIBot = (AIBotCheckers) players[1];
             AISymbol = 'b';
         } else {
             AIBot = null;
@@ -165,7 +165,9 @@ public class CheckersGame {
         return Math.abs(fromRow - toRow) == 2 && Math.abs(fromCol - toCol) == 2;
     }
 
-    // Switches turn to the next player/piece
+    /**
+     * Switches turn to the other player
+     */
     public void switchPlayer() {
         if (players[0] == currentPlayer) {
             currentPlayer = players[1];
