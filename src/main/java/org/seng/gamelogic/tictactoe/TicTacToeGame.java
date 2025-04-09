@@ -86,6 +86,10 @@ public class TicTacToeGame {
             }
 
             // need to figure out GUI input below
+            System.out.print("Enter row (0-2): ");
+            int row = scanner.nextInt();
+            System.out.print("Enter column (0-2): ");
+            int col = scanner.nextInt();
 
 
             // make the move, which also switches the turn
