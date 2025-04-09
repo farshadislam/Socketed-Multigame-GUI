@@ -50,39 +50,6 @@ public class TicTacToeController {
     @FXML private Label turnLabel;
     @FXML private FlowPane board;
 
-    @FXML public void initialize() {
-        clearChatHistory();
-
-        // Setup player data
-        localPlayer = new TicTacToePlayer("usernameOne", "emailOne",  "passwordOne"); // optionally replace with actual usernames
-        remotePlayer = new TicTacToePlayer("usernameTwo", "emailTwo",  "passwordTwo");
-
-        TicTacToeBoard board = new TicTacToeBoard();
-        game = new TicTacToeGame(board, new TicTacToePlayer[]{localPlayer, remotePlayer}, 1); // gameID = 1
-
-        game.startGame();
-
-        button11.setOnAction(e -> handleMove(button11));
-        button12.setOnAction(e -> handleMove(button12));
-        button13.setOnAction(e -> handleMove(button13));
-        button21.setOnAction(e -> handleMove(button21));
-        button22.setOnAction(e -> handleMove(button22));
-        button23.setOnAction(e -> handleMove(button23));
-        button31.setOnAction(e -> handleMove(button31));
-        button32.setOnAction(e -> handleMove(button32));
-        button33.setOnAction(e -> handleMove(button33));
-
-        buttonPositionMap.put(button11, new int[]{0, 0});
-        buttonPositionMap.put(button12, new int[]{0, 1});
-        buttonPositionMap.put(button13, new int[]{0, 2});
-        buttonPositionMap.put(button21, new int[]{1, 0});
-        buttonPositionMap.put(button22, new int[]{1, 1});
-        buttonPositionMap.put(button23, new int[]{1, 2});
-        buttonPositionMap.put(button31, new int[]{2, 0});
-        buttonPositionMap.put(button32, new int[]{2, 1});
-        buttonPositionMap.put(button33, new int[]{2, 2});
-        GameDashboardController.tictactoeGame.startGame();
-    }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
 
