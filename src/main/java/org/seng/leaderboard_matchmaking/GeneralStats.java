@@ -95,7 +95,7 @@ public abstract class GeneralStats {
      * This method is empty by default and can be overridden in subclasses to implement
      * game-specific ranking logic.
      */
-    protected void updateRank() {
+    public void updateRank() {
     }
 
     /**
@@ -182,18 +182,6 @@ public abstract class GeneralStats {
         updateRank();
     }
 
-    /**
-     * Returns a string representation of the player's general statistics.
-     *
-     * @return A string containing playerID, games played, wins, losses, ties, and rank.
-     */
-    @Override
-    public String toString() {
-        return "GeneralStats [playerID=" + playerID + ", gamesPlayed=" + gamesPlayed +
-                ", wins=" + wins + ", losses=" + losses + ", ties=" + ties +
-                ", rank=" + rank + "]";
-    }
-
     // Setters
     public abstract void setGamesPlayed(int num_of_gamesPlayed);
     public abstract void setWins(int num_of_wins);
@@ -201,7 +189,6 @@ public abstract class GeneralStats {
     public abstract void setTies(int num_of_ties);
     public abstract void setRank(Rank player_rank);
     public abstract void setMMR (int game_specific_MMR);
-
 }
 
 

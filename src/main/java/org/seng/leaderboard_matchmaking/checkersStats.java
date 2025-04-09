@@ -63,7 +63,7 @@ public class checkersStats extends GeneralStats {
      * Rank is determined by dividing the MMR range into equal steps.
      */
     @Override
-    protected void updateRank() {
+    public void updateRank() {
         double relativeMMR = checkersmmr - MIN_MMR;
         int rankIndex = (int) (relativeMMR / RANK_STEP);
         if (rankIndex < 0) rankIndex = 0;
@@ -127,22 +127,5 @@ public class checkersStats extends GeneralStats {
     @Override
     public void setMMR(int game_specific_MMR) {
         this.checkersmmr = game_specific_MMR;
-    }
-
-    /**
-     * Returns a string representation of Checkers statistics.
-     *
-     * @return String representation of checkersStats.
-     */
-    @Override
-    public String toString() {
-        return "CheckersStats [playerID=" + playerID
-                + ", gamesPlayed=" + gamesPlayed
-                + ", wins=" + wins
-                + ", losses=" + losses
-                + ", ties=" + ties
-                + ", checkersmmr=" + checkersmmr
-                + ", rank=" + rank
-                + "]";
     }
 }

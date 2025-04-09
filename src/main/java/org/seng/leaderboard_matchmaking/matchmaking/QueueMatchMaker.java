@@ -1,19 +1,4 @@
 package org.seng.leaderboard_matchmaking.matchmaking;
-import org.seng.authentication.Player;
-import org.seng.authentication.CredentialsDatabase;
-import org.seng.authentication.EmailVerificationService;
-import org.seng.authentication.HomePage;
-import org.seng.authentication.LoginPage;
-import org.seng.authentication.Settings;
-import org.seng.authentication.TemporaryPlayerStorage;
-import org.seng.gamelogic.checkers.CheckersBoard;
-import org.seng.gamelogic.checkers.AIBotCheckers;
-import org.seng.gamelogic.checkers.CheckersPlayer;
-import org.seng.gamelogic.checkers.CheckersGame;
-import org.seng.gamelogic.connectfour.ConnectFourGame;
-import org.seng.gamelogic.connectfour.ConnectFourPlayer;
-import org.seng.gamelogic.connectfour.ConnectFourBoard;
-import org.seng.gamelogic.connectfour.AIBotConnectFour;
 
 // Import necessary libraries
 import java.util.*;
@@ -22,9 +7,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 // Import game-specific classes from elsewhere
-import javafx.css.Match;
 import org.seng.leaderboard_matchmaking.*;
-import org.seng.networking.*;
+//import org.seng.networking.*;
 import org.seng.authentication.Player;
 
 
@@ -340,9 +324,9 @@ public class QueueMatchMaker{
                             player1 = queueA.dequeue();
                             player2 = queueB.dequeue();
 
-                            // Start a match and connect players
-                            Match match = Matchmaking.joinMatch(player1, player2, game);
-                            Matchmaking.connectPlayers(match);
+//                            // Start a match and connect players
+//                            Match match = Matchmaking.joinMatch(player1, player2, game);
+//                            Matchmaking.connectPlayers(match);
 
                             // Update each player's Last5Matches
                             player1.getLast5MatchesObject().update(game,player2); //Player 1's Last5Matches Updated

@@ -1,253 +1,129 @@
 package org.seng.leaderboard_matchmaking;
 
-import java.io.*;
-import java.util.*;
-import java.util.stream.Collectors;
+import org.seng.authentication.CredentialsDatabase;
 import org.seng.authentication.Player;
 
+import java.util.*;
+
 /**
- * Manages the leaderboard data for players across multiple games.
- * Supports loading from and saving to CSV, updating stats, and retrieving top players.
+ * Leaderboard class provides functionality to rank players based on
+ * their number of wins in a specific game.
  */
 public class Leaderboard {
 
-    private Map<String, Player> players = new HashMap<>();
-
     /**
-     * Gets the map of all players in the leaderboard.
-     * @return Map of usernames to Player objects
-     */
-    public Map<String, Player> getPlayers() {
-        return players;
-    }
-
-    // All index constants
-    private static final int IDX_USERNAME = 0;
-    private static final int IDX_EMAIL = 1;
-    private static final int IDX_PASSWORD = 2;
-
-    // TicTacToe
-    private static final int IDX_TTT_GAMES = 3;
-    private static final int IDX_TTT_WINS = 4;
-    private static final int IDX_TTT_LOSSES = 5;
-    private static final int IDX_TTT_TIES = 6;
-    private static final int IDX_TTT_RANK = 7;
-    private static final int IDX_TTT_MMR = 8;
-
-    // Connect4
-    private static final int IDX_C4_GAMES = 9;
-    private static final int IDX_C4_WINS = 10;
-    private static final int IDX_C4_LOSSES = 11;
-    private static final int IDX_C4_TIES = 12;
-    private static final int IDX_C4_RANK = 13;
-    private static final int IDX_C4_MMR = 14;
-
-    // Checkers
-    private static final int IDX_CH_GAMES = 15;
-    private static final int IDX_CH_WINS = 16;
-    private static final int IDX_CH_LOSSES = 17;
-    private static final int IDX_CH_TIES = 18;
-    private static final int IDX_CH_RANK = 19;
-    private static final int IDX_CH_MMR = 20;
-
-    /**
-     * Loads player data from a CSV file.
+     * Returns a list of players ranked in descending order of their wins
+     * for a given game type.
      *
-     * @param filePath path to the CSV database file
+     * @param db       The credentials database containing all registered players.
+     * @param gameType The name of the game (e.g., "Checkers", "Tic Tac Toe", "Connect 4").
+     * @return A list of players sorted by their win count in the specified game.
      */
-    public void readDatabase(String filePath) {
-        players.clear();
+    public static List<Player> getRankedPlayersByGame(CredentialsDatabase db, String gameType) {
+        // Get a list of all players from the database
+        List<Player> sortedPlayers = new ArrayList<>(db.getPlayerCredentials().values());
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                String username = data[IDX_USERNAME];
+        // Sort players in descending order based on their number of wins in the specified game
+        sortedPlayers.sort((p1, p2) -> {
+            int p1Wins = getWinsForGame(p1, gameType);
+            int p2Wins = getWinsForGame(p2, gameType);
+            return Integer.compare(p2Wins, p1Wins); // Higher wins first
+        });
 
-                Player player = players.get(username);
-                updatePlayerFromData(player, data);
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading database: " + e.getMessage());
-        }
+        return sortedPlayers;
     }
 
     /**
-     * Populates a Player object with stats from parsed CSV data.
+     * Retrieves the number of wins a player has in the specified game.
+     * If the game type is unknown or null, returns 0.
      *
-     * @param player Player to update
-     * @param data   array of values from CSV line
+     * @param player   The player whose wins are being queried.
+     * @param gameType The name of the game.
+     * @return The number of wins for the specified game, or 0 if the game type is invalid.
      */
-    private void updatePlayerFromData(Player player, String[] data) {
-        player.setEmail(data[IDX_EMAIL]);
-        player.setPassword(data[IDX_PASSWORD]);
+    private static int getWinsForGame(Player player, String gameType) {
+        // Handle null input gracefully
+        if (gameType == null) return 0;
 
-        // TicTacToe
-        ticTacToeStats tttStats = player.getTicTacToeStats();
-        tttStats.setGamesPlayed(Integer.parseInt(data[IDX_TTT_GAMES]));
-        tttStats.setWins(Integer.parseInt(data[IDX_TTT_WINS]));
-        tttStats.setLosses(Integer.parseInt(data[IDX_TTT_LOSSES]));
-        tttStats.setTies(Integer.parseInt(data[IDX_TTT_TIES]));
-        tttStats.setRank(Rank.valueOf(data[IDX_TTT_RANK].trim().toUpperCase()));
-        tttStats.setMMR(Integer.parseInt(data[IDX_TTT_MMR]));
-
-        // Connect4
-        connect4Stats c4Stats = player.getConnect4Stats();
-        c4Stats.setGamesPlayed(Integer.parseInt(data[IDX_C4_GAMES]));
-        c4Stats.setWins(Integer.parseInt(data[IDX_C4_WINS]));
-        c4Stats.setLosses(Integer.parseInt(data[IDX_C4_LOSSES]));
-        c4Stats.setTies(Integer.parseInt(data[IDX_C4_TIES]));
-        c4Stats.setRank(Rank.valueOf(data[IDX_C4_RANK].trim().toUpperCase()));
-        c4Stats.setMMR(Integer.parseInt(data[IDX_C4_MMR]));
-
-        // Checkers
-        checkersStats chStats = player.getCheckersStats();
-        chStats.setGamesPlayed(Integer.parseInt(data[IDX_CH_GAMES]));
-        chStats.setWins(Integer.parseInt(data[IDX_CH_WINS]));
-        chStats.setLosses(Integer.parseInt(data[IDX_CH_LOSSES]));
-        chStats.setTies(Integer.parseInt(data[IDX_CH_TIES]));
-        chStats.setRank(Rank.valueOf(data[IDX_CH_RANK].trim().toUpperCase()));
-        chStats.setMMR(Integer.parseInt(data[IDX_CH_MMR]));
+        // Return win count based on game type using a switch expression
+        return switch (gameType.toLowerCase()) {
+            case "checkers" -> player.getCheckersStats().get_wins();
+            case "tic tac toe" -> player.getTicTacToeStats().get_wins();
+            case "connect 4" -> player.getConnect4Stats().get_wins();
+            default -> 0; // Unknown game type
+        };
     }
 
     /**
-     * Updates the stats of a player after a game session.
+     * Updates the win statistics for a player in a specified game.
      *
-     * @param username   username of the player
-     * @param c4Wins     Connect4 wins
-     * @param c4Losses   Connect4 losses
-     * @param c4Ties     Connect4 ties
-     * @param tttWins    TicTacToe wins
-     * @param tttLosses  TicTacToe losses
-     * @param tttTies    TicTacToe ties
-     * @param chWins     Checkers wins
-     * @param chLosses   Checkers losses
-     * @param chTies     Checkers ties
+     * This method finds a player by their unique player ID (username) and updates the win count for the
+     * specified game. The game type must be one of the following: "checkers", "tic tac toe", or "connect 4".
+     * If the game type is not recognized, an error message is printed. If the player is not found in the database,
+     * another error message is printed.
+     *
+     * @param db The CredentialsDatabase object that stores all player data.
+     * @param playerID The unique identifier (username) of the player whose win is being updated.
+     * @param gameType The type of game in which the player won. It must be one of: "checkers", "tic tac toe", or "connect 4".
      */
-    public void updatePlayerStats(String username,
-                                  int c4Wins, int c4Losses, int c4Ties,
-                                  int tttWins, int tttLosses, int tttTies,
-                                  int chWins, int chLosses, int chTies) {
+    public static void updatePlayerWin(CredentialsDatabase db, String playerID, String gameType) {
+        // Retrieve the player from the database using their unique playerID (username)
+        Player player = db.findPlayerByUsername(playerID);
 
-        Player player = players.get(username);
+        // If the player is not found in the database, print an error message and exit the method
         if (player == null) {
-            System.out.println("Player " + username + " not found.");
+            System.out.println("Player not found.");
             return;
         }
 
-        connect4Stats c4 = player.getConnect4Stats();
-        c4.setWins(c4.getWins() + c4Wins);
-        c4.setLosses(c4.getLosses() + c4Losses);
-        c4.setTies(c4.get_ties() + c4Ties);
-        c4.setGamesPlayed(c4.getGamesPlayed() + c4Wins + c4Losses + c4Ties);
-
-        ticTacToeStats ttt = player.getTicTacToeStats();
-        ttt.setWins(ttt.getWins() + tttWins);
-        ttt.setLosses(ttt.getLosses() + tttLosses);
-        ttt.setTies(ttt.get_ties() + tttTies);
-        ttt.setGamesPlayed(ttt.getGamesPlayed() + tttWins + tttLosses + tttTies);
-
-        checkersStats ch = player.getCheckersStats();
-        ch.setWins(ch.getWins() + chWins);
-        ch.setLosses(ch.getLosses() + chLosses);
-        ch.setTies(ch.get_ties() + chTies);
-        ch.setGamesPlayed(ch.getGamesPlayed() + chWins + chLosses + chTies);
-    }
-
-    /**
-     * Saves the current leaderboard state to a CSV file.
-     *
-     * @param filePath the path where the file should be saved
-     */
-    public void saveUpdatedLeaderboard(String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            for (Player player : players.values()) {
-                writer.write(serializePlayer(player));
-                writer.newLine();
-            }
-            System.out.println("Updated leaderboard saved to " + filePath);
-        } catch (IOException e) {
-            System.out.println("Error saving leaderboard: " + e.getMessage());
+        // Record the win for the player based on the specified game type
+        switch (gameType.toLowerCase()) {
+            case "checkers":
+                // Update the Checkers game statistics for the player
+                player.getCheckersStats().win();
+                break;
+            case "tic tac toe":
+                // Update the Tic Tac Toe game statistics for the player
+                player.getTicTacToeStats().win();
+                break;
+            case "connect 4":
+                // Update the Connect 4 game statistics for the player
+                player.getConnect4Stats().win();
+                break;
+            default:
+                // If an unknown game type is provided, print an error message and exit the method
+                System.out.println("Unknown game type.");
+                return;
         }
+
+        // Retrieve the list of players ranked by the specified game type after updating the player's win
+        List<Player> rankedPlayers = getRankedPlayersByGame(db, gameType);
+
     }
+
 
     /**
-     * Converts a player’s data to a CSV line.
+     * Retrieves the top N players ranked by their performance in a specified game.
      *
-     * @param player the player to serialize
-     * @return CSV-formatted string
+     * This method fetches the ranked players for the given game type (e.g., "checkers", "tic tac toe", "connect 4")
+     * and returns a list containing the top N players. If there are fewer than N players in the ranking,
+     * it returns a list containing all available players.
+     *
+     * @param db The CredentialsDatabase object that stores all player data.
+     * @param gameType The type of game for which the top players are to be retrieved. It can be "checkers", "tic tac toe", or "connect 4".
+     * @param topN The number of top players to return. This will be the maximum number of players to include in the list.
+     * @return A list of the top N players ranked by their performance in the specified game.
+     *         If there are fewer than N players, it returns all players in the ranked list.
      */
-    private String serializePlayer(Player player) {
-        return String.join(",",
-                player.getUsername(),
-                player.getEmail(),
-                player.getPassword(),
+    public static List<Player> getTopNPlayers(CredentialsDatabase db, String gameType, int topN) {
+        // Retrieve the ranked list of players for the specified game type
+        List<Player> rankedPlayers = Leaderboard.getRankedPlayersByGame(db, gameType);
 
-                String.valueOf(player.getTicTacToeStats().getGamesPlayed()),
-                String.valueOf(player.getTicTacToeStats().getWins()),
-                String.valueOf(player.getTicTacToeStats().getLosses()),
-                String.valueOf(player.getTicTacToeStats().get_ties()),
-                player.getTicTacToeStats().getRank().name(),
-                String.valueOf(player.getTicTacToeStats().getMMR()),
+        // Ensure that we do not exceed the number of available players in the ranking
+        int endIndex = Math.min(topN, rankedPlayers.size());
 
-                String.valueOf(player.getConnect4Stats().getGamesPlayed()),
-                String.valueOf(player.getConnect4Stats().getWins()),
-                String.valueOf(player.getConnect4Stats().getLosses()),
-                String.valueOf(player.getConnect4Stats().get_ties()),
-                player.getConnect4Stats().getRank().name(),
-                String.valueOf(player.getConnect4Stats().getMMR()),
-
-                String.valueOf(player.getCheckersStats().getGamesPlayed()),
-                String.valueOf(player.getCheckersStats().getWins()),
-                String.valueOf(player.getCheckersStats().getLosses()),
-                String.valueOf(player.getCheckersStats().get_ties()),
-                player.getCheckersStats().getRank().name(),
-                String.valueOf(player.getCheckersStats().getMMR())
-        );
+        // Return a sublist containing the top N players, up to the number of available players
+        return rankedPlayers.subList(0, endIndex);
     }
 
-    /**
-     * Returns the top N players by total wins across all games.
-     *
-     * @param n number of players to return
-     * @return list of top players
-     */
-    public List<Player> getTopPlayers(int n) {
-        return players.values().stream()
-                .sorted(Comparator.comparingInt(Player::getTotalWins).reversed())
-                .limit(n)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Returns the top N players based on a specific game's win count.
-     *
-     * @param game name of the game ("connect4", "tictactoe", or "checkers")
-     * @param n    number of players to return
-     * @return list of top players for the specified game
-     */
-    public List<Player> getTopPlayersByGame(String game, int n) {
-        Comparator<Player> comparator = switch (game.toLowerCase()) {
-            case "connect4" -> Comparator.comparingInt(p -> p.getConnect4Stats().getWins());
-            case "tictactoe" -> Comparator.comparingInt(p -> p.getTicTacToeStats().getWins());
-            case "checkers" -> Comparator.comparingInt(p -> p.getCheckersStats().getWins());
-            default -> throw new IllegalArgumentException("Invalid game: " + game);
-        };
-
-        return players.values().stream()
-                .sorted(comparator.reversed())
-                .limit(n)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Loads player data from file and prepares the leaderboard.
-     * Currently only reads data — does not sort or write.
-     *
-     * @param inputFile the path to the input file
-     * @param outputFile unused here but included for compatibility
-     */
-    public void generateLeaderboard(String inputFile, String outputFile) {
-        readDatabase(inputFile);
-    }
 }
