@@ -10,7 +10,8 @@ import java.util.concurrent.TimeUnit;
 import org.seng.leaderboard_matchmaking.*;
 //import org.seng.networking.*;
 import org.seng.authentication.Player;
-
+import org.seng.networking.Match;
+import org.seng.networking.*;
 
 public class QueueMatchMaker{
 
@@ -324,9 +325,23 @@ public class QueueMatchMaker{
                             player1 = queueA.dequeue();
                             player2 = queueB.dequeue();
 
-//                            // Start a match and connect players
-//                            Match match = Matchmaking.joinMatch(player1, player2, game);
-//                            Matchmaking.connectPlayers(match);
+//                            // this connects both players into a match using our matchmaking system
+//                            Match match = Matchmaking.joinMatch(player1, player2, gameType);
+//
+//                            // this links both players' socket handlers together for communication
+//                            player1.getSocketHandler().setOpponent(player2.getSocketHandler());
+//                            player2.getSocketHandler().setOpponent(player1.getSocketHandler());
+//
+//                            // this sends position and opponent info to both players
+//                            player1.getSocketHandler().sendOpponentInfo(player2.getUsername(), true);  // player1 is true
+//                            player2.getSocketHandler().sendOpponentInfo(player1.getUsername(), false); // player2 is false
+//
+//                            // this launches both players' game threads
+//                            pool.execute(player1.getSocketHandler());
+//                            pool.execute(player2.getSocketHandler());
+//
+//                            // this notifies the network manager to announce the match
+//                            NetworkingManager.getInstance().notifyPlayersMatched(player1, player2, match);
 
                             // Update each player's Last5Matches
                             player1.getLast5MatchesObject().update(game,player2); //Player 1's Last5Matches Updated
