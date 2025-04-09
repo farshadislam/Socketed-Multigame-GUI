@@ -79,9 +79,6 @@
     -fx-background-color: white;
 }
 
-.menu-item {
-    -fx-text-fill: black;
-}
 
 .chat-button {
      -fx-background-color: linear-gradient(to bottom, #8E2DE2, #4A00E0);
@@ -96,26 +93,40 @@
      -fx-border-width: 1px;
 }
 
-/* Style the MenuButton itself */
-.menu-button {
-    -fx-background-color: linear-gradient(to bottom, #8E2DE2, #4A00E0);
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 20px;
-    -fx-border-radius: 20px;
-    -fx-border-color: rgba(255, 255, 255, 0.5);
-    -fx-border-width: 1px;
-    -fx-padding: 8px 16px;
-    -fx-effect: dropshadow(gaussian, rgba(74, 0, 224, 0.4), 10, 0.3, 0, 4);
+/* Style the MenuBar background */
+.menu-bar {
+     -fx-background-color: linear-gradient(to bottom, #8E2DE2, #4A00E0);
+     -fx-font-size: 14px;
+     -fx-font-weight: bold;
+     -fx-background-radius: 20px;
+     -fx-border-radius: 20px;
+     -fx-padding: 8px 16px;
+     -fx-effect: dropshadow(gaussian, rgba(74, 0, 224, 0.4), 12, 0.3, 0, 6);
+     -fx-border-color: rgba(255, 255, 255, 0.5);
+     -fx-border-width: 1px;
 }
 
-/* Style the arrow icon inside the MenuButton */
-.menu-button .arrow {
+/* Style the top-level menu labels ("File", "Edit", etc.) */
+.menu {
+    -fx-text-fill: white;
+}
+
+/* Style the popup menu items */
+.menu-item {
+    -fx-text-fill: black;
+}
+
+/* Style the background of popup menus */
+.context-menu {
     -fx-background-color: white;
 }
 
-/* Style each MenuItem within the MenuButton */
+/* Optional: hover effect for menu items */
+.menu-item:hover {
+    -fx-background-color: #9932CC; /* lighter purple on hover */
+    -fx-text-fill: white;
+}
+
 
 
 
