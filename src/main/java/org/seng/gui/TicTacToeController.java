@@ -1,16 +1,15 @@
 package org.seng.gui;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.seng.gamelogic.tictactoe.TicTacToeBoard;
-import org.seng.gamelogic.tictactoe.TicTacToeGame;
-import org.seng.gamelogic.tictactoe.TicTacToeGame;
-import org.seng.gamelogic.tictactoe.TicTacToePlayer;
-import org.seng.gamelogic.tictactoe.TicTacToePlayer;
+import org.seng.gamelogic.tictactoe.*;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -19,7 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class TicTacToeController {
 
@@ -38,9 +36,19 @@ public class TicTacToeController {
     @FXML private Button inGameChatButton;
     @FXML private MenuItem helpOption;
     @FXML private Label turnLabel;
+    @FXML private FlowPane board;
 
     @FXML public void initialize() {
         clearChatHistory();
+
+        // Setup player data
+        localPlayer = new TicTacToePlayer("usernameOne", "emailOne",  "passwordOne");
+        remotePlayer = new TicTacToePlayer("usernameTwo", "emailTwo",  "passwordTwo");
+
+        TicTacToeBoard board = new TicTacToeBoard();
+        game = new TicTacToeGame(board, new TicTacToePlayer[]{localPlayer, remotePlayer}, 1);
+        game.initializePlayerSymbols();
+
         button11.setOnAction(e -> handleMove(button11));
         button12.setOnAction(e -> handleMove(button12));
         button13.setOnAction(e -> handleMove(button13));
@@ -60,11 +68,9 @@ public class TicTacToeController {
         buttonPositionMap.put(button31, new int[]{2, 0});
         buttonPositionMap.put(button32, new int[]{2, 1});
         buttonPositionMap.put(button33, new int[]{2, 2});
-
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
-
 
     private void saveMessage(String message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
@@ -82,6 +88,7 @@ public class TicTacToeController {
             return "";
         }
     }
+
     private void clearChatHistory() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH))) {
             writer.write("");
@@ -90,7 +97,63 @@ public class TicTacToeController {
         }
     }
 
-    private StringBuilder chatHistory = new StringBuilder();
+    private void handleMove(Button button) {
+        int[] location = buttonPositionMap.get(button);
+        int row = location[0];
+        int col = location[1];
+
+        if (!button.getText().isEmpty()) return;
+
+        boolean moveMade = game.makeMove(row, col);
+
+        if (moveMade) {
+            String symbol = game.getCurrentMark() == TicTacToeBoard.Mark.X ? "O" : "X";
+            button.setText(symbol);
+
+            String status = game.getStatus();
+            if (status.endsWith("Wins")) {
+                turnLabel.setText("Game Over! " + status);
+                disableAllButtons();
+            } else if (status.equals("Draw")) {
+                turnLabel.setText("It's a Draw!");
+                disableAllButtons();
+            } else {
+                turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
+            }
+
+            if (game.AIBot != null && game.getCurrentMark() == game.getCurrentMark()) {
+                game.AIBot.makeMove(game.getBoard(), game);
+                updateBoardButtons();
+                String newStatus = game.getStatus();
+                if (newStatus.endsWith("Wins") || newStatus.equals("Draw")) {
+                    turnLabel.setText("Game Over! " + newStatus);
+                    disableAllButtons();
+                }
+            }
+        }
+    }
+
+    private void updateBoardButtons() {
+        for (Map.Entry<Button, int[]> entry : buttonPositionMap.entrySet()) {
+            Button button = entry.getKey();
+            int[] pos = entry.getValue();
+            TicTacToeBoard.Mark mark = game.getBoard().getMark(pos[0], pos[1]);
+
+            if (mark == TicTacToeBoard.Mark.X) {
+                button.setText("X");
+            } else if (mark == TicTacToeBoard.Mark.O) {
+                button.setText("O");
+            } else {
+                button.setText("");
+            }
+        }
+    }
+
+    private void disableAllButtons() {
+        for (Button b : buttonPositionMap.keySet()) {
+            b.setDisable(true);
+        }
+    }
 
     @FXML
     private void openChat() {
@@ -98,7 +161,7 @@ public class TicTacToeController {
         chatStage.setTitle("In-Game Chat");
 
         VBox chatBox = new VBox(10);
-        chatBox.setPadding(new javafx.geometry.Insets(10));
+        chatBox.setPadding(new Insets(10));
         chatBox.getStyleClass().add("chat-window");
 
         TextArea chatDisplay = new TextArea();
@@ -124,6 +187,7 @@ public class TicTacToeController {
                 messageField.clear();
             }
         });
+
         messageField.setOnAction(e -> sendButton.fire());
         chatBox.getChildren().addAll(chatDisplay, messageField, sendButton);
 
@@ -131,43 +195,24 @@ public class TicTacToeController {
         scene.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
         chatStage.setScene(scene);
         chatStage.show();
-
-
     }
 
     @FXML
     void howToPlayDescription(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.NONE);
-
         alert.setTitle("Help");
         alert.setHeaderText("How to Play");
 
         alert.setContentText(
-                "1. Players take turns selecting a spot for their X or O.\n\n"
-                        + "2. Try to get three XXX or OOO all in the same row, column, or across. \n\n"
-                        + "3. First player to do so wins!\n\n"
-                        + "4. If the board is full, it's a draw.\n");
+                "1. Players take turns selecting a spot for their X or O.\n\n" +
+                        "2. Try to get three XXX or OOO all in the same row, column, or across. \n\n" +
+                        "3. First player to do so wins!\n\n" +
+                        "4. If the board is full, it's a draw.\n");
 
-        alert.getButtonTypes().add(javafx.scene.control.ButtonType.OK);
+        alert.getButtonTypes().add(ButtonType.OK);
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
 
         alert.showAndWait();
     }
-    private boolean isPlayerOneTurn = true;
-    private void handleMove(Button button) {
-        if (button.getText().isEmpty()) {
-            if (isPlayerOneTurn) {
-                button.setText("X");
-                turnLabel.setText("Player 2's Turn");
-            } else {
-                button.setText("O");
-                turnLabel.setText("Player 1's Turn");
-            }
-            isPlayerOneTurn = !isPlayerOneTurn;
-        }
-    }
-
 }
-
-
