@@ -22,7 +22,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TicTacToeController {
@@ -57,6 +59,12 @@ public class TicTacToeController {
     private Label turnLabel;
     @FXML
     private GridPane board;
+
+    private boolean AIBot;
+
+    public void setAIBot(boolean AIBot) {
+        this.AIBot = AIBot;
+    }
 
     @FXML
     public void initialize() {
@@ -106,6 +114,8 @@ public class TicTacToeController {
         Button[] row3 = {button31, button32, button33};
 
         buttonBoard = new Button[][]{row1, row2, row3};
+        isPlayerXTurn = false;
+        togglePlayerTurn();
     }
 
     private String nextTurn() {
@@ -168,13 +178,17 @@ public class TicTacToeController {
                 checkTie(button);
             }
         }
-//        String symbol = isPlayerXTurn ? "X" : "O";  // Toggle between X and O
-//        button.setText(symbol);
-
-        // Disable the button to prevent re-clicking
-
-            // Switch to the other player's turn
         togglePlayerTurn();
+
+        // for when AI mode is active
+        if (!isPlayerXTurn && AIBot) {
+            new Thread(() -> {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ignored) {}
+                Platform.runLater(this::makeAIMove);
+            }).start();
+        }
 
 //        initNum++;
 //        if (initNum == 1){
@@ -257,7 +271,13 @@ public class TicTacToeController {
     // Function to toggle player turns (just a sample, adjust based on your existing logic)
     private void togglePlayerTurn() {
         isPlayerXTurn = !isPlayerXTurn;
+        if (isPlayerXTurn) {
+            turnLabel.setText("Player 1's Turn");
+        } else {
+            turnLabel.setText("Player 2's Turn");
+        }
     }
+
 
     // Function to check if it's Player X's turn (adjust based on your existing logic)
     private boolean isPlayerXTurn() {
@@ -429,8 +449,33 @@ public class TicTacToeController {
         return true;
     }
 
-    public void setAIBot(boolean b) {
+    private void makeAIMove() {
+        int[] move = findNextMove();
+        if (move != null) {
+            Button aiButton = buttonBoard[move[0]][move[1]];
+            handleMove(move[0], move[1], aiButton);
+        }
     }
+
+    private int[] findNextMove() {
+        List<int[]> emptySpots = new ArrayList<>();
+        for (int r = 0; r < BOARD_SIZE; r++) {
+            for (int c = 0; c < BOARD_SIZE; c++) {
+                if (buttonBoard[r][c].getText().isEmpty()) {
+                    emptySpots.add(new int[]{r, c});
+                }
+            }
+        }
+
+        if (emptySpots.isEmpty()) {
+            return null;
+        }
+
+        return emptySpots.get((int)(Math.random() * emptySpots.size()));
+    }
+
+
+
 }
 
 
