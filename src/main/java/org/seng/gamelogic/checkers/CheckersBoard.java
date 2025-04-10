@@ -176,34 +176,49 @@ public class CheckersBoard {
     }
 
 
-    public List<int[]> getCapturablePieces(int row, int col, Piece piece) {
-        List<int[]> capturableMoves = new ArrayList<>();
+    //everything under here is experimental
+    //this function is checking if there is capturable pieces from a certain spot and gives a list
 
-        int[][] directions = {
-                {-2, -2}, {-2, 2}, {2, -2}, {2, 2} // All jump directions
-        };
+    public List<int[]> getCapturablePieces(int fromRow, int fromCol, Piece piece) {
+        List<int[]> capturableLocations = new ArrayList<>();
+        if (piece == Piece.EMPTY) {
+            return capturableLocations;//if theres no pieces present it just returns an empty list
+        }
+        int[] directions; //initialization, nothing serious
+        if (piece == Piece.RED_KING || piece == Piece.BLACK_KING) {
+            directions = new int[]{-1, 1}; //since kings can move both up and down they should check for pieces both up and down the rows
+        } else if (piece == Piece.RED) {
+            directions = new int[]{-1}; //since red is at the top conventionally it can only move down visually (up in row count)
+        } else if (piece == Piece.BLACK) {
+            directions = new int[]{1}; // since black is at the bottom conventionally it can only move up visually (down in row count)
+        } else {
+            directions = new int[]{-1, 1}; //honestly useless, idk why i even put this here
+        }
 
-        for (int[] dir : directions) {
-            int toRow = row + dir[0];
-            int toCol = col + dir[1];
-            int midRow = row + dir[0] / 2;
-            int midCol = col + dir[1] / 2;
 
-            if (inBounds(toRow, toCol) && board[toRow][toCol] == Piece.EMPTY) {
-                Piece midPiece = board[midRow][midCol];
+        for (int rowDir : directions) { //for each row in the directions the piece can go (what we just did earlier)
+            for (int colDir : new int[]{-1, 1}) { //in terms of columns pieces can move both left and right no problem
+                int targetRow = fromRow + 2 * rowDir; //first we need to check if theres nothing blocking pieces from being captured
+                int targetCol = fromCol + 2 * colDir; //technically you move left and up twice in order to capture a piece
 
-                boolean redCanCapture = (piece == Piece.RED || piece == Piece.RED_KING) &&
-                        (midPiece == Piece.BLACK || midPiece == Piece.BLACK_KING);
 
-                boolean blackCanCapture = (piece == Piece.BLACK || piece == Piece.BLACK_KING) &&
-                        (midPiece == Piece.RED || midPiece == Piece.RED_KING);
+                if (inBounds(targetRow, targetCol) && board[targetRow][targetCol] == Piece.EMPTY) { //as long as its in the bounds of the board, ando nothing is blocking it, the if function activates
+                    int middleRow = fromRow + rowDir;
+                    int middleCol = fromCol + colDir;//finding the middle piece (depending on the piece calculation is different)
+                    Piece middlePiece = board[middleRow][middleCol]; //checks what piece it is, we have to make sure that it is not one of the player's own chips
 
-                if (redCanCapture || blackCanCapture) {
-                    capturableMoves.add(new int[]{row, col, toRow, toCol});
+                    //this if statement checking if the middle piece is dfferent
+                    if ((piece == Piece.RED || piece == Piece.RED_KING) && (middlePiece == Piece.BLACK || middlePiece == Piece.BLACK_KING) ||
+                            (piece == Piece.BLACK || piece == Piece.BLACK_KING) && (middlePiece == Piece.RED || middlePiece == Piece.RED_KING)) {
+
+                        capturableLocations.add(new int[]{targetRow, targetCol}); //this returns the locations where it can go basically, into the list (can be upto 4 if its a king!)
+                    }
                 }
             }
         }
-
-        return capturableMoves;
+        return capturableLocations;
     }
+
+}
+
 }
