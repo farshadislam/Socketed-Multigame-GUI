@@ -1,144 +1,231 @@
 package org.seng.gui;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.animation.ScaleTransition;
-import javafx.util.Duration;
-import org.seng.gamelogic.tictactoe.TicTacToeBoard;
-import org.seng.gamelogic.tictactoe.TicTacToeGame;
-import org.seng.gamelogic.tictactoe.TicTacToePlayer;
+import org.seng.gamelogic.tictactoe.OnlineTicTacToeGame;
 import org.seng.networking.SocketGameClient;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OnlineTicTacToeController {
 
     @FXML private GridPane board;
     @FXML private Label turnLabel;
-    @FXML private Button inGameChatButton;
-    @FXML private MenuItem helpOption;
 
     private Button[][] buttonBoard;
     private static final int BOARD_SIZE = 3;
-    private boolean myTurn = false; // set based on server (e.g., via "IS_PLAYER_ONE:..." message)
-    private SocketGameClient client;
-    private TicTacToeGame game;
-    private final String CHAT_LOG_PATH = "chatlog_online.txt";
-    private Stage chatStage = null;
 
-    // This method is called right after the scene is loaded.
-    public void init(SocketGameClient client, TicTacToeGame game, boolean myTurn) {
+    private boolean myTurn;
+    private String mySymbol;
+    private String opponentSymbol;
+
+    private SocketGameClient client;
+    private OnlineTicTacToeGame game;
+
+    /** this initializes the controller with network references + the game logic and role assignment */
+    public void init(SocketGameClient client, OnlineTicTacToeGame game, boolean amIPlayerOne) {
         this.client = client;
         this.game = game;
-        this.myTurn = myTurn;
+
+        if (amIPlayerOne) {
+            myTurn = true;
+            mySymbol = "X";
+            opponentSymbol = "O";
+        } else {
+            myTurn = false;
+            mySymbol = "O";
+            opponentSymbol = "X";
+        }
+
+        System.out.println("[debug] init amiplayerone=" + amIPlayerOne + " myturn=" + myTurn);
+
         createBoard();
         startNetworkListener();
         updateTurnLabel();
+        updateGridEnableState();
+
+        // this notifies the server that our scene is ready
+        try {
+            client.sendMessage("GAME_SCENE_READY");
+        } catch (IOException e) {
+            System.err.println("[error] could not send GAME_SCENE_READY");
+            e.printStackTrace();
+        }
     }
 
+    /** this creates the 3x3 board of buttons */
     private void createBoard() {
         buttonBoard = new Button[BOARD_SIZE][BOARD_SIZE];
         board.getChildren().clear();
-        for (int row = 0; row < BOARD_SIZE; row++) {
-            for (int col = 0; col < BOARD_SIZE; col++) {
+
+        for (int r = 0; r < BOARD_SIZE; r++) {
+            for (int c = 0; c < BOARD_SIZE; c++) {
                 Button btn = new Button();
-                btn.setPrefSize(80, 80);
-                final int r = row, c = col;
-                btn.setOnAction(e -> handleMove(r, c, btn));
-                buttonBoard[row][col] = btn;
-                board.add(btn, col, row);
+                btn.setPrefSize(100, 100);
+                btn.setFont(new Font(36));
+                final int row = r, col = c;
+                btn.setOnAction(e -> handleMove(row, col, btn));
+                buttonBoard[r][c] = btn;
+                board.add(btn, c, r);
             }
         }
     }
 
+    /** this handles a local move */
     private void handleMove(int row, int col, Button btn) {
-        if (!myTurn || !btn.getText().isEmpty()) {
-            return; // Not my turn or cell already occupied.
+        // this only does something if its our turn and the cell is empty
+        if (!myTurn) return;
+        if (!btn.getText().isEmpty()) return;
+
+        boolean moveApplied = game.applyMove(row, col, mySymbol.charAt(0));
+        if (moveApplied) {
+            btn.setText(mySymbol);
+            btn.setDisable(true);
+
+            // this sends the move to the server
+            String moveMsg = "MOVE:TICTACTOE:" + row + "," + col;
+            System.out.println("[debug] sending: " + moveMsg);
+            try {
+                client.sendMessage(moveMsg);
+            } catch (IOException e) {
+                showError("failed to send move");
+                e.printStackTrace();
+            }
+
+            checkAndSendGameOver();
+
+            // this passes the turn to the opponent
+            if (game.getStatus().equals("In Progress")) {
+                myTurn = false;
+                updateTurnLabel();
+                updateGridEnableState();
+            }
         }
-        // Update the local board
-        String symbol = game.getCurrentMark().toString(); // "X" or "O"
-        btn.setText(symbol);
-        btn.setDisable(true);
-        game.makeMove(row, col);
-        updateTurnLabel();
-        // Send the move to the server
-        try {
-            client.sendMessage("MOVE:TICTACTOE:" + row + "," + col);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        myTurn = false;
     }
 
-    // Call this thread to continuously listen for server messages.
+    /** this starts a thread to read server messages */
     private void startNetworkListener() {
-        Thread listenerThread = new Thread(() -> {
+        Thread t = new Thread(() -> {
             try {
                 String msg;
                 while ((msg = client.receiveMessage()) != null) {
-                    final String message = msg;
-                    Platform.runLater(() -> processServerMessage(message));
+                    final String finalMsg = msg;
+                    Platform.runLater(() -> processServerMessage(finalMsg));
                 }
             } catch (IOException e) {
-                Platform.runLater(() -> showError("Disconnected from server."));
+                Platform.runLater(() -> showError("connection lost!"));
             }
         });
-        listenerThread.setDaemon(true);
-        listenerThread.start();
+        t.setDaemon(true);
+        t.start();
     }
 
+    /** this processes messages from the server */
     private void processServerMessage(String message) {
-        // Protocol example: "MOVE:TICTACTOE:row,col" for opponent moves.
+        System.out.println("[debug] received: " + message);
+
         if (message.startsWith("MOVE:TICTACTOE:")) {
             String data = message.substring("MOVE:TICTACTOE:".length());
-            String[] parts = data.split(",");
-            int row = Integer.parseInt(parts[0]);
-            int col = Integer.parseInt(parts[1]);
-            // Update the board with opponent move if not already set.
+            String[] coords = data.split(",");
+            int row = Integer.parseInt(coords[0]);
+            int col = Integer.parseInt(coords[1]);
+
             Button btn = buttonBoard[row][col];
             if (btn.getText().isEmpty()) {
-                String oppSymbol = (game.getCurrentMark().toString().equals("X")) ? "O" : "X";
-                btn.setText(oppSymbol);
+                btn.setText(opponentSymbol);
                 btn.setDisable(true);
-                game.makeMove(row, col);
+                game.applyMove(row, col, opponentSymbol.charAt(0));
+                checkAndSendGameOver();
+                if (game.getStatus().equals("In Progress")) {
+                    myTurn = true;
+                    updateTurnLabel();
+                    updateGridEnableState();
+                }
             }
-            myTurn = true;
-            updateTurnLabel();
-        } else if (message.equals("GAME_OVER:WIN")) {
-            showEndScreen("WIN");
-        } else if (message.equals("GAME_OVER:DRAW")) {
-            showEndScreen("DRAW");
+        } else if (message.startsWith("GAME_OVER:")) {
+            // this handles a game condition
+            String reason = message.substring("GAME_OVER:".length());
+            handleGameOver(reason);
+        } else if (message.startsWith("OPPONENT_NAME:")) {
+            // no action for opponent name message yet
+        } else {
+            System.out.println("[debug] unhandled server message: " + message);
         }
-        // Other messages can be handled here.
     }
 
+    /** this checks if the local game logic says the game ended and sends a game over message */
+    private void checkAndSendGameOver() {
+        String status = game.getStatus();
+        if (!status.equals("In Progress")) {
+            String msg;
+            if (status.contains("X Wins")) {
+                msg = "GAME_OVER:X_WINS";
+            } else if (status.contains("O Wins")) {
+                msg = "GAME_OVER:O_WINS";
+            } else {
+                msg = "GAME_OVER:DRAW";
+            }
+            try {
+                client.sendMessage(msg);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            handleGameOver(msg.substring("GAME_OVER:".length()));
+        }
+    }
+
+    /** this is the local function to handle a final result and show the end screen */
+    private void handleGameOver(String result) {
+        // result might be x_wins o_wins or draw
+        disableAllBoardButtons();
+
+        if (result.equals("X_WINS")) {
+            if (mySymbol.equals("X")) {
+                loadWinningScene();
+            } else {
+                loadLosingScene();
+            }
+        } else if (result.equals("O_WINS")) {
+            if (mySymbol.equals("O")) {
+                loadWinningScene();
+            } else {
+                loadLosingScene();
+            }
+        } else if (result.equals("DRAW")) {
+            loadTieScene();
+        } else {
+            System.out.println("[debug] unknown game over result: " + result);
+        }
+    }
+
+    /** this updates the turn label based on myturn */
     private void updateTurnLabel() {
-        turnLabel.setText(myTurn ? "Your Turn" : "Opponent's Turn");
+        if (myTurn) {
+            turnLabel.setText("your turn (" + mySymbol + ")");
+        } else {
+            turnLabel.setText("opponent's turn (" + opponentSymbol + ")");
+        }
+    }
+
+    /** this enables or disables all empty cells depending on whether its the players turn */
+    private void updateGridEnableState() {
+        for (int r = 0; r < BOARD_SIZE; r++) {
+            for (int c = 0; c < BOARD_SIZE; c++) {
+                Button btn = buttonBoard[r][c];
+                if (btn.getText().isEmpty()) {
+                    btn.setDisable(!myTurn);
+                }
+            }
+        }
     }
 
     private void showError(String msg) {
@@ -146,129 +233,85 @@ public class OnlineTicTacToeController {
         alert.showAndWait();
     }
 
-    @FXML
-    private void openChat() {
-        if (chatStage != null && chatStage.isShowing()) {
-            chatStage.toFront();
-            return;
-        }
-        chatStage = new Stage();
-        chatStage.setTitle("In-Game Chat");
-
-        VBox chatBox = new VBox(10);
-        chatBox.setPadding(new Insets(10));
-
-        TextArea chatDisplay = new TextArea();
-        chatDisplay.setEditable(false);
-        chatDisplay.setWrapText(true);
-        chatDisplay.setPrefHeight(200);
-        chatDisplay.setText(loadChatHistory());
-
-        TextField messageField = new TextField();
-        messageField.setPromptText("Type your message...");
-
-        Button sendButton = new Button("Send");
-        sendButton.setOnAction(e -> {
-            String msg = messageField.getText().trim();
-            if (!msg.isEmpty()) {
-                String formatted = "You: " + msg + "\n";
-                chatDisplay.appendText(formatted);
-                saveMessage(formatted);
-                messageField.clear();
+    /** this disables the entire board */
+    private void disableAllBoardButtons() {
+        for (int r = 0; r < BOARD_SIZE; r++) {
+            for (int c = 0; c < BOARD_SIZE; c++) {
+                buttonBoard[r][c].setDisable(true);
             }
-        });
-        messageField.setOnAction(e -> sendButton.fire());
-        chatBox.getChildren().addAll(chatDisplay, messageField, sendButton);
-
-        Scene scene = new Scene(chatBox, 350, 300);
-        chatStage.setScene(scene);
-        chatStage.show();
-    }
-
-    private void saveMessage(String message) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
-            writer.write(message);
-            writer.newLine();
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
 
-    private String loadChatHistory() {
+    /** this loads the winning scene winningpage.fxml */
+    private void loadWinningScene() {
         try {
-            return Files.readString(Paths.get(CHAT_LOG_PATH));
-        } catch (IOException ex) {
-            return "";
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("WinningPage.fxml"));
+            Scene scene = new Scene(loader.load(), 700, 450);
+            Stage st = (Stage) board.getScene().getWindow();
+            st.setScene(scene);
+            st.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** this loads the losing scene losingpage.fxml */
+    private void loadLosingScene() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("LosingPage.fxml"));
+            Scene scene = new Scene(loader.load(), 700, 450);
+            Stage st = (Stage) board.getScene().getWindow();
+            st.setScene(scene);
+            st.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** this loads the tie scene tiepage.fxml */
+    private void loadTieScene() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("TiePage.fxml"));
+            Scene scene = new Scene(loader.load(), 700, 450);
+            Stage st = (Stage) board.getScene().getWindow();
+            st.setScene(scene);
+            st.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     @FXML
-    private void howToPlayDescription(ActionEvent event) {
+    public void openChat() {
+        Alert info = new Alert(Alert.AlertType.INFORMATION, "chat coming soon!", ButtonType.OK);
+        info.setTitle("chat");
+        info.showAndWait();
+    }
+
+    @FXML
+    public void howToPlayDescription() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("How To Play Tic Tac Toe");
+        alert.setTitle("how to play tic tac toe");
         alert.setHeaderText(null);
-        alert.setContentText("Players take turns selecting cells to place their mark.\n"
-                + "The first player to align three marks (row, column, or diagonal) wins.\n"
-                + "If the board is full without a winning alignment, the game is a draw.");
+        alert.setContentText("classic tic tac toe rules ...\n1) x always goes first\n2) ... ");
         alert.showAndWait();
     }
 
     @FXML
-    private void handleQuit() {
-        Stage dialogStage = new Stage();
-        dialogStage.initStyle(StageStyle.UNDECORATED);
-        Label message = new Label("Are you sure you want to quit? You will lose the game.");
-        Button yesButton = new Button("Yes");
-        Button noButton = new Button("No");
-        yesButton.setOnAction(e -> {
-            dialogStage.close();
-            openToGameDashboard();
-        });
-        noButton.setOnAction(e -> dialogStage.close());
-        HBox buttonBox = new HBox(10, yesButton, noButton);
-        buttonBox.setAlignment(Pos.CENTER);
-        VBox layout = new VBox(15, message, buttonBox);
-        layout.setAlignment(Pos.CENTER);
-        layout.setPadding(new Insets(20));
-        Scene scene = new Scene(layout, 300, 150);
-        dialogStage.setScene(scene);
-        dialogStage.show();
-    }
-
-    private void openToGameDashboard() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
-            Scene dashboardScene = new Scene(loader.load(), 900, 600);
-            Stage dashboardStage = new Stage();
-            dashboardStage.setScene(dashboardScene);
-            dashboardStage.setTitle("Game Dashboard");
-            dashboardStage.show();
-            // Close current window
-            ((Stage) board.getScene().getWindow()).close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    // Methods to show an end–game screen (winning/losing/draw) could be added here:
-    private void showEndScreen(String result) {
-        try {
-            String fxmlFile;
-            if ("WIN".equals(result))
-                fxmlFile = "winningPage.fxml";
-            else if ("DRAW".equals(result))
-                fxmlFile = "tiePage.fxml";
-            else
-                fxmlFile = "losingPage.fxml";
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-            Scene scene = new Scene(loader.load(), 700, 450);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Game Over");
-            stage.show();
-            ((Stage) board.getScene().getWindow()).close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+    public void handleQuit() {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION,
+                "are you sure you want to quit the current game",
+                ButtonType.YES, ButtonType.NO);
+        confirmation.setTitle("quit game");
+        confirmation.showAndWait();
+        if (confirmation.getResult() == ButtonType.YES) {
+            try {
+                client.sendMessage("QUIT");
+                client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Platform.exit();
         }
     }
 }
