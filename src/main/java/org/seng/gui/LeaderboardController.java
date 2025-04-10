@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import org.seng.authentication.CredentialsDatabase;
 import org.seng.authentication.Player;
 import org.seng.leaderboard_matchmaking.Leaderboard;
+//import org.seng.authentication.Player; for later use
 
 import java.io.IOException;
 import java.util.List;
@@ -111,8 +112,13 @@ public class LeaderboardController {
         // Optional: Load a default game leaderboard on startup
         gameTypeComboBox.getSelectionModel().select("Checkers");
         changeGameType();
+        playerListView.getItems().addAll("Player 4", "Player 5", "Player 6", "Player 7", "Player 8");
 
         // Click on list item to open player profile
+        firstPlayerName.setText("JoyThief22");
+        secondPlayerName.setText("FishEnjoyer2");
+        thirdPlayerName.setText("notAMinor66");
+
         playerListView.setOnMouseClicked(event -> {
             String selectedPlayer = playerListView.getSelectionModel().getSelectedItem();
             if (selectedPlayer != null) {
@@ -174,12 +180,14 @@ public class LeaderboardController {
 
     private void openPlayerProfile(String playerName) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("profile-page.fxml"));
+            FXMLLoader loader = new  FXMLLoader(getClass().getResource("profile-page.fxml"));
             Parent root = loader.load();
             ProfilePageController controller = loader.getController();
             controller.setProfileData(playerName);
             Scene scene = new Scene(root, 700, 450);
-            Stage stage = new Stage();
+            scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            Stage stage = (Stage) playerListView.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle(playerName + "'s Profile");
             stage.show();
@@ -187,4 +195,11 @@ public class LeaderboardController {
             ex.printStackTrace();
         }
     }
+
+
+//    @FXML
+//    public void changeGameType() {
+//        String gameType = gameTypeComboBox.getValue();
+//        System.out.println("Selected game type: " + gameType);
+//    }
 }
