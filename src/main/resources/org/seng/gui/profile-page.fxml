@@ -35,36 +35,14 @@
             </HBox>
 
             <HBox spacing="15">
-                <Label style="-fx-text-fill: #1d0e4d;" text="Total Matches:" />
-                <Label fx:id="myTotalGamesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label style="-fx-text-fill: #1d0e4d;" text="Total Wins:" />
                 <Label fx:id="myWinsLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label style="-fx-text-fill: #1d0e4d;" text="Total Losses:" />
                 <Label fx:id="myLossesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label style="-fx-text-fill: #1d0e4d;" text="Total Ties:" />
                 <Label fx:id="myTiesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label text="Total Matches:" />
                 <Label fx:id="myTotalGamesLabel" />
-                <Label text="Wins:" />
-                <Label fx:id="myWinsLabel" />
-                <Label text="Losses:" />
-                <Label fx:id="myLossesLabel" />
-                <Label text="Ties:" />
-                <Label fx:id="myTiesLabel" />
             </HBox>
 
             <Label text="Game Stats" style="-fx-font-weight: bold;" />
             <TableView fx:id="gameStatsTable" prefHeight="120">
-                <columns>
-                    <TableColumn fx:id="gameColumn" text="Game" />
-                    <TableColumn fx:id="winsColumn" text="Wins" />
-                    <TableColumn fx:id="lossesColumn" text="Losses" />
-                    <TableColumn fx:id="tiesColumn" text="Ties" />
-                </columns>
-            </TableView>
-
-            <Label text="Game History" style="-fx-font-weight: bold;" />
-            <TableView fx:id="gameHistoryTable" prefHeight="150">
                 <columns>
                     <TableColumn fx:id="gameColumn" prefWidth="180" text="Game" />
                     <TableColumn fx:id="rankColumn" prefWidth="100" text="Rank" />
@@ -72,8 +50,12 @@
                     <TableColumn fx:id="winsColumn" prefWidth="100" text="Wins" />
                     <TableColumn fx:id="lossesColumn" prefWidth="100" text="Losses" />
                     <TableColumn fx:id="tiesColumn" prefWidth="100" text="Ties" />
+                </columns>
+            </TableView>
 
-
+            <Label text="Game History" style="-fx-font-weight: bold;" />
+            <TableView fx:id="gameHistoryTable" prefHeight="150">
+                <columns>
                     <TableColumn fx:id="historyGameColumn" text="Game" />
                     <TableColumn fx:id="resultColumn" text="Result" />
                     <TableColumn fx:id="opponentColumn" text="Opponent Type" />

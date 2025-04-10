@@ -11,14 +11,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class CredentialsDatabase {
+    private final HashMap<String, Player> playerCredentials;
 
-    // Creating a HashMap field that will store the information of the player
-    private HashMap<String, Player> playerCredentials;
-
-
-    // Creating a constructor
     public CredentialsDatabase() {
-
         // Initializing the HashMap
         this.playerCredentials = new HashMap<>();
 
@@ -74,7 +69,6 @@ public class CredentialsDatabase {
         playerCredentials.clear();
     }
 
-
     public void saveDatabase() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))) {
 
@@ -86,6 +80,7 @@ public class CredentialsDatabase {
                 connect4Stats connect4 = player.getConnect4Stats();
                 checkersStats checkers = player.getCheckersStats();
                 ticTacToeStats ticTacToe = player.getTicTacToeStats();
+                Last5Matches history = player.getLast5MatchesObject();
 
                 writer.write(player.getUsername() + ","
                         + player.getEmail() + ","
@@ -114,7 +109,21 @@ public class CredentialsDatabase {
                         + checkers.getLosses() + ","
                         + checkers.get_ties() + ","
                         + checkers.getRank().name() + ","  // Store enum as name
-                        + checkers.getMMR());
+                        + checkers.getMMR() + ","
+
+                        // Saving the last 5 matches
+                        + history.getGameTypeAt(0) + ","
+                        + history.getPlayerAt(0) + ","
+                        + history.getGameTypeAt(1) + ","
+                        + history.getPlayerAt(1) + ","
+                        + history.getGameTypeAt(2) + ","
+                        + history.getPlayerAt(2) + ","
+                        + history.getGameTypeAt(3) + ","
+                        + history.getPlayerAt(3) + ","
+                        + history.getGameTypeAt(4) + ","
+                        + history.getPlayerAt(4) + ","
+                        + history.getGameTypeAt(5) + ","
+                        + history.getPlayerAt(5));
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -139,6 +148,7 @@ public class CredentialsDatabase {
                 connect4Stats connect4 = player.getConnect4Stats();
                 checkersStats checkers = player.getCheckersStats();
                 ticTacToeStats ticTacToe = player.getTicTacToeStats();
+                Last5Matches match_history = player.getLast5MatchesObject();
 
                 try {
                     // Setting fields for Connect4
@@ -164,6 +174,10 @@ public class CredentialsDatabase {
                     ticTacToe.setTies(Integer.parseInt(words[19].trim()));
                     ticTacToe.setRank(Rank.valueOf(words[20].trim().toUpperCase()));
                     ticTacToe.setMMR(Integer.parseInt(words[21].trim()));
+
+                    // Setting Fields for last 5 matches
+                    match_history.
+
                 } catch (NumberFormatException e) {
                     System.out.println("Error parsing integer values in line: " + line);
                     e.printStackTrace();
@@ -181,16 +195,16 @@ public class CredentialsDatabase {
         }
     }
 
-    public boolean updateKey(String oldUsername, String newUsername) {
+    public void updateKey(String oldUsername, String newUsername) {
         String oldKey = oldUsername.toLowerCase();
         String newKey = newUsername.toLowerCase();
 
         // Check if old username exists and new one doesn't
         if (!playerCredentials.containsKey(oldUsername)){
-            return false;
+            return;
         }
         if (playerCredentials.containsKey(newUsername)){
-            return false;
+            return;
         }
 
         // Get the player object
@@ -202,7 +216,6 @@ public class CredentialsDatabase {
         // Re-insert with the new username as the key
         playerCredentials.put(newKey, player);
 
-        return true;
     }
 
 

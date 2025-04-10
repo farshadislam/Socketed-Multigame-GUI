@@ -38,25 +38,10 @@ public class ProfilePageController {
     @FXML private TableColumn<GameStat, String> rankColumn;
     @FXML private TableColumn<GameStat, Integer> mmrColumn;
 
-    @FXML
-    private TableView<GameStat> gameStatsTable;
-    @FXML
-    private TableColumn<GameStat, String> gameColumn;
-    @FXML
-    private TableColumn<GameStat, Integer> winsColumn;
-    @FXML
-    private TableColumn<GameStat, Integer> lossesColumn;
-    @FXML
-    private TableColumn<GameStat, Integer> tiesColumn;
-
-    @FXML
-    private TableView<GameHistory> gameHistoryTable;
-    @FXML
-    private TableColumn<GameHistory, String> historyGameColumn;
-    @FXML
-    private TableColumn<GameHistory, String> resultColumn;
-    @FXML
-    private TableColumn<GameHistory, String> opponentColumn;
+    @FXML private TableView<GameHistory> gameHistoryTable;
+    @FXML private TableColumn<GameHistory, String> historyGameColumn;
+    @FXML private TableColumn<GameHistory, String> resultColumn;
+    @FXML private TableColumn<GameHistory, String> opponentColumn;
 
     @FXML
     private Button searchProfilesButton;
@@ -105,8 +90,8 @@ public class ProfilePageController {
         winsColumn.setCellValueFactory(data -> data.getValue().winsProperty().asObject());
         lossesColumn.setCellValueFactory(data -> data.getValue().lossesProperty().asObject());
         tiesColumn.setCellValueFactory(data -> data.getValue().tiesProperty().asObject());
-        rankColumn.setCellValueFactory(data -> data.getValue().rankProperty());
-        mmrColumn.setCellValueFactory(data -> data.getValue().mmrProperty().asObject());
+        //rankColumn.setCellValueFactory(data -> data.getValue().rankProperty());
+        //mmrColumn.setCellValueFactory(data -> data.getValue().mmrProperty().asObject());
 
         gameColumn.setCellValueFactory(data -> data.getValue().gameName);
         winsColumn.setCellValueFactory(data -> data.getValue().wins.asObject());
@@ -114,9 +99,9 @@ public class ProfilePageController {
         tiesColumn.setCellValueFactory(data -> data.getValue().ties.asObject());
 
         gameStatsTable.setItems(FXCollections.observableArrayList(
-                new ProfilePageController.GameStat("Checkers", String.valueOf(player.getCheckersStats().getRank()), player.getCheckersStats().getMMR(), player.getCheckersStats().get_wins(), player.getCheckersStats().getLosses(), player.getConnect4Stats().get_ties()),
-                new ProfilePageController.GameStat("Tic Tac Toe", String.valueOf(player.getTicTacToeStats().getRank()), player.getTicTacToeStats().getMMR(), player.getTicTacToeStats().get_wins(), player.getTicTacToeStats().getLosses(), player.getTicTacToeStats().get_ties()),
-                new ProfilePageController.GameStat("Connect 4", String.valueOf(player.getConnect4Stats().getRank()), player.getConnect4Stats().getMMR(), player.getConnect4Stats().getWins(), player.getConnect4Stats().getLosses(), player.getConnect4Stats().get_ties())
+                //new ProfilePageController.GameStat("Checkers", String.valueOf(player.getCheckersStats().getRank()), player.getCheckersStats().getMMR(), player.getCheckersStats().get_wins(), player.getCheckersStats().getLosses(), player.getConnect4Stats().get_ties()),
+                //new ProfilePageController.GameStat("Tic Tac Toe", String.valueOf(player.getTicTacToeStats().getRank()), player.getTicTacToeStats().getMMR(), player.getTicTacToeStats().get_wins(), player.getTicTacToeStats().getLosses(), player.getTicTacToeStats().get_ties()),
+                //new ProfilePageController.GameStat("Connect 4", String.valueOf(player.getConnect4Stats().getRank()), player.getConnect4Stats().getMMR(), player.getConnect4Stats().getWins(), player.getConnect4Stats().getLosses(), player.getConnect4Stats().get_ties())
                 new GameStat("Checkers", 3, 1, 0),
                 new GameStat("Tic Tac Toe", 2, 2, 1),
                 new GameStat("Connect 4", 0, 2, 1)

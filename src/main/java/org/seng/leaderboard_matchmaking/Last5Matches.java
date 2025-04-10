@@ -58,6 +58,45 @@ public class Last5Matches {
     }
 
     /**
+     * Returns the GameType at the specified index in the match history.
+     *
+     * @param index The index of the match.
+     * @return The GameType object.
+     */
+    public GameType getGameTypeAt(int index) {
+        if (index < 0 || index >= matchHistory.size()) {
+            throw new IndexOutOfBoundsException("Invalid match index.");
+        }
+
+        Object obj = matchHistory.get(index).get(0); // GameType is at index 0
+        if (obj instanceof GameType) {
+            return (GameType) obj;
+        } else {
+            throw new IllegalStateException("Unexpected object type for GameType.");
+        }
+    }
+
+    /**
+     * Returns the Player at the specified index in the match history.
+     *
+     * @param index The index of the match.
+     * @return The Player object.
+     */
+    public Player getPlayerAt(int index) {
+        if (index < 0 || index >= matchHistory.size()) {
+            throw new IndexOutOfBoundsException("Invalid match index.");
+        }
+
+        Object obj = matchHistory.get(index).get(1); // Player is at index 1
+        if (obj instanceof Player) {
+            return (Player) obj;
+        } else {
+            throw new IllegalStateException("Unexpected object type for Player.");
+        }
+    }
+
+
+    /**
      * Clears all stored matches.
      */
     public void clearHistory() {
