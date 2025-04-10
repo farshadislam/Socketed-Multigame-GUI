@@ -12,9 +12,11 @@
 
 - Every game has interactive features such as:
   -    ready check screens (both players are required to press ready to start the game) 
-
+  -    player could open the help page
+    -  player can open the leaderboard page and see their own stats (wins/loses)
+    - 
 ## Files
 
 - [**gitlab_link**](./gitlab_link.txt) 
 - [**Creators**](./team.md)
-- [**Start TicTacToe**](src/org/seng/gui/HelloApplication) - here is a small demo
+- [**Start TicTacToe**](./src/org/seng/gui/HelloApplication.java) - here is a small demo
