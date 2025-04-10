@@ -1,12 +1,16 @@
 package org.seng.gamelogic.checkers;
 
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class CheckersBoard {
 
     /**
-     *  The checkerboard has a width of 8 spots and a length of 8 spots.
+     * The checkerboard has a width of 8 spots and a length of 8 spots.
      */
     public static final int BOARD_SIZE = 8;
 
@@ -44,6 +48,7 @@ public class CheckersBoard {
             }
         }
     }
+
     /**
      * This method prints the entire board which includes all the pieces and empty spots.
      */
@@ -58,20 +63,27 @@ public class CheckersBoard {
 
     /**
      * Uses the type of the piece parameter to output a certain character.
+     *
      * @return A character representing whether a piece is red, a red king, black or a black king.
      */
     private char pieceToChar(Piece piece) {
         switch (piece) {
-            case RED: return 'r';
-            case BLACK: return 'b';
-            case RED_KING: return 'R';
-            case BLACK_KING: return 'B';
-            default: return '.';
+            case RED:
+                return 'r';
+            case BLACK:
+                return 'b';
+            case RED_KING:
+                return 'R';
+            case BLACK_KING:
+                return 'B';
+            default:
+                return '.';
         }
     }
 
     /**
      * isValidMove() checks is a piece is able to move from one location in the board to the next
+     *
      * @return Checks if a piece can move to a new location. True means the piece can move to this new location. False means that the piece cannot move to this new location.
      */
     public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
@@ -96,8 +108,8 @@ public class CheckersBoard {
         }
 
         if ((row_dist == (2 * row_dir) || (is_king && Math.abs(row_dist) == 2)) && col_dist == 2) {
-            int op_piece_row = fromRow + (row_dist/2);
-            int op_piece_col = fromCol + ((toCol - fromCol)/2);
+            int op_piece_row = fromRow + (row_dist / 2);
+            int op_piece_col = fromCol + ((toCol - fromCol) / 2);
             Piece op_piece = board[op_piece_row][op_piece_col];
 
             boolean red_jump_black = (current_piece == Piece.RED || current_piece == Piece.RED_KING) && (op_piece == Piece.BLACK || op_piece == Piece.BLACK_KING);
@@ -111,6 +123,7 @@ public class CheckersBoard {
 
     /**
      * Checks if a piece is inside the boundaries of the board
+     *
      * @return This method returns true if the location specified by the row and column values are inside the board or not. If there are, then it returns true. If not, it returns false.
      */
     private boolean inBounds(int row, int col) {
@@ -119,6 +132,7 @@ public class CheckersBoard {
 
     /**
      * This method moves a piece to a new location.
+     *
      * @return This method returns true if the piece movement was successful. It returns false is the movement is not successful.
      */
     public boolean makeMove(int fromRow, int fromCol, int toRow, int toCol) {
@@ -148,6 +162,7 @@ public class CheckersBoard {
 
     /**
      * This gets the piece located at a position in board.
+     *
      * @return This method returns a piece on the board, specified by the row and column values.
      */
     public Piece getPieceAt(int row, int col) {
@@ -219,5 +234,66 @@ public class CheckersBoard {
         return capturableLocations;
     }
 
+
+//    public List<Button> getCapturableButtons(Button fromButton) {
+//        List<Button> capturableButtons = new ArrayList<>();
+//
+//        int fromRow = getRow(fromButton);
+//        int fromCol = getCol(fromButton);
+//
+//        if (fromRow == -1 || fromCol == -1) return capturableButtons;
+//
+//        ImageView imageView = (ImageView) fromButton.getGraphic();
+//        if (imageView == null) return capturableButtons;
+//
+//        Image pieceImage = imageView.getImage();
+//        boolean isKing = isPieceKing(fromButton);
+//        boolean isRed = pieceImage.equals(redPieceImage) || pieceImage.equals(redKingPieceImage);
+//        boolean isBlack = pieceImage.equals(blackPieceImage) || pieceImage.equals(blackKingPieceImage);
+//
+//        if (!isRed && !isBlack) return capturableButtons;
+//
+//        int[] rowDirs;
+//        if (isKing) {
+//            rowDirs = new int[]{-1, 1}; // Kings move both directions
+//        } else if (isRed) {
+//            rowDirs = new int[]{1}; // Red pieces move down (increasing row index)
+//        } else {
+//            rowDirs = new int[]{-1}; // Black pieces move up (decreasing row index)
+//        }
+//
+//        for (int rowDir : rowDirs) {
+//            for (int colDir : new int[]{-1, 1}) {
+//                int targetRow = fromRow + 2 * rowDir;
+//                int targetCol = fromCol + 2 * colDir;
+//
+//                if (inBounds(targetRow, targetCol)) {
+//                    Button targetButton = buttonBoard[targetRow][targetCol];
+//
+//                    if (targetButton.getGraphic() == null) { // must be empty to land
+//                        int middleRow = fromRow + rowDir;
+//                        int middleCol = fromCol + colDir;
+//
+//                        Button middleButton = buttonBoard[middleRow][middleCol];
+//                        ImageView middleImageView = (ImageView) middleButton.getGraphic();
+//
+//                        if (middleImageView != null) {
+//                            Image middlePieceImage = middleImageView.getImage();
+//
+//                            boolean isOpponent = (isRed && (middlePieceImage.equals(blackPieceImage) || middlePieceImage.equals(blackKingPieceImage))) ||
+//                                    (isBlack && (middlePieceImage.equals(redPieceImage) || middlePieceImage.equals(redKingPieceImage)));
+//
+//                            if (isOpponent) {
+//                                capturableButtons.add(targetButton);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return capturableButtons;
+//    }
 }
+
+
 
