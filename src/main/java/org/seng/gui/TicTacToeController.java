@@ -30,8 +30,6 @@ import java.util.Map;
 public class TicTacToeController {
 
     private TicTacToeGame game;
-    private boolean isAIMode = false;
-    private boolean isOnlineMode = false;
     private Stage chatStage = null;
 
     private boolean isPlayerXTurn = true;
@@ -70,33 +68,6 @@ public class TicTacToeController {
     public void initialize() {
         clearChatHistory();
 
-//        button11.setOnAction(e -> handleMove(button11));
-//        button12.setOnAction(e -> handleMove(button12));
-//        button13.setOnAction(e -> handleMove(button13));
-//        button21.setOnAction(e -> handleMove(button21));
-//        button22.setOnAction(e -> handleMove(button22));
-//        button23.setOnAction(e -> handleMove(button23));
-//        button31.setOnAction(e -> handleMove(button31));
-//        button32.setOnAction(e -> handleMove(button32));
-//        button33.setOnAction(e -> handleMove(button33));
-//
-//        buttonPositionMap.put(button11, new int[]{0, 0});
-//        buttonPositionMap.put(button12, new int[]{0, 1});
-//        buttonPositionMap.put(button13, new int[]{0, 2});
-//        buttonPositionMap.put(button21, new int[]{1, 0});
-//        buttonPositionMap.put(button22, new int[]{1, 1});
-//        buttonPositionMap.put(button23, new int[]{1, 2});
-//        buttonPositionMap.put(button31, new int[]{2, 0});
-//        buttonPositionMap.put(button32, new int[]{2, 1});
-//        buttonPositionMap.put(button33, new int[]{2, 2});
-
-//        String details = nextTurn();
-//        String[] currentState = details.split(":");
-//        currentState[0]
-//
-//        for (int i = 0; i < 9; i++) {
-//
-//        }
         button11.setOnAction(e -> handleMove(0, 0, button11));  // First row, first column
         button12.setOnAction(e -> handleMove(0, 1, button12));  // First row, second column
         button13.setOnAction(e -> handleMove(0, 2, button13));  // First row, third column
@@ -116,10 +87,6 @@ public class TicTacToeController {
         buttonBoard = new Button[][]{row1, row2, row3};
         isPlayerXTurn = false;
         togglePlayerTurn();
-    }
-
-    private String nextTurn() {
-        return "";
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
@@ -151,7 +118,7 @@ public class TicTacToeController {
 
     private void handleMove(int row, int col, Button button) {
         valForAlternation++;
-        // Check if the button has already been clicked (i.e., it already has a symbol)
+        // Check if the button has already been clicked
         if (!button.getText().isEmpty()) {
             return;  // If the button is already clicked, do nothing
         }
@@ -189,49 +156,6 @@ public class TicTacToeController {
                 Platform.runLater(this::makeAIMove);
             }).start();
         }
-
-//        initNum++;
-//        if (initNum == 1){
-//            clearChatHistory();
-//
-//            // Setup player data
-//            localPlayer = new TicTacToePlayer("usernameOne", "emailOne",  "passwordOne");
-//            remotePlayer = new TicTacToePlayer("usernameTwo", "emailTwo",  "passwordTwo");
-//
-//            TicTacToeBoard board = new TicTacToeBoard();
-//            game = new TicTacToeGame(board, new TicTacToePlayer[]{localPlayer, remotePlayer}, 1);
-//            game.initializePlayerSymbols();
-//        }
-
-//        if (!button.getText().isEmpty()) return;
-//
-//        boolean moveMade = game.makeMove(row, col);
-//
-//        if (moveMade) {
-//            String symbol = game.getCurrentMark() == TicTacToeBoard.Mark.X ? "O" : "X";
-//            button.setText(symbol);
-//
-//            String status = game.getStatus();
-//            if (status.endsWith("Wins")) {
-//                turnLabel.setText("Game Over! " + status);
-//                disableAllButtons();
-//            } else if (status.equals("Draw")) {
-//                turnLabel.setText("It's a Draw!");
-//                disableAllButtons();
-//            } else {
-//                turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
-//            }
-//
-//            if (game.AIBot != null && game.getCurrentMark() == game.getCurrentMark()) {
-//                game.AIBot.makeMove(game.getBoard(), game);
-//                updateBoardButtons();
-//                String newStatus = game.getStatus();
-//                if (newStatus.endsWith("Wins") || newStatus.equals("Draw")) {
-//                    turnLabel.setText("Game Over! " + newStatus);
-//                    disableAllButtons();
-//                }
-//            }
-//        }
     }
 
     private void checkWin(Button sourceButton){
@@ -268,7 +192,6 @@ public class TicTacToeController {
         }
     }
 
-    // Function to toggle player turns (just a sample, adjust based on your existing logic)
     private void togglePlayerTurn() {
         isPlayerXTurn = !isPlayerXTurn;
         if (isPlayerXTurn) {
@@ -276,12 +199,6 @@ public class TicTacToeController {
         } else {
             turnLabel.setText("Player 2's Turn");
         }
-    }
-
-
-    // Function to check if it's Player X's turn (adjust based on your existing logic)
-    private boolean isPlayerXTurn() {
-        return isPlayerXTurn;
     }
 
     private void disableAllButtons() {
@@ -473,25 +390,4 @@ public class TicTacToeController {
 
         return emptySpots.get((int)(Math.random() * emptySpots.size()));
     }
-
-
-
 }
-
-
-
-
-//    @FXML
-//    private void handleButtonClick(ActionEvent event) {
-//        Button clickedButton = (Button) event.getSource();
-//        if (clickedButton.getText().isEmpty()) {
-//            if (isPlayerXTurn) {
-//                clickedButton.setText("X");
-//            } else {
-//                clickedButton.setText("O");
-//            }
-//            isPlayerXTurn = !isPlayerXTurn; // Toggle turn
-//        }
-//    }
-
-
