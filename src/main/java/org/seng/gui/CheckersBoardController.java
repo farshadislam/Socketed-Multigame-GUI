@@ -55,14 +55,10 @@ public class CheckersBoardController {
     private boolean isPlayerBTurn = true; // black goes first
     private Button selectedPiece = null;
     private Button capturedPiece = null;
-
-    private int selectedRow = -1;
-
-    private int selectedColumn = -1;
     private Image redPieceImage;
     private Image blackPieceImage;
-    private Image RedPieceImageKing;
-    private Image BlackPieceKing;
+    private Image redKingPieceImage;
+    private Image blackKingPieceImage;
     private Button[][] buttonBoard;
 
 
@@ -71,8 +67,8 @@ public class CheckersBoardController {
         // Load images
         redPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/redpiece.png"));
         blackPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/blackpiece.png"));
-        RedPieceImageKing = new Image(getClass().getResourceAsStream("/org/seng/gui/images/RedPieceKing.png"));
-        BlackPieceKing = new Image(getClass().getResourceAsStream("/org/seng/gui/images/BlackPieceKing.png"));
+        redKingPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/RedPieceKing.png"));
+        blackKingPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/BlackPieceKing.png"));
 
 
         setupPieces();
@@ -241,15 +237,29 @@ public class CheckersBoardController {
             Image pieceColour = boardSpot.getImage();
 
             if (isPlayerBTurn) {
-                return pieceColour.equals(blackPieceImage);
+                return pieceColour.equals(blackPieceImage) || pieceColour.equals(blackKingPieceImage);
             }
             else {
-                return pieceColour.equals(redPieceImage);
+                return pieceColour.equals(redPieceImage) || pieceColour.equals(redKingPieceImage);
             }
 
         }
 
         return false;
+    }
+
+    // checks if piece is a king
+    private boolean isPieceKing(Button button) {
+        ImageView boardSpot = (ImageView) button.getGraphic();
+
+        if (boardSpot != null) {
+            Image pieceType = boardSpot.getImage();
+
+            return pieceType.equals(blackKingPieceImage) || pieceType.equals(redKingPieceImage);
+        }
+
+        return false;
+
     }
 
     private boolean isValidMove(Button fromSpot, Button toSpot) {
@@ -269,13 +279,13 @@ public class CheckersBoardController {
         }
 
         // direction of movement based on piece colour (players turn)
-        if (isPlayerBTurn) {
+        if (isPlayerBTurn && !isPieceKing(fromSpot)) {
             // black moves up
             if (toRow >= fromRow) {
                 return false;
             }
         }
-        else {
+        else if (!isPlayerBTurn && !isPieceKing(fromSpot)){
             // red moves down
             if (toRow <= fromRow) {
                 return false;
@@ -289,7 +299,6 @@ public class CheckersBoardController {
         if (toSpot.getGraphic() != null) {
             return false;
         }
-
 
         // move must be 2 diagonals
         int fromRow = getRow(fromSpot);
@@ -318,13 +327,13 @@ public class CheckersBoardController {
         }
 
         // direction of movement based on piece colour (players turn)
-        if (isPlayerBTurn) {
+        if (isPlayerBTurn && !isPieceKing(fromSpot)) {
             // black moves up
             if (toRow >= fromRow) {
                 return false;
             }
         }
-        else {
+        else if (!isPlayerBTurn && !isPieceKing(fromSpot)){
             // red moves down
             if (toRow <= fromRow) {
                 return false;
@@ -380,6 +389,18 @@ public class CheckersBoardController {
         // moves the piece from one button to another
         to.setGraphic(from.getGraphic());
         from.setGraphic(null);
+
+        // check if piece can be promoted to king
+        if (isPlayerBTurn) { // black piece needs to be at row 0
+            if (getRow(to) == 0) {
+                placePiece(to, blackKingPieceImage);
+            }
+        }
+        else { // red piece needs to be at row 7
+            if (getRow(to) == 7) {
+                placePiece(to, redKingPieceImage);
+            }
+        }
     }
 
     private void setCapturePiece(Button spot) {
@@ -398,14 +419,18 @@ public class CheckersBoardController {
         // moves piece from one spot (button) to another
         to.setGraphic(from.getGraphic());
         from.setGraphic(null);
-    }
 
-    /**
-     *
-     * @param button the button in which the piece to be removed is
-     */
-    private void removePiece(Button button){
-        return;
+        // check if piece can be promoted to king
+        if (isPlayerBTurn) { // black piece needs to be at row 0
+            if (getRow(to) == 0) {
+                placePiece(to, blackKingPieceImage);
+            }
+        }
+        else { // red piece needs to be at row 7
+            if (getRow(to) == 7) {
+                placePiece(to, redKingPieceImage);
+            }
+        }
     }
 
     private void placePiece(Button button, Image pieceImage) {
