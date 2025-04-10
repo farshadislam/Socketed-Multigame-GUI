@@ -154,7 +154,7 @@ public class TicTacToeController {
             if (checkWinner(row, col)) {
                 checkWin(button);
             }
-            if (boardFull()) {
+            else if (boardFull()) {
                 checkTie(button);
             }
         } else {
@@ -164,7 +164,7 @@ public class TicTacToeController {
             if (checkWinner(row, col)) {
                 checkWin(button);
             }
-            if (boardFull()) {
+            else if (boardFull()) {
                 checkTie(button);
             }
         }
@@ -420,7 +420,8 @@ public class TicTacToeController {
     public boolean boardFull() {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
-                if ((buttonBoard[row][col].getStyle() == "-fx-font-size: 36px; -fx-text-fill: red;") || (buttonBoard[row][col].getStyle() == "-fx-font-size: 36px; -fx-text-fill: deepskyblue;")){
+                String string = buttonBoard[row][col].getStyle();
+                if (!string.equals("-fx-font-size: 36px; -fx-text-fill: red;") && !string.equals("-fx-font-size: 36px; -fx-text-fill: deepskyblue;")) {
                     return false;
                 }
             }
