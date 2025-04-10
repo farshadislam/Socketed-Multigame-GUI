@@ -26,196 +26,21 @@ import java.nio.file.Paths;
 public class CheckersBoardController {
 
     @FXML
-    private Button a1;
-
+    private Button a1, a2, a3, a4, a5, a6, a7, a8;
     @FXML
-    private Button a2;
-
+    private Button b1, b2, b3, b4, b5, b6, b7, b8;
     @FXML
-    private Button a3;
-
+    private Button c1, c2, c3, c4, c5, c6, c7, c8;
     @FXML
-    private Button a4;
-
+    private Button d1, d2, d3, d4, d5, d6, d7, d8;
     @FXML
-    private Button a5;
-
+    private Button e1, e2, e3, e4, e5, e6, e7, e8;
     @FXML
-    private Button a6;
-
+    private Button f1, f2, f3, f4, f5, f6, f7, f8;
     @FXML
-    private Button a7;
-
+    private Button g1, g2, g3, g4, g5, g6, g7, g8;
     @FXML
-    private Button a8;
-
-    @FXML
-    private Button b1;
-
-    @FXML
-    private Button b2;
-
-    @FXML
-    private Button b3;
-
-    @FXML
-    private Button b4;
-
-    @FXML
-    private Button b5;
-
-    @FXML
-    private Button b6;
-
-    @FXML
-    private Button b7;
-
-    @FXML
-    private Button b8;
-
-    @FXML
-    private Button c1;
-
-    @FXML
-    private Button c2;
-
-    @FXML
-    private Button c3;
-
-    @FXML
-    private Button c4;
-
-    @FXML
-    private Button c5;
-
-    @FXML
-    private Button c6;
-
-    @FXML
-    private Button c7;
-
-    @FXML
-    private Button c8;
-
-    @FXML
-    private Button d1;
-
-    @FXML
-    private Button d2;
-
-    @FXML
-    private Button d3;
-
-    @FXML
-    private Button d4;
-
-    @FXML
-    private Button d5;
-
-    @FXML
-    private Button d6;
-
-    @FXML
-    private Button d7;
-
-    @FXML
-    private Button d8;
-
-    @FXML
-    private Button e1;
-
-    @FXML
-    private Button e2;
-
-    @FXML
-    private Button e3;
-
-    @FXML
-    private Button e4;
-
-    @FXML
-    private Button e5;
-
-    @FXML
-    private Button e6;
-
-    @FXML
-    private Button e7;
-
-    @FXML
-    private Button e8;
-
-    @FXML
-    private Button f1;
-
-    @FXML
-    private Button f2;
-
-    @FXML
-    private Button f3;
-
-    @FXML
-    private Button f4;
-
-    @FXML
-    private Button f5;
-
-    @FXML
-    private Button f6;
-
-    @FXML
-    private Button f7;
-
-    @FXML
-    private Button f8;
-
-    @FXML
-    private Button g1;
-
-    @FXML
-    private Button g2;
-
-    @FXML
-    private Button g3;
-
-    @FXML
-    private Button g4;
-
-    @FXML
-    private Button g5;
-
-    @FXML
-    private Button g6;
-
-    @FXML
-    private Button g7;
-
-    @FXML
-    private Button g8;
-
-    @FXML
-    private Button h1;
-
-    @FXML
-    private Button h2;
-
-    @FXML
-    private Button h3;
-
-    @FXML
-    private Button h4;
-
-    @FXML
-    private Button h5;
-
-    @FXML
-    private Button h6;
-
-    @FXML
-    private Button h7;
-
-    @FXML
-    private Button h8;
+    private Button h1, h2, h3, h4, h5, h6, h7, h8;
 
     @FXML
     private Button inGameChatButton;
@@ -227,6 +52,7 @@ public class CheckersBoardController {
     private FlowPane board;
 
 
+    private boolean isPlayerBTurn = true; // black goes first
 
     private Button selectedPiece = null;
 
@@ -251,6 +77,9 @@ public class CheckersBoardController {
         setupPieces();
         selectionHandle();
         clearChatHistory();
+
+        isPlayerBTurn = false;
+        togglePlayerTurn();
     }
 
     private void setupPieces() {
@@ -270,10 +99,10 @@ public class CheckersBoardController {
         placePiece(a3, redPieceImage); placePiece(c3, redPieceImage);
         placePiece(e3, redPieceImage); placePiece(g3, redPieceImage);
 
-        a1.setOnAction(e -> handleButtonClick(0, 0, a1));  // First row, first column
+        a1.setOnAction(e -> handleButtonClick(0, 0, a1));
         a2.setOnAction(e -> handleButtonClick(0, 1, a2));
         a3.setOnAction(e -> handleButtonClick(0, 2, a3));
-        a4.setOnAction(e -> handleButtonClick(0, 3, a3));
+        a4.setOnAction(e -> handleButtonClick(0, 3, a4));
         a5.setOnAction(e -> handleButtonClick(0, 4, a5));
         a6.setOnAction(e -> handleButtonClick(0, 5, a6));
         a7.setOnAction(e -> handleButtonClick(0, 6, a7));
@@ -297,50 +126,50 @@ public class CheckersBoardController {
         c7.setOnAction(e -> handleButtonClick(2, 6, c7));
         c8.setOnAction(e -> handleButtonClick(2, 7, c8));
 
-        d1.setOnAction(e -> handleButtonClick(4, 0, d1));
-        d2.setOnAction(e -> handleButtonClick(4, 1, d2));
-        d3.setOnAction(e -> handleButtonClick(4, 2, d3));
-        d4.setOnAction(e -> handleButtonClick(4, 3, d4));
-        d5.setOnAction(e -> handleButtonClick(4, 4, d5));
-        d6.setOnAction(e -> handleButtonClick(4, 5, d6));
-        d7.setOnAction(e -> handleButtonClick(4, 6, d7));
-        d8.setOnAction(e -> handleButtonClick(4, 7, d8));
+        d1.setOnAction(e -> handleButtonClick(3, 0, d1));
+        d2.setOnAction(e -> handleButtonClick(3, 1, d2));
+        d3.setOnAction(e -> handleButtonClick(3, 2, d3));
+        d4.setOnAction(e -> handleButtonClick(3, 3, d4));
+        d5.setOnAction(e -> handleButtonClick(3, 4, d5));
+        d6.setOnAction(e -> handleButtonClick(3, 5, d6));
+        d7.setOnAction(e -> handleButtonClick(3, 6, d7));
+        d8.setOnAction(e -> handleButtonClick(3, 7, d8));
 
-        e1.setOnAction(e -> handleButtonClick(5, 0, e1));
-        e2.setOnAction(e -> handleButtonClick(5, 1, e2));
-        e3.setOnAction(e -> handleButtonClick(5, 2, e3));
-        e4.setOnAction(e -> handleButtonClick(5, 3, e4));
-        e5.setOnAction(e -> handleButtonClick(5, 4, e5));
-        e6.setOnAction(e -> handleButtonClick(5, 5, e6));
-        e7.setOnAction(e -> handleButtonClick(5, 6, e7));
-        e8.setOnAction(e -> handleButtonClick(5, 7, e8));
+        e1.setOnAction(e -> handleButtonClick(4, 0, e1));
+        e2.setOnAction(e -> handleButtonClick(4, 1, e2));
+        e3.setOnAction(e -> handleButtonClick(4, 2, e3));
+        e4.setOnAction(e -> handleButtonClick(4, 3, e4));
+        e5.setOnAction(e -> handleButtonClick(4, 4, e5));
+        e6.setOnAction(e -> handleButtonClick(4, 5, e6));
+        e7.setOnAction(e -> handleButtonClick(4, 6, e7));
+        e8.setOnAction(e -> handleButtonClick(4, 7, e8));
 
-        f1.setOnAction(e -> handleButtonClick(6, 0, f1));
-        f2.setOnAction(e -> handleButtonClick(6, 1, f2));
-        f3.setOnAction(e -> handleButtonClick(6, 2, f3));
-        f4.setOnAction(e -> handleButtonClick(6, 3, f4));
-        f5.setOnAction(e -> handleButtonClick(6, 4, f5));
-        f6.setOnAction(e -> handleButtonClick(6, 5, f6));
-        f7.setOnAction(e -> handleButtonClick(6, 6, f7));
-        f8.setOnAction(e -> handleButtonClick(6, 7, f8));
+        f1.setOnAction(e -> handleButtonClick(5, 0, f1));
+        f2.setOnAction(e -> handleButtonClick(5, 1, f2));
+        f3.setOnAction(e -> handleButtonClick(5, 2, f3));
+        f4.setOnAction(e -> handleButtonClick(5, 3, f4));
+        f5.setOnAction(e -> handleButtonClick(5, 4, f5));
+        f6.setOnAction(e -> handleButtonClick(5, 5, f6));
+        f7.setOnAction(e -> handleButtonClick(5, 6, f7));
+        f8.setOnAction(e -> handleButtonClick(5, 7, f8));
 
-        g1.setOnAction(e -> handleButtonClick(7, 0, g1));
-        g2.setOnAction(e -> handleButtonClick(7, 1, g2));
-        g3.setOnAction(e -> handleButtonClick(7, 2, g3));
-        g4.setOnAction(e -> handleButtonClick(7, 3, g4));
-        g5.setOnAction(e -> handleButtonClick(7, 4, g5));
-        g6.setOnAction(e -> handleButtonClick(7, 5, g6));
-        g7.setOnAction(e -> handleButtonClick(7, 6, g7));
-        g8.setOnAction(e -> handleButtonClick(7, 7, g8));
+        g1.setOnAction(e -> handleButtonClick(6, 0, g1));
+        g2.setOnAction(e -> handleButtonClick(6, 1, g2));
+        g3.setOnAction(e -> handleButtonClick(6, 2, g3));
+        g4.setOnAction(e -> handleButtonClick(6, 3, g4));
+        g5.setOnAction(e -> handleButtonClick(6, 4, g5));
+        g6.setOnAction(e -> handleButtonClick(6, 5, g6));
+        g7.setOnAction(e -> handleButtonClick(6, 6, g7));
+        g8.setOnAction(e -> handleButtonClick(6, 7, g8));
 
-        h1.setOnAction(e -> handleButtonClick(8, 0, h1));
-        h2.setOnAction(e -> handleButtonClick(8, 1, h2));
-        h3.setOnAction(e -> handleButtonClick(8, 2, h3));
-        h4.setOnAction(e -> handleButtonClick(8, 3, h4));
-        h5.setOnAction(e -> handleButtonClick(8, 4, h5));
-        h6.setOnAction(e -> handleButtonClick(8, 5, h6));
-        h7.setOnAction(e -> handleButtonClick(8, 6, h7));
-        h8.setOnAction(e -> handleButtonClick(8, 7, h8));
+        h1.setOnAction(e -> handleButtonClick(7, 0, h1));
+        h2.setOnAction(e -> handleButtonClick(7, 1, h2));
+        h3.setOnAction(e -> handleButtonClick(7, 2, h3));
+        h4.setOnAction(e -> handleButtonClick(7, 3, h4));
+        h5.setOnAction(e -> handleButtonClick(7, 4, h5));
+        h6.setOnAction(e -> handleButtonClick(7, 5, h6));
+        h7.setOnAction(e -> handleButtonClick(7, 6, h7));
+        h8.setOnAction(e -> handleButtonClick(7, 7, h8));
     }
 
     private void selectionHandle() {
@@ -358,9 +187,8 @@ public class CheckersBoardController {
     private void handleButtonClick(int row, int col, Button clickedButton) {
         // if no piece is selected it tries to select one
         if (selectedPiece == null) { // if there is no piece selected
-            if (clickedButton.getGraphic() != null) { // if the button has a piece
+            if (clickedButton.getGraphic() != null && isPlayerPiece(clickedButton)) { // if the button has a piece
                 selectPiece(clickedButton);
-
             }
         }
         else { // if a piece is already selected it tries to move it
@@ -369,12 +197,13 @@ public class CheckersBoardController {
                 deselectPiece();
             }
             //if clicking on empty square it tries to move the piece
-            else if (clickedButton.getGraphic() == null) {
+            else if (isValidMove(selectedPiece, clickedButton)) {
                 movePiece(selectedPiece, clickedButton);
                 deselectPiece();
+                togglePlayerTurn(); // piece is moved, switch player turn
             }
-            // if clicking on another piece it selects that one instead
-            else {
+            // if clicking on another piece it selects that one instead, but make sure it's the correct colour
+            else if (clickedButton.getGraphic() != null && isPlayerPiece(clickedButton)){
                 deselectPiece();
                 selectPiece(clickedButton);
             }
@@ -396,29 +225,123 @@ public class CheckersBoardController {
         }
     }
 
-    private void selectRow(int row) {
-        selectedRow = row;
+    // checks if the spot selected has a player's piece on it
+    private boolean isPlayerPiece(Button button) {
+        ImageView boardSpot = (ImageView) button.getGraphic();
+
+        if (boardSpot != null) {
+            Image pieceColour = boardSpot.getImage();
+
+            if (isPlayerBTurn) {
+                return pieceColour.equals(blackPieceImage);
+            }
+            else {
+                return pieceColour.equals(redPieceImage);
+            }
+
+        }
+
+        return false;
     }
 
-    private void selectColumn(int col) {
-        selectedColumn = col;
+    private boolean isValidMove(Button fromSpot, Button toSpot) {
+        if (toSpot.getGraphic() != null) {
+            return false;
+        }
+
+        // move must be 1 diagonal
+        int fromRow = getRow(fromSpot);
+        int fromCol = getCol(fromSpot);
+        int toRow = getRow(toSpot);
+        int toCol = getCol(toSpot);
+
+        // simple implementation of moving forward one (no jump moves considered yet)
+        if (Math.abs(toRow - fromRow) != 1 || Math.abs(toCol - fromCol) != 1) {
+            return false; // move is not 1 diagonal
+        }
+
+        // direction of movement based on piece colour (players turn)
+        if (isPlayerBTurn) {
+            // black moves up
+            if (toRow >= fromRow) {
+                return false;
+            }
+        }
+        else {
+            // red moves down
+            if (toRow <= fromRow) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    private void deselectRow(int row) {
-        selectedRow = -1;
+    private int getRow(Button spot) {
+        Button[][] buttonBoard = {{a1, a2, a3, a4, a5, a6, a7, a8},
+        {b1, b2, b3, b4, b5, b6, b7, b8},
+        {c1, c2, c3, c4, c5, c6, c7, c8},
+        {d1, d2, d3, d4, d5, d6, d7, d8},
+        {e1, e2, e3, e4, e5, e6, e7, e8},
+        {f1, f2, f3, f4, f5, f6, f7, f8},
+        {g1, g2, g3, g4, g5, g6, g7, g8},
+        {h1, h2, h3, h4, h5, h6, h7, h8}};
+
+        for (int i = 0; i < buttonBoard.length; i++) {
+            for (int j = 0; j < buttonBoard[i].length; j++) {
+                if (buttonBoard[i][j] == spot) {
+                    return j; // returns row index
+                }
+            }
+        }
+
+        return -1;
     }
 
-    private void deselectColumn(int col) {
-        selectedColumn = col;
+    private int getCol(Button spot) {
+        Button[][] buttonBoard = {{a1, a2, a3, a4, a5, a6, a7, a8},
+                {b1, b2, b3, b4, b5, b6, b7, b8},
+                {c1, c2, c3, c4, c5, c6, c7, c8},
+                {d1, d2, d3, d4, d5, d6, d7, d8},
+                {e1, e2, e3, e4, e5, e6, e7, e8},
+                {f1, f2, f3, f4, f5, f6, f7, f8},
+                {g1, g2, g3, g4, g5, g6, g7, g8},
+                {h1, h2, h3, h4, h5, h6, h7, h8}};
+
+        for (int i = 0; i < buttonBoard.length; i++) {
+            for (int j = 0; j < buttonBoard[i].length; j++) {
+                if (buttonBoard[i][j] == spot) {
+                    return i; // returns col index
+                }
+            }
+        }
+
+        return -1;
     }
 
-    private int getSelectedRow() {
-        return selectedRow;
-    }
-
-    private int getSelectedColumn() {
-        return selectedColumn;
-    }
+//    private void selectRow(int row) {
+//        selectedRow = row;
+//    }
+//
+//    private void selectColumn(int col) {
+//        selectedColumn = col;
+//    }
+//
+//    private void deselectRow(int row) {
+//        selectedRow = -1;
+//    }
+//
+//    private void deselectColumn(int col) {
+//        selectedColumn = col;
+//    }
+//
+//    private int getSelectedRow() {
+//        return selectedRow;
+//    }
+//
+//    private int getSelectedColumn() {
+//        return selectedColumn;
+//    }
 
     private void movePiece(Button from, Button to) {
         //todo: check if new position is valid. return early otherwise
@@ -445,6 +368,9 @@ public class CheckersBoardController {
         button.setGraphic(imageView);
     }
 
+    private void togglePlayerTurn() {
+        isPlayerBTurn = !isPlayerBTurn;
+    }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
 
