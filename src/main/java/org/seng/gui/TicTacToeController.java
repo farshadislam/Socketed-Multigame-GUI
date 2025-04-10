@@ -1,5 +1,7 @@
 package org.seng.gui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import org.seng.gamelogic.tictactoe.*;
 
 import java.io.BufferedWriter;
@@ -22,10 +25,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import javax.swing.Timer;
+import org.seng.gui.*;
 
 public class TicTacToeController {
 
@@ -60,6 +62,8 @@ public class TicTacToeController {
 
     private boolean AIBot;
 
+    private Timeline timeline;
+
     public void setAIBot(boolean AIBot) {
         this.AIBot = AIBot;
     }
@@ -85,8 +89,8 @@ public class TicTacToeController {
         Button[] row3 = {button31, button32, button33};
 
         buttonBoard = new Button[][]{row1, row2, row3};
-        isPlayerXTurn = false;
-        togglePlayerTurn();
+        isPlayerXTurn = true;
+        turnLabel.setText("Player 1's Turn");
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
@@ -117,6 +121,9 @@ public class TicTacToeController {
     }
 
     private void handleMove(int row, int col, Button button) {
+        if (timeline != null) {
+            timeline.stop();
+        }
         valForAlternation++;
         // Check if the button has already been clicked
         if (!button.getText().isEmpty()) {
@@ -145,7 +152,7 @@ public class TicTacToeController {
                 checkTie(button);
             }
         }
-        togglePlayerTurn();
+        togglePlayerTurn(button);
 
         // for when AI mode is active
         if (!isPlayerXTurn && AIBot) {
@@ -204,13 +211,35 @@ public class TicTacToeController {
         }
     }
 
-    private void togglePlayerTurn() {
+    private void togglePlayerTurn(Button button) {
         isPlayerXTurn = !isPlayerXTurn;
         if (isPlayerXTurn) {
             turnLabel.setText("Player 1's Turn");
         } else {
             turnLabel.setText("Player 2's Turn");
         }
+        timeline = new Timeline(new KeyFrame(Duration.seconds(10),
+                event -> {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
+                        Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+                        scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.setTitle("OMG Platform");
+                        stage.show();
+
+                        Stage currentStage = (Stage) button.getScene().getWindow();
+                        currentStage.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+        ));
+        timeline.setCycleCount(1);
+        timeline.play();
+
     }
 
     private void disableAllButtons() {
