@@ -441,6 +441,30 @@ private int getRow(Button spot) {
         return -1;
     }
 
+//    private void selectRow(int row) {
+//        selectedRow = row;
+//    }
+//
+//    private void selectColumn(int col) {
+//        selectedColumn = col;
+//    }
+//
+//    private void deselectRow(int row) {
+//        selectedRow = -1;
+//    }
+//
+//    private void deselectColumn(int col) {
+//        selectedColumn = col;
+//    }
+//
+//    private int getSelectedRow() {
+//        return selectedRow;
+//    }
+//
+//    private int getSelectedColumn() {
+//        return selectedColumn;
+//    }
+
     private void movePiece(Button from, Button to) {
         // moves the piece from one button to another
         to.setGraphic(from.getGraphic());

@@ -1,6 +1,8 @@
 package org.seng.gui;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.ScaleTransition;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -40,7 +42,7 @@ public class Connect4Controller {
     private boolean isPlayerOneTurn = true;
     private Button[][] boardButtons = new Button[ROWS][COLS];
     private boolean AIBot;
-
+    private Timeline timeline;
     public void setAIBot(boolean AIBot) {
         this.AIBot = AIBot;
     }
@@ -54,12 +56,25 @@ public class Connect4Controller {
                 Button btn = (Button) board.getChildren().get(buttonIndex++);
                 int finalCol = col;
                 boardButtons[row][col] = btn;
-                btn.setOnAction(e -> handleColumnClick(finalCol));
+                btn.setOnAction(e -> handleColumnClick(btn, finalCol));
             }
         }
         clearChatHistory();
-        updatePlayerTurnIndicator();
+        player1Label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+        player2Label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+
+        // Stop any ongoing pulse animations
+        stopPulse(player1Pulse);
+        stopPulse(player2Pulse);
+        player1Label.setScaleX(1);
+        player1Label.setScaleY(1);
+        player2Label.setScaleX(1);
+        player2Label.setScaleY(1);
+
+        player1Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #00F0FF;");
+        player1Pulse = applyPulseAnimation(player1Label);
     }
+
     @FXML
     private void handleQuit() {
         Stage dialogStage = new Stage();
@@ -200,7 +215,10 @@ public class Connect4Controller {
         alert.showAndWait();
     }
 
-    private void handleColumnClick(int col) {
+    private void handleColumnClick(Button button, int col) {
+        if (timeline != null) {
+            timeline.stop();
+        }
         for (int row = ROWS - 1; row >= 0; row--) {
             Button cell = boardButtons[row][col];
             if (cell.getStyle().isEmpty()) {
@@ -226,7 +244,7 @@ public class Connect4Controller {
                     }
                 }
                 isPlayerOneTurn = !isPlayerOneTurn; // Switch turns
-                updatePlayerTurnIndicator();
+                updatePlayerTurnIndicator(button);
 
                 if (!isPlayerOneTurn && AIBot) {
                     new Thread(() -> {
@@ -287,7 +305,7 @@ public class Connect4Controller {
         }
     }
 
-    private void updatePlayerTurnIndicator() {
+    private void updatePlayerTurnIndicator(Button button) {
         // Reset styles
         player1Label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
         player2Label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
@@ -308,6 +326,27 @@ public class Connect4Controller {
             player2Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #da77f2;");
             player2Pulse = applyPulseAnimation(player2Label);
         }
+        timeline = new Timeline(new KeyFrame(Duration.seconds(10),
+                event -> {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
+                        Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+                        scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.setTitle("OMG Platform");
+                        stage.show();
+
+                        Stage currentStage = (Stage) button.getScene().getWindow();
+                        currentStage.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+        ));
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     private ScaleTransition applyPulseAnimation(Label label) {
@@ -385,7 +424,7 @@ public class Connect4Controller {
     private void makeAIMove() {
         Integer column = findNextMove();
         if (column != null) {
-            handleColumnClick(column);
+            handleColumnClick(boardButtons[0][column], column);
         }
     }
 
