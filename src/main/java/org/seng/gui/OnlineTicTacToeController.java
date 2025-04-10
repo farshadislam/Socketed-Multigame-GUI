@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.seng.gamelogic.tictactoe.OnlineTicTacToeGame;
+import org.seng.gamelogic.tictactoe.TicTacToeBoard;
 import org.seng.networking.SocketGameClient;
 
 import java.io.IOException;
@@ -101,10 +102,10 @@ public class OnlineTicTacToeController {
                 e.printStackTrace();
             }
 
-            checkAndSendGameOver();
+            checkAndSendGameOver(row, col, mySymbol.charAt(0));
 
             // this passes the turn to the opponent
-            if (game.getStatus().equals("In Progress")) {
+            if (game.getStatus().equals("in progress")) {
                 myTurn = false;
                 updateTurnLabel();
                 updateGridEnableState();
@@ -144,8 +145,8 @@ public class OnlineTicTacToeController {
                 btn.setText(opponentSymbol);
                 btn.setDisable(true);
                 game.applyMove(row, col, opponentSymbol.charAt(0));
-                checkAndSendGameOver();
-                if (game.getStatus().equals("In Progress")) {
+                checkAndSendGameOver(row, col, opponentSymbol.charAt(0));
+                if (game.getStatus().equals("in progress")) {
                     myTurn = true;
                     updateTurnLabel();
                     updateGridEnableState();
@@ -162,24 +163,25 @@ public class OnlineTicTacToeController {
         }
     }
 
-    /** this checks if the local game logic says the game ended and sends a game over message */
-    private void checkAndSendGameOver() {
-        String status = game.getStatus();
-        if (!status.equals("In Progress")) {
-            String msg;
-            if (status.contains("X Wins")) {
-                msg = "GAME_OVER:X_WINS";
-            } else if (status.contains("O Wins")) {
-                msg = "GAME_OVER:O_WINS";
-            } else {
-                msg = "GAME_OVER:DRAW";
-            }
+    /** this checks board state directly and sends a game over message if needed */
+    private void checkAndSendGameOver(int row, int col, char symbol) {
+        TicTacToeBoard.Mark mark = symbol == 'X' ? TicTacToeBoard.Mark.X : TicTacToeBoard.Mark.O;
+
+        if (game.checkWinner(mark)) {
             try {
+                String msg = symbol == 'X' ? "GAME_OVER:X_WINS" : "GAME_OVER:O_WINS";
                 client.sendMessage(msg);
+                handleGameOver(msg.substring("GAME_OVER:".length()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            handleGameOver(msg.substring("GAME_OVER:".length()));
+        } else if (game.boardFull()) {
+            try {
+                client.sendMessage("GAME_OVER:DRAW");
+                handleGameOver("DRAW");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
