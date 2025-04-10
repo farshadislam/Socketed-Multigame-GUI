@@ -12,11 +12,19 @@
 
 - Every game has interactive features such as:
   -    ready check screens (both players are required to press ready to start the game) 
-  -    player could open the help page
-    -  player can open the leaderboard page and see their own stats (wins/loses)
-    - 
+  - player could open the help page
+  -  player can open the leaderboard page and see their own stats or profile (wins/loses)
+  -  user can create an account or login/logout with an existing one
+  -  there is also and option for resetting password in case that it was forgotten
+  -  then there is an option to manage the account (new username, password, email)
+  -  player could search for their friend and if they exist in the system
+  -  there is a back button
+
+
+## 
+
 ## Files
 
 - [**gitlab_link**](./gitlab_link.txt) 
 - [**Creators**](./team.md)
-- [**Start TicTacToe**](./src/org/seng/gui/HelloApplication.java) - here is a small demo
+- [**Start TicTacToe**](./gui/HelloApplication) - here is a small demo
