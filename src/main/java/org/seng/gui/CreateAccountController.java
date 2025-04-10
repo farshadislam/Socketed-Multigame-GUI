@@ -1,7 +1,9 @@
 package org.seng.gui;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -24,6 +26,9 @@ public class CreateAccountController {
 
     @FXML
     private Button registerButton, backButton;
+
+    @FXML
+    private Button reqInfo;
 
 
     @FXML
@@ -200,5 +205,18 @@ public class CreateAccountController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void reqClick(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Input Requirements");
+        alert.setHeaderText("Please follow these rules for account creation:");
+        alert.setContentText(
+                "• **Username:** At least 5 characters, no whitespaces, only certain special characters allowed.\n" +
+                        "• **Email:** Must end with @gmail.com. Prefix must follow the same rules as username.\n" +
+                        "• **Password:** At least 8 characters, no whitespaces, only certain special characters allowed."
+        );
+
+        alert.showAndWait();
     }
 }

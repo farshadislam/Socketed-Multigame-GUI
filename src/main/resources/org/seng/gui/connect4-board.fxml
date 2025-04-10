@@ -61,12 +61,14 @@
            </children>
       </FlowPane>
       <Button fx:id="inGameChatButton" layoutX="776.0" layoutY="533.0" mnemonicParsing="false" onAction="#openChat" prefHeight="48.0" prefWidth="96.0" styleClass="option-button" text="Chat" textFill="#8e2de2" />
-      <MenuButton layoutX="730.0" layoutY="23.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="154.0" styleClass="menu-item" text="Settings" textFill="#8e2de2">
+      <MenuButton layoutX="730.0" layoutY="23.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="154.0" textFill="aliceblue" text="Settings" styleClass="menu-bar">
         <items>
           <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" text="Help" />
           <MenuItem fx:id="quitOption" mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
         </items>
       </MenuButton>
       <Label fx:id="connect4Label" layoutX="302.0" layoutY="23.0" styleClass="connect4-label" text="Connect 4" />
+      <Label fx:id="player1Label" layoutX="96.0" layoutY="300.0" text="Player 1" />
+      <Label fx:id="player2Label" layoutX="662.0" layoutY="300.0" text="Player 2" />
    </children>
 </AnchorPane>
