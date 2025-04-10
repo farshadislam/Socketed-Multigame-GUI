@@ -34,7 +34,7 @@ public class TicTacToeGame {
         this.players = players;
         this.gameID = gameID;
         this.board = board;
-        currMark = Mark.X; // X starts first
+        currMark = Mark.O; // X starts first
         currentPlayer = players[0];
         status = "Initialized";
         chatLog = new ArrayList<>();
@@ -124,28 +124,33 @@ public class TicTacToeGame {
         if (status.equals("In Progress") && board.validMove(row, col)) {
             board.makeMove(row, col, currMark);
 
+            // Check if the current player wins
             if (checkWinner(currMark)) {
                 status = currMark + " Wins";
-                // Logic: Player 1 is always X, Player 2 is always O
+                // Update player statistics based on the winner
                 if (currMark == Mark.X) { // Player 1 wins
                     players[0].getTicTacToeStats().win();
                     players[1].getTicTacToeStats().lose();
-                }
-                else { // Player 2 wins
+                } else { // Player 2 wins
                     players[0].getTicTacToeStats().lose();
                     players[1].getTicTacToeStats().win();
                 }
-            } else if (boardFull()) {
+            }
+            // Check for a draw if the board is full
+            else if (boardFull()) {
                 status = "Draw";
                 players[0].getTicTacToeStats().tie();
-                players[0].getTicTacToeStats().tie();
-            } else {
-                switchTurn();
+                players[1].getTicTacToeStats().tie();
+            }
+            // Continue game if no winner or draw
+            else {
+                switchTurn(); // Change the turn to the next player
             }
             return true;
         }
-        return false;
+        return false; // Invalid move, return false
     }
+
 
     /**
      * Checks if the given mark (X or O) has won the game.
