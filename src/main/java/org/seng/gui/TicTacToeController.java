@@ -54,7 +54,7 @@ public class TicTacToeController {
     private final String CHAT_LOG_PATH = "chatlog.txt";
 
 
-    private void saveMessage(String message) {
+    public void saveMessage(String message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
             writer.write(message);
             writer.newLine();
@@ -63,14 +63,14 @@ public class TicTacToeController {
         }
     }
 
-    private String loadChatHistory() {
+    public String loadChatHistory() {
         try {
             return Files.readString(Paths.get(CHAT_LOG_PATH));
         } catch (IOException e) {
             return "";
         }
     }
-    private void clearChatHistory() {
+    public void clearChatHistory() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH))) {
             writer.write("");
         } catch (IOException e) {
@@ -81,7 +81,7 @@ public class TicTacToeController {
     private StringBuilder chatHistory = new StringBuilder();
 
     @FXML
-    private void openChat() {
+    public void openChat() {
         Stage chatStage = new Stage();
         chatStage.setTitle("In-Game Chat");
 
@@ -215,6 +215,7 @@ public class TicTacToeController {
             e.printStackTrace();
         }
     }
+
 //    @FXML
 //    private void handleButtonClick(ActionEvent event) {
 //        Button clickedButton = (Button) event.getSource();
