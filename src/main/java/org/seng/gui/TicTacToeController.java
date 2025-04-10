@@ -32,6 +32,8 @@ public class TicTacToeController {
 
     private int valForAlternation = 0;
 
+    private Button[][] buttonGrid;
+
     private Map<Button, int[]> buttonPositionMap = new HashMap<>();
 
     @FXML
@@ -93,11 +95,12 @@ public class TicTacToeController {
         button32.setOnAction(e -> handleMove(2, 1, button32));  // Third row, second column
         button33.setOnAction(e -> handleMove(2, 2, button33));  // Third row, third column
 
-        Button[] row1 = {button11, button12, button13};
-        Button[] row2 = {button21, button22, button23};
-        Button[] row3 = {button31, button32, button33};
-
-        Button[][] board = {row1, row2, row3};
+//        Button[] row1 = {button11, button12, button13};
+//        Button[] row2 = {button21, button22, button23};
+//        Button[] row3 = {button31, button32, button33};
+//
+//        Button[][] board = {row1, row2, row3};
+        buttonGrid = new Button[][] {{button11}, {button12}, {button13}, {button21}, {button22}, {button23}, {button31} ,{button31}, {button33}};
     }
 
     private String nextTurn() {
@@ -139,10 +142,13 @@ public class TicTacToeController {
         }
 
         // Place the symbol on the button
+        String symbol;
         if (valForAlternation % 2 == 0) {
             button.setText("O");
+            symbol = "0";
         } else {
-            button.setText("x");
+            button.setText("X");
+            symbol = "X";
         }
 //        String symbol = isPlayerXTurn ? "X" : "O";  // Toggle between X and O
 //        button.setText(symbol);
@@ -151,6 +157,9 @@ public class TicTacToeController {
         button.setDisable(true);
 
         // Make the move on the game board
+
+
+        checkWin(board, symbol);
         boolean moveMade = game.makeMove(row, col);
 
         if (moveMade) {
@@ -215,6 +224,131 @@ public class TicTacToeController {
 //                }
 //            }
 //        }
+    }
+
+    private void checkWin(FlowPane board, String symbol) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                Button b = buttonGrid[i][j];
+                if (b.getText().equals(symbol)) {
+                    String fxId = b.getId();
+                    String num = fxId.substring(fxId.length() - 2);  // Get last 2 characters
+                    if (num == "11"){
+                        Button spotOne = buttonGrid[0][2];
+                        Button spotTwo = buttonGrid[2][0];
+                        Button spotThree = buttonGrid[2][2];
+                        if (spotOne.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[0][1];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }else if (spotTwo.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[1][0];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }else if (spotThree.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[1][1];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }
+                    }else if (num == "12"){
+                        Button spotTwo = buttonGrid[1][1];
+                        if (spotTwo.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[2][1];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }
+                    }else if (num == "13"){
+                        Button spotOne = buttonGrid[2][0];
+                        Button spotTwo = buttonGrid[2][2];
+                        if (spotOne.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[1][1];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }else if (spotTwo.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[1][2];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }
+                    }else if (num == "21"){
+
+                    }else if (num == "22"){
+                        Button spotOne = buttonGrid[0][2];
+                        Button spotTwo = buttonGrid[2][0];
+                        Button spotThree = buttonGrid[2][2];
+                        //another spot
+                        if (spotOne.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[0][1];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }else if (spotTwo.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[1][0];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }else if (spotThree.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[1][1];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }
+                    }else if (num == "23"){
+
+                    }else if (num == "31"){
+                        Button spotOne = buttonGrid[0][2];
+                        Button spotTwo = buttonGrid[2][0];
+                        Button spotThree = buttonGrid[2][2];
+                        if (spotOne.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[0][1];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }else if (spotTwo.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[1][0];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }else if (spotThree.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[1][1];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }
+
+                    }else if (num == "32"){
+
+                    }else if (num == "33"){
+                        Button spotOne = buttonGrid[0][2];
+                        Button spotTwo = buttonGrid[2][0];
+                        Button spotThree = buttonGrid[2][2];
+                        if (spotOne.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[0][1];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }else if (spotTwo.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[1][0];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }else if (spotThree.getText().equals(symbol)) {
+                            Button spotFour = buttonGrid[1][1];
+                            if (spotFour.getText().equals(symbol)) {
+                                System.out.println("Player " + symbol + " wins!");
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        }
     }
 
     // Function to toggle player turns (just a sample, adjust based on your existing logic)
