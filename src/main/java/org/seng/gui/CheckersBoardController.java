@@ -229,8 +229,14 @@ public class CheckersBoardController {
 
 
     private Button selectedPiece = null;
+
+    private int selectedRow = -1;
+
+    private int selectedColumn = -1;
     private Image redPieceImage;
     private Image blackPieceImage;
+    private Image RedPieceImageKing;
+    private Image BlackPieceKing;
 
 
     @FXML
@@ -238,6 +244,9 @@ public class CheckersBoardController {
         // Load images
         redPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/redpiece.png"));
         blackPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/blackpiece.png"));
+        RedPieceImageKing = new Image(getClass().getResourceAsStream("/org/seng/gui/images/RedPieceKing.png"));
+        BlackPieceKing = new Image(getClass().getResourceAsStream("/org/seng/gui/images/BlackPieceKing.png"));
+
 
         setupPieces();
         selectionHandle();
@@ -260,6 +269,78 @@ public class CheckersBoardController {
         placePiece(f2, redPieceImage); placePiece(h2, redPieceImage);
         placePiece(a3, redPieceImage); placePiece(c3, redPieceImage);
         placePiece(e3, redPieceImage); placePiece(g3, redPieceImage);
+
+        a1.setOnAction(e -> handleButtonClick(0, 0, a1));  // First row, first column
+        a2.setOnAction(e -> handleButtonClick(0, 1, a2));
+        a3.setOnAction(e -> handleButtonClick(0, 2, a3));
+        a4.setOnAction(e -> handleButtonClick(0, 3, a3));
+        a5.setOnAction(e -> handleButtonClick(0, 4, a5));
+        a6.setOnAction(e -> handleButtonClick(0, 5, a6));
+        a7.setOnAction(e -> handleButtonClick(0, 6, a7));
+        a8.setOnAction(e -> handleButtonClick(0, 7, a8));
+
+        b1.setOnAction(e -> handleButtonClick(1, 0, b1));
+        b2.setOnAction(e -> handleButtonClick(1, 1, b2));
+        b3.setOnAction(e -> handleButtonClick(1, 2, b3));
+        b4.setOnAction(e -> handleButtonClick(1, 3, b4));
+        b5.setOnAction(e -> handleButtonClick(1, 4, b5));
+        b6.setOnAction(e -> handleButtonClick(1, 5, b6));
+        b7.setOnAction(e -> handleButtonClick(1, 6, b7));
+        b8.setOnAction(e -> handleButtonClick(1, 7, b8));
+
+        c1.setOnAction(e -> handleButtonClick(2, 0, c1));
+        c2.setOnAction(e -> handleButtonClick(2, 1, c2));
+        c3.setOnAction(e -> handleButtonClick(2, 2, c3));
+        c4.setOnAction(e -> handleButtonClick(2, 3, c4));
+        c5.setOnAction(e -> handleButtonClick(2, 4, c5));
+        c6.setOnAction(e -> handleButtonClick(2, 5, c6));
+        c7.setOnAction(e -> handleButtonClick(2, 6, c7));
+        c8.setOnAction(e -> handleButtonClick(2, 7, c8));
+
+        d1.setOnAction(e -> handleButtonClick(4, 0, d1));
+        d2.setOnAction(e -> handleButtonClick(4, 1, d2));
+        d3.setOnAction(e -> handleButtonClick(4, 2, d3));
+        d4.setOnAction(e -> handleButtonClick(4, 3, d4));
+        d5.setOnAction(e -> handleButtonClick(4, 4, d5));
+        d6.setOnAction(e -> handleButtonClick(4, 5, d6));
+        d7.setOnAction(e -> handleButtonClick(4, 6, d7));
+        d8.setOnAction(e -> handleButtonClick(4, 7, d8));
+
+        e1.setOnAction(e -> handleButtonClick(5, 0, e1));
+        e2.setOnAction(e -> handleButtonClick(5, 1, e2));
+        e3.setOnAction(e -> handleButtonClick(5, 2, e3));
+        e4.setOnAction(e -> handleButtonClick(5, 3, e4));
+        e5.setOnAction(e -> handleButtonClick(5, 4, e5));
+        e6.setOnAction(e -> handleButtonClick(5, 5, e6));
+        e7.setOnAction(e -> handleButtonClick(5, 6, e7));
+        e8.setOnAction(e -> handleButtonClick(5, 7, e8));
+
+        f1.setOnAction(e -> handleButtonClick(6, 0, f1));
+        f2.setOnAction(e -> handleButtonClick(6, 1, f2));
+        f3.setOnAction(e -> handleButtonClick(6, 2, f3));
+        f4.setOnAction(e -> handleButtonClick(6, 3, f4));
+        f5.setOnAction(e -> handleButtonClick(6, 4, f5));
+        f6.setOnAction(e -> handleButtonClick(6, 5, f6));
+        f7.setOnAction(e -> handleButtonClick(6, 6, f7));
+        f8.setOnAction(e -> handleButtonClick(6, 7, f8));
+
+        g1.setOnAction(e -> handleButtonClick(7, 0, g1));
+        g2.setOnAction(e -> handleButtonClick(7, 1, g2));
+        g3.setOnAction(e -> handleButtonClick(7, 2, g3));
+        g4.setOnAction(e -> handleButtonClick(7, 3, g4));
+        g5.setOnAction(e -> handleButtonClick(7, 4, g5));
+        g6.setOnAction(e -> handleButtonClick(7, 5, g6));
+        g7.setOnAction(e -> handleButtonClick(7, 6, g7));
+        g8.setOnAction(e -> handleButtonClick(7, 7, g8));
+
+        h1.setOnAction(e -> handleButtonClick(8, 0, h1));
+        h2.setOnAction(e -> handleButtonClick(8, 1, h2));
+        h3.setOnAction(e -> handleButtonClick(8, 2, h3));
+        h4.setOnAction(e -> handleButtonClick(8, 3, h4));
+        h5.setOnAction(e -> handleButtonClick(8, 4, h5));
+        h6.setOnAction(e -> handleButtonClick(8, 5, h6));
+        h7.setOnAction(e -> handleButtonClick(8, 6, h7));
+        h8.setOnAction(e -> handleButtonClick(8, 7, h8));
     }
 
     private void selectionHandle() {
@@ -271,21 +352,15 @@ public class CheckersBoardController {
         Button[] row6 = {f1, f2, f3, f4, f5, f6, f7, f8};
         Button[] row7 = {g1, g2, g3, g4, g5, g6, g7, g8};
         Button[] row8 = {h1, h2, h3, h4, h5, h6, h7, h8};
-        Button[][] Board = {row1, row2, row3, row4, row5, row6, row7, row8};
-
-        for (int rowCounter = 0; rowCounter < 8; rowCounter++) {
-            for (int buttonCounter = 0; buttonCounter < 8; buttonCounter ++) {
-                Button button = Board[rowCounter][buttonCounter];
-                button.setOnAction(e -> {handleButtonClick(button);});
-            }
-        }
+        Button[][] buttonBoard = {row1, row2, row3, row4, row5, row6, row7, row8};
     }
 
-    private void handleButtonClick(Button clickedButton) {
+    private void handleButtonClick(int row, int col, Button clickedButton) {
         // if no piece is selected it tries to select one
         if (selectedPiece == null) { // if there is no piece selected
             if (clickedButton.getGraphic() != null) { // if the button has a piece
                 selectPiece(clickedButton);
+
             }
         }
         else { // if a piece is already selected it tries to move it
@@ -319,6 +394,30 @@ public class CheckersBoardController {
             selectedPiece.setEffect(null);
             selectedPiece = null;
         }
+    }
+
+    private void selectRow(int row) {
+        selectedRow = row;
+    }
+
+    private void selectColumn(int col) {
+        selectedColumn = col;
+    }
+
+    private void deselectRow(int row) {
+        selectedRow = -1;
+    }
+
+    private void deselectColumn(int col) {
+        selectedColumn = col;
+    }
+
+    private int getSelectedRow() {
+        return selectedRow;
+    }
+
+    private int getSelectedColumn() {
+        return selectedColumn;
     }
 
     private void movePiece(Button from, Button to) {

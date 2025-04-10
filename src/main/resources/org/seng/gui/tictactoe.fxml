@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Pos?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
@@ -12,48 +13,64 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.seng.gui.TicTacToeController">
 
-   <children>
+   <!-- Title -->
+   <Label text="Tic Tac Toe"
+          styleClass="light-title-label"
+          AnchorPane.topAnchor="20.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0"
+          alignment="CENTER">
+      <font>
+         <Font size="36.0"/>
+      </font>
+   </Label>
 
-      <!-- Title -->
-      <Text layoutX="320.0" layoutY="50.0" fill="white" strokeType="OUTSIDE" strokeWidth="0.0"
-            styleClass="light-title-label" text="Tic Tac Toe" textAlignment="CENTER">
-         <font>
-            <Font size="28.0"/>
-         </font>
-      </Text>
+   <!-- Turn label -->
+   <Label fx:id="turnLabel"
+          text="Player 1's Turn"
+          styleClass="game-label"
+          AnchorPane.topAnchor="70.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0"
+          alignment="CENTER" />
 
-      <!-- Turn Indicator -->
-      <Label fx:id="turnLabel" layoutX="330.0" layoutY="80.0"
-             styleClass="game-label" text="Player 1's Turn" textFill="white"/>
+   <!-- Center container to hold the game board -->
+   <StackPane AnchorPane.topAnchor="120.0"
+              AnchorPane.bottomAnchor="80.0"
+              AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0"
+              alignment="CENTER">
+      <GridPane fx:id="board" hgap="10" vgap="10" alignment="CENTER">
+         <Button fx:id="button11" prefWidth="80" prefHeight="80" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="tic-tac-toe-button"/>
+         <Button fx:id="button12" prefWidth="80" prefHeight="80" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="tic-tac-toe-button"/>
+         <Button fx:id="button13" prefWidth="80" prefHeight="80" GridPane.rowIndex="0" GridPane.columnIndex="2" styleClass="tic-tac-toe-button"/>
+         <Button fx:id="button21" prefWidth="80" prefHeight="80" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="tic-tac-toe-button"/>
+         <Button fx:id="button22" prefWidth="80" prefHeight="80" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="tic-tac-toe-button"/>
+         <Button fx:id="button23" prefWidth="80" prefHeight="80" GridPane.rowIndex="1" GridPane.columnIndex="2" styleClass="tic-tac-toe-button"/>
+         <Button fx:id="button31" prefWidth="80" prefHeight="80" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="tic-tac-toe-button"/>
+         <Button fx:id="button32" prefWidth="80" prefHeight="80" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="tic-tac-toe-button"/>
+         <Button fx:id="button33" prefWidth="80" prefHeight="80" GridPane.rowIndex="2" GridPane.columnIndex="2" styleClass="tic-tac-toe-button"/>
+      </GridPane>
+   </StackPane>
 
-      <!-- Game Board -->
-      <FlowPane fx:id="board" layoutX="250.0" layoutY="120.0"
-                prefHeight="280.0" prefWidth="300.0" hgap="10" vgap="10">
-         <children>
-            <Button fx:id="button11" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button12" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button13" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button21" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button22" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button23" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button31" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button32" prefHeight="80.0" prefWidth="80.0"/>
-            <Button fx:id="button33" prefHeight="80.0" prefWidth="80.0"/>
-         </children>
-      </FlowPane>
+   <!-- Settings (top right) -->
+   <MenuButton fx:id="SettingMenu"
+               text="Settings"
+               textFill="aliceblue"
+               styleClass="menu-bar"
+               AnchorPane.topAnchor="20.0"
+               AnchorPane.rightAnchor="30.0">
+      <items>
+         <MenuItem fx:id="helpOption" onAction="#howToPlayDescription" text="Help"/>
+         <MenuItem fx:id="quitOption" onAction="#handleQuit" text="Quit"/>
+      </items>
+   </MenuButton>
 
-      <!-- Chat Button (Bottom Right) -->
-      <Button fx:id="inGameChatButton" layoutX="680.0" layoutY="540.0"
-              text="Chat" onAction="#openChat" styleClass="option-button"/>
-
-      <!-- Settings Menu (Top Right) -->
-      <MenuButton fx:id="SettingMenu" layoutX="670.0" layoutY="20.0"
-                  text="Settings" textFill="aliceblue" styleClass="menu-bar">
-         <items>
-            <MenuItem fx:id="helpOption" onAction="#howToPlayDescription" text="Help"/>
-            <MenuItem fx:id="quitOption" onAction="#handleQuit" text="Quit"/>
-         </items>
-      </MenuButton>
-
-   </children>
+   <!-- Chat Button (bottom right) -->
+   <Button fx:id="inGameChatButton"
+           text="Chat"
+           onAction="#openChat"
+           styleClass="option-button"
+           AnchorPane.bottomAnchor="20.0"
+           AnchorPane.rightAnchor="30.0"/>
 </AnchorPane>
