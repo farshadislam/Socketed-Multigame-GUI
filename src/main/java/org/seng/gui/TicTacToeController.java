@@ -158,11 +158,23 @@ public class TicTacToeController {
         }
     }
 
-    private void checkWin(Button sourceButton){
+    private void checkWin(Button sourceButton) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            FXMLLoader fxmlLoader;
+            Scene scene;
+            if (AIBot) {
+                if (isPlayerXTurn) {
+                    fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
+                } else {
+                    fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
+                }
+            } else {
+                fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
+            }
+
+            scene = new Scene(fxmlLoader.load(), 700, 450);
             scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setTitle("OMG Platform");
