@@ -9,6 +9,18 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
+import org.seng.gamelogic.checkers.AIBotCheckers;
+import org.seng.gamelogic.checkers.CheckersBoard;
+import org.seng.gamelogic.checkers.CheckersGame;
+import org.seng.gamelogic.checkers.CheckersPlayer;
+import org.seng.gamelogic.connectfour.AIBotConnectFour;
+import org.seng.gamelogic.connectfour.ConnectFourBoard;
+import org.seng.gamelogic.connectfour.ConnectFourGame;
+import org.seng.gamelogic.connectfour.ConnectFourPlayer;
+import org.seng.gamelogic.tictactoe.AIBotTicTacToe;
+import org.seng.gamelogic.tictactoe.TicTacToeBoard;
+import org.seng.gamelogic.tictactoe.TicTacToeGame;
+import org.seng.gamelogic.tictactoe.TicTacToePlayer;
 import org.seng.networking.SocketGameClient;
 import org.seng.networking.leaderboard_matchmaking.GameType;
 
@@ -88,6 +100,7 @@ public class GamesPageController {
         handleGameClick(GameType.CHECKERS);
     }
 
+
     @FXML
     public void onTicTacToeClicked(MouseEvent event) {
         handleGameClick(GameType.TICTACTOE);
@@ -129,16 +142,21 @@ public class GamesPageController {
 
         } else {
             // if we’re doing local play instead
+            String cssFile = switch (gameType) {
+                case CHECKERS -> "checkerstyles.css";
+                case TICTACTOE -> "basic-styles.css";
+                case CONNECT4 -> "connectfourstyles.css";
+            };
             String fxmlFile = switch (gameType) {
-                case CHECKERS -> "checkers-game.fxml";
-                case TICTACTOE -> "tictactoe-game.fxml";
-                case CONNECT4 -> "connect4-game.fxml";
+                case CHECKERS -> "checkersBoard.fxml";
+                case TICTACTOE -> "tictactoe.fxml";
+                case CONNECT4 -> "connect4-board.fxml";
             };
 
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
                 Scene scene = new Scene(loader.load(), 700, 450);
-                scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+                scene.getStylesheets().add(getClass().getResource(cssFile).toExternalForm());
 
                 Stage stage = (Stage) checkersIcon.getScene().getWindow();
                 stage.setScene(scene);

@@ -11,9 +11,15 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import org.seng.authentication.Player;
 
 import java.io.IOException;
 import java.util.Optional;
+
+import static org.seng.gui.GameDashboardController.player;
+import static org.seng.gui.GameDashboardController.setting;
+import static org.seng.gui.HelloApplication.database;
+import static org.seng.gui.HelloApplication.loginPage;
 
 public class SettingsController {
     public Label passwordSuccess;
@@ -94,27 +100,36 @@ public class SettingsController {
             pause.play();
 
         } else {
-            System.out.println("Username changed to: " + newUsername);
-            usernameField.setPromptText("New username");
-            usernameField.setStyle("-fx-border-color: green");
-            passwordSuccess.setVisible(true);
-            passwordSuccess.setManaged(true);
-            passwordSuccess.setText("Username updated");
+            String updatedUsername = usernameField.getText();
+            boolean success = setting.changeUsername(updatedUsername);
 
-            PauseTransition pause = new PauseTransition(Duration.seconds(5));
-            pause.setOnFinished(e -> {
-                passwordSuccess.setVisible(false);
-                passwordSuccess.setManaged(false);
-                usernameField.setStyle("-fx-border-color: #ddd");
-            });
-            pause.play();
+            if (success) {
+                player.setUsername(updatedUsername);
+
+                usernameField.setPromptText("New username");
+                usernameField.setStyle("-fx-border-color: green");
+                passwordSuccess.setVisible(true);
+                passwordSuccess.setManaged(true);
+                passwordSuccess.setText("Username updated");
+
+                PauseTransition pause = new PauseTransition(Duration.seconds(5));
+                pause.setOnFinished(e -> {
+                    passwordSuccess.setVisible(false);
+                    passwordSuccess.setManaged(false);
+                    usernameField.setStyle("-fx-border-color: #ddd");
+                });
+                pause.play();
+            } else {
+                usernameField.setPromptText("Username taken or error");
+                usernameField.setStyle("-fx-border-color: red; -fx-prompt-text-fill: red;");
+            }
         }
     }
 
     @FXML
     public void changeEmail() {
         String newEmail = emailField.getText();
-        if (!newEmail.contains("@") || !newEmail.contains(".")) {
+        if (!(loginPage.verifyEmailFormat(newEmail))) {
             emailField.setPromptText("Invalid email format");
             emailField.setStyle("-fx-border-color: red; -fx-prompt-text-fill: red;");
             emailField.clear();
@@ -199,7 +214,26 @@ public class SettingsController {
             });
             pause.play();
 
-        } else {
+        } else if (!(loginPage.verifyPasswordFormat(newPassword))) {
+            passwordError.setText("Password format incorrect.");
+            passwordError.setVisible(true);
+            passwordError.setManaged(true);
+            newPasswordField.setStyle("-fx-border-color: #f30d0d;");
+            confirmPasswordField.setStyle("-fx-border-color: #f30d0d;");
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(5));
+            pause.setOnFinished(e -> {
+                passwordError.setVisible(false);
+                passwordError.setManaged(false);
+                newPasswordField.setStyle("-fx-border-color: #f0f0f0;");
+                confirmPasswordField.setStyle("-fx-border-color: #ddd");
+            });
+            pause.play();
+        }
+
+        else {
+            setting.changePassword(newPassword);
+
             passwordSuccess.setText("Password updated.");
             passwordSuccess.setVisible(true);
             passwordSuccess.setManaged(true);
@@ -261,6 +295,8 @@ public class SettingsController {
         alert.setTitle("Delete Account");
         alert.setHeaderText("Are you sure you want to delete your account?");
         alert.setContentText("This action cannot be undone.");
+        setting.deleteAccount();
+        database.saveDatabase();
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {

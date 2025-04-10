@@ -1,0 +1,609 @@
+package org.seng.gui;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class CheckersBoardController {
+
+    @FXML
+    private Button a1;
+
+    @FXML
+    private Button a2;
+
+    @FXML
+    private Button a3;
+
+    @FXML
+    private Button a4;
+
+    @FXML
+    private Button a5;
+
+    @FXML
+    private Button a6;
+
+    @FXML
+    private Button a7;
+
+    @FXML
+    private Button a8;
+
+    @FXML
+    private Button b1;
+
+    @FXML
+    private Button b2;
+
+    @FXML
+    private Button b3;
+
+    @FXML
+    private Button b4;
+
+    @FXML
+    private Button b5;
+
+    @FXML
+    private Button b6;
+
+    @FXML
+    private Button b7;
+
+    @FXML
+    private Button b8;
+
+    @FXML
+    private Button c1;
+
+    @FXML
+    private Button c2;
+
+    @FXML
+    private Button c3;
+
+    @FXML
+    private Button c4;
+
+    @FXML
+    private Button c5;
+
+    @FXML
+    private Button c6;
+
+    @FXML
+    private Button c7;
+
+    @FXML
+    private Button c8;
+
+    @FXML
+    private Button d1;
+
+    @FXML
+    private Button d2;
+
+    @FXML
+    private Button d3;
+
+    @FXML
+    private Button d4;
+
+    @FXML
+    private Button d5;
+
+    @FXML
+    private Button d6;
+
+    @FXML
+    private Button d7;
+
+    @FXML
+    private Button d8;
+
+    @FXML
+    private Button e1;
+
+    @FXML
+    private Button e2;
+
+    @FXML
+    private Button e3;
+
+    @FXML
+    private Button e4;
+
+    @FXML
+    private Button e5;
+
+    @FXML
+    private Button e6;
+
+    @FXML
+    private Button e7;
+
+    @FXML
+    private Button e8;
+
+    @FXML
+    private Button f1;
+
+    @FXML
+    private Button f2;
+
+    @FXML
+    private Button f3;
+
+    @FXML
+    private Button f4;
+
+    @FXML
+    private Button f5;
+
+    @FXML
+    private Button f6;
+
+    @FXML
+    private Button f7;
+
+    @FXML
+    private Button f8;
+
+    @FXML
+    private Button g1;
+
+    @FXML
+    private Button g2;
+
+    @FXML
+    private Button g3;
+
+    @FXML
+    private Button g4;
+
+    @FXML
+    private Button g5;
+
+    @FXML
+    private Button g6;
+
+    @FXML
+    private Button g7;
+
+    @FXML
+    private Button g8;
+
+    @FXML
+    private Button h1;
+
+    @FXML
+    private Button h2;
+
+    @FXML
+    private Button h3;
+
+    @FXML
+    private Button h4;
+
+    @FXML
+    private Button h5;
+
+    @FXML
+    private Button h6;
+
+    @FXML
+    private Button h7;
+
+    @FXML
+    private Button h8;
+
+    @FXML
+    private Button inGameChatButton;
+
+    @FXML
+    private MenuItem helpOption;
+
+    @FXML
+    private FlowPane board;
+
+
+
+    private Button selectedPiece = null;
+
+    private int selectedRow = -1;
+
+    private int selectedColumn = -1;
+    private Image redPieceImage;
+    private Image blackPieceImage;
+    private Image RedPieceImageKing;
+    private Image BlackPieceKing;
+
+
+    @FXML
+    public void initialize() {
+        // Load images
+        redPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/redpiece.png"));
+        blackPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/blackpiece.png"));
+        RedPieceImageKing = new Image(getClass().getResourceAsStream("/org/seng/gui/images/RedPieceKing.png"));
+        BlackPieceKing = new Image(getClass().getResourceAsStream("/org/seng/gui/images/BlackPieceKing.png"));
+
+
+        setupPieces();
+        selectionHandle();
+        clearChatHistory();
+    }
+
+    private void setupPieces() {
+        // Black pieces
+        placePiece(b6, blackPieceImage); placePiece(d6, blackPieceImage);
+        placePiece(f6, blackPieceImage); placePiece(h6, blackPieceImage);
+        placePiece(a7, blackPieceImage); placePiece(c7, blackPieceImage);
+        placePiece(e7, blackPieceImage); placePiece(g7, blackPieceImage);
+        placePiece(b8, blackPieceImage); placePiece(d8, blackPieceImage);
+        placePiece(f8, blackPieceImage); placePiece(h8, blackPieceImage);
+
+        // Red pieces
+        placePiece(a1, redPieceImage); placePiece(c1, redPieceImage);
+        placePiece(e1, redPieceImage); placePiece(g1, redPieceImage);
+        placePiece(b2, redPieceImage); placePiece(d2, redPieceImage);
+        placePiece(f2, redPieceImage); placePiece(h2, redPieceImage);
+        placePiece(a3, redPieceImage); placePiece(c3, redPieceImage);
+        placePiece(e3, redPieceImage); placePiece(g3, redPieceImage);
+
+        a1.setOnAction(e -> handleButtonClick(0, 0, a1));  // First row, first column
+        a2.setOnAction(e -> handleButtonClick(0, 1, a2));
+        a3.setOnAction(e -> handleButtonClick(0, 2, a3));
+        a4.setOnAction(e -> handleButtonClick(0, 3, a3));
+        a5.setOnAction(e -> handleButtonClick(0, 4, a5));
+        a6.setOnAction(e -> handleButtonClick(0, 5, a6));
+        a7.setOnAction(e -> handleButtonClick(0, 6, a7));
+        a8.setOnAction(e -> handleButtonClick(0, 7, a8));
+
+        b1.setOnAction(e -> handleButtonClick(1, 0, b1));
+        b2.setOnAction(e -> handleButtonClick(1, 1, b2));
+        b3.setOnAction(e -> handleButtonClick(1, 2, b3));
+        b4.setOnAction(e -> handleButtonClick(1, 3, b4));
+        b5.setOnAction(e -> handleButtonClick(1, 4, b5));
+        b6.setOnAction(e -> handleButtonClick(1, 5, b6));
+        b7.setOnAction(e -> handleButtonClick(1, 6, b7));
+        b8.setOnAction(e -> handleButtonClick(1, 7, b8));
+
+        c1.setOnAction(e -> handleButtonClick(2, 0, c1));
+        c2.setOnAction(e -> handleButtonClick(2, 1, c2));
+        c3.setOnAction(e -> handleButtonClick(2, 2, c3));
+        c4.setOnAction(e -> handleButtonClick(2, 3, c4));
+        c5.setOnAction(e -> handleButtonClick(2, 4, c5));
+        c6.setOnAction(e -> handleButtonClick(2, 5, c6));
+        c7.setOnAction(e -> handleButtonClick(2, 6, c7));
+        c8.setOnAction(e -> handleButtonClick(2, 7, c8));
+
+        d1.setOnAction(e -> handleButtonClick(4, 0, d1));
+        d2.setOnAction(e -> handleButtonClick(4, 1, d2));
+        d3.setOnAction(e -> handleButtonClick(4, 2, d3));
+        d4.setOnAction(e -> handleButtonClick(4, 3, d4));
+        d5.setOnAction(e -> handleButtonClick(4, 4, d5));
+        d6.setOnAction(e -> handleButtonClick(4, 5, d6));
+        d7.setOnAction(e -> handleButtonClick(4, 6, d7));
+        d8.setOnAction(e -> handleButtonClick(4, 7, d8));
+
+        e1.setOnAction(e -> handleButtonClick(5, 0, e1));
+        e2.setOnAction(e -> handleButtonClick(5, 1, e2));
+        e3.setOnAction(e -> handleButtonClick(5, 2, e3));
+        e4.setOnAction(e -> handleButtonClick(5, 3, e4));
+        e5.setOnAction(e -> handleButtonClick(5, 4, e5));
+        e6.setOnAction(e -> handleButtonClick(5, 5, e6));
+        e7.setOnAction(e -> handleButtonClick(5, 6, e7));
+        e8.setOnAction(e -> handleButtonClick(5, 7, e8));
+
+        f1.setOnAction(e -> handleButtonClick(6, 0, f1));
+        f2.setOnAction(e -> handleButtonClick(6, 1, f2));
+        f3.setOnAction(e -> handleButtonClick(6, 2, f3));
+        f4.setOnAction(e -> handleButtonClick(6, 3, f4));
+        f5.setOnAction(e -> handleButtonClick(6, 4, f5));
+        f6.setOnAction(e -> handleButtonClick(6, 5, f6));
+        f7.setOnAction(e -> handleButtonClick(6, 6, f7));
+        f8.setOnAction(e -> handleButtonClick(6, 7, f8));
+
+        g1.setOnAction(e -> handleButtonClick(7, 0, g1));
+        g2.setOnAction(e -> handleButtonClick(7, 1, g2));
+        g3.setOnAction(e -> handleButtonClick(7, 2, g3));
+        g4.setOnAction(e -> handleButtonClick(7, 3, g4));
+        g5.setOnAction(e -> handleButtonClick(7, 4, g5));
+        g6.setOnAction(e -> handleButtonClick(7, 5, g6));
+        g7.setOnAction(e -> handleButtonClick(7, 6, g7));
+        g8.setOnAction(e -> handleButtonClick(7, 7, g8));
+
+        h1.setOnAction(e -> handleButtonClick(8, 0, h1));
+        h2.setOnAction(e -> handleButtonClick(8, 1, h2));
+        h3.setOnAction(e -> handleButtonClick(8, 2, h3));
+        h4.setOnAction(e -> handleButtonClick(8, 3, h4));
+        h5.setOnAction(e -> handleButtonClick(8, 4, h5));
+        h6.setOnAction(e -> handleButtonClick(8, 5, h6));
+        h7.setOnAction(e -> handleButtonClick(8, 6, h7));
+        h8.setOnAction(e -> handleButtonClick(8, 7, h8));
+    }
+
+    private void selectionHandle() {
+        Button[] row1 = {a1, a2, a3, a4, a5, a6, a7, a8};
+        Button[] row2 = {b1, b2, b3, b4, b5, b6, b7, b8};
+        Button[] row3 = {c1, c2, c3, c4, c5, c6, c7, c8};
+        Button[] row4 = {d1, d2, d3, d4, d5, d6, d7, d8};
+        Button[] row5 = {e1, e2, e3, e4, e5, e6, e7, e8};
+        Button[] row6 = {f1, f2, f3, f4, f5, f6, f7, f8};
+        Button[] row7 = {g1, g2, g3, g4, g5, g6, g7, g8};
+        Button[] row8 = {h1, h2, h3, h4, h5, h6, h7, h8};
+        Button[][] buttonBoard = {row1, row2, row3, row4, row5, row6, row7, row8};
+    }
+
+    private void handleButtonClick(int row, int col, Button clickedButton) {
+        // if no piece is selected it tries to select one
+        if (selectedPiece == null) { // if there is no piece selected
+            if (clickedButton.getGraphic() != null) { // if the button has a piece
+                selectPiece(clickedButton);
+
+            }
+        }
+        else { // if a piece is already selected it tries to move it
+            // if clicking on the same piece, deselect it
+            if (clickedButton == selectedPiece) {
+                deselectPiece();
+            }
+            //if clicking on empty square it tries to move the piece
+            else if (clickedButton.getGraphic() == null) {
+                movePiece(selectedPiece, clickedButton);
+                deselectPiece();
+            }
+            // if clicking on another piece it selects that one instead
+            else {
+                deselectPiece();
+                selectPiece(clickedButton);
+            }
+        }
+    }
+
+    private void selectPiece(Button button) {
+        selectedPiece = button;
+        DropShadow highlight = new DropShadow();
+        highlight.setColor(Color.GREENYELLOW);
+        highlight.setRadius(40);
+        button.setEffect(highlight);
+    }
+
+    private void deselectPiece() {
+        if (selectedPiece != null) {
+            selectedPiece.setEffect(null);
+            selectedPiece = null;
+        }
+    }
+
+    private void selectRow(int row) {
+        selectedRow = row;
+    }
+
+    private void selectColumn(int col) {
+        selectedColumn = col;
+    }
+
+    private void deselectRow(int row) {
+        selectedRow = -1;
+    }
+
+    private void deselectColumn(int col) {
+        selectedColumn = col;
+    }
+
+    private int getSelectedRow() {
+        return selectedRow;
+    }
+
+    private int getSelectedColumn() {
+        return selectedColumn;
+    }
+
+    private void movePiece(Button from, Button to) {
+        //todo: check if new position is valid. return early otherwise
+
+        // moves the piece from one button to another
+        to.setGraphic(from.getGraphic());
+        from.setGraphic(null);
+
+        //todo: check win conditions for the player that just played
+    }
+
+    /**
+     *
+     * @param button the button in which the piece to be removed is
+     */
+    private void removePiece(Button button){
+        return;
+    }
+
+    private void placePiece(Button button, Image pieceImage) {
+        ImageView imageView = new ImageView(pieceImage);
+        imageView.setFitWidth(33);
+        imageView.setFitHeight(33);
+        button.setGraphic(imageView);
+    }
+
+
+    private final String CHAT_LOG_PATH = "chatlog.txt";
+
+    private void saveMessage(String message) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
+            writer.write(message);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String loadChatHistory() {
+        try {
+            return Files.readString(Paths.get(CHAT_LOG_PATH));
+        } catch (IOException e) {
+            return "";
+        }
+    }
+
+    private StringBuilder chatHistory = new StringBuilder();
+
+    @FXML
+    private void openChat() {
+        Stage chatStage = new Stage();
+        chatStage.setTitle("In-Game Chat");
+
+        VBox chatBox = new VBox(10);
+        chatBox.setPadding(new javafx.geometry.Insets(10));
+        chatBox.getStyleClass().add("chat-window");
+
+        TextArea chatDisplay = new TextArea();
+        chatDisplay.setEditable(false);
+        chatDisplay.setWrapText(true);
+        chatDisplay.setPrefHeight(200);
+        chatDisplay.getStyleClass().add("chat-display");
+        chatDisplay.setText(loadChatHistory());
+
+        TextField messageField = new TextField();
+        messageField.setPromptText("Type your message...");
+        messageField.getStyleClass().add("chat-input");
+
+        Button sendButton = new Button("Send");
+        sendButton.getStyleClass().add("chat-send-button");
+
+        sendButton.setOnAction(e -> {
+            String msg = messageField.getText().trim();
+            if (!msg.isEmpty()) {
+                String formatted = "You: " + msg + "\n";
+                chatDisplay.appendText(formatted);
+                saveMessage(formatted);
+                messageField.clear();
+            }
+        });
+        messageField.setOnAction(e -> sendButton.fire());
+        chatBox.getChildren().addAll(chatDisplay, messageField, sendButton);
+
+        Scene scene = new Scene(chatBox, 350, 300);
+        scene.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
+        chatStage.setScene(scene);
+        chatStage.show();
+    }
+
+    private void clearChatHistory() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH))) {
+            writer.write(""); // Clear the contents
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    // how to play rules
+    @FXML
+    void howToPlayDescription(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.NONE); // No default icon
+
+        alert.setTitle("Help");
+        alert.setHeaderText("How to Play");
+
+        // Set the content
+        alert.setContentText(
+                "1. Players take turns moving their pieces diagonally forward.\n\n"
+                        + "2. Regular pieces can only move forward on black squares.\n\n"
+                        + "3. Capture an opponent's piece by jumping over it diagonally.\n\n"
+                        + "4. If a piece reaches the last row, it becomes a King.\n\n"
+                        + "5. Kings can move and capture both forward and backward.\n\n"
+                        + "6. If a player has no valid moves left, they lose the game. \n"
+        );
+
+        alert.getButtonTypes().add(javafx.scene.control.ButtonType.OK);
+        // Apply CSS file
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
+
+        dialogPane.setPrefWidth(400); // Set a preferred width
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void handleQuit() {
+        Stage dialogStage = new Stage();
+        dialogStage.initStyle(StageStyle.UNDECORATED);
+        dialogStage.setTitle("Confirm Quit");
+
+        Label message = new Label("                      Are you sure?\nQuitting the game will result in a loss.");
+        message.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+
+        Button yesButton = new Button("Yes");
+        Button noButton = new Button("No");
+
+        yesButton.setOnAction(e -> {
+            dialogStage.close();
+            openToGameDashboard();
+        });
+        noButton.setOnAction(e -> dialogStage.close());
+
+        HBox buttons = new HBox(10, yesButton, noButton);
+        buttons.setAlignment(Pos.CENTER);
+
+        VBox layout = new VBox(15, message, buttons);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.getStyleClass().add("quit-background"); // ⭐ Add style class
+
+        Scene scene = new Scene(layout, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); // ⭐ Load your CSS
+
+        dialogStage.setScene(scene);
+
+        Stage currentStage = (Stage) board.getScene().getWindow(); // 'board' is your main pane
+        dialogStage.initOwner(currentStage);
+
+        dialogStage.setX(currentStage.getX() + currentStage.getWidth() / 2 - 150); // 150 = half of popup width
+        dialogStage.setY(currentStage.getY() + currentStage.getHeight() / 2 - 100);  // 75 = half of popup height
+
+        dialogStage.show();
+    }
+
+    private void openToGameDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+            Scene dashboardScene = new Scene(loader.load(), 900, 600);
+            dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            Stage dashboardStage = new Stage();
+            dashboardStage.setTitle("Game Dashboard");
+            dashboardStage.setScene(dashboardScene);
+
+            // Close current window
+            Stage currentStage = (Stage) board.getScene().getWindow();
+            currentStage.close();
+
+            dashboardStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+

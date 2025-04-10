@@ -13,14 +13,31 @@ import javafx.util.Duration;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 import java.util.Optional;
+import org.seng.authentication.*;
+import org.seng.gamelogic.checkers.CheckersGame;
+import org.seng.gamelogic.connectfour.ConnectFourGame;
+import org.seng.gamelogic.tictactoe.TicTacToeGame;
+
+import static org.seng.gui.HelloApplication.database;
 
 public class GameDashboardController {
+
 
     @FXML
     private ImageView statsIcon, profileIcon, playIcon, settingsIcon, logoutIcon;
 
+
     @FXML
     private VBox viewStatsPane, profilePane, playGamesPane;
+    private HomePage homePage;
+    public static Player player;
+    public static Settings setting;
+
+    public static CheckersGame checkersGame;
+
+    public static TicTacToeGame tictactoeGame;
+
+    public static ConnectFourGame connectFourGame;
 
     @FXML
     public void initialize() {
@@ -41,6 +58,13 @@ public class GameDashboardController {
         }
     }
 
+    public void setHomePage(HomePage homePage){
+        this.homePage = homePage;
+    }
+
+    public void setPlayer(Player player1){
+        GameDashboardController.player = player1;
+    }
     @FXML
     public void openLeaderboardPage() {
         openNewPage("leaderboard-page.fxml", "Leaderboard");
@@ -114,6 +138,9 @@ public class GameDashboardController {
 
     @FXML
     public void openSettings() {
+        // Initializing the Setting object
+        setting = new Settings(player, database);
+        System.out.println("success");
         animateGear();
     }
 

@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import org.seng.gamelogic.connectfour.ConnectFourBoard;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -74,10 +75,10 @@ public class Connect4Controller {
         VBox layout = new VBox(15, message, buttons);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
-        layout.getStyleClass().add("quit-background"); // ⭐ Add style class
+        layout.getStyleClass().add("quit-background"); //
 
         Scene scene = new Scene(layout, 300, 150);
-        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); // ⭐ Load your CSS
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); //
 
         dialogStage.setScene(scene);
 
@@ -196,13 +197,61 @@ public class Connect4Controller {
             if (cell.getStyle().isEmpty()) {
                 if (isPlayerOneTurn) {
                     cell.setStyle("-fx-background-color: #00F0FF;"); // Cyan
+                    if (checkWinner(row, col)) {
+                        checkWin(cell);
+                    }
+                    if (boardFull()) {
+                        checkTie(cell);
+                    }
                 } else {
                     cell.setStyle("-fx-background-color: #da77f2;"); // Yellow
+                    if (checkWinner(row, col)) { // winningPage.fxml connected
+                        checkWin(cell);
+                    }
+                    if (boardFull()) {
+                        checkTie(cell);
+                    }
                 }
                 isPlayerOneTurn = !isPlayerOneTurn; // Switch turns
                 updatePlayerTurnIndicator();
                 break;
             }
+        }
+    }
+
+
+
+    private void checkWin(Button sourceButton){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) sourceButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void checkTie(Button tieButton){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("tiePage.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) tieButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -253,6 +302,52 @@ public class Connect4Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean checkWinner(int row, int col) {
+        for (int i = 0; i < ROWS; i++) { //make sure i and j are within the borders of the board
+            for (int j = 0; j < COLS; j++) {
+                Button cell = boardButtons[row][col];
+                if (cell.getStyle().isEmpty()) {
+                    continue; //in case its empty
+                }
+                //this is just error protection, if teh board is a 4x4 for example i dont want to try to access a position 5 or something (probably a better way to do this)
+                if (j + 3 < COLS && cell.getStyle() == boardButtons[i][j].getStyle() &&
+                        cell.getStyle() == boardButtons[i][j+1].getStyle() && cell.getStyle() == boardButtons[i][j+2].getStyle() &&  cell.getStyle() == boardButtons[i][j+3].getStyle()) {
+                    return true;
+                }
+
+                // error checking for row
+                if (i + 3 < ROWS && cell.getStyle() == boardButtons[i][j].getStyle() &&
+                        cell.getStyle() == boardButtons[i+1][j].getStyle() &&  cell.getStyle() == boardButtons[i+2][j].getStyle() && cell.getStyle() == boardButtons[i+3][j].getStyle()) {
+                    return true;
+                }
+
+                //error checking for diagonal (topleft-bottomright)
+                if (i + 3 < ROWS && j + 3 < COLS && cell.getStyle() == boardButtons[i][j].getStyle()
+                        && cell.getStyle() == boardButtons[i+1][j+1].getStyle() && cell.getStyle() == boardButtons[i+2][j+2].getStyle() && cell.getStyle() == boardButtons[i+3][j+3].getStyle()) {
+                    return true;
+                }
+
+                // error checking for diagonal (topright-bottomleft)
+                if (i + 3 < ROWS && j - 3 >= 0  && cell.getStyle() == boardButtons[i][j].getStyle()
+                        && cell.getStyle() == boardButtons[i+1][j-1].getStyle() &&  cell.getStyle() == boardButtons[i+2][j-2].getStyle() && cell.getStyle() == boardButtons[i+3][j-3].getStyle()) {
+                    return true;
+                }
+            }
+        }
+        return false; // no winner found
+    }
+
+    public boolean boardFull() {
+        for (int rowCounter = 0; rowCounter < ROWS; rowCounter++) {
+            for (int colCounter = 0; colCounter < COLS; colCounter++) {
+                if (boardButtons[rowCounter][colCounter].getStyle().isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
 

@@ -13,11 +13,26 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.seng.gamelogic.checkers.AIBotCheckers;
+import org.seng.gamelogic.checkers.CheckersBoard;
+import org.seng.gamelogic.checkers.CheckersGame;
+import org.seng.gamelogic.checkers.CheckersPlayer;
+import org.seng.gamelogic.connectfour.AIBotConnectFour;
+import org.seng.gamelogic.connectfour.ConnectFourBoard;
+import org.seng.gamelogic.connectfour.ConnectFourGame;
+import org.seng.gamelogic.connectfour.ConnectFourPlayer;
+import org.seng.gamelogic.tictactoe.AIBotTicTacToe;
+import org.seng.gamelogic.tictactoe.TicTacToeBoard;
+import org.seng.gamelogic.tictactoe.TicTacToeGame;
+import org.seng.gamelogic.tictactoe.TicTacToePlayer;
+
 import org.seng.networking.SocketGameClient;
 import org.seng.networking.leaderboard_matchmaking.GameType;
 
 import java.io.IOException;
 import java.net.URL;
+
+import static org.seng.networking.leaderboard_matchmaking.GameType.*;
 
 public class WaitingRoomController {
 
@@ -125,7 +140,6 @@ public class WaitingRoomController {
                 case CONNECT4 -> "/org/seng/gui/connect4-game.fxml";
                 case TICTACTOE -> "/org/seng/gui/tictactoe-game.fxml";
             };
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Scene scene = new Scene(loader.load(), 700, 450);
             scene.getStylesheets().add(getClass().getResource("/org/seng/gui/styles/basic-styles.css").toExternalForm());

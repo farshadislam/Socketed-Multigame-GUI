@@ -1,58 +1,114 @@
 package org.seng.gui;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.seng.gamelogic.tictactoe.*;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
+import java.util.HashMap;
+import java.util.Map;
 
 public class TicTacToeController {
 
-    @FXML private Button button1;
-    @FXML private Button button2;
-    @FXML private Button button3;
-    @FXML private Button button4;
-    @FXML private Button button5;
-    @FXML private Button button6;
-    @FXML private Button button7;
-    @FXML private Button button8;
-    @FXML private Button button9;
-    @FXML private Button inGameChatButton;
-    @FXML private MenuItem helpOption;
-    @FXML private Label turnLabel;
-    @FXML private FlowPane board;
+    private TicTacToeGame game;
+    private boolean isAIMode = false;
+    private boolean isOnlineMode = false;
+    private Stage chatStage = null;
 
-    @FXML public void initialize() {
+    private boolean isPlayerXTurn = true;
+
+    private int valForAlternation = 0;
+
+    private Map<Button, int[]> buttonPositionMap = new HashMap<>();
+
+    @FXML
+    private Button button11, button12, button13;
+    @FXML
+    private Button button21, button22, button23;
+    @FXML
+    private Button button31, button32, button33;
+
+    @FXML
+    private Button inGameChatButton;
+    @FXML
+    private MenuItem helpOption;
+    @FXML
+    private Label turnLabel;
+    @FXML
+    private GridPane board;
+
+    @FXML
+    public void initialize() {
         clearChatHistory();
-        button1.setOnAction(e -> handleMove(button1));
-        button2.setOnAction(e -> handleMove(button2));
-        button3.setOnAction(e -> handleMove(button3));
-        button4.setOnAction(e -> handleMove(button4));
-        button5.setOnAction(e -> handleMove(button5));
-        button6.setOnAction(e -> handleMove(button6));
-        button7.setOnAction(e -> handleMove(button7));
-        button8.setOnAction(e -> handleMove(button8));
-        button9.setOnAction(e -> handleMove(button9));
+
+//        button11.setOnAction(e -> handleMove(button11));
+//        button12.setOnAction(e -> handleMove(button12));
+//        button13.setOnAction(e -> handleMove(button13));
+//        button21.setOnAction(e -> handleMove(button21));
+//        button22.setOnAction(e -> handleMove(button22));
+//        button23.setOnAction(e -> handleMove(button23));
+//        button31.setOnAction(e -> handleMove(button31));
+//        button32.setOnAction(e -> handleMove(button32));
+//        button33.setOnAction(e -> handleMove(button33));
+//
+//        buttonPositionMap.put(button11, new int[]{0, 0});
+//        buttonPositionMap.put(button12, new int[]{0, 1});
+//        buttonPositionMap.put(button13, new int[]{0, 2});
+//        buttonPositionMap.put(button21, new int[]{1, 0});
+//        buttonPositionMap.put(button22, new int[]{1, 1});
+//        buttonPositionMap.put(button23, new int[]{1, 2});
+//        buttonPositionMap.put(button31, new int[]{2, 0});
+//        buttonPositionMap.put(button32, new int[]{2, 1});
+//        buttonPositionMap.put(button33, new int[]{2, 2});
+
+//        String details = nextTurn();
+//        String[] currentState = details.split(":");
+//        currentState[0]
+//
+//        for (int i = 0; i < 9; i++) {
+//
+//        }
+        button11.setOnAction(e -> handleMove(0, 0, button11));  // First row, first column
+        button12.setOnAction(e -> handleMove(0, 1, button12));  // First row, second column
+        button13.setOnAction(e -> handleMove(0, 2, button13));  // First row, third column
+
+        button21.setOnAction(e -> handleMove(1, 0, button21));  // Second row, first column
+        button22.setOnAction(e -> handleMove(1, 1, button22));  // Second row, second column
+        button23.setOnAction(e -> handleMove(1, 2, button23));  // Second row, third column
+
+        button31.setOnAction(e -> handleMove(2, 0, button31));  // Third row, first column
+        button32.setOnAction(e -> handleMove(2, 1, button32));  // Third row, second column
+        button33.setOnAction(e -> handleMove(2, 2, button33));  // Third row, third column
+
+        Button[] row1 = {button11, button12, button13};
+        Button[] row2 = {button21, button22, button23};
+        Button[] row3 = {button31, button32, button33};
+
+        Button[][] board = {row1, row2, row3};
+    }
+
+    private String nextTurn() {
+        return "";
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
-
 
     private void saveMessage(String message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH, true))) {
@@ -70,6 +126,7 @@ public class TicTacToeController {
             return "";
         }
     }
+
     private void clearChatHistory() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAT_LOG_PATH))) {
             writer.write("");
@@ -78,15 +135,140 @@ public class TicTacToeController {
         }
     }
 
-    private StringBuilder chatHistory = new StringBuilder();
+    private void handleMove(int row, int col, Button button) {
+        valForAlternation++;
+        // Check if the button has already been clicked (i.e., it already has a symbol)
+        if (!button.getText().isEmpty()) {
+            return;  // If the button is already clicked, do nothing
+        }
+
+        // Place the symbol on the button
+        if (valForAlternation % 2 == 0) {
+            button.setText("O");
+            button.setStyle("-fx-font-size: 36px; -fx-text-fill: red;");
+        } else {
+            button.setText("X");
+            button.setStyle("-fx-font-size: 36px; -fx-text-fill: deepskyblue;");
+        }
+//        String symbol = isPlayerXTurn ? "X" : "O";  // Toggle between X and O
+//        button.setText(symbol);
+
+        // Disable the button to prevent re-clicking
+        button.setDisable(true);
+
+        // Make the move on the game board
+        boolean moveMade = game.makeMove(row, col);
+
+        if (moveMade) {
+            // Update the game status
+            String status = game.getStatus();
+            if (status.endsWith("Wins")) {
+                turnLabel.setText("Game Over! " + status);
+                System.out.print(turnLabel);
+                disableAllButtons();  // Disable all buttons when the game ends
+            } else if (status.equals("Draw")) {
+                turnLabel.setText("It's a Draw!");
+                System.out.print(turnLabel);
+                disableAllButtons();  // Disable all buttons in case of a draw
+            } else {
+                turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
+                System.out.print(turnLabel);
+            }
+
+            // Switch to the other player's turn
+            togglePlayerTurn();
+        }
+
+//        initNum++;
+//        if (initNum == 1){
+//            clearChatHistory();
+//
+//            // Setup player data
+//            localPlayer = new TicTacToePlayer("usernameOne", "emailOne",  "passwordOne");
+//            remotePlayer = new TicTacToePlayer("usernameTwo", "emailTwo",  "passwordTwo");
+//
+//            TicTacToeBoard board = new TicTacToeBoard();
+//            game = new TicTacToeGame(board, new TicTacToePlayer[]{localPlayer, remotePlayer}, 1);
+//            game.initializePlayerSymbols();
+//        }
+
+//        if (!button.getText().isEmpty()) return;
+//
+//        boolean moveMade = game.makeMove(row, col);
+//
+//        if (moveMade) {
+//            String symbol = game.getCurrentMark() == TicTacToeBoard.Mark.X ? "O" : "X";
+//            button.setText(symbol);
+//
+//            String status = game.getStatus();
+//            if (status.endsWith("Wins")) {
+//                turnLabel.setText("Game Over! " + status);
+//                disableAllButtons();
+//            } else if (status.equals("Draw")) {
+//                turnLabel.setText("It's a Draw!");
+//                disableAllButtons();
+//            } else {
+//                turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
+//            }
+//
+//            if (game.AIBot != null && game.getCurrentMark() == game.getCurrentMark()) {
+//                game.AIBot.makeMove(game.getBoard(), game);
+//                updateBoardButtons();
+//                String newStatus = game.getStatus();
+//                if (newStatus.endsWith("Wins") || newStatus.equals("Draw")) {
+//                    turnLabel.setText("Game Over! " + newStatus);
+//                    disableAllButtons();
+//                }
+//            }
+//        }
+    }
+
+    // Function to toggle player turns (just a sample, adjust based on your existing logic)
+    private void togglePlayerTurn() {
+        isPlayerXTurn = !isPlayerXTurn;
+    }
+
+    // Function to check if it's Player X's turn (adjust based on your existing logic)
+    private boolean isPlayerXTurn() {
+        return isPlayerXTurn;
+    }
+
+
+    private void updateBoardButtons() {
+        for (Map.Entry<Button, int[]> entry : buttonPositionMap.entrySet()) {
+            Button button = entry.getKey();
+            int[] pos = entry.getValue();
+            TicTacToeBoard.Mark mark = game.getBoard().getMark(pos[0], pos[1]);
+
+            if (mark == TicTacToeBoard.Mark.X) {
+                button.setText("X");
+            } else if (mark == TicTacToeBoard.Mark.O) {
+                button.setText("O");
+            } else {
+                button.setText("");
+            }
+        }
+    }
+
+    private void disableAllButtons() {
+        for (Button b : buttonPositionMap.keySet()) {
+            b.setDisable(true);
+        }
+    }
 
     @FXML
     private void openChat() {
-        Stage chatStage = new Stage();
+        // Close existing window if it's open
+        if (chatStage != null && chatStage.isShowing()) {
+            chatStage.close();
+        }
+
+        // Create a new window
+        chatStage = new Stage();
         chatStage.setTitle("In-Game Chat");
 
         VBox chatBox = new VBox(10);
-        chatBox.setPadding(new javafx.geometry.Insets(10));
+        chatBox.setPadding(new Insets(10));
         chatBox.getStyleClass().add("chat-window");
 
         TextArea chatDisplay = new TextArea();
@@ -112,47 +294,57 @@ public class TicTacToeController {
                 messageField.clear();
             }
         });
+
         messageField.setOnAction(e -> sendButton.fire());
         chatBox.getChildren().addAll(chatDisplay, messageField, sendButton);
 
         Scene scene = new Scene(chatBox, 350, 300);
         scene.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
         chatStage.setScene(scene);
+
+        // Reset the reference when closed
+        chatStage.setOnHidden(e -> chatStage = null);
+
         chatStage.show();
-
-
     }
+
 
     @FXML
     void howToPlayDescription(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.NONE);
-
         alert.setTitle("Help");
         alert.setHeaderText("How to Play");
 
         alert.setContentText(
-                "1. Players take turns selecting a spot for their X or O.\n\n"
-                        + "2. Try to get three XXX or OOO all in the same row, column, or across. \n\n"
-                        + "3. First player to do so wins!\n\n"
-                        + "4. If the board is full, it's a draw.\n");
+                "1. Players take turns selecting a spot for their X or O.\n\n" +
+                        "2. Try to get three XXX or OOO all in the same row, column, or across. \n\n" +
+                        "3. First player to do so wins!\n\n" +
+                        "4. If the board is full, it's a draw.\n");
 
-        alert.getButtonTypes().add(javafx.scene.control.ButtonType.OK);
+        alert.getButtonTypes().add(ButtonType.OK);
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("gameChat.css").toExternalForm());
 
         alert.showAndWait();
     }
-    private boolean isPlayerOneTurn = true;
-    private void handleMove(Button button) {
-        if (button.getText().isEmpty()) {
-            if (isPlayerOneTurn) {
-                button.setText("X");
-                turnLabel.setText("Player 2's Turn");
-            } else {
-                button.setText("O");
-                turnLabel.setText("Player 1's Turn");
-            }
-            isPlayerOneTurn = !isPlayerOneTurn;
+
+    private void openToGameDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+            Scene dashboardScene = new Scene(loader.load(), 900, 600);
+            dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            Stage dashboardStage = new Stage();
+            dashboardStage.setTitle("Game Dashboard");
+            dashboardStage.setScene(dashboardScene);
+
+            // Close current window
+            Stage currentStage = (Stage) board.getScene().getWindow();
+            currentStage.close();
+
+            dashboardStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -180,10 +372,10 @@ public class TicTacToeController {
         VBox layout = new VBox(15, message, buttons);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
-        layout.getStyleClass().add("quit-background"); // ⭐ Add style class
+        layout.getStyleClass().add("quit-background"); //
 
         Scene scene = new Scene(layout, 300, 150);
-        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); // ⭐ Load your CSS
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); //
 
         dialogStage.setScene(scene);
 
@@ -196,32 +388,22 @@ public class TicTacToeController {
         dialogStage.show();
     }
 
-    private void openToGameDashboard() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
-            Scene dashboardScene = new Scene(loader.load(), 900, 600);
-            dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+}
 
-            Stage dashboardStage = new Stage();
-            dashboardStage.setTitle("Game Dashboard");
-            dashboardStage.setScene(dashboardScene);
 
-            // Close current window
-            Stage currentStage = (Stage) board.getScene().getWindow();
-            currentStage.close();
 
-            dashboardStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 //    @FXML
 //    private void handleButtonClick(ActionEvent event) {
 //        Button clickedButton = (Button) event.getSource();
 //        if (clickedButton.getText().isEmpty()) {
-//            clickedButton.setText("X");
+//            if (isPlayerXTurn) {
+//                clickedButton.setText("X");
+//            } else {
+//                clickedButton.setText("O");
+//            }
+//            isPlayerXTurn = !isPlayerXTurn; // Toggle turn
 //        }
 //    }
-}
 
 
