@@ -84,35 +84,35 @@ public class SocketMatchServer {
             // try to join matchmaking system
             Match match = matchmaking.joinQueue(newPlayer, selectedGame);
 
-            // this is if no one matched yet and the player waits
+            // this leaves he method is no match yet
             if (match == null) {
                 System.out.println(username + " is waiting for opponent...");
                 return;
             }
 
-            // this is if the players have matched and identifies which player is who
-            Player opponent;
+            // this identifies the opponent from the match object
+            Player opponent = null;
             if (match.getPlayer1().equals(newPlayer)) {
-                opponent = match.getPlayer2(); // this person is second to join
+                opponent = match.getPlayer2();
             } else {
-                opponent = match.getPlayer1(); // this person is second to join
+                opponent = match.getPlayer1();
             }
 
-            // this hooks up both socket handlers to each other
-            opponent.getSocketHandler().setOpponent(handler); // tells the opponent who joined
-            handler.setOpponent(opponent.getSocketHandler()); // this tells this player too
+            // this then hooks up both handlers
+            opponent.getSocketHandler().setOpponent(handler);
+            handler.setOpponent(opponent.getSocketHandler());
 
-            // this determines the player positions
+            // this checks both player roles based on match order
             boolean isNewPlayerOne = match.getPlayer1().equals(newPlayer);
 
-            // this sends opponent info to both players
+            // this sends the role assignment, and newPlayer's handler is handler
             handler.sendOpponentInfo(opponent.getUsername(), isNewPlayerOne);
             opponent.getSocketHandler().sendOpponentInfo(newPlayer.getUsername(), !isNewPlayerOne);
 
-            // this notifies both players the match is made
-            netManager.notifyPlayersMatched(newPlayer, opponent, match);
+            // this notifies players in the correct order preserving player status *
+            netManager.notifyPlayersMatched(match.getPlayer1(), match.getPlayer2(), match);
 
-            // this launches both threads
+            // this launches both handlers.
             pool.execute(opponent.getSocketHandler());
             pool.execute(handler);
 
