@@ -2,120 +2,158 @@ package org.seng.networking;
 
 import org.seng.networking.leaderboard_matchmaking.GameType;
 import org.seng.authentication.Player;
+
 import java.io.*;
 import java.net.Socket;
 
+// this class handles a single client connection in the multiplayer game server.
+// it receives and processes messages from a client (such as readiness, moves, etc.)
+// and, when appropriate, it forwards messages (for example, move commands) to the opponent.
 public class SocketGameHandler implements Runnable {
 
-    // this is our network socket for the client connection
-    private Socket socket; // this is our network socket for the client connection
-    private BufferedReader in; // this reader helps us get messages from the client
-    private BufferedWriter out;   // this writer allows us to send text messages to the client
-    private String playerName;     // this is the player's name associated with this handler
+    // this is the socket connection with the client
+    private Socket socket;
+    // the reader to capture messages coming from the client
+    private BufferedReader in;
+    // the writer to send messages to the client
+    private BufferedWriter out;
+    // the name of the connected player
+    private String playerName;
 
-    public SocketGameHandler opponent;  // this will hold the opponent's socket game handler once matched
-    private GameType gameType;   // this holds what game type the player wants to play
+    // this references the opponents handler
+    public SocketGameHandler opponent;
+
+    // this is the game type that the player has chosen
+    private GameType gameType;
+    // this flag indicates whether the client is ready to start
     private boolean isReady = false;
 
-    // this constructor sets up the socket and initializes the reader and writer
+    // this tracks if the client is closed by sending the target message
+    private boolean waitingRoomClosed = false;
+
+    // this constructor sets up the socket connection and I/O streams and stores the player's name.
     public SocketGameHandler(Socket socket, String playerName) throws IOException {
-        this.socket = socket; // this stores the socket provided
-        this.playerName = playerName; // this stores the player's name
-        // this creates a reader for incoming messages from the socket connection
+        this.socket = socket;
+        this.playerName = playerName;
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        // this creates a writer to send messages back through the socket connection
         this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
     }
 
-    // this method lets us set the opponent's handler so the two players can talk to each other
+    // this sets the opponents SocketGameHandler when players are matched.
     public void setOpponent(SocketGameHandler opponent) {
         this.opponent = opponent;
     }
 
-    // this method stores what game the player chose
+    // this sets the game type chosen by the client
     public void setGameType(GameType gameType) {
         this.gameType = gameType;
     }
 
-    // this method returns the game type that has been set for this player
+    // this return the game type
     public GameType getGameType() {
         return this.gameType;
     }
 
-    // this method returns this same socket handler
+    // this return this SocketGameHandler instance
     public SocketGameHandler getSocketHandler() {
         return this;
     }
 
-    // this method sends a message to the client using our writer and adds a newline and flushes the message
+    // this send a message to the connected client.
     public void sendMessage(String message) throws IOException {
         out.write(message);
         out.newLine();
         out.flush();
     }
 
-    // this method returns whether the player has indicated they are ready
+    // this returns the readiness fla
     public boolean isReady() {
         return isReady;
     }
 
-    // this sets the ready flag for this player
+    // this sets the readiness flag
     public void setReady(boolean ready) {
         this.isReady = ready;
     }
 
-    // this method sends opponent information over to the client
+    // this sets the flag that the client has closed its waiting room
+    public void setWaitingRoomClosed(boolean closed) {
+        waitingRoomClosed = closed;
+    }
+
+    // this get the flags if the client has closed its waiting room.
+    public boolean isWaitingRoomClosed() {
+        return waitingRoomClosed;
+    }
+
+    // this sends the role assignment and opponenent name
+    // this also informs the client whether it is Player 1 (X) or Player 2 (O).
     public void sendOpponentInfo(String opponentName, boolean isPlayerOne) throws IOException {
-        String playerPosition;
         if (isPlayerOne) {
-            playerPosition = "true";
+            sendMessage("IS_PLAYER_ONE:true");
         } else {
-            playerPosition = "false";
+            sendMessage("IS_PLAYER_ONE:false");
         }
-        //this sends a message indicating the player's position
-        sendMessage("IS_PLAYER_ONE:" + playerPosition);
-        // this sends the opponent's name so the client knows who they are matched with
         sendMessage("OPPONENT_NAME:" + opponentName);
     }
 
-    // this is where the socket game handler's main loop runs once started in a thread
     @Override
     public void run() {
         try {
-            // so when a client connects a welcome message is sent
+            // this sends initial welcome messages to the connected client
             sendMessage("Welcome " + playerName);
-            // this informs the client of their player name
             sendMessage("PLAYER_NAME:" + playerName);
+
             String line;
-            // this listens for messages from the client until the connection ends
+            // this loop reads messages from the client
             while ((line = in.readLine()) != null) {
-                // this prints out what the client said to our console
-                System.out.println(playerName + " says: " + line);
-                // this marks the player as ready ig they select it
+                System.out.println("[DEBUG SERVER] " + playerName + " says: " + line);
+
+                // this marks the it as raady and notifies the opponent if the client sends ready
                 if (line.equalsIgnoreCase("READY")) {
-                    setReady(true); // this updates the ready flag
-                    System.out.println(playerName + " is now ready.");
-                    // this tells the opponennt that the player is ready
+                    setReady(true);
+                    System.out.println("[DEBUG SERVER] " + playerName + " is now ready.");
                     if (opponent != null) {
                         opponent.sendMessage("OPPONENT_READY");
                     }
-                    // this signals to start the game is both players are ready
+                    // this starts the game by sending start game to both
                     if (opponent != null && opponent.isReady()) {
                         sendMessage("START_GAME");
                         opponent.sendMessage("START_GAME");
                     }
-                } else {
-                    // this passes the non-ready message to the opponent
+                }
+                // this is for when the client signals that it has closed
+                else if (line.equals("WAITING_ROOM_CLOSED")) {
+                    setWaitingRoomClosed(true);
+                    System.out.println("[DEBUG SERVER] Received WAITING_ROOM_CLOSED from " + playerName);
+                    // this is if both have closed
+                    if (opponent != null && opponent.isWaitingRoomClosed()) {
+                        System.out.println("[DEBUG SERVER] Both clients have closed the waiting room.");
+                    }
+                }
+                // this forwards tic-tac-toe messages, to both clients if both waiting rooms have been closed
+                else if (line.startsWith("MOVE:TICTACTOE:")) {
                     if (opponent != null) {
+                        if (this.isWaitingRoomClosed() && opponent.isWaitingRoomClosed()) {
+                            System.out.println("[DEBUG SERVER] Forwarding move: " + line + " to opponent of " + playerName);
+                            opponent.sendMessage(line);
+                        } else {
+                            System.out.println("[DEBUG SERVER] Received move but waiting room not closed on both ends. Ignoring move: " + line);
+                        }
+                    }
+                }
+                // these are for any other messages
+                else {
+                    if (opponent != null) {
+                        System.out.println("[DEBUG SERVER] Forwarding message from " + playerName + " to opponent.");
                         opponent.sendMessage(playerName + ": " + line);
                     }
                 }
             }
         } catch (IOException e) {
-            // this prints an error if there was an error occurring with the connection
-            System.err.println("connection error with " + playerName);
+            System.err.println("[DEBUG SERVER] Connection error with " + playerName + ": " + e.getMessage());
         } finally {
-            // this disconnects the player from our networking manager once finished
+            // this disconnects the player using the NetworkingManager
             NetworkingManager.getInstance().disconnectPlayer(playerName);
         }
     }
