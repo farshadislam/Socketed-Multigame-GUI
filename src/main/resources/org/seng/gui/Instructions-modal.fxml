@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+           fx:id="modalRoot"
+           fx:controller="org.seng.gui.InstructionsModalController"
+           styleClass="modal-root" prefWidth="500" prefHeight="400">
+    <VBox alignment="CENTER" spacing="20" styleClass="modal-card">
+        <Label fx:id="modalTitle" text="Instructions" styleClass="modal-title"/>
+        <Label fx:id="modalText"
+               text="It is set by default so that 2 users can run ‘Hello Application’ on the same device via localhost.
+For remote play, the host must run the server (SocketGameServer.java) and the second player should change 'localhost' to the host’s IPv4 address in the code.
+Thank you for playing!"
+               styleClass="modal-text"
+               wrapText="true" maxWidth="450" textAlignment="CENTER"/>
+        <Button fx:id="closeButton" text="Close" styleClass="modal-close-button" onAction="#handleClose"/>
+    </VBox>
+</StackPane>

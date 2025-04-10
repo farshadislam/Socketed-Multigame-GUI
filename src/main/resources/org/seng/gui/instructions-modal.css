@@ -1,0 +1,42 @@
+.modal-root {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-alignment: center;
+}
+
+.modal-card {
+    -fx-background-color: linear-gradient(to bottom right, #57366d, #2e00f3);
+    -fx-background-radius: 20;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 20, 0.5, 0, 0);
+}
+
+.modal-title {
+    -fx-font-family: "Nunito ExtraBold", sans-serif;
+    -fx-font-size: 28px;
+    -fx-text-fill: #f7b296;
+}
+
+.modal-text {
+    -fx-font-family: "Nunito", sans-serif;
+    -fx-font-size: 16px;
+    -fx-text-fill: #ffffff;
+    -fx-line-spacing: 4;
+}
+
+.modal-close-button {
+    -fx-font-family: "Nunito Semibold", sans-serif;
+    -fx-font-size: 16px;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 10 20;
+    -fx-background-radius: 20;
+    -fx-background-color: linear-gradient(to bottom right, #b76dfb, #a354fa);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.25, 3, 3);
+    -fx-cursor: hand;
+}
+.modal-close-button:hover {
+    -fx-background-color: linear-gradient(to bottom right, #c87afb, #b76dfb);
+}
+.modal-close-button:pressed {
+    -fx-background-color: linear-gradient(to bottom right, #9f5af9, #8f4fff);
+    -fx-translate-y: 1;
+}

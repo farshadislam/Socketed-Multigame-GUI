@@ -1,0 +1,48 @@
+/* instructions.css */
+
+/* Outer background gradient */
+.instructions-root {
+    -fx-background-color: radial-gradient(
+            center 50% 50%, radius 150%,
+            #5136ff 0%, /* Start color */
+            #2e00f3 100% /* End color */
+    );
+    -fx-padding: 30;
+}
+
+/* The interior card for text + button. */
+.instructions-card {
+    -fx-background-color: #B296ff; /* a clay/lavender color, for example */
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0.2, 5, 5);
+}
+
+/* Title styling */
+.instructions-title {
+    -fx-font-family: "Nunito ExtraBold", "Segoe UI", sans-serif;
+    -fx-font-size: 26px;
+    -fx-text-fill: #ffffff; /* white text for contrast */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 4, 0.3, 2, 2);
+    -fx-padding: 0 0 10 0;
+}
+
+/* Body text styling */
+.instructions-body {
+    -fx-font-family: "Nunito", "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #2b2b2b;
+    -fx-alignment: center;
+}
+
+/* Close button styling */
+.instructions-close-btn {
+    -fx-background-radius: 18;
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 8 20;
+    -fx-background-color: linear-gradient(to bottom right, #a354fa, #8e38f8);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.3, 2, 2);
+    -fx-cursor: hand;
+}
