@@ -29,6 +29,9 @@ public class ProfilePageController {
     @FXML private TableColumn<GameStat, Integer> winsColumn;
     @FXML private TableColumn<GameStat, Integer> lossesColumn;
     @FXML private TableColumn<GameStat, Integer> tiesColumn;
+    @FXML private TableColumn<GameStat, String> rankColumn;
+    @FXML private TableColumn<GameStat, Integer> mmrColumn;
+
 
     @FXML private Button searchProfilesButton;
     @FXML private ImageView backIcon;
@@ -44,27 +47,17 @@ public class ProfilePageController {
 
         backIcon.setOnMouseClicked(event -> goBack());
 
-        setProfileData("MyUsername");
+        setProfileData(player.getUsername());
 
         searchProfilesButton.setOnAction(e -> openSearchProfile());
     }
 
     public void setProfileData(String playerName) {
+
         usernameLabel.setText(playerName);
         profileTitleText.setText(playerName + "'s Profile");
-        // Set up user profile dummy data
-        usernameLabel.setText(player.getUsername());
-        lastOnlineLabel.setText("Last Online: Just now");
-
-        int wins = 5;  // player.getTotalWins();
-        int losses = 2;
-        int ties = 1;
-        int total = wins + losses + ties; // player.getTotalGamesPlayed();
-
-        myWinsLabel.setText(String.valueOf(wins));
-        myLossesLabel.setText(String.valueOf(losses));
-        myTiesLabel.setText(String.valueOf(ties));
-        myTotalGamesLabel.setText(String.valueOf(total));
+        lastOnlineLabel.setText("Last Online: Just now"); // connect with networking
+        myTotalGamesLabel.setText(String.valueOf(player.getTotalGamesPlayed()));
         myWinsLabel.setText(String.valueOf(player.getTotalWins()));
         myLossesLabel.setText(String.valueOf(player.getTotalLosses()));
         myTiesLabel.setText(String.valueOf(player.getTotalTies()));
@@ -73,14 +66,14 @@ public class ProfilePageController {
         winsColumn.setCellValueFactory(data -> data.getValue().winsProperty().asObject());
         lossesColumn.setCellValueFactory(data -> data.getValue().lossesProperty().asObject());
         tiesColumn.setCellValueFactory(data -> data.getValue().tiesProperty().asObject());
+        rankColumn.setCellValueFactory(data -> data.getValue().rankProperty());
+        mmrColumn.setCellValueFactory(data -> data.getValue().mmrProperty().asObject());
+
 
         gameStatsTable.setItems(FXCollections.observableArrayList(
-                new ProfilePageController.GameStat("Checkers", "Silver", 3, 3, 1, 1), // player.getCheckersStats().get_wins(),  player.getCheckersStats().get_losses(),player.getCheckersStats().get_ties())
-                new ProfilePageController.GameStat("Tic Tac Toe", "Gold", 2, 2, 2, 0),
-                new ProfilePageController.GameStat("Connect 4", "Bronze", 1, 1, 0, 2)
-                new GameStat("Checkers", player.getCheckersStats().getWins(), player.getCheckersStats().getLosses(), player.getCheckersStats().get_ties()),
-                new GameStat("Tic Tac Toe", player.getTicTacToeStats().getWins(), player.getTicTacToeStats().getLosses(), player.getTicTacToeStats().get_ties()),
-                new GameStat("Connect 4", player.getConnect4Stats().getWins(), player.getConnect4Stats().getLosses(), player.getConnect4Stats().get_ties())
+                new ProfilePageController.GameStat("Checkers", String.valueOf(player.getCheckersStats().getRank()), player.getCheckersStats().getMMR(), player.getCheckersStats().get_wins(), player.getCheckersStats().getLosses(), player.getConnect4Stats().get_ties()),
+                new ProfilePageController.GameStat("Tic Tac Toe", String.valueOf(player.getTicTacToeStats().getRank()), player.getTicTacToeStats().getMMR(), player.getTicTacToeStats().get_wins(), player.getTicTacToeStats().getLosses(), player.getTicTacToeStats().get_ties()),
+                new ProfilePageController.GameStat("Connect 4", String.valueOf(player.getConnect4Stats().getRank()), player.getConnect4Stats().getMMR(), player.getConnect4Stats().getWins(), player.getConnect4Stats().getLosses(), player.getConnect4Stats().get_ties())
         ));
     }
 
@@ -113,9 +106,6 @@ public class ProfilePageController {
         }
     }
 
-    public void setProfileData(String playerName) {
-
-    }
     public static class GameStat {
         private final SimpleStringProperty game;
         private final SimpleStringProperty rank;

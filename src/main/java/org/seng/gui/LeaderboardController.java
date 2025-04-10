@@ -197,9 +197,9 @@ public class LeaderboardController {
     }
 
 
-    @FXML
-    public void changeGameType() {
-        String gameType = gameTypeComboBox.getValue();
-        System.out.println("Selected game type: " + gameType);
-    }
+//    @FXML
+//    public void changeGameType() {
+//        String gameType = gameTypeComboBox.getValue();
+//        System.out.println("Selected game type: " + gameType);
+//    }
 }

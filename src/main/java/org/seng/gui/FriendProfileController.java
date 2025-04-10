@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import org.seng.authentication.Player;
 
 public class FriendProfileController {
 
@@ -47,7 +48,7 @@ public class FriendProfileController {
         backIcon.setOnMouseClicked(event -> goBack());
     }
 
-    public void setProfileData(String name, String lastOnline, int wins, int losses, int ties) {
+    public void setProfileData(String name, String lastOnline, int wins, int losses, int ties, Player friend) {
         friendNameLabel.setText(name);
         friendLastOnlineLabel.setText(lastOnline);
         friendWinsLabel.setText(String.valueOf(wins));
@@ -58,9 +59,9 @@ public class FriendProfileController {
         friendMatchesLabel.setText(String.valueOf(totalMatches));
 
         friendGameStatsTable.setItems(FXCollections.observableArrayList(
-                new ProfilePageController.GameStat("Checkers", "Silver", 3, 3, 1, 1),
-                new ProfilePageController.GameStat("Tic Tac Toe", "Gold", 2, 2, 2, 0),
-                new ProfilePageController.GameStat("Connect 4", "Bronze", 1, 1, 0, 2)
+                new ProfilePageController.GameStat("Checkers", String.valueOf(friend.getCheckersStats().getRank()), friend.getCheckersStats().getMMR(), friend.getCheckersStats().getWins(), friend.getCheckersStats().getLosses(), friend.getCheckersStats().get_ties()),
+                new ProfilePageController.GameStat("Tic Tac Toe", String.valueOf(friend.getTicTacToeStats().getRank()), friend.getTicTacToeStats().getMMR(), friend.getTicTacToeStats().get_wins(), friend.getTicTacToeStats().getLosses(), friend.getTicTacToeStats().get_ties()),
+                new ProfilePageController.GameStat("Connect 4", String.valueOf(friend.getConnect4Stats().getRank()), friend.getConnect4Stats().getMMR(), friend.getConnect4Stats().get_wins(), friend.getConnect4Stats().getLosses(), friend.getConnect4Stats().get_ties())
         ));
 
     }

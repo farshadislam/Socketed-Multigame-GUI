@@ -35,11 +35,6 @@ public class SearchProfileController {
             AllProfiles.add(key);
         }
     }
-    private final List<String> allProfiles = new ArrayList<String>() {{
-        add("JoyThief22");
-        add("FishEnjoyer2");
-        add("notAMinor66");
-    }};
 
     @FXML
     public void initialize(){
@@ -80,8 +75,7 @@ public class SearchProfileController {
                 Parent root = loader.load();
 
                 FriendProfileController controller = loader.getController();
-                controller.setProfileData(selected, "Last Online: 2 hours ago", friend.getTotalWins(), friend.getTotalLosses(), friend.getTotalTies());
-                controller.setProfileData(selected, "Last Online: 2 hours ago", 3, 2, 0);
+                controller.setProfileData(selected, "Last Online: 2 hours ago", friend.getTotalWins(), friend.getTotalLosses(), friend.getTotalTies(), friend);
 
                 Scene scene = new Scene(root, 700, 450);
                 scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());

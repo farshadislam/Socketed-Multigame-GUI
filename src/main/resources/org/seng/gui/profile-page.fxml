@@ -22,9 +22,9 @@
                 </VBox>
             </HBox>
             <HBox spacing="15">
-                <Label style="-fx-text-fill: #1d0e4d;" text="Total Matches" />
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Matches:" />
                 <Label fx:id="myTotalGamesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label style="-fx-text-fill: #1d0e4d;" text="Total Wins" />
+                <Label style="-fx-text-fill: #1d0e4d;" text="Total Wins:" />
                 <Label fx:id="myWinsLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
                 <Label style="-fx-text-fill: #1d0e4d;" text="Total Losses:" />
                 <Label fx:id="myLossesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
@@ -35,8 +35,8 @@
             <TableView fx:id="gameStatsTable" editable="false" prefHeight="97.0" prefWidth="671.0">
                 <columns>
                     <TableColumn fx:id="gameColumn" prefWidth="180" text="Game" />
-                    <TableColumn fx:id="Rank" prefWidth="100" text="Rank" />
-                    <TableColumn fx:id="MMR" prefWidth="100" text="MMR" />
+                    <TableColumn fx:id="rankColumn" prefWidth="100" text="Rank" />
+                    <TableColumn fx:id="mmrColumn" prefWidth="100" text="MMR" />
                     <TableColumn fx:id="winsColumn" prefWidth="100" text="Wins" />
                     <TableColumn fx:id="lossesColumn" prefWidth="100" text="Losses" />
                     <TableColumn fx:id="tiesColumn" prefWidth="100" text="Ties" />
