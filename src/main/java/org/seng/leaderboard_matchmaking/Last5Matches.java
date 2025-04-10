@@ -21,16 +21,16 @@ public class Last5Matches {
      * If the list is full (5), it removes the oldest match before adding.
      *
      * @param gameType The type of the game played.
-     * @param opponent The opponent Player object.
+     * @param opponentUsername The opponent Player object.
      */
-    public void update(GameType gameType, Player opponent) {
+    public void update(GameType gameType, String opponentUsername) {
         int MAX_SIZE = 5;
         if (matchHistory.size() == MAX_SIZE) {
             matchHistory.remove(0); // Remove oldest match
         }
         List<Object> newMatch = new ArrayList<>();
         newMatch.add(gameType);
-        newMatch.add(opponent);
+        newMatch.add(opponentUsername);
         matchHistory.add(newMatch);
     }
 
