@@ -53,8 +53,8 @@ public class CheckersBoardController {
 
 
     private boolean isPlayerBTurn = true; // black goes first
-
     private Button selectedPiece = null;
+    private Button capturedPiece = null;
 
     private int selectedRow = -1;
 
@@ -63,6 +63,7 @@ public class CheckersBoardController {
     private Image blackPieceImage;
     private Image RedPieceImageKing;
     private Image BlackPieceKing;
+    private Button[][] buttonBoard;
 
 
     @FXML
@@ -75,8 +76,17 @@ public class CheckersBoardController {
 
 
         setupPieces();
-        selectionHandle();
         clearChatHistory();
+
+        Button[] row1 = {a1, a2, a3, a4, a5, a6, a7, a8};
+        Button[] row2 = {b1, b2, b3, b4, b5, b6, b7, b8};
+        Button[] row3 = {c1, c2, c3, c4, c5, c6, c7, c8};
+        Button[] row4 = {d1, d2, d3, d4, d5, d6, d7, d8};
+        Button[] row5 = {e1, e2, e3, e4, e5, e6, e7, e8};
+        Button[] row6 = {f1, f2, f3, f4, f5, f6, f7, f8};
+        Button[] row7 = {g1, g2, g3, g4, g5, g6, g7, g8};
+        Button[] row8 = {h1, h2, h3, h4, h5, h6, h7, h8};
+        buttonBoard = new Button[][]{row1, row2, row3, row4, row5, row6, row7, row8};
 
         isPlayerBTurn = false;
         togglePlayerTurn();
@@ -172,18 +182,6 @@ public class CheckersBoardController {
         h8.setOnAction(e -> handleButtonClick(7, 7, h8));
     }
 
-    private void selectionHandle() {
-        Button[] row1 = {a1, a2, a3, a4, a5, a6, a7, a8};
-        Button[] row2 = {b1, b2, b3, b4, b5, b6, b7, b8};
-        Button[] row3 = {c1, c2, c3, c4, c5, c6, c7, c8};
-        Button[] row4 = {d1, d2, d3, d4, d5, d6, d7, d8};
-        Button[] row5 = {e1, e2, e3, e4, e5, e6, e7, e8};
-        Button[] row6 = {f1, f2, f3, f4, f5, f6, f7, f8};
-        Button[] row7 = {g1, g2, g3, g4, g5, g6, g7, g8};
-        Button[] row8 = {h1, h2, h3, h4, h5, h6, h7, h8};
-        Button[][] buttonBoard = {row1, row2, row3, row4, row5, row6, row7, row8};
-    }
-
     private void handleButtonClick(int row, int col, Button clickedButton) {
         // if no piece is selected it tries to select one
         if (selectedPiece == null) { // if there is no piece selected
@@ -201,6 +199,16 @@ public class CheckersBoardController {
                 movePiece(selectedPiece, clickedButton);
                 deselectPiece();
                 togglePlayerTurn(); // piece is moved, switch player turn
+                // todo: check win
+            }
+            // jump moves that capture an opponent's piece
+            else if (isValidJump(selectedPiece, clickedButton)) {
+                capturePiece(selectedPiece, clickedButton, capturedPiece);
+                deselectPiece();
+                togglePlayerTurn(); // to be removed if we implement multi-jumps
+                // todo: check again if player can make a capture in which case player gets another turn. if not then switch player's turn
+
+                // todo: check win
             }
             // if clicking on another piece it selects that one instead, but make sure it's the correct colour
             else if (clickedButton.getGraphic() != null && isPlayerPiece(clickedButton)){
@@ -255,9 +263,58 @@ public class CheckersBoardController {
         int toRow = getRow(toSpot);
         int toCol = getCol(toSpot);
 
-        // simple implementation of moving forward one (no jump moves considered yet)
+        // simple implementation of moving forward one
         if (Math.abs(toRow - fromRow) != 1 || Math.abs(toCol - fromCol) != 1) {
             return false; // move is not 1 diagonal
+        }
+
+        // direction of movement based on piece colour (players turn)
+        if (isPlayerBTurn) {
+            // black moves up
+            if (toRow >= fromRow) {
+                return false;
+            }
+        }
+        else {
+            // red moves down
+            if (toRow <= fromRow) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isValidJump(Button fromSpot, Button toSpot) {
+        if (toSpot.getGraphic() != null) {
+            return false;
+        }
+
+
+        // move must be 2 diagonals
+        int fromRow = getRow(fromSpot);
+        int fromCol = getCol(fromSpot);
+        int toRow = getRow(toSpot);
+        int toCol = getCol(toSpot);
+
+        // find row, col of captured piece
+        int rowDiff = toRow - fromRow;
+        int colDiff = toCol - fromCol;
+
+        // simple implementation of moving forward 2 diagonals
+        if (Math.abs(rowDiff) != 2 || Math.abs(colDiff) != 2) {
+            return false;
+        }
+        else {
+            int midRow = fromRow + (rowDiff / 2);
+            int midCol = fromCol + (colDiff / 2);
+
+            Button midSpot = buttonBoard[midCol][midRow];
+            setCapturePiece(midSpot);
+
+            if (midSpot.getGraphic() == null || isPlayerPiece(midSpot)) {
+                return false;
+            }
         }
 
         // direction of movement based on piece colour (players turn)
@@ -319,38 +376,28 @@ public class CheckersBoardController {
         return -1;
     }
 
-//    private void selectRow(int row) {
-//        selectedRow = row;
-//    }
-//
-//    private void selectColumn(int col) {
-//        selectedColumn = col;
-//    }
-//
-//    private void deselectRow(int row) {
-//        selectedRow = -1;
-//    }
-//
-//    private void deselectColumn(int col) {
-//        selectedColumn = col;
-//    }
-//
-//    private int getSelectedRow() {
-//        return selectedRow;
-//    }
-//
-//    private int getSelectedColumn() {
-//        return selectedColumn;
-//    }
-
     private void movePiece(Button from, Button to) {
-        //todo: check if new position is valid. return early otherwise
-
         // moves the piece from one button to another
         to.setGraphic(from.getGraphic());
         from.setGraphic(null);
+    }
 
-        //todo: check win conditions for the player that just played
+    private void setCapturePiece(Button spot) {
+        capturedPiece = spot;
+    }
+
+    private Button getCapturePiece() {
+        return capturedPiece;
+    }
+
+    // moves piece two diagonals and captures opponent piece
+    private void capturePiece(Button from, Button to, Button capturedPiece) {
+        // remove captured piece from board
+        capturedPiece.setGraphic(null);
+
+        // moves piece from one spot (button) to another
+        to.setGraphic(from.getGraphic());
+        from.setGraphic(null);
     }
 
     /**
