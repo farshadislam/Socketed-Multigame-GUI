@@ -158,6 +158,15 @@ public class GamesPageController {
                 Scene scene = new Scene(loader.load(), 700, 450);
                 scene.getStylesheets().add(getClass().getResource(cssFile).toExternalForm());
 
+                if (gameType == GameType.CONNECT4 && "Computer".equals(playMode)) {
+                    Connect4Controller controller = loader.getController();
+                    controller.setAIBot(true);
+                } else if (gameType == GameType.TICTACTOE && "Computer".equals(playMode)) {
+                    TicTacToeController controller = loader.getController();
+                    controller.setAIBot(true);
+
+                }
+
                 Stage stage = (Stage) checkersIcon.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();

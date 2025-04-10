@@ -5,12 +5,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.seng.gamelogic.tictactoe.*;
 
 import java.io.BufferedWriter;
@@ -18,23 +22,25 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TicTacToeController {
 
     private TicTacToeGame game;
-    private boolean isAIMode = false;
-    private boolean isOnlineMode = false;
     private Stage chatStage = null;
 
     private boolean isPlayerXTurn = true;
 
     private int valForAlternation = 0;
 
-    private Button[][] buttonGrid;
-
     private Map<Button, int[]> buttonPositionMap = new HashMap<>();
+
+    private Button[][] buttonBoard;
+
+    private static final int BOARD_SIZE = 3;
 
     @FXML
     private Button button11, button12, button13;
@@ -50,39 +56,18 @@ public class TicTacToeController {
     @FXML
     private Label turnLabel;
     @FXML
-    private FlowPane board;
+    private GridPane board;
+
+    private boolean AIBot;
+
+    public void setAIBot(boolean AIBot) {
+        this.AIBot = AIBot;
+    }
 
     @FXML
     public void initialize() {
         clearChatHistory();
 
-//        button11.setOnAction(e -> handleMove(button11));
-//        button12.setOnAction(e -> handleMove(button12));
-//        button13.setOnAction(e -> handleMove(button13));
-//        button21.setOnAction(e -> handleMove(button21));
-//        button22.setOnAction(e -> handleMove(button22));
-//        button23.setOnAction(e -> handleMove(button23));
-//        button31.setOnAction(e -> handleMove(button31));
-//        button32.setOnAction(e -> handleMove(button32));
-//        button33.setOnAction(e -> handleMove(button33));
-//
-//        buttonPositionMap.put(button11, new int[]{0, 0});
-//        buttonPositionMap.put(button12, new int[]{0, 1});
-//        buttonPositionMap.put(button13, new int[]{0, 2});
-//        buttonPositionMap.put(button21, new int[]{1, 0});
-//        buttonPositionMap.put(button22, new int[]{1, 1});
-//        buttonPositionMap.put(button23, new int[]{1, 2});
-//        buttonPositionMap.put(button31, new int[]{2, 0});
-//        buttonPositionMap.put(button32, new int[]{2, 1});
-//        buttonPositionMap.put(button33, new int[]{2, 2});
-
-//        String details = nextTurn();
-//        String[] currentState = details.split(":");
-//        currentState[0]
-//
-//        for (int i = 0; i < 9; i++) {
-//
-//        }
         button11.setOnAction(e -> handleMove(0, 0, button11));  // First row, first column
         button12.setOnAction(e -> handleMove(0, 1, button12));  // First row, second column
         button13.setOnAction(e -> handleMove(0, 2, button13));  // First row, third column
@@ -95,16 +80,13 @@ public class TicTacToeController {
         button32.setOnAction(e -> handleMove(2, 1, button32));  // Third row, second column
         button33.setOnAction(e -> handleMove(2, 2, button33));  // Third row, third column
 
-//        Button[] row1 = {button11, button12, button13};
-//        Button[] row2 = {button21, button22, button23};
-//        Button[] row3 = {button31, button32, button33};
-//
-//        Button[][] board = {row1, row2, row3};
-        buttonGrid = new Button[][] {{button11}, {button12}, {button13}, {button21}, {button22}, {button23}, {button31} ,{button31}, {button33}};
-    }
+        Button[] row1 = {button11, button12, button13};
+        Button[] row2 = {button21, button22, button23};
+        Button[] row3 = {button31, button32, button33};
 
-    private String nextTurn() {
-        return "";
+        buttonBoard = new Button[][]{row1, row2, row3};
+        isPlayerXTurn = false;
+        togglePlayerTurn();
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
@@ -136,245 +118,98 @@ public class TicTacToeController {
 
     private void handleMove(int row, int col, Button button) {
         valForAlternation++;
-        // Check if the button has already been clicked (i.e., it already has a symbol)
+        // Check if the button has already been clicked
         if (!button.getText().isEmpty()) {
             return;  // If the button is already clicked, do nothing
         }
 
         // Place the symbol on the button
-        String symbol;
         if (valForAlternation % 2 == 0) {
             button.setText("O");
-            symbol = "0";
+            button.setStyle("-fx-font-size: 36px; -fx-text-fill: red;");
+            button.setDisable(true);
+            if (checkWinner(row, col)) {
+                checkWin(button);
+            }
+            else if (boardFull()) {
+                checkTie(button);
+            }
         } else {
             button.setText("X");
-            symbol = "X";
-        }
-//        String symbol = isPlayerXTurn ? "X" : "O";  // Toggle between X and O
-//        button.setText(symbol);
-
-        // Disable the button to prevent re-clicking
-        button.setDisable(true);
-
-        // Make the move on the game board
-
-
-        checkWin(board, symbol);
-        boolean moveMade = game.makeMove(row, col);
-
-        if (moveMade) {
-            // Update the game status
-            String status = game.getStatus();
-            if (status.endsWith("Wins")) {
-                turnLabel.setText("Game Over! " + status);
-                System.out.print(turnLabel);
-                disableAllButtons();  // Disable all buttons when the game ends
-            } else if (status.equals("Draw")) {
-                turnLabel.setText("It's a Draw!");
-                System.out.print(turnLabel);
-                disableAllButtons();  // Disable all buttons in case of a draw
-            } else {
-                turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
-                System.out.print(turnLabel);
+            button.setStyle("-fx-font-size: 36px; -fx-text-fill: deepskyblue;");
+            button.setDisable(true);
+            if (checkWinner(row, col)) {
+                checkWin(button);
             }
-
-            // Switch to the other player's turn
-            togglePlayerTurn();
+            else if (boardFull()) {
+                checkTie(button);
+            }
         }
+        togglePlayerTurn();
 
-//        initNum++;
-//        if (initNum == 1){
-//            clearChatHistory();
-//
-//            // Setup player data
-//            localPlayer = new TicTacToePlayer("usernameOne", "emailOne",  "passwordOne");
-//            remotePlayer = new TicTacToePlayer("usernameTwo", "emailTwo",  "passwordTwo");
-//
-//            TicTacToeBoard board = new TicTacToeBoard();
-//            game = new TicTacToeGame(board, new TicTacToePlayer[]{localPlayer, remotePlayer}, 1);
-//            game.initializePlayerSymbols();
-//        }
-
-//        if (!button.getText().isEmpty()) return;
-//
-//        boolean moveMade = game.makeMove(row, col);
-//
-//        if (moveMade) {
-//            String symbol = game.getCurrentMark() == TicTacToeBoard.Mark.X ? "O" : "X";
-//            button.setText(symbol);
-//
-//            String status = game.getStatus();
-//            if (status.endsWith("Wins")) {
-//                turnLabel.setText("Game Over! " + status);
-//                disableAllButtons();
-//            } else if (status.equals("Draw")) {
-//                turnLabel.setText("It's a Draw!");
-//                disableAllButtons();
-//            } else {
-//                turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
-//            }
-//
-//            if (game.AIBot != null && game.getCurrentMark() == game.getCurrentMark()) {
-//                game.AIBot.makeMove(game.getBoard(), game);
-//                updateBoardButtons();
-//                String newStatus = game.getStatus();
-//                if (newStatus.endsWith("Wins") || newStatus.equals("Draw")) {
-//                    turnLabel.setText("Game Over! " + newStatus);
-//                    disableAllButtons();
-//                }
-//            }
-//        }
+        // for when AI mode is active
+        if (!isPlayerXTurn && AIBot) {
+            new Thread(() -> {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ignored) {}
+                Platform.runLater(this::makeAIMove);
+            }).start();
+        }
     }
 
-    private void checkWin(FlowPane board, String symbol) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                Button b = buttonGrid[i][j];
-                if (b.getText().equals(symbol)) {
-                    String fxId = b.getId();
-                    String num = fxId.substring(fxId.length() - 2);  // Get last 2 characters
-                    if (num == "11"){
-                        Button spotOne = buttonGrid[0][2];
-                        Button spotTwo = buttonGrid[2][0];
-                        Button spotThree = buttonGrid[2][2];
-                        if (spotOne.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[0][1];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }else if (spotTwo.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[1][0];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }else if (spotThree.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[1][1];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }
-                    }else if (num == "12"){
-                        Button spotTwo = buttonGrid[1][1];
-                        if (spotTwo.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[2][1];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }
-                    }else if (num == "13"){
-                        Button spotOne = buttonGrid[2][0];
-                        Button spotTwo = buttonGrid[2][2];
-                        if (spotOne.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[1][1];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }else if (spotTwo.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[1][2];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }
-                    }else if (num == "21"){
-
-                    }else if (num == "22"){
-                        Button spotOne = buttonGrid[0][2];
-                        Button spotTwo = buttonGrid[2][0];
-                        Button spotThree = buttonGrid[2][2];
-                        //another spot
-                        if (spotOne.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[0][1];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }else if (spotTwo.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[1][0];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }else if (spotThree.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[1][1];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }
-                    }else if (num == "23"){
-
-                    }else if (num == "31"){
-                        Button spotOne = buttonGrid[0][2];
-                        Button spotTwo = buttonGrid[2][0];
-                        Button spotThree = buttonGrid[2][2];
-                        if (spotOne.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[0][1];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }else if (spotTwo.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[1][0];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }else if (spotThree.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[1][1];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }
-
-                    }else if (num == "32"){
-
-                    }else if (num == "33"){
-                        Button spotOne = buttonGrid[0][2];
-                        Button spotTwo = buttonGrid[2][0];
-                        Button spotThree = buttonGrid[2][2];
-                        if (spotOne.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[0][1];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }else if (spotTwo.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[1][0];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }else if (spotThree.getText().equals(symbol)) {
-                            Button spotFour = buttonGrid[1][1];
-                            if (spotFour.getText().equals(symbol)) {
-                                System.out.println("Player " + symbol + " wins!");
-                            }
-                        }
-
-                    }
+    private void checkWin(Button sourceButton) {
+        try {
+            FXMLLoader fxmlLoader;
+            Scene scene;
+            if (AIBot) {
+                if (isPlayerXTurn) {
+                    fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
+                } else {
+                    fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
                 }
-
+            } else {
+                fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
             }
+
+            scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) sourceButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
-    // Function to toggle player turns (just a sample, adjust based on your existing logic)
+    private void checkTie(Button tieButton){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("tiePage.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) tieButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     private void togglePlayerTurn() {
         isPlayerXTurn = !isPlayerXTurn;
-    }
-
-    // Function to check if it's Player X's turn (adjust based on your existing logic)
-    private boolean isPlayerXTurn() {
-        return isPlayerXTurn;
-    }
-
-
-    private void updateBoardButtons() {
-        for (Map.Entry<Button, int[]> entry : buttonPositionMap.entrySet()) {
-            Button button = entry.getKey();
-            int[] pos = entry.getValue();
-            TicTacToeBoard.Mark mark = game.getBoard().getMark(pos[0], pos[1]);
-
-            if (mark == TicTacToeBoard.Mark.X) {
-                button.setText("X");
-            } else if (mark == TicTacToeBoard.Mark.O) {
-                button.setText("O");
-            } else {
-                button.setText("");
-            }
+        if (isPlayerXTurn) {
+            turnLabel.setText("Player 1's Turn");
+        } else {
+            turnLabel.setText("Player 2's Turn");
         }
     }
 
@@ -456,46 +291,115 @@ public class TicTacToeController {
         alert.showAndWait();
     }
 
+    private void openToGameDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+            Scene dashboardScene = new Scene(loader.load(), 900, 600);
+            dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            Stage dashboardStage = new Stage();
+            dashboardStage.setTitle("Game Dashboard");
+            dashboardStage.setScene(dashboardScene);
+
+            // Close current window
+            Stage currentStage = (Stage) board.getScene().getWindow();
+            currentStage.close();
+
+            dashboardStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private void handleQuit() {
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Confirm Quit");
-        confirmAlert.setHeaderText("Are you sure you want to quit?");
-        confirmAlert.setContentText("Any unsaved progress will be lost.");
+        Stage dialogStage = new Stage();
+        dialogStage.initStyle(StageStyle.UNDECORATED);
+        dialogStage.setTitle("Confirm Quit");
 
-        confirmAlert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
-                    Scene dashboardScene = new Scene(loader.load());
-                    dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+        Label message = new Label("                      Are you sure?\nQuitting the game will result in a loss.");
+        message.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
 
-                    // Get current stage from any node in the current scene (like the board)
-                    Stage currentStage = (Stage) board.getScene().getWindow();
-                    currentStage.setScene(dashboardScene);
-                    currentStage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        Button yesButton = new Button("Yes");
+        Button noButton = new Button("No");
+
+        yesButton.setOnAction(e -> {
+            dialogStage.close();
+            openToGameDashboard();
+        });
+        noButton.setOnAction(e -> dialogStage.close());
+
+        HBox buttons = new HBox(10, yesButton, noButton);
+        buttons.setAlignment(Pos.CENTER);
+
+        VBox layout = new VBox(15, message, buttons);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.getStyleClass().add("quit-background"); //
+
+        Scene scene = new Scene(layout, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); //
+
+        dialogStage.setScene(scene);
+
+        Stage currentStage = (Stage) board.getScene().getWindow(); // 'board' is your main pane
+        dialogStage.initOwner(currentStage);
+
+        dialogStage.setX(currentStage.getX() + currentStage.getWidth() / 2 - 150); // 150 = half of popup width
+        dialogStage.setY(currentStage.getY() + currentStage.getHeight() / 2 - 100);  // 75 = half of popup height
+
+        dialogStage.show();
+    }
+
+    public boolean checkWinner(int row, int col) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            // Check rows and columns for a win
+            Button chip = buttonBoard[row][col];
+            if ((buttonBoard[i][0].getStyle() == chip.getStyle() && buttonBoard[i][1].getStyle() == chip.getStyle() && buttonBoard[i][2].getStyle() == chip.getStyle()) ||
+                    (buttonBoard[0][i].getStyle() == chip.getStyle() && buttonBoard[1][i].getStyle() == chip.getStyle() && buttonBoard[2][i].getStyle() == chip.getStyle())) {
+                return true;
+            }
+        }
+        Button chip = buttonBoard[row][col];
+        // Check diagonals for a win
+        return (buttonBoard[0][0].getStyle() == chip.getStyle() && buttonBoard[1][1].getStyle() == chip.getStyle() && buttonBoard[2][2].getStyle() == chip.getStyle()) ||
+                (buttonBoard[0][2].getStyle() == chip.getStyle() && buttonBoard[1][1].getStyle() == chip.getStyle() && buttonBoard[2][0].getStyle() == chip.getStyle());
+    }
+
+    public boolean boardFull() {
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                String string = buttonBoard[row][col].getStyle();
+                if (!string.equals("-fx-font-size: 36px; -fx-text-fill: red;") && !string.equals("-fx-font-size: 36px; -fx-text-fill: deepskyblue;")) {
+                    return false;
                 }
             }
-        });
+        }
+        return true;
+    }
+
+    private void makeAIMove() {
+        int[] move = findNextMove();
+        if (move != null) {
+            Button aiButton = buttonBoard[move[0]][move[1]];
+            handleMove(move[0], move[1], aiButton);
+        }
+    }
+
+    private int[] findNextMove() {
+        List<int[]> emptySpots = new ArrayList<>();
+        for (int r = 0; r < BOARD_SIZE; r++) {
+            for (int c = 0; c < BOARD_SIZE; c++) {
+                if (buttonBoard[r][c].getText().isEmpty()) {
+                    emptySpots.add(new int[]{r, c});
+                }
+            }
+        }
+
+        if (emptySpots.isEmpty()) {
+            return null;
+        }
+
+        return emptySpots.get((int)(Math.random() * emptySpots.size()));
     }
 }
-
-
-
-
-//    @FXML
-//    private void handleButtonClick(ActionEvent event) {
-//        Button clickedButton = (Button) event.getSource();
-//        if (clickedButton.getText().isEmpty()) {
-//            if (isPlayerXTurn) {
-//                clickedButton.setText("X");
-//            } else {
-//                clickedButton.setText("O");
-//            }
-//            isPlayerXTurn = !isPlayerXTurn; // Toggle turn
-//        }
-//    }
-
-

@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.seng.gamelogic.connectfour.ConnectFourBoard;
+import org.seng.gamelogic.connectfour.ConnectFourGame;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -36,6 +39,12 @@ public class Connect4Controller {
     private final String CHAT_LOG_PATH = "chatlog.txt";
     private boolean isPlayerOneTurn = true;
     private Button[][] boardButtons = new Button[ROWS][COLS];
+    private boolean AIBot;
+
+    public void setAIBot(boolean AIBot) {
+        this.AIBot = AIBot;
+    }
+
 
     @FXML
     public void initialize() {
@@ -199,33 +208,56 @@ public class Connect4Controller {
                     cell.setStyle("-fx-background-color: #00F0FF;"); // Cyan
                     if (checkWinner(row, col)) {
                         checkWin(cell);
+                        return;
                     }
                     if (boardFull()) {
                         checkTie(cell);
+                        return;
                     }
                 } else {
                     cell.setStyle("-fx-background-color: #da77f2;"); // Yellow
                     if (checkWinner(row, col)) { // winningPage.fxml connected
                         checkWin(cell);
+                        return;
                     }
                     if (boardFull()) {
                         checkTie(cell);
+                        return;
                     }
                 }
                 isPlayerOneTurn = !isPlayerOneTurn; // Switch turns
                 updatePlayerTurnIndicator();
+
+                if (!isPlayerOneTurn && AIBot) {
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException ignored) {}
+                        javafx.application.Platform.runLater(this::makeAIMove);
+                    }).start();
+                }
                 break;
             }
         }
     }
 
-
-
-    private void checkWin(Button sourceButton){
+    private void checkWin(Button sourceButton) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            FXMLLoader fxmlLoader;
+            Scene scene;
+            if (AIBot) {
+                if (isPlayerOneTurn) {
+                    fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
+                } else {
+                    fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
+                }
+            } else {
+                fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
+            }
+
+            scene = new Scene(fxmlLoader.load(), 700, 450);
             scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setTitle("OMG Platform");
@@ -349,5 +381,60 @@ public class Connect4Controller {
         }
         return true;
     }
+
+    private void makeAIMove() {
+        Integer column = findNextMove();
+        if (column != null) {
+            handleColumnClick(column);
+        }
+    }
+
+    private Integer findNextMove() {
+        List<Integer> availableColumns = new ArrayList<>();
+        for (int col = 0; col < COLS; col++) {
+            if (boardButtons[0][col].getStyle().isEmpty()) { // top cell = empty means column is available
+                availableColumns.add(col);
+            }
+        }
+
+        if (availableColumns.isEmpty()) {
+            return null;
+        }
+
+        return availableColumns.get((int) (Math.random() * availableColumns.size())); // Pick a random column
+    }
+
+/*    public boolean AIBotMove() {
+        if (this.board != board) {
+            System.out.println("Board mismatch");
+            return false;
+        }
+        if (game == null || game.currentPlayer != this) {
+            return false;
+        }
+
+        Integer column = findNextMove(board);
+        if (column != null) {
+            if (board.dropPiece(column, this)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Integer findNextMove() {
+        List<Integer> availableColumns = new ArrayList<>();
+        for (int col = 0; col < ConnectFourBoard.COL_COUNT; col++) {
+            if (!board.columnFull(col)) {
+                availableColumns.add(col);
+            }
+        }
+
+        if (availableColumns.isEmpty()) {
+            return null;
+        }
+
+        return availableColumns.get(random.nextInt(availableColumns.size()));
+    }*/
 }
 
