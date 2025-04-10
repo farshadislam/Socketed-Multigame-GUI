@@ -3,8 +3,8 @@ package org.seng.authentication;
 import org.seng.leaderboard_matchmaking.*;
 import org.seng.networking.Match;
 import org.seng.networking.SocketGameHandler;
-import java.util.Objects;
 import org.seng.networking.leaderboard_matchmaking.GameType;
+import java.util.Objects;
 
 public class Player {
     // Core player fields
@@ -28,6 +28,7 @@ public class Player {
     private int losses;
 
     public Player(String username, String email, String password) {
+        // Ensure the username and email are always stored in lowercase for consistency.
         this.username = username.toLowerCase();
         this.email = email.toLowerCase();
         this.password = password;
@@ -67,12 +68,12 @@ public class Player {
         return CheckersStats;
     }
 
-    public void setCheckersStats(checkersStats checkersStats) {
-        this.CheckersStats = checkersStats;
+    public void setCheckersStats(checkersStats CheckersStats) {
+        this.CheckersStats = CheckersStats;
     }
 
     public String getUsername() {
-        return username.toLowerCase();
+        return username;  // Already stored in lowercase.
     }
 
     public void setUsername(String username) {
@@ -80,7 +81,7 @@ public class Player {
     }
 
     public String getEmail() {
-        return email.toLowerCase();
+        return email;  // Already stored in lowercase.
     }
 
     public void setEmail(String email) {
@@ -239,19 +240,29 @@ public class Player {
         losses++;
     }
 
-    // === Equality Check ===
-
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        Player player = (Player) object;
-        return Objects.equals(username, player.username) &&
-                Objects.equals(email, player.email);
+        if (!(object instanceof Player)) return false;
+
+        Player other = (Player) object;
+
+        if (this.username == null && other.username == null) {
+            return true;
+        }
+
+        if (this.username == null || other.username == null) {
+            return false;
+        }
+
+        return this.username.equals(other.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username);
+        if (username == null) {
+            return 0;
+        }
+        return username.hashCode();
     }
 }
