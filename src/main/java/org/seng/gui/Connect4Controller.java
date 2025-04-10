@@ -39,8 +39,12 @@ public class Connect4Controller {
     private final String CHAT_LOG_PATH = "chatlog.txt";
     private boolean isPlayerOneTurn = true;
     private Button[][] boardButtons = new Button[ROWS][COLS];
-
     private boolean AIBot;
+
+    public void setAIBot(boolean AIBot) {
+        this.AIBot = AIBot;
+    }
+
 
     @FXML
     public void initialize() {
@@ -204,27 +208,38 @@ public class Connect4Controller {
                     cell.setStyle("-fx-background-color: #00F0FF;"); // Cyan
                     if (checkWinner(row, col)) {
                         checkWin(cell);
+                        return;
                     }
                     if (boardFull()) {
                         checkTie(cell);
+                        return;
                     }
                 } else {
                     cell.setStyle("-fx-background-color: #da77f2;"); // Yellow
                     if (checkWinner(row, col)) { // winningPage.fxml connected
                         checkWin(cell);
+                        return;
                     }
                     if (boardFull()) {
                         checkTie(cell);
+                        return;
                     }
                 }
                 isPlayerOneTurn = !isPlayerOneTurn; // Switch turns
                 updatePlayerTurnIndicator();
+
+                if (!isPlayerOneTurn && AIBot) {
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException ignored) {}
+                        javafx.application.Platform.runLater(this::makeAIMove);
+                    }).start();
+                }
                 break;
             }
         }
     }
-
-
 
     private void checkWin(Button sourceButton){
         try {
@@ -353,6 +368,28 @@ public class Connect4Controller {
             }
         }
         return true;
+    }
+
+    private void makeAIMove() {
+        Integer column = findNextMove();
+        if (column != null) {
+            handleColumnClick(column);
+        }
+    }
+
+    private Integer findNextMove() {
+        List<Integer> availableColumns = new ArrayList<>();
+        for (int col = 0; col < COLS; col++) {
+            if (boardButtons[0][col].getStyle().isEmpty()) { // top cell = empty means column is available
+                availableColumns.add(col);
+            }
+        }
+
+        if (availableColumns.isEmpty()) {
+            return null;
+        }
+
+        return availableColumns.get((int) (Math.random() * availableColumns.size())); // Pick a random column
     }
 
 /*    public boolean AIBotMove() {

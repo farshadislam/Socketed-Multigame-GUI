@@ -429,6 +429,8 @@ public class TicTacToeController {
         return true;
     }
 
+    public void setAIBot(boolean b) {
+    }
 }
 
 
