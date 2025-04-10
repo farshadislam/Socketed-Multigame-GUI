@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.seng.gamelogic.connectfour.ConnectFourBoard;
+import org.seng.gamelogic.connectfour.ConnectFourGame;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -36,6 +39,8 @@ public class Connect4Controller {
     private final String CHAT_LOG_PATH = "chatlog.txt";
     private boolean isPlayerOneTurn = true;
     private Button[][] boardButtons = new Button[ROWS][COLS];
+
+    private boolean AIBot;
 
     @FXML
     public void initialize() {
@@ -349,5 +354,38 @@ public class Connect4Controller {
         }
         return true;
     }
+
+/*    public boolean AIBotMove() {
+        if (this.board != board) {
+            System.out.println("Board mismatch");
+            return false;
+        }
+        if (game == null || game.currentPlayer != this) {
+            return false;
+        }
+
+        Integer column = findNextMove(board);
+        if (column != null) {
+            if (board.dropPiece(column, this)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Integer findNextMove() {
+        List<Integer> availableColumns = new ArrayList<>();
+        for (int col = 0; col < ConnectFourBoard.COL_COUNT; col++) {
+            if (!board.columnFull(col)) {
+                availableColumns.add(col);
+            }
+        }
+
+        if (availableColumns.isEmpty()) {
+            return null;
+        }
+
+        return availableColumns.get(random.nextInt(availableColumns.size()));
+    }*/
 }
 

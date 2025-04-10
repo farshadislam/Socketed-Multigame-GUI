@@ -38,6 +38,10 @@ public class TicTacToeController {
 
     private Map<Button, int[]> buttonPositionMap = new HashMap<>();
 
+    private Button[][] buttonBoard;
+
+    private static final int BOARD_SIZE = 3;
+
     @FXML
     private Button button11, button12, button13;
     @FXML
@@ -101,7 +105,7 @@ public class TicTacToeController {
         Button[] row2 = {button21, button22, button23};
         Button[] row3 = {button31, button32, button33};
 
-        Button[][] board = {row1, row2, row3};
+        buttonBoard = new Button[][]{row1, row2, row3};
     }
 
     private String nextTurn() {
@@ -146,38 +150,31 @@ public class TicTacToeController {
         if (valForAlternation % 2 == 0) {
             button.setText("O");
             button.setStyle("-fx-font-size: 36px; -fx-text-fill: red;");
+            button.setDisable(true);
+            if (checkWinner(row, col)) {
+                System.out.print("yay");
+            }
+            if (boardFull()) {
+                System.out.print("yay");
+            }
         } else {
             button.setText("X");
             button.setStyle("-fx-font-size: 36px; -fx-text-fill: deepskyblue;");
+            button.setDisable(true);
+            if (checkWinner(row, col)) {
+                System.out.print("yay");
+            }
+            if (boardFull()) {
+                System.out.print("yay");
+            }
         }
 //        String symbol = isPlayerXTurn ? "X" : "O";  // Toggle between X and O
 //        button.setText(symbol);
 
         // Disable the button to prevent re-clicking
-        button.setDisable(true);
-
-        // Make the move on the game board
-        boolean moveMade = game.makeMove(row, col);
-
-        if (moveMade) {
-            // Update the game status
-            String status = game.getStatus();
-            if (status.endsWith("Wins")) {
-                turnLabel.setText("Game Over! " + status);
-                System.out.print(turnLabel);
-                disableAllButtons();  // Disable all buttons when the game ends
-            } else if (status.equals("Draw")) {
-                turnLabel.setText("It's a Draw!");
-                System.out.print(turnLabel);
-                disableAllButtons();  // Disable all buttons in case of a draw
-            } else {
-                turnLabel.setText(game.getCurrentMark() == TicTacToeBoard.Mark.X ? "Player 1's Turn" : "Player 2's Turn");
-                System.out.print(turnLabel);
-            }
 
             // Switch to the other player's turn
-            togglePlayerTurn();
-        }
+        togglePlayerTurn();
 
 //        initNum++;
 //        if (initNum == 1){
@@ -231,23 +228,6 @@ public class TicTacToeController {
     // Function to check if it's Player X's turn (adjust based on your existing logic)
     private boolean isPlayerXTurn() {
         return isPlayerXTurn;
-    }
-
-
-    private void updateBoardButtons() {
-        for (Map.Entry<Button, int[]> entry : buttonPositionMap.entrySet()) {
-            Button button = entry.getKey();
-            int[] pos = entry.getValue();
-            TicTacToeBoard.Mark mark = game.getBoard().getMark(pos[0], pos[1]);
-
-            if (mark == TicTacToeBoard.Mark.X) {
-                button.setText("X");
-            } else if (mark == TicTacToeBoard.Mark.O) {
-                button.setText("O");
-            } else {
-                button.setText("");
-            }
-        }
     }
 
     private void disableAllButtons() {
@@ -386,6 +366,32 @@ public class TicTacToeController {
         dialogStage.setY(currentStage.getY() + currentStage.getHeight() / 2 - 100);  // 75 = half of popup height
 
         dialogStage.show();
+    }
+
+    public boolean checkWinner(int row, int col) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            // Check rows and columns for a win
+            Button chip = buttonBoard[row][col];
+            if ((buttonBoard[i][0].getStyle() == chip.getStyle() && buttonBoard[i][1].getStyle() == chip.getStyle() && buttonBoard[i][2].getStyle() == chip.getStyle()) ||
+                    (buttonBoard[0][i].getStyle() == chip.getStyle() && buttonBoard[1][i].getStyle() == chip.getStyle() && buttonBoard[2][i].getStyle() == chip.getStyle())) {
+                return true;
+            }
+        }
+        Button chip = buttonBoard[row][col];
+        // Check diagonals for a win
+        return (buttonBoard[0][0].getStyle() == chip.getStyle() && buttonBoard[1][1].getStyle() == chip.getStyle() && buttonBoard[2][2].getStyle() == chip.getStyle()) ||
+                (buttonBoard[0][2].getStyle() == chip.getStyle() && buttonBoard[1][1].getStyle() == chip.getStyle() && buttonBoard[2][0].getStyle() == chip.getStyle());
+    }
+
+    public boolean boardFull() {
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                if (!(buttonBoard[row][col].getStyle() == "-fx-font-size: 36px; -fx-text-fill: red;") || (buttonBoard[row][col].getStyle() == "-fx-font-size: 36px; -fx-text-fill: deepskyblue;")){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }
