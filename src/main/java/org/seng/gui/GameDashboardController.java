@@ -1,10 +1,8 @@
 package org.seng.gui;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -16,10 +14,32 @@ import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 import java.util.Optional;
 import org.seng.authentication.*;
-import org.seng.networking.SocketGameClient;
-import org.seng.networking.leaderboard_matchmaking.GameType;
+import org.seng.gamelogic.checkers.CheckersGame;
+import org.seng.gamelogic.connectfour.ConnectFourGame;
+import org.seng.gamelogic.tictactoe.TicTacToeGame;
 
 import static org.seng.gui.HelloApplication.database;
+
+
+import javafx.animation.RotateTransition;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.seng.authentication.Player;
+import org.seng.authentication.Settings;
+import org.seng.gamelogic.checkers.CheckersGame;
+import org.seng.gamelogic.connectfour.ConnectFourGame;
+import org.seng.gamelogic.tictactoe.TicTacToeGame;
+
+import java.io.IOException;
+import java.util.Optional;
 
 import static org.seng.gui.HelloApplication.database;
 
@@ -27,29 +47,27 @@ public class GameDashboardController {
 
     @FXML
     private ImageView statsIcon, profileIcon, playIcon, settingsIcon, logoutIcon;
-
     @FXML
     private VBox viewStatsPane, profilePane, playGamesPane;
+
     private HomePage homePage;
     public static Player player;
     public static Settings setting;
-    private Player localPlayer; // this holds the player who just joined (used in waiting room UI)
-    private GameType selectedGame; // this stores the game type they selected (Checkers, etc.)
-    private SocketGameClient client; // this is the networking connection client for this player
 
-    @FXML private Label player1Name;
-    @FXML private Label gameTypeLabel;
-
+    // Game logic instances (for offline or local play)
+    public static CheckersGame checkersGame;
+    public static TicTacToeGame tictactoeGame;
+    public static ConnectFourGame connectFourGame;
 
     @FXML
     public void initialize() {
         try {
+            // Load icons for leaderboard, profile, play, settings, logout.
             Image statsImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/leaderboardicon.png"));
             Image profileImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/usericon.png"));
             Image playImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/playicon.png"));
             Image settingsImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/gear.png"));
             Image logoutImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/logouticon.png"));
-
             statsIcon.setImage(statsImage);
             profileIcon.setImage(profileImage);
             playIcon.setImage(playImage);
@@ -60,23 +78,12 @@ public class GameDashboardController {
         }
     }
 
-    public void setHomePage(HomePage homePage){
+    public void setHomePage(HomePage homePage) {
         this.homePage = homePage;
     }
 
-    public void setPlayer(Player player1){
+    public void setPlayer(Player player1) {
         GameDashboardController.player = player1;
-    }
-
-    // this method is called when the waiting room scene is loaded
-    // it gives the controller the needed info to update UI properly
-    public void init(Player player, GameType gameType, SocketGameClient client) {
-        this.localPlayer = player; // store the current player for reference
-        this.selectedGame = gameType; // store the selected game
-        this.client = client; // keep a reference to the networking client
-
-        player1Name.setText(player.getUsername()); // show name in UI
-        gameTypeLabel.setText("Game Mode: " + gameType.name()); // update game mode text
     }
 
     @FXML
@@ -99,15 +106,13 @@ public class GameDashboardController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
             Scene newScene = new Scene(fxmlLoader.load(), 700, 450);
             newScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
-
             Stage stage = new Stage();
             stage.setTitle(title);
             stage.setScene(newScene);
 
-            // Close current window
+            // Close current window (assumes viewStatsPane is part of the current scene)
             Stage currentStage = (Stage) viewStatsPane.getScene().getWindow();
             currentStage.close();
-
             stage.show();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -124,7 +129,6 @@ public class GameDashboardController {
         alert.setTitle("Logout Confirmation");
         alert.setHeaderText("Are you sure you want to logout?");
         alert.setContentText("Your current session will be closed.");
-
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             openWelcomePage();
@@ -136,14 +140,11 @@ public class GameDashboardController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("welcome-page.fxml"));
             Scene welcomeScene = new Scene(fxmlLoader.load(), 700, 450);
             welcomeScene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-
             Stage stage = new Stage();
             stage.setTitle("Welcome");
             stage.setScene(welcomeScene);
-
             Stage currentStage = (Stage) logoutIcon.getScene().getWindow();
             currentStage.close();
-
             stage.show();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -152,9 +153,9 @@ public class GameDashboardController {
 
     @FXML
     public void openSettings() {
-        // Initializing the Setting object
+        // Initialize the Settings object using the current player and the database reference
         setting = new Settings(player, database);
-        System.out.println("success");
+        System.out.println("Settings initialized successfully.");
         animateGear();
     }
 

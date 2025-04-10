@@ -20,6 +20,26 @@ import java.net.URL;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.seng.networking.SocketGameClient;
+import org.seng.networking.leaderboard_matchmaking.GameType;
+import java.io.IOException;
+import java.net.URL;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class WaitingRoomController {
 
     // below are our ui components coming from the fxml file
@@ -157,7 +177,7 @@ public class WaitingRoomController {
                 Platform.runLater(() -> systemMessage.setText("disconnected from server."));
             }
         });
-        // this set the thread so it doesn't prevent the app from closing
+        // this sets the thread so it doesn't prevent the app from closing
         listenerThread.setDaemon(true);
         listenerThread.start(); // start listening!
     }
@@ -174,7 +194,7 @@ public class WaitingRoomController {
         else if (message.equals("START_GAME")) {
             systemMessage.setText("both players ready. launching game..."); // this lets the user know the game will start
             if (timerTimeline != null) timerTimeline.stop(); // this stops the timer since we don't need to wait anymore
-            loadGameScene();  // this loads the game scene
+            loadGameScene();  // this loads the game scene (see below for new integration)
         }
         // this is if the message is a welcome message
         else if (message.startsWith("Welcome ")) {
@@ -194,22 +214,18 @@ public class WaitingRoomController {
 
             // this is for if they are not player one the positions are swapped so that the labels display correctly
             if (!isPlayerOne) {
-                String myName = player1Name.getText(); // this temporarily stores the current player name
-                // this swap the names and assigns tje opponent's name to the first label and the current name to the second label
+                String myName = player1Name.getText(); // temporarily store the current name
                 player1Name.setText(player2Name.getText());
                 player2Name.setText(myName);
 
-                // this swaps the status texts so they match the name swap
                 String tempStatus = player1Status.getText();
                 player1Status.setText(player2Status.getText());
                 player2Status.setText(tempStatus);
 
-                // this swaps the colors of the status indicators so they stay with the correct player
                 Color tempColor = (Color) player1StatusIndicator.getFill();
                 player1StatusIndicator.setFill(player2StatusIndicator.getFill());
                 player2StatusIndicator.setFill(tempColor);
 
-                // this swaps the ready status labels as well
                 String tempReady = player1ReadyStatus.getText();
                 player1ReadyStatus.setText(player2ReadyStatus.getText());
                 player2ReadyStatus.setText(tempReady);
@@ -217,45 +233,78 @@ public class WaitingRoomController {
         }
     }
 
-    // this helper method is to update player labels
+    // this helper method is to update player labels (if needed)
     private void updatePlayerLabels() {
         if (Boolean.TRUE.equals(amIPlayerOne)) {
-            // this is if if we're player one then assign the local name to player1 and opponent name to player2
+            // if we're player one then assign the local name to player1 and opponent name to player2
             player1Name.setText(localName);
             player2Name.setText(opponentName);
         } else {
-            // this is if we're player two then the opposite is done and names are swapped
+            // if we're player two then swap the names
             player1Name.setText(opponentName);
             player2Name.setText(localName);
         }
     }
 
-    // this method loads the game scene when both players are ready
+    // ***************************************************************
+    // NEW INTEGRATION: Load the online game scene when both players are ready.
+    // ***************************************************************
     private void loadGameScene() {
         try {
-            // this decide which fxml file to load based on the game type selected
+            // Decide which fxml file to load based on the game type.
+            // (For example, if online Tic Tac Toe, load "tictactoe-online.fxml"; if Connect Four, load "connect4-online.fxml")
             String fxml = switch (gameType) {
-                case CHECKERS -> "/org/seng/gui/checkers-game.fxml";
-                case CONNECT4 -> "/org/seng/gui/connect4-game.fxml";
-                case TICTACTOE -> "/org/seng/gui/tictactoe-game.fxml";
+                case CHECKERS -> "/org/seng/gui/checkers-game.fxml"; // For Checkers (unchanged, if applicable)
+                case CONNECT4 -> "/org/seng/gui/connect4-online.fxml";   // Online Connect4 FXML file
+                case TICTACTOE -> "/org/seng/gui/tictactoe-online.fxml";   // Online TicTacToe FXML file
             };
 
-            // this loads the fxml file and create a new scene from it
+            // Load the fxml file and create a new scene from it
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Scene scene = new Scene(loader.load(), 700, 450);
-            // this adds the basic styles so the scene matches our design
+            // Add the basic style so that the scene matches our design
             scene.getStylesheets().add(getClass().getResource("/org/seng/gui/styles/basic-styles.css").toExternalForm());
 
-            // this gets the current stage and sets the new scene
+            // Get the current stage from one of the controls and set the new scene
             Stage stage = (Stage) readyButton.getScene().getWindow();
             stage.setScene(scene);
-            stage.show(); // this show the new scene
+            stage.show();
+
+            // Now, initialize the online game controller.
+            // We pass along the client (for network communications), a new game instance, and whether this player is player one.
+            if (gameType == GameType.TICTACTOE) {
+                // For example, obtain the online TicTacToe controller; adjust package/class names as needed.
+                OnlineTicTacToeController controller = loader.getController();
+                controller.init(client,
+                        new org.seng.gamelogic.tictactoe.TicTacToeGame(
+                                new org.seng.gamelogic.tictactoe.TicTacToeBoard(),
+                                new org.seng.gamelogic.tictactoe.TicTacToePlayer[]{
+                                        new org.seng.gamelogic.tictactoe.TicTacToePlayer(username, "", ""),
+                                        new org.seng.gamelogic.tictactoe.TicTacToePlayer(player2Name.getText(), "", "")
+                                },
+                                1),
+                        (amIPlayerOne != null ? amIPlayerOne : true)
+                );
+            } else if (gameType == GameType.CONNECT4) {
+                // For online Connect4 similarly
+                OnlineConnect4Controller controller = loader.getController();
+                controller.init(client,
+                        new org.seng.gamelogic.connectfour.ConnectFourGame(
+                                new org.seng.gamelogic.connectfour.ConnectFourBoard(),
+                                new org.seng.gamelogic.connectfour.ConnectFourPlayer[]{
+                                        new org.seng.gamelogic.connectfour.ConnectFourPlayer(username, "", ""),
+                                        new org.seng.gamelogic.connectfour.ConnectFourPlayer(player2Name.getText(), "", "")
+                                },
+                                1),
+                        (amIPlayerOne != null ? amIPlayerOne : true)
+                );
+            }
         } catch (IOException e) {
-            // this error message is printed if the game fails
             systemMessage.setText("failed to load game scene.");
             e.printStackTrace();
         }
     }
+    // ***************************************************************
 
     // this method is called when the user clicks the ready button
     @FXML
@@ -277,12 +326,12 @@ public class WaitingRoomController {
     @FXML
     public void onLeaveClicked() {
         try {
-            // this sends a left msh so the server knows the user is leaving
+            // this sends a LEFT message so the server knows the user is leaving
             if (client != null) {
                 client.sendMessage("LEFT");
                 client.close(); // this closes the socket connection
             }
-            // this stops the timer since the users are leaving the waiting room
+            // this stops the timer since the user is leaving the waiting room
             if (timerTimeline != null) timerTimeline.stop();
         } catch (IOException e) {
             e.printStackTrace();
@@ -292,17 +341,12 @@ public class WaitingRoomController {
             // this loads the fxml for the games page so the user can see the list of available games
             URL fxmlUrl = getClass().getClassLoader().getResource("org/seng/gui/games-page.fxml");
             if (fxmlUrl == null) {
-                // this throws an exception if there is an error
                 System.err.println("\u26A0 games-page.fxml not found at: org/seng/gui/games-page.fxml");
                 throw new IOException("games-page.fxml not found in classpath.");
             }
-
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
             Scene scene = new Scene(loader.load(), 700, 450);
-            // this adds our styles
             scene.getStylesheets().add(getClass().getResource("/org/seng/gui/styles/basic-styles.css").toExternalForm());
-
-            // this gets the current stage from the leave button and switches the scene
             Stage stage = (Stage) leaveButton.getScene().getWindow();
             stage.setScene(scene);
             stage.show(); // this shows the games page
@@ -315,7 +359,6 @@ public class WaitingRoomController {
     // this method handles going back to the game dashboard from the waiting room
     private void goBack() {
         try {
-            // this loads the fxml file for the game dashboard
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 700, 450);
             scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
@@ -324,7 +367,7 @@ public class WaitingRoomController {
             stage.setTitle("omg platform"); // this sets the window title
             stage.show(); // this shows the dashboard
 
-            // this closes the current waiting room window so it doesn't stay open in the background
+            // close the current waiting room window so it doesn't remain open in the background
             Stage currentStage = (Stage) leaveButton.getScene().getWindow();
             currentStage.close();
         } catch (IOException ex) {
