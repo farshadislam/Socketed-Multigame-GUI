@@ -1,5 +1,6 @@
 package org.seng.networking;
 
+import org.seng.leaderboard_matchmaking.matchmaking.QueueMatchMaker;
 import org.seng.networking.leaderboard_matchmaking.GameType;
 
 import java.io.*;
@@ -130,10 +131,16 @@ public class SocketMatchServer {
 
     public static void main(String[] args) {
         try {
+            // this instantiates and starts the matchmaking loop immediately
+            QueueMatchMaker matchMaker = new QueueMatchMaker();
+            matchMaker.startMatchmakingLoop();
+
+            // this then creates and starts the match server
             SocketMatchServer server = new SocketMatchServer(12345);
-            server.start(); // this starts accepting connections
+            server.start();
         } catch (IOException e) {
             System.err.println("Error starting server: " + e.getMessage());
         }
     }
+
 }
