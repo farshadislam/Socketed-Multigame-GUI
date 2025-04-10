@@ -152,20 +152,20 @@ public class TicTacToeController {
             button.setStyle("-fx-font-size: 36px; -fx-text-fill: red;");
             button.setDisable(true);
             if (checkWinner(row, col)) {
-                System.out.print("yay");
+                checkWin(button);
             }
             if (boardFull()) {
-                System.out.print("yay");
+                checkTie(button);
             }
         } else {
             button.setText("X");
             button.setStyle("-fx-font-size: 36px; -fx-text-fill: deepskyblue;");
             button.setDisable(true);
             if (checkWinner(row, col)) {
-                System.out.print("yay");
+                checkWin(button);
             }
             if (boardFull()) {
-                System.out.print("yay");
+                checkTie(button);
             }
         }
 //        String symbol = isPlayerXTurn ? "X" : "O";  // Toggle between X and O
@@ -218,6 +218,40 @@ public class TicTacToeController {
 //                }
 //            }
 //        }
+    }
+
+    private void checkWin(Button sourceButton){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) sourceButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void checkTie(Button tieButton){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("tiePage.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) tieButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     // Function to toggle player turns (just a sample, adjust based on your existing logic)
@@ -386,7 +420,7 @@ public class TicTacToeController {
     public boolean boardFull() {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
-                if (!(buttonBoard[row][col].getStyle() == "-fx-font-size: 36px; -fx-text-fill: red;") || (buttonBoard[row][col].getStyle() == "-fx-font-size: 36px; -fx-text-fill: deepskyblue;")){
+                if ((buttonBoard[row][col].getStyle() == "-fx-font-size: 36px; -fx-text-fill: red;") || (buttonBoard[row][col].getStyle() == "-fx-font-size: 36px; -fx-text-fill: deepskyblue;")){
                     return false;
                 }
             }
