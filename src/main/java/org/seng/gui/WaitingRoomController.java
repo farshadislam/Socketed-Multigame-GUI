@@ -316,7 +316,7 @@ public class WaitingRoomController {
 
         // this doesn't proceed until the scene is ready
         if (readyButton.getScene() == null || readyButton.getScene().getWindow() == null) {
-            System.out.println("[WaitingRoom DEBUG] scene/window not ready, retrying loadGameScene...");
+//            System.out.println("[WaitingRoom DEBUG] scene/window not ready, retrying loadGameScene...");
             Platform.runLater(this::loadGameScene);  // this attempts to load the scene again
             return;  // this exit until the scene is fully ready
         }
