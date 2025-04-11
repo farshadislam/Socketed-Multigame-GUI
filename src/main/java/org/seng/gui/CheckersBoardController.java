@@ -572,41 +572,54 @@ public class CheckersBoardController {
         button.setGraphic(imageView);
     }
 
+
     private void togglePlayerTurn(Button button) {
         boolean win = checkCheckersWin();
 
         if (win) {
-            if (isPlayerBTurn) {
-                openWinningPage(button);
-            } else {
-                openLosingPage(button);
-            }
+            if (timeline != null) timeline.stop();
+            if (countdownTimeline != null) countdownTimeline.stop();
+
+            Timeline delay = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+                if (isPlayerBTurn) {
+                    openWinningPage(button);
+                } else {
+                    openLosingPage(button);
+                }
+            }));
+            delay.setCycleCount(1);
+            delay.play();
             return;
         }
 
+
         isPlayerBTurn = !isPlayerBTurn;
 
-        // Cancel previous timers if any
+        // Cancel any existing timers
         if (timeline != null) timeline.stop();
         if (countdownTimeline != null) countdownTimeline.stop();
+
+        // Update turn label
+        turnLabel.setText(isPlayerBTurn ? "Your Turn" : "Opponent's Turn");
 
         if (!isPlayerBTurn && AIBot) {
             new Thread(() -> {
                 try {
-                    Thread.sleep(1000); // brief pause
+                    Thread.sleep(1000);
                 } catch (InterruptedException ignored) {}
-
                 javafx.application.Platform.runLater(this::makeAIMove);
             }).start();
             return;
         }
+        startTurnTimer(button);
+    }
 
-        // Start countdown (15 seconds)
+    private void startTurnTimer(Button referenceButton) {
         final int[] timeLeft = {15};
         timerLabel.setText("Time: " + timeLeft[0]);
 
         timeline = new Timeline(new KeyFrame(Duration.seconds(15), event -> {
-            openLosingPage(button);
+            openLosingPage(referenceButton);
         }));
         timeline.setCycleCount(1);
         timeline.play();
@@ -618,7 +631,6 @@ public class CheckersBoardController {
         countdownTimeline.setCycleCount(15);
         countdownTimeline.play();
     }
-
 
     private void makeAIMove() {
         // Go through every piece on the board, find valid moves
