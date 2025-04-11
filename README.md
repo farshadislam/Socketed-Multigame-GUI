@@ -43,4 +43,4 @@
 
 - [**gitlab_link**](./gitlab_link.txt) 
 - [**Creators**](./team.md)
-- [**Start TicTacToe**](./gui/HelloApplication) - here is a small demo
+- [**Start TicTacToe**](src/main/java/org/seng/gui/HelloApplication.java) - here is a small demo
