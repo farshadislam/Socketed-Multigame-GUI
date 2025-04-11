@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.seng.authentication.CredentialsDatabase;
+import org.seng.authentication.LoginPage;
 import org.seng.authentication.Player;
 import org.seng.authentication.Settings;
 import org.seng.leaderboard_matchmaking.checkersStats;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SettingsTest {
     private Player player; // create player object for testing
-   private Settings settings;
+    private Settings settings;
     CredentialsDatabase database;
 
     // initialize the player and settings before each test
@@ -302,4 +303,11 @@ public class SettingsTest {
         assertEquals("updated@email.com", player.getEmail());
     }
 
+    @Test
+    public void logoutTest(){
+        LoginPage newLogin = settings.logout();
+
+        assertTrue(database.wasSaved);
+        assertNotNull(newLogin);
+    }
 }
