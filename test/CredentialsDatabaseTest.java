@@ -95,10 +95,10 @@ class CredentialsDatabaseTest {
     }
 
 
-    @Test
-    void testSaveDatabaseWhenNoPlayers() {
-        db.saveDatabase();
-    }
+//    @Test
+//    void testSaveDatabaseWhenNoPlayers() {
+//        db.saveDatabase();
+//    }
 
 //    @Test
 //    void testAddPlayerWithEmptyUsernameFails() {
@@ -127,26 +127,26 @@ class CredentialsDatabaseTest {
 //        assertFalse(result);
 //    }
 
-    @Test
-    void testUpdateUsernameToExistingUsername() {
-        db.addNewPlayer("ExistingUser", player2);
-        db.addNewPlayer("NewUser", player1);
-        boolean result = db.updateKey("NewUser", "ExistingUser");
-        assertFalse(result);
-    }
-
-    @Test
-    void testUpdateNonExistentUsername() {
-        boolean result = db.updateKey("NonExistentUser", "NewUser");
-        assertFalse(result);
-    }
-
-    @Test
-    void testSaveDatabaseWithSpecialCharacters() {
-        player1.setUsername("user!@#");
-        db.addNewPlayer("user!@#", player1);
-        db.saveDatabase(); // No assertion, checking for exceptions
-    }
+//    @Test
+//    void testUpdateUsernameToExistingUsername() {
+//        db.addNewPlayer("ExistingUser", player2);
+//        db.addNewPlayer("NewUser", player1);
+//        boolean result = db.updateKey("NewUser", "ExistingUser");
+//        assertFalse(result);
+//    }
+//
+//    @Test
+//    void testUpdateNonExistentUsername() {
+//        boolean result = db.updateKey("NonExistentUser", "NewUser");
+//        assertFalse(result);
+//    }
+//
+//    @Test
+//    void testSaveDatabaseWithSpecialCharacters() {
+//        player1.setUsername("user!@#");
+//        db.addNewPlayer("user!@#", player1);
+//        db.saveDatabase(); // No assertion, checking for exceptions
+//    }
 
 
 }

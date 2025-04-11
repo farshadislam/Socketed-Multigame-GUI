@@ -128,6 +128,13 @@ public class SettingsTest {
         assertFalse(settings.changeUsername("new user"));
     }
 
+    @Test
+    public void testChangeUsername13(){
+        database.addNewPlayer("newUser", player);
+        assertTrue(settings.changeUsername("new_user.name"));
+    }
+
+
     // valid email
     @Test
     public void testChangeEmail1(){
@@ -222,11 +229,11 @@ public class SettingsTest {
         assertFalse(settings.changePassword(""));
     }
 
-//    // wrong password
-//    @Test
-//    public void testChangePassword6(){
-//        assertTrue(settings.changePassword("heysoulsister"));
-//    }
+    // wrong password
+    @Test
+    public void testChangePassword6(){
+        assertTrue(settings.changePassword("heysoulsister"));
+    }
 
     // both empty password
     @Test
@@ -235,33 +242,33 @@ public class SettingsTest {
     }
 
 
-//    // player deleted
-//    @Test
-//    public void deleteAccount1(){
-//        database.addNewPlayer(player.getUsername(), player);
-//        assertTrue(settings.deleteAccount("passWORD"));
-//    }
-//
-//    // player not deleted (wrong password)
-//    @Test
-//    public void deleteAccount2(){
-//        database.addNewPlayer("newUser", player);
-//        assertFalse(settings.deleteAccount("password"));
-//    }
-//
-//    // player not exists
-//    @Test
-//    public void deleteAccount3(){
-//        assertFalse(settings.deleteAccount("password"));
-//    }
-//
-//    // player already deleted
-//    @Test
-//    public void deleteAccount4(){
-//        database.addNewPlayer(player.getUsername(), player);
-//        settings.deleteAccount("passWORD");
-//        assertFalse(settings.deleteAccount("passWORD"));
-//    }
+    // player deleted
+    @Test
+    public void deleteAccount1(){
+        database.addNewPlayer(player.getUsername(), player);
+        assertTrue(settings.deleteAccount("passWORD"));
+    }
+
+    // player not deleted (wrong password)
+    @Test
+    public void deleteAccount2(){
+        database.addNewPlayer("newUser", player);
+        assertFalse(settings.deleteAccount("password"));
+    }
+
+    // player not exists
+    @Test
+    public void deleteAccount3(){
+        assertFalse(settings.deleteAccount("password"));
+    }
+
+    // player already deleted
+    @Test
+    public void deleteAccount4(){
+        database.addNewPlayer(player.getUsername(), player);
+        settings.deleteAccount("passWORD");
+        assertFalse(settings.deleteAccount("passWORD"));
+    }
 
     // setter and getter for TicTacToeStats
     @Test
