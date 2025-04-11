@@ -335,9 +335,6 @@ public class CheckersBoardController {
             }
         }
 
-
-        // todo: check win
-        // todo: check tie
     }
 
     private void selectPiece(Button button) {
