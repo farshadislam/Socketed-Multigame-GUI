@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.seng.authentication.CredentialsDatabase;
+import org.seng.authentication.LoginPage;
 import org.seng.authentication.Player;
 import org.seng.authentication.Settings;
 import org.seng.leaderboard_matchmaking.checkersStats;
@@ -315,5 +316,13 @@ public class SettingsTest {
         assertFalse(settings.verifyEmailCodeForNewEmail("updated@email.com", "123"));
     }
 
+    @Test
+    public void logoutTest(){
+        LoginPage newLogin = settings.logout();
+
+        assertTrue(database.wasSaved);
+        assertNotNull(newLogin);
+    }
+}
 
 }
