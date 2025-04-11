@@ -26,5 +26,5 @@
             <Button fx:id="registerButton" styleClass="auth-button" text="Verify" />
         </HBox>
     </VBox>
-   <Button fx:id="reqInfo" layoutX="422.0" layoutY="23.0" onAction="#reqClick" text="Account Requirements" />
+    <Button fx:id="reqInfo" styleClass="auth-button" onAction="#reqClick" text="Account Requirements" prefWidth="150" prefHeight="30" AnchorPane.topAnchor="20.0" AnchorPane.rightAnchor="20.0" />
 </AnchorPane>
