@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.seng.gui.GameChatController"
+            style="-fx-background-color: linear-gradient(to bottom right, #5e60ce, #7209b7);">
+
+    <top>
+        <Label text="Game Chat" BorderPane.alignment="CENTER"
+               style="-fx-font-size: 24px; -fx-text-fill: white; -fx-padding: 20 0 10 0; -fx-font-weight: bold;" />
+    </top>
+
+    <center>
+        <ScrollPane fx:id="chatScrollPane" fitToWidth="true" fitToHeight="true"
+                    style="-fx-background-color: transparent;">
+            <VBox fx:id="chatBox" spacing="10" style="-fx-padding: 10;" />
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <VBox spacing="10" alignment="CENTER" style="-fx-padding: 15;">
+            <HBox spacing="10" alignment="CENTER">
+                <TextField fx:id="messageField" promptText="Type your message..." HBox.hgrow="ALWAYS"
+                           style="-fx-background-radius: 15; -fx-background-color: white; -fx-padding: 10; -fx-font-size: 14px;" />
+                <Button fx:id="sendButton" text="Send" onAction="#sendMessage"
+                        style="-fx-background-color: linear-gradient(to right, #a855f7, #da77f2);
+                           -fx-text-fill: white; -fx-font-weight: bold;
+                           -fx-background-radius: 20; -fx-cursor: hand;" />
+            </HBox>
+
+            <Button fx:id="closeChatButton" text="Close Chat" onAction="#onCloseChatClicked"
+                    style="-fx-background-color: #ef476f; -fx-text-fill: white; -fx-font-weight: bold;
+                       -fx-background-radius: 20; -fx-padding: 8 16; -fx-cursor: hand;" />
+        </VBox>
+    </bottom>
+
+</BorderPane>
