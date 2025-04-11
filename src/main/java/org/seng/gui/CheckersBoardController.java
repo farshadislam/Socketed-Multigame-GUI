@@ -17,6 +17,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -53,16 +55,14 @@ public class CheckersBoardController {
 
 
     private boolean isPlayerBTurn = true; // black goes first
-
+    private boolean canMultiCapture = false;
     private Button selectedPiece = null;
-
-    private int selectedRow = -1;
-
-    private int selectedColumn = -1;
+    private Button capturedPiece = null;
     private Image redPieceImage;
     private Image blackPieceImage;
-    private Image RedPieceImageKing;
-    private Image BlackPieceKing;
+    private Image redKingPieceImage;
+    private Image blackKingPieceImage;
+    private Button[][] buttonBoard;
 
 
     @FXML
@@ -70,13 +70,22 @@ public class CheckersBoardController {
         // Load images
         redPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/redpiece.png"));
         blackPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/blackpiece.png"));
-        RedPieceImageKing = new Image(getClass().getResourceAsStream("/org/seng/gui/images/RedPieceKing.png"));
-        BlackPieceKing = new Image(getClass().getResourceAsStream("/org/seng/gui/images/BlackPieceKing.png"));
+        redKingPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/RedPieceKing.png"));
+        blackKingPieceImage = new Image(getClass().getResourceAsStream("/org/seng/gui/images/BlackPieceKing.png"));
 
 
         setupPieces();
-        selectionHandle();
         clearChatHistory();
+
+        Button[] row1 = {a1, a2, a3, a4, a5, a6, a7, a8};
+        Button[] row2 = {b1, b2, b3, b4, b5, b6, b7, b8};
+        Button[] row3 = {c1, c2, c3, c4, c5, c6, c7, c8};
+        Button[] row4 = {d1, d2, d3, d4, d5, d6, d7, d8};
+        Button[] row5 = {e1, e2, e3, e4, e5, e6, e7, e8};
+        Button[] row6 = {f1, f2, f3, f4, f5, f6, f7, f8};
+        Button[] row7 = {g1, g2, g3, g4, g5, g6, g7, g8};
+        Button[] row8 = {h1, h2, h3, h4, h5, h6, h7, h8};
+        buttonBoard = new Button[][]{row1, row2, row3, row4, row5, row6, row7, row8};
 
         isPlayerBTurn = false;
         togglePlayerTurn();
@@ -172,18 +181,6 @@ public class CheckersBoardController {
         h8.setOnAction(e -> handleButtonClick(7, 7, h8));
     }
 
-    private void selectionHandle() {
-        Button[] row1 = {a1, a2, a3, a4, a5, a6, a7, a8};
-        Button[] row2 = {b1, b2, b3, b4, b5, b6, b7, b8};
-        Button[] row3 = {c1, c2, c3, c4, c5, c6, c7, c8};
-        Button[] row4 = {d1, d2, d3, d4, d5, d6, d7, d8};
-        Button[] row5 = {e1, e2, e3, e4, e5, e6, e7, e8};
-        Button[] row6 = {f1, f2, f3, f4, f5, f6, f7, f8};
-        Button[] row7 = {g1, g2, g3, g4, g5, g6, g7, g8};
-        Button[] row8 = {h1, h2, h3, h4, h5, h6, h7, h8};
-        Button[][] buttonBoard = {row1, row2, row3, row4, row5, row6, row7, row8};
-    }
-
     private void handleButtonClick(int row, int col, Button clickedButton) {
         // if no piece is selected it tries to select one
         if (selectedPiece == null) { // if there is no piece selected
@@ -191,23 +188,62 @@ public class CheckersBoardController {
                 selectPiece(clickedButton);
             }
         }
+        else if (canMultiCapture) {
+            if (isValidJump(selectedPiece, clickedButton)) {
+                Button newPosition = capturePiece(selectedPiece, clickedButton, capturedPiece);
+
+                if (checkMultiCapture(newPosition)) {
+                    canMultiCapture = true;
+                    deselectPiece();
+                    selectPiece(newPosition);
+                }
+                else {
+                    canMultiCapture = false;
+                    deselectPiece();
+                    togglePlayerTurn();
+                }
+            }
+
+        }
         else { // if a piece is already selected it tries to move it
             // if clicking on the same piece, deselect it
             if (clickedButton == selectedPiece) {
                 deselectPiece();
             }
+
             //if clicking on empty square it tries to move the piece
             else if (isValidMove(selectedPiece, clickedButton)) {
                 movePiece(selectedPiece, clickedButton);
                 deselectPiece();
                 togglePlayerTurn(); // piece is moved, switch player turn
             }
+
+
+            // jump moves that capture an opponent's piece
+            else if (isValidJump(selectedPiece, clickedButton)) {
+                Button newPosition = capturePiece(selectedPiece, clickedButton, capturedPiece);
+
+                if (checkMultiCapture(newPosition)) {
+                    canMultiCapture = true;
+                    deselectPiece();
+                    selectPiece(newPosition);
+                }
+                else {
+                    canMultiCapture = false;
+                    deselectPiece();
+                    togglePlayerTurn();
+                }
+            }
+
             // if clicking on another piece it selects that one instead, but make sure it's the correct colour
             else if (clickedButton.getGraphic() != null && isPlayerPiece(clickedButton)){
                 deselectPiece();
                 selectPiece(clickedButton);
             }
         }
+
+        // todo: check win
+        // todo: check tie
     }
 
     private void selectPiece(Button button) {
@@ -233,15 +269,29 @@ public class CheckersBoardController {
             Image pieceColour = boardSpot.getImage();
 
             if (isPlayerBTurn) {
-                return pieceColour.equals(blackPieceImage);
+                return pieceColour.equals(blackPieceImage) || pieceColour.equals(blackKingPieceImage);
             }
             else {
-                return pieceColour.equals(redPieceImage);
+                return pieceColour.equals(redPieceImage) || pieceColour.equals(redKingPieceImage);
             }
 
         }
 
         return false;
+    }
+
+    // checks if piece is a king
+    private boolean isPieceKing(Button button) {
+        ImageView boardSpot = (ImageView) button.getGraphic();
+
+        if (boardSpot != null) {
+            Image pieceType = boardSpot.getImage();
+
+            return pieceType.equals(blackKingPieceImage) || pieceType.equals(redKingPieceImage);
+        }
+
+        return false;
+
     }
 
     private boolean isValidMove(Button fromSpot, Button toSpot) {
@@ -255,19 +305,19 @@ public class CheckersBoardController {
         int toRow = getRow(toSpot);
         int toCol = getCol(toSpot);
 
-        // simple implementation of moving forward one (no jump moves considered yet)
+        // simple implementation of moving forward one
         if (Math.abs(toRow - fromRow) != 1 || Math.abs(toCol - fromCol) != 1) {
             return false; // move is not 1 diagonal
         }
 
         // direction of movement based on piece colour (players turn)
-        if (isPlayerBTurn) {
+        if (isPlayerBTurn && !isPieceKing(fromSpot)) {
             // black moves up
             if (toRow >= fromRow) {
                 return false;
             }
         }
-        else {
+        else if (!isPlayerBTurn && !isPieceKing(fromSpot)){
             // red moves down
             if (toRow <= fromRow) {
                 return false;
@@ -277,15 +327,120 @@ public class CheckersBoardController {
         return true;
     }
 
-    private int getRow(Button spot) {
-        Button[][] buttonBoard = {{a1, a2, a3, a4, a5, a6, a7, a8},
-        {b1, b2, b3, b4, b5, b6, b7, b8},
-        {c1, c2, c3, c4, c5, c6, c7, c8},
-        {d1, d2, d3, d4, d5, d6, d7, d8},
-        {e1, e2, e3, e4, e5, e6, e7, e8},
-        {f1, f2, f3, f4, f5, f6, f7, f8},
-        {g1, g2, g3, g4, g5, g6, g7, g8},
-        {h1, h2, h3, h4, h5, h6, h7, h8}};
+    private boolean isValidJump(Button fromSpot, Button toSpot) {
+        if (toSpot.getGraphic() != null) {
+            return false;
+        }
+
+        // move must be 2 diagonals
+        int fromRow = getRow(fromSpot);
+        int fromCol = getCol(fromSpot);
+        int toRow = getRow(toSpot);
+        int toCol = getCol(toSpot);
+
+        // find row, col of captured piece
+        int rowDiff = toRow - fromRow;
+        int colDiff = toCol - fromCol;
+
+        // simple implementation of moving forward 2 diagonals
+        if (Math.abs(rowDiff) != 2 || Math.abs(colDiff) != 2) {
+            return false;
+        }
+        else {
+            int midRow = fromRow + (rowDiff / 2);
+            int midCol = fromCol + (colDiff / 2);
+
+            Button midSpot = buttonBoard[midCol][midRow];
+            setCapturePiece(midSpot);
+
+            if (midSpot.getGraphic() == null || isPlayerPiece(midSpot)) {
+                return false;
+            }
+        }
+
+        // direction of movement based on piece colour (players turn)
+        if (isPlayerBTurn && !isPieceKing(fromSpot)) {
+            // black moves up
+            if (toRow >= fromRow) {
+                return false;
+            }
+        }
+        else if (!isPlayerBTurn && !isPieceKing(fromSpot)){
+            // red moves down
+            if (toRow <= fromRow) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // fromSpot is the new position to check multi-capture from
+    public boolean checkMultiCapture(Button fromSpot) {
+        // call isValidJump from the new position in four different directions (2 diagonal: top right/left, bottom right/left)
+        int row = getRow(fromSpot);
+        int col = getCol(fromSpot);
+
+        if ((row - 2 >= 0 && col - 2 >= 0) && isValidJump(fromSpot, buttonBoard[col-2][row-2])) { // top right
+            return true;
+        }
+        else if ((row + 2 < 8 && col - 2 >= 0) && isValidJump(fromSpot, buttonBoard[col-2][row+2])) { // top left
+            return true;
+        }
+        else if ((row - 2 >= 0 && col + 2 < 8) && isValidJump(fromSpot, buttonBoard[col+2][row-2])) { // bottom right
+            return true;
+        }
+        else if ((row + 2 < 8 && col + 2 < 8) && isValidJump(fromSpot, buttonBoard[col+2][row+2])) { // bottom left
+            return true;
+        }
+        return false;
+    }
+//
+//    //everything under here is experimental
+//    //this function is checking if there is capturable pieces from a certain spot and gives a list
+//
+//    public List<int[]> getCapturablePieces(int fromRow, int fromCol, Piece piece) {
+//        List<int[]> capturableLocations = new ArrayList<>();
+//        if (piece == Piece.EMPTY) {
+//            return capturableLocations;//if theres no pieces present it just returns an empty list
+//        }
+//        int[] directions; //initialization, nothing serious
+//        if (piece == Piece.RED_KING || piece == Piece.BLACK_KING) {
+//            directions = new int[]{-1, 1}; //since kings can move both up and down they should check for pieces both up and down the rows
+//        } else if (piece == Piece.RED) {
+//            directions = new int[]{-1}; //since red is at the top conventionally it can only move down visually (up in row count)
+//        } else if (piece == Piece.BLACK) {
+//            directions = new int[]{1}; // since black is at the bottom conventionally it can only move up visually (down in row count)
+//        } else {
+//            directions = new int[]{-1, 1}; //honestly useless, idk why i even put this here
+//        }
+//
+//
+//        for (int rowDir : directions) { //for each row in the directions the piece can go (what we just did earlier)
+//            for (int colDir : new int[]{-1, 1}) { //in terms of columns pieces can move both left and right no problem
+//                int targetRow = fromRow + 2 * rowDir; //first we need to check if theres nothing blocking pieces from being captured
+//                int targetCol = fromCol + 2 * colDir; //technically you move left and up twice in order to capture a piece
+//
+//
+//                if (inBounds(targetRow, targetCol) && board[targetRow][targetCol] == Piece.EMPTY) { //as long as its in the bounds of the board, ando nothing is blocking it, the if function activates
+//                    int middleRow = fromRow + rowDir;
+//                    int middleCol = fromCol + colDir;//finding the middle piece (depending on the piece calculation is different)
+//                    Piece middlePiece = boardd[middleRow][middleCol]; //checks what piece it is, we have to make sure that it is not one of the player's own chips
+//
+//                    //this if statement checking if the middle piece is dfferent
+//                    if ((piece == Piece.RED || piece == Piece.RED_KING) && (middlePiece == Piece.BLACK || middlePiece == Piece.BLACK_KING) ||
+//                            (piece == Piece.BLACK || piece == Piece.BLACK_KING) && (middlePiece == Piece.RED || middlePiece == Piece.RED_KING)) {
+//
+//                        capturableLocations.add(new int[]{targetRow, targetCol}); //this returns the locations where it can go basically, into the list (can be upto 4 if its a king!)
+//                    }
+//                }
+//            }
+//        }
+//        return capturableLocations;
+//    }
+
+
+private int getRow(Button spot) {
 
         for (int i = 0; i < buttonBoard.length; i++) {
             for (int j = 0; j < buttonBoard[i].length; j++) {
@@ -299,14 +454,6 @@ public class CheckersBoardController {
     }
 
     private int getCol(Button spot) {
-        Button[][] buttonBoard = {{a1, a2, a3, a4, a5, a6, a7, a8},
-                {b1, b2, b3, b4, b5, b6, b7, b8},
-                {c1, c2, c3, c4, c5, c6, c7, c8},
-                {d1, d2, d3, d4, d5, d6, d7, d8},
-                {e1, e2, e3, e4, e5, e6, e7, e8},
-                {f1, f2, f3, f4, f5, f6, f7, f8},
-                {g1, g2, g3, g4, g5, g6, g7, g8},
-                {h1, h2, h3, h4, h5, h6, h7, h8}};
 
         for (int i = 0; i < buttonBoard.length; i++) {
             for (int j = 0; j < buttonBoard[i].length; j++) {
@@ -344,21 +491,53 @@ public class CheckersBoardController {
 //    }
 
     private void movePiece(Button from, Button to) {
-        //todo: check if new position is valid. return early otherwise
-
         // moves the piece from one button to another
         to.setGraphic(from.getGraphic());
         from.setGraphic(null);
 
-        //todo: check win conditions for the player that just played
+        // check if piece can be promoted to king
+        if (isPlayerBTurn) { // black piece needs to be at row 0
+            if (getRow(to) == 0) {
+                placePiece(to, blackKingPieceImage);
+            }
+        }
+        else { // red piece needs to be at row 7
+            if (getRow(to) == 7) {
+                placePiece(to, redKingPieceImage);
+            }
+        }
     }
 
-    /**
-     *
-     * @param button the button in which the piece to be removed is
-     */
-    private void removePiece(Button button){
-        return;
+    private void setCapturePiece(Button spot) {
+        capturedPiece = spot;
+    }
+
+    private Button getCapturePiece() {
+        return capturedPiece;
+    }
+
+    // moves piece two diagonals and captures opponent piece and returns new position of piece that jumps
+    private Button capturePiece(Button from, Button to, Button capturedPiece) {
+        // remove captured piece from board
+        getCapturePiece().setGraphic(null);
+
+        // moves piece from one spot (button) to another
+        to.setGraphic(from.getGraphic());
+        from.setGraphic(null);
+
+        // check if piece can be promoted to king
+        if (isPlayerBTurn) { // black piece needs to be at row 0
+            if (getRow(to) == 0) {
+                placePiece(to, blackKingPieceImage);
+            }
+        }
+        else { // red piece needs to be at row 7
+            if (getRow(to) == 7) {
+                placePiece(to, redKingPieceImage);
+            }
+        }
+
+        return to;
     }
 
     private void placePiece(Button button, Image pieceImage) {
@@ -531,5 +710,6 @@ public class CheckersBoardController {
             e.printStackTrace();
         }
     }
+
 }
 
