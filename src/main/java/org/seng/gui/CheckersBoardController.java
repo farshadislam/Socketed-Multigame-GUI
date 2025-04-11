@@ -592,7 +592,6 @@ public class CheckersBoardController {
             return;
         }
 
-
         isPlayerBTurn = !isPlayerBTurn;
 
         // Cancel any existing timers
