@@ -169,7 +169,7 @@ public class Settings {
      * @return the login page
      */
     public LoginPage logout(){
-        database.saveDatabase();
+        database.saveDatabase("output.txt");
         return new LoginPage(database);
     }
 

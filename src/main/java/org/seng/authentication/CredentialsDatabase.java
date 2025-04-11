@@ -12,6 +12,7 @@ import java.io.IOException;
 
 public class CredentialsDatabase {
     private final HashMap<String, Player> playerCredentials;
+    private final String outputFile = "output.txt";
 
     public CredentialsDatabase() {
         // Initializing the HashMap
@@ -69,8 +70,8 @@ public class CredentialsDatabase {
         playerCredentials.clear();
     }
 
-    public void saveDatabase() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))) {
+    public void saveDatabase(String filepath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
 
             // Iterating over the keys in HashMap
             for (String username : playerCredentials.keySet()) {
@@ -128,74 +129,6 @@ public class CredentialsDatabase {
             e.printStackTrace();
         }
     }
-
-
-//    public void loadDatabase(String fileName) {
-//        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-//            String line;
-//
-//            while ((line = reader.readLine()) != null) {
-//                // Split and trim the line using a comma
-//                String[] words = line.split(",");
-//
-//                // Creating the Player object
-//                Player player = new Player(words[0].trim(), words[1].trim(), words[2].trim());
-//
-//                player.setSymbol(words[3].trim().charAt(0));
-//
-//                connect4Stats connect4 = player.getConnect4Stats();
-//                checkersStats checkers = player.getCheckersStats();
-//                ticTacToeStats ticTacToe = player.getTicTacToeStats();
-//                Last5Matches match_history = player.getLast5MatchesObject();
-//
-//                try {
-//                    // Setting fields for Connect4
-//                    connect4.setGamesPlayed(Integer.parseInt(words[4].trim()));
-//                    connect4.setWins(Integer.parseInt(words[5].trim()));
-//                    connect4.setLosses(Integer.parseInt(words[6].trim()));
-//                    connect4.setTies(Integer.parseInt(words[7].trim()));
-//                    connect4.setRank(Rank.valueOf(words[8].trim().toUpperCase()));
-//                    connect4.setMMR(Integer.parseInt(words[9].trim()));
-//
-//                    // Setting fields for Checkers
-//                    checkers.setGamesPlayed(Integer.parseInt(words[10].trim()));
-//                    checkers.setWins(Integer.parseInt(words[11].trim()));
-//                    checkers.setLosses(Integer.parseInt(words[12].trim()));
-//                    checkers.setTies(Integer.parseInt(words[13].trim()));
-//                    checkers.setRank(Rank.valueOf(words[14].trim().toUpperCase()));
-//                    checkers.setMMR(Integer.parseInt(words[15].trim()));
-//
-//                    // Setting fields for Tic-Tac-Toe
-//                    ticTacToe.setGamesPlayed(Integer.parseInt(words[16].trim()));
-//                    ticTacToe.setWins(Integer.parseInt(words[17].trim()));
-//                    ticTacToe.setLosses(Integer.parseInt(words[18].trim()));
-//                    ticTacToe.setTies(Integer.parseInt(words[19].trim()));
-//                    ticTacToe.setRank(Rank.valueOf(words[20].trim().toUpperCase()));
-//                    ticTacToe.setMMR(Integer.parseInt(words[21].trim()));
-//
-//                    // Setting Fields for last 5 matches
-//                    match_history.update(GameType.valueOf(words[22].trim()), words[23].trim());
-//                    match_history.update(GameType.valueOf(words[24].trim()), words[25].trim());
-//                    match_history.update(GameType.valueOf(words[26].trim()), words[27].trim());
-//                    match_history.update(GameType.valueOf(words[28].trim()), words[29].trim());
-//                    match_history.update(GameType.valueOf(words[30].trim()), words[31].trim());
-//                } catch (NumberFormatException e) {
-//                    System.out.println("Error parsing integer values in line: " + line);
-//                    e.printStackTrace();
-//                } catch (IllegalArgumentException e) {
-//                    System.out.println("Error parsing rank in line: " + line);
-//                    e.printStackTrace();
-//                }
-//
-//                // Adding the Player to the playerCredentials database
-//                playerCredentials.put(player.getUsername(), player);
-//                System.out.println("succes");
-//            }
-//        } catch (IOException e) {
-//            System.out.println("Error reading file: " + fileName);
-//            e.printStackTrace();
-//        }
-//    }
 
     public void loadDatabase(String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -265,7 +198,6 @@ public class CredentialsDatabase {
 
                 // Adding the Player to the playerCredentials database
                 playerCredentials.put(player.getUsername().toLowerCase(), player);
-                System.out.println("success");
             }
         } catch (IOException e) {
             System.out.println("Error reading file: " + fileName);
