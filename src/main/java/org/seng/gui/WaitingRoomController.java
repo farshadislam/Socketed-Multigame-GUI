@@ -31,7 +31,7 @@ import java.net.URL;
  */
 public class WaitingRoomController {
 
-    // this does designate fxml elements for displaying game mode, progress and statuses.
+    // this designates fxml elements for displaying game mode, progress and statuses.
     @FXML private Label gameTypeLabel;
     @FXML private ProgressBar matchProgressBar;
     @FXML private Label player1Name, player2Name;
@@ -43,6 +43,9 @@ public class WaitingRoomController {
     @FXML private Label systemMessage;
     @FXML private Button leaveButton;
     @FXML private ImageView player1Avatar, player2Avatar;
+    @FXML private Button chatButton;
+    private GameChatController chatController;  // this stores a reference to the opened chat controller
+
 
     // this holds the socketgameclient which is the network client connection for communication with the server
     private SocketGameClient client;
@@ -62,6 +65,10 @@ public class WaitingRoomController {
 
     // this defines a thread that  listens to incoming messages from the server
     private Thread listenerThread;
+
+    private boolean iAmReady = false;
+    private boolean opponentIsReady = false;
+
 
     /**
      * this initializes the waiting room.
@@ -183,6 +190,8 @@ public class WaitingRoomController {
                     // this checks if the thread has been flagged as interrupted and then exits the loop
                     if (Thread.interrupted()) {
                         System.out.println("[WaitingRoom DEBUG] listenerthread detected interrupt, exiting.");
+                        String cleanMsg = msg.trim();
+                        Platform.runLater(() -> handleServerMessage(cleanMsg));
                         break;
                     }
                     final String finalMsg = msg;
@@ -206,66 +215,115 @@ public class WaitingRoomController {
      * @param message the message received from the server.
      */
     private void handleServerMessage(String message) {
-        System.out.println("[WaitingRoom DEBUG] received message: " + message);
+        System.out.println("[WaitingRoom DEBUG] received message: " + message);  // this logs the incoming server message
 
         if (message.contains("IS_PLAYER_ONE:")) {
-            // this extracts the role information from the message
+            // this processes the role assignment message
             int index = message.indexOf("IS_PLAYER_ONE:") + "IS_PLAYER_ONE:".length();
-            String roleStr = message.substring(index).trim();
-            // this determines if the role string starts with true
-            boolean roleValue = roleStr.startsWith("true");
-            amIPlayerOne = roleValue;
-            System.out.println("[WaitingRoom DEBUG] parsed role: " + roleValue);
+            String rolestring = message.substring(index).trim();  // this extracts the substring which indicates the player role
+            boolean rolevalue = rolestring.startsWith("true");  // this interprets the role string as a boolean
+            amIPlayerOne = rolevalue;  // this saves the role assignment
+            System.out.println("[WaitingRoom DEBUG] parsed role: " + rolevalue);
+
         } else if (message.startsWith("OPPONENT_NAME:")) {
-            // this extracts the opponents name from the message.
-            String oppName = message.substring("OPPONENT_NAME:".length()).trim();
-            player2Name.setText(oppName);
-            // this updates the system message to show the match information
-            systemMessage.setText("matched with: " + oppName);
-            System.out.println("[WaitingRoom DEBUG] opponent name set to: " + oppName);
+            // this processes the opponents name
+            String opponentname = message.substring("OPPONENT_NAME:".length()).trim();
+            player2Name.setText(opponentname);  // this sets the ui element for the opponents name
+            systemMessage.setText("matched with: " + opponentname);  // this informs the user about the opponent matchup
+            System.out.println("[WaitingRoom DEBUG] opponent name set to: " + opponentname);
+
         } else if (message.equals("START_GAME")) {
-            // this updates the ui when the server sends a start game command
+            // this condiiton is to prepare the matchup
             systemMessage.setText("both players ready. launching game...");
-            if (timerTimeline != null) {
-                timerTimeline.stop(); // this stops the timer as the match is starting
-            }
-            // this send acknowledgement to the server that this client is closing the waiting room
+            if (timerTimeline != null) timerTimeline.stop();  // this stops the waiting timer
             try {
-                client.sendMessage("WAITING_ROOM_CLOSED");
+                client.sendMessage("WAITING_ROOM_CLOSED");  // this informs the server that waiting room is closed
                 System.out.println("[WaitingRoom DEBUG] sent waiting_room_closed ack.");
             } catch (IOException ex) {
                 System.err.println("[WaitingRoom DEBUG] failed to send waiting_room_closed ack.");
                 ex.printStackTrace();
             }
-            // this interrupts the listener thread to stop processing further waiting room messages
+
+            try {
+                Thread.sleep(200); // this sets a delay to flush the messages
+            } catch (InterruptedException e) {
+                System.out.println("[WaitingRoom DEBUG] interrupted while waiting before scene switch.");
+            }
+
             if (listenerThread != null && listenerThread.isAlive()) {
                 System.out.println("[WaitingRoom DEBUG] attempting to interrupt listener thread.");
-                listenerThread.interrupt();
+                listenerThread.interrupt();  // this interrupts the listener thread
             }
-            // this transitions to the game scene.
-            loadGameScene();
+
+            loadGameScene();  // this transitions to the actual game scene
+
         } else if (message.equals("OPPONENT_READY")) {
-            // this updates the opponent status when they indicate they are ready
-            player2ReadyStatus.setText("ready: yes");
-            player2Status.setText("\u2705 loaded");
-            player2StatusIndicator.setFill(Color.web("#a855f7"));
+            // Handle opponent readiness.
+            opponentIsReady = true;
+            player2ReadyStatus.setText("ready: yes");  // this updates the opponents ready status on the UI
+            player2Status.setText("\u2705 loaded");      // this marks the status as loaded
+            player2StatusIndicator.setFill(Color.web("#a855f7"));  // this sets a visual indicator for the opponent
+            checkIfBothReady();  // this checks if both players are ready
+
+        } else if (message.equals("CLOSE_CHAT")) {
+            // this closes the chat window
+            System.out.println("[WaitingRoom DEBUG] received CLOSE_CHAT");
+            if (chatController != null) {
+                chatController.handleCloseChat();  // this triggers the chat controller to close the chat
+                chatController = null;  // this releases the reference
+            }
+
+            // this resets the readiness after closing chat
+            iAmReady = false;
+            opponentIsReady = false;
+            player1ReadyStatus.setText("ready: no");  // this resets the readiness status for the current player
+            player2ReadyStatus.setText("ready: no");  // this resets the readiness status for opponent
+            systemMessage.setText("Chat closed. Re-ready to launch the game.");
+
         } else if (message.startsWith("Welcome ")) {
-            // this displays any welcome messages from the server
             systemMessage.setText(message);
+
+        } else if (message.contains("CHAT:")) {
+            int chatIndex = message.indexOf("CHAT:");
+            if (chatIndex != -1 && chatIndex + 5 < message.length()) {
+                String actual = message.substring(chatIndex + 5).trim(); // this strips out CHAT to get the actual content of the message
+                System.out.println("[WaitingRoom DEBUG] chat received: " + actual);
+                if (chatController != null) {
+                    chatController.handleIncomingChat(actual);  // this passes the chat to the chat controller
+                } else {
+                    System.out.println("[WaitingRoom DEBUG] chatController is null — chat window not open.");
+                }
+            }
+
         } else {
-            // this logs any other messages
+            // Catch-all for unhandled messages.
             System.out.println("[WaitingRoom DEBUG] unhandled message: " + message);
         }
     }
+
 
     /**
      * this loads the appropriate game scene once both players are ready
      * this selects the fxml file based on the game type then applies the theme and passes role information
      */
     private void loadGameScene() {
+        // this makes sure it doesnt advance if no one has arrived
+        if (amIPlayerOne == null) {
+            System.out.println("[WaitingRoom DEBUG] role not yet assigned, deferring loadGameScene...");
+            Platform.runLater(this::loadGameScene);  // this schedules an attempt later on the UI thread.
+            return;  // this exits until it is finished
+        }
+
+        // this doesn't proceed until the scene is ready
+        if (readyButton.getScene() == null || readyButton.getScene().getWindow() == null) {
+            System.out.println("[WaitingRoom DEBUG] scene/window not ready, retrying loadGameScene...");
+            Platform.runLater(this::loadGameScene);  // this attempts to load the scene again
+            return;  // this exit until the scene is fully ready
+        }
+
         try {
             String fxml;
-            // this determines which game fxml to load
+            // this determines the FXML file based on game type
             if (gameType == GameType.TICTACTOE) {
                 fxml = "/org/seng/gui/onlineTicTacToe.fxml";
             } else if (gameType == GameType.CONNECT4) {
@@ -276,47 +334,46 @@ public class WaitingRoomController {
                 throw new IOException("unsupported game type.");
             }
 
-            // this loads the fxml file for the selected game scene
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-            Scene scene = new Scene(loader.load(), 700, 450);
-            // this applies the basic styles to the new scene
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));  // this prepares the loader fort the FXML file
+            Scene scene = new Scene(loader.load(), 700, 450);  // this creates a new scene with the specified dimensions
             scene.getStylesheets().add(getClass().getResource("/org/seng/gui/basic-styles.css").toExternalForm());
-
-            // this gets the current stage from the ready button and sets the scene to the new game scene
-            Stage stage = (Stage) readyButton.getScene().getWindow();
-            stage.setScene(scene);
+            Stage stage = (Stage) readyButton.getScene().getWindow();  // this retrieves the safety window
+            stage.setScene(scene);  // this sets the new game scene
             stage.show();
 
-            // this determines the players role from the server.
-            boolean role;
-            if (amIPlayerOne != null) {
-                role = amIPlayerOne;
-            } else {
-                role = false;
+            // this sends games_scene_ready
+            try {
+                client.sendMessage("GAME_SCENE_READY");  // this notifies the server that the game scene is now active
+                System.out.println("[WaitingRoom DEBUG] sent GAME_SCENE_READY");
+            } catch (IOException e) {
+                System.err.println("[WaitingRoom DEBUG] failed to send GAME_SCENE_READY");
+                e.printStackTrace();
             }
+
+            boolean role = amIPlayerOne;
             System.out.println("[WaitingRoom DEBUG] loading game scene with amIPlayerOne = " + role);
 
-            // this initializes the controller if the game type is tictactoe
+            // this initalizes the controller for tictactoe
             if (gameType == GameType.TICTACTOE) {
+                // this initializes it with the game logic and player data
                 OnlineTicTacToeController controller = loader.getController();
                 controller.init(
-                        client,
+                        client,  // this passes the network client
                         new org.seng.gamelogic.tictactoe.OnlineTicTacToeGame(
-                                new org.seng.gamelogic.tictactoe.TicTacToeBoard(),
+                                new org.seng.gamelogic.tictactoe.TicTacToeBoard(), // this sets uo a new board instance
                                 new org.seng.gamelogic.tictactoe.TicTacToePlayer[]{
-                                        new org.seng.gamelogic.tictactoe.TicTacToePlayer(username, "", ""),
-                                        new org.seng.gamelogic.tictactoe.TicTacToePlayer(player2Name.getText(), "", "")
+                                        new org.seng.gamelogic.tictactoe.TicTacToePlayer(username, "", ""),  // this creates the current player
+                                        new org.seng.gamelogic.tictactoe.TicTacToePlayer(player2Name.getText(), "", "")  // this creates the opponent player
                                 },
-                                1
+                                1  // Starting move or player index.
                         ),
-                        role
+                        role  // Pass the role (true if player one).
                 );
                 System.out.println("[WaitingRoom DEBUG] game scene loaded. role passed: " + role);
             }
-            // this allowa additional game types to be handled in the same way
+            // you can add CONNECT4 and CHECKERS init here later
         } catch (IOException e) {
-            // this displays an error message if loading the game scene fails
-            systemMessage.setText("failed to load game scene.");
+            systemMessage.setText("failed to load game scene.");  // Inform the user of an error.
             e.printStackTrace();
         }
     }
@@ -328,13 +385,49 @@ public class WaitingRoomController {
     @FXML
     public void onReadyClicked() {
         try {
-            client.sendMessage("READY");  // this sends the ready message to the server
-            player1ReadyStatus.setText("ready: yes");  // this updates the ui to show the player is ready
-            systemMessage.setText("waiting for opponent to be ready...");
+            iAmReady = true;  // this marks the player as ready
+            client.sendMessage("READY");  // this notifies the server the player is ready
+            player1ReadyStatus.setText("ready: yes");  // this updates the ui
+            systemMessage.setText("waiting for opponent to be ready...");  // this informs on the player they are waiting for the opponent
             System.out.println("[WaitingRoom DEBUG] sent READY");
+
+            checkIfBothReady(); // this checks to see if the game can start
         } catch (IOException e) {
-            systemMessage.setText("failed to send ready message.");
+            systemMessage.setText("failed to send ready message.");  // this updates the UI if message sending fails
             e.printStackTrace();
+        }
+    }
+
+    private void checkIfBothReady() {
+        if (iAmReady && opponentIsReady) {
+            systemMessage.setText("both players ready. launching game...");  // this notifies that both sides are set
+            if (timerTimeline != null) timerTimeline.stop();  // this stops the waiting timer.
+
+            // this is to tell server this client is leaving the waiting room
+            try {
+                client.sendMessage("WAITING_ROOM_CLOSED");  // this sends a message indicating the waiting room is done
+                System.out.println("[WaitingRoom DEBUG] sent waiting_room_closed ack.");
+            } catch (IOException ex) {
+                System.err.println("[WaitingRoom DEBUG] failed to send waiting_room_closed ack.");
+                ex.printStackTrace();
+            }
+
+            // this sets a buffer before the scene transition using a separate thread to ensure both can get in game
+            new Thread(() -> {
+                try {
+                    Thread.sleep(200);  // this sets a pause to make sure messages are flushed
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                if (listenerThread != null && listenerThread.isAlive()) {
+                    System.out.println("[WaitingRoom DEBUG] attempting to interrupt listener thread.");
+                    listenerThread.interrupt();  // this interrupts the listener thread
+                }
+
+                // this ensures the scene switch is done on the JavaFX thread
+                Platform.runLater(() -> loadGameScene());
+            }).start();
         }
     }
 
@@ -346,30 +439,50 @@ public class WaitingRoomController {
     public void onLeaveClicked() {
         try {
             if (client != null) {
-                client.sendMessage("LEFT");  // this notifies the server that the player has left
-                client.close();              // this closes the client connection
+                client.sendMessage("LEFT");  // this notifies the server that the player has left.
+                client.close();              // this closes the client connection.
             }
             if (timerTimeline != null) {
-                timerTimeline.stop();        // this stops the progress timer
+                timerTimeline.stop();        // this stops the progress timer.
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         try {
-            // this loads the games page fxml to return to the main games list
+            // this loads the games page fxml to return to the main games list.
             URL fxmlUrl = getClass().getClassLoader().getResource("org/seng/gui/games-page.fxml");
             if (fxmlUrl == null) {
                 System.err.println("\u26A0 games-page.fxml not found");
-                throw new IOException("games-page.fxml not found.");
+                throw new IOException("games-page.fxml not found.");  // this throws an error if the file is missing
             }
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            Scene scene = new Scene(loader.load(), 700, 450);
+            Scene scene = new Scene(loader.load(), 700, 450);  // this creates a new scene for the games page
             scene.getStylesheets().add(getClass().getResource("/org/seng/gui/styles/basic-styles.css").toExternalForm());
-            Stage stage = (Stage) leaveButton.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+            Stage stage = (Stage) leaveButton.getScene().getWindow();  // this gets the current stage
+            stage.setScene(scene);  // this switches to the games page scene
+            stage.show();  // this displays the updated stage
         } catch (IOException e) {
-            systemMessage.setText("\u26A0 failed to load games page.");
+            systemMessage.setText("\u26A0 failed to load games page.");  // this informs the user if loading fails
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onOpenChatClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/seng/gui/game-chat.fxml"));
+            Scene scene = new Scene(loader.load(), 500, 400);  // this creates a scene for the chat window
+
+            chatController = loader.getController(); // this stores reference to the chat controller
+            chatController.init(client, username);   // this passes SocketGameClient and username for the chat setup
+
+            Stage chatStage = new Stage();  // this creates a new seperate window for the chat
+            chatStage.setTitle("Game Chat");  // this is the title
+            chatStage.setScene(scene);  // this sets the chat scene
+            chatStage.show();  // this displays the chat window
+
+        } catch (IOException e) {
+            System.err.println("Failed to open chat window.");
             e.printStackTrace();
         }
     }
@@ -380,15 +493,16 @@ public class WaitingRoomController {
      */
     private void goBack() {
         try {
+            // this loads the dashboard FXML to return the user to the main dashboard
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
-            Scene scene = new Scene(loader.load(), 700, 450);
+            Scene scene = new Scene(loader.load(), 700, 450);  // this creates a new scene for the dashboard
             scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("OMG Platform");
-            stage.show();
-            Stage currentStage = (Stage) leaveButton.getScene().getWindow();
-            currentStage.close();
+            Stage stage = new Stage();  // this creates a new stage for the dashboard window
+            stage.setScene(scene);  // this sets the new scene
+            stage.setTitle("OMG Platform");  // this sets the window title
+            stage.show();  // this displays the dashboard window
+            Stage currentStage = (Stage) leaveButton.getScene().getWindow();  // this gets the current waiting room window
+            currentStage.close();  // this closes the waiting room window
         } catch (IOException e) {
             e.printStackTrace();
         }
