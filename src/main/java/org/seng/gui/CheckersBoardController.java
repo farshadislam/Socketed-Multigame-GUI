@@ -188,6 +188,85 @@ public class CheckersBoardController {
         h8.setOnAction(e -> handleButtonClick(7, 7, h8));
     }
 
+    private boolean checkCheckersWin() {
+        boolean playerHasValidMove = false;
+        boolean opponentHasValidMove = false;
+
+        Color currentPlayerColor = isPlayerBTurn ? Color.BLACK : Color.RED;  // Black goes first
+        Color opponentColor = (currentPlayerColor == Color.BLACK) ? Color.RED : Color.BLACK;
+
+        // Iterate through the board and check for valid moves or captures for both players
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Button button = buttonBoard[row][col];
+                Color pieceColor = getButtonColor(button);
+
+                if (pieceColor == null) continue;  // Skip empty spaces
+
+                // Check if the piece belongs to the current player
+                if (pieceColor.equals(currentPlayerColor)) {
+                    if (hasValidMove(row, col, currentPlayerColor)) {
+                        playerHasValidMove = true;
+                    }
+                } else if (pieceColor.equals(opponentColor)) {  // Opponent's piece
+                    if (hasValidMove(row, col, opponentColor)) {
+                        opponentHasValidMove = true;
+                    }
+                }
+            }
+        }
+
+
+
+        // If the opponent has no valid moves left, the current player wins
+        if (!opponentHasValidMove) {
+            return true;  // Current player wins
+        }
+
+        // If the current player has no valid moves left, they lose
+        if (!playerHasValidMove) {
+            return false;  // Current player loses
+        }
+
+        return Boolean.parseBoolean(null);  // Game is still ongoing
+    }
+
+    private Color getButtonColor(Button button) {
+        if (button.getGraphic() != null) {
+            ImageView piece = (ImageView) button.getGraphic();
+            if (piece.getImage().equals(redPieceImage) || piece.getImage().equals(redKingPieceImage)) {
+                return Color.RED;
+            } else if (piece.getImage().equals(blackPieceImage) || piece.getImage().equals(blackKingPieceImage)) {
+                return Color.BLACK;
+            }
+        }
+        return null; // No piece
+    }
+    private boolean hasValidMove(int row, int col, Color playerColor) {
+        // Iterate over the possible moves of the piece
+        for (int i = -1; i <= 1; i += 2) {  // Checking both directions (forward and backward)
+            for (int j = -1; j <= 1; j += 2) {  // Checking both diagonal directions
+                int newRow = row + i;
+                int newCol = col + j;
+
+                // Check if the move is within the board bounds
+                if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+                    Button targetButton = buttonBoard[newRow][newCol];
+
+                    // Check if the target spot is empty
+                    if (targetButton.getGraphic() == null) {
+                        return true;  // Valid move found
+                    }
+                }
+            }
+        }
+
+        // If no valid move is found
+        return false;
+    }
+
+
+
     private void handleButtonClick(int row, int col, Button clickedButton) {
         // if no piece is selected it tries to select one
         if (selectedPiece == null) { // if there is no piece selected
@@ -248,6 +327,7 @@ public class CheckersBoardController {
                 selectPiece(clickedButton);
             }
         }
+
 
         // todo: check win
         // todo: check tie
