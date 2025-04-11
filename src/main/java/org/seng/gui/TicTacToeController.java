@@ -163,7 +163,7 @@ public class TicTacToeController {
         if (!isPlayerXTurn && AIBot) {
             new Thread(() -> {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                 } catch (InterruptedException ignored) {}
                 Platform.runLater(this::makeAIMove);
             }).start();
