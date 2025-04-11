@@ -14,9 +14,9 @@ import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 import java.util.Optional;
 import org.seng.authentication.*;
-import org.seng.gamelogicTest.checkers.CheckersGame;
-import org.seng.gamelogicTest.connectfour.ConnectFourGame;
-import org.seng.gamelogicTest.tictactoe.TicTacToeGame;
+import org.seng.gamelogic.checkers.CheckersGame;
+import org.seng.gamelogic.connectfour.ConnectFourGame;
+import org.seng.gamelogic.tictactoe.TicTacToeGame;
 
 import static org.seng.gui.HelloApplication.database;
 

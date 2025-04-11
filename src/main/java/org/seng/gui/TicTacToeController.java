@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import org.seng.gamelogicTest.tictactoe.*;
+import org.seng.gamelogic.tictactoe.*;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
