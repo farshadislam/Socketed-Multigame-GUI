@@ -8,6 +8,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -19,8 +22,20 @@ import java.io.IOException;
 
 public class OnlineTicTacToeController {
 
-    @FXML private GridPane board;
-    @FXML private Label turnLabel;
+    @FXML
+    private GridPane board;
+
+    @FXML
+    private Label turnLabel;
+
+    @FXML
+    private Button inGameChatButton;
+
+    @FXML
+    private MenuButton SettingMenu;
+
+    @FXML
+    private MenuItem helpOption;
 
     private Button[][] buttonBoard;
     private static final int BOARD_SIZE = 3;
@@ -32,7 +47,12 @@ public class OnlineTicTacToeController {
     private SocketGameClient client;
     private OnlineTicTacToeGame game;
 
-    /** this initializes the controller with network references + the game logic and role assignment */
+    /**
+     * Initializes the controller with network references, game logic, and the role assignment.
+     * @param client the network client instance
+     * @param game the Tic Tac Toe game logic object
+     * @param amIPlayerOne indicates if this client is player one (X) or not (O)
+     */
     public void init(SocketGameClient client, OnlineTicTacToeGame game, boolean amIPlayerOne) {
         this.client = client;
         this.game = game;
@@ -54,7 +74,7 @@ public class OnlineTicTacToeController {
         updateTurnLabel();
         updateGridEnableState();
 
-        // this notifies the server that our scene is ready
+        // Notify the server that our scene is ready
         try {
             client.sendMessage("GAME_SCENE_READY");
         } catch (IOException e) {
@@ -63,7 +83,9 @@ public class OnlineTicTacToeController {
         }
     }
 
-    /** this creates the 3x3 board of buttons */
+    /**
+     * Creates a 3x3 board by populating the GridPane with Buttons.
+     */
     private void createBoard() {
         buttonBoard = new Button[BOARD_SIZE][BOARD_SIZE];
         board.getChildren().clear();
@@ -81,30 +103,34 @@ public class OnlineTicTacToeController {
         }
     }
 
-    /** this handles a local move */
+    /**
+     * Handles a move when a button is pressed on the board.
+     * @param row the row index of the move
+     * @param col the column index of the move
+     * @param btn the button that was pressed
+     */
     private void handleMove(int row, int col, Button btn) {
-        // this only does something if its our turn and the cell is empty
-        if (!myTurn) return;
-        if (!btn.getText().isEmpty()) return;
+        // Only process the move if it's our turn and the cell is empty
+        if (!myTurn || !btn.getText().isEmpty()) return;
 
         boolean moveApplied = game.applyMove(row, col, mySymbol.charAt(0));
         if (moveApplied) {
             btn.setText(mySymbol);
             btn.setDisable(true);
 
-            // this sends the move to the server
+            // Send the move to the server in the format: MOVE:TICTACTOE:row,col
             String moveMsg = "MOVE:TICTACTOE:" + row + "," + col;
             System.out.println("[debug] sending: " + moveMsg);
             try {
                 client.sendMessage(moveMsg);
             } catch (IOException e) {
-                showError("failed to send move");
+                showError("Failed to send move");
                 e.printStackTrace();
             }
 
             checkAndSendGameOver(row, col, mySymbol.charAt(0));
 
-            // this passes the turn to the opponent
+            // Pass the turn to the opponent if the game is still in progress
             if (game.getStatus().equals("in progress")) {
                 myTurn = false;
                 updateTurnLabel();
@@ -113,7 +139,9 @@ public class OnlineTicTacToeController {
         }
     }
 
-    /** this starts a thread to read server messages */
+    /**
+     * Starts a background thread to listen for server messages.
+     */
     private void startNetworkListener() {
         Thread t = new Thread(() -> {
             try {
@@ -123,14 +151,17 @@ public class OnlineTicTacToeController {
                     Platform.runLater(() -> processServerMessage(finalMsg));
                 }
             } catch (IOException e) {
-                Platform.runLater(() -> showError("connection lost!"));
+                Platform.runLater(() -> showError("Connection lost!"));
             }
         });
         t.setDaemon(true);
         t.start();
     }
 
-    /** this processes messages from the server */
+    /**
+     * Processes incoming server messages.
+     * @param message the server message
+     */
     private void processServerMessage(String message) {
         System.out.println("[debug] received: " + message);
 
@@ -153,17 +184,21 @@ public class OnlineTicTacToeController {
                 }
             }
         } else if (message.startsWith("GAME_OVER:")) {
-            // this handles a game condition
             String reason = message.substring("GAME_OVER:".length());
             handleGameOver(reason);
         } else if (message.startsWith("OPPONENT_NAME:")) {
-            // no action for opponent name message yet
+            // Optionally handle opponent name message if needed
         } else {
             System.out.println("[debug] unhandled server message: " + message);
         }
     }
 
-    /** this checks board state directly and sends a game over message if needed */
+    /**
+     * Checks the board state after a move and sends a GAME_OVER message if necessary.
+     * @param row the row index
+     * @param col the column index
+     * @param symbol the symbol placed ('X' or 'O')
+     */
     private void checkAndSendGameOver(int row, int col, char symbol) {
         TicTacToeBoard.Mark mark = symbol == 'X' ? TicTacToeBoard.Mark.X : TicTacToeBoard.Mark.O;
 
@@ -185,11 +220,12 @@ public class OnlineTicTacToeController {
         }
     }
 
-    /** this is the local function to handle a final result and show the end screen */
+    /**
+     * Handles game over logic and transitions to an end screen.
+     * @param result the outcome string ("X_WINS", "O_WINS", or "DRAW")
+     */
     private void handleGameOver(String result) {
-        // result might be x_wins o_wins or draw
         disableAllBoardButtons();
-
         if (result.equals("X_WINS")) {
             if (mySymbol.equals("X")) {
                 loadWinningScene();
@@ -209,16 +245,20 @@ public class OnlineTicTacToeController {
         }
     }
 
-    /** this updates the turn label based on myturn */
+    /**
+     * Updates the turn label to indicate whose turn it is.
+     */
     private void updateTurnLabel() {
         if (myTurn) {
-            turnLabel.setText("your turn (" + mySymbol + ")");
+            turnLabel.setText("Your turn (" + mySymbol + ")");
         } else {
-            turnLabel.setText("opponent's turn (" + opponentSymbol + ")");
+            turnLabel.setText("Opponent's turn (" + opponentSymbol + ")");
         }
     }
 
-    /** this enables or disables all empty cells depending on whether its the players turn */
+    /**
+     * Enables or disables buttons in the grid based on whose turn it is.
+     */
     private void updateGridEnableState() {
         for (int r = 0; r < BOARD_SIZE; r++) {
             for (int c = 0; c < BOARD_SIZE; c++) {
@@ -230,12 +270,18 @@ public class OnlineTicTacToeController {
         }
     }
 
+    /**
+     * Displays an error message in a pop-up alert.
+     * @param msg the error message
+     */
     private void showError(String msg) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
+        Alert alert = new Alert(AlertType.ERROR, msg, ButtonType.OK);
         alert.showAndWait();
     }
 
-    /** this disables the entire board */
+    /**
+     * Disables all buttons on the board.
+     */
     private void disableAllBoardButtons() {
         for (int r = 0; r < BOARD_SIZE; r++) {
             for (int c = 0; c < BOARD_SIZE; c++) {
@@ -244,7 +290,9 @@ public class OnlineTicTacToeController {
         }
     }
 
-    /** this loads the winning scene winningpage.fxml */
+    /**
+     * Loads the winning scene from WinningPage.fxml.
+     */
     private void loadWinningScene() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("WinningPage.fxml"));
@@ -257,7 +305,9 @@ public class OnlineTicTacToeController {
         }
     }
 
-    /** this loads the losing scene losingpage.fxml */
+    /**
+     * Loads the losing scene from LosingPage.fxml.
+     */
     private void loadLosingScene() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("LosingPage.fxml"));
@@ -270,7 +320,9 @@ public class OnlineTicTacToeController {
         }
     }
 
-    /** this loads the tie scene tiepage.fxml */
+    /**
+     * Loads the tie (draw) scene from TiePage.fxml.
+     */
     private void loadTieScene() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("TiePage.fxml"));
@@ -283,28 +335,37 @@ public class OnlineTicTacToeController {
         }
     }
 
+    /**
+     * Called when the Chat button is pressed.
+     */
     @FXML
     public void openChat() {
-        Alert info = new Alert(Alert.AlertType.INFORMATION, "chat coming soon!", ButtonType.OK);
-        info.setTitle("chat");
+        Alert info = new Alert(Alert.AlertType.INFORMATION, "Chat coming soon!", ButtonType.OK);
+        info.setTitle("Chat");
         info.showAndWait();
     }
 
+    /**
+     * Called when the How To Play option is selected.
+     */
     @FXML
     public void howToPlayDescription() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("how to play tic tac toe");
+        alert.setTitle("How to Play Tic Tac Toe");
         alert.setHeaderText(null);
-        alert.setContentText("classic tic tac toe rules ...\n1) x always goes first\n2) ... ");
+        alert.setContentText("Classic Tic Tac Toe rules:\n1) X always goes first\n2) ...");
         alert.showAndWait();
     }
 
+    /**
+     * Called when the Quit option is selected.
+     */
     @FXML
     public void handleQuit() {
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION,
-                "are you sure you want to quit the current game",
+                "Are you sure you want to quit the current game?",
                 ButtonType.YES, ButtonType.NO);
-        confirmation.setTitle("quit game");
+        confirmation.setTitle("Quit Game");
         confirmation.showAndWait();
         if (confirmation.getResult() == ButtonType.YES) {
             try {

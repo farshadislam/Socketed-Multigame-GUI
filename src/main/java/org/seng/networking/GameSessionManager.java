@@ -7,49 +7,53 @@ import java.io.*;
 
 public class GameSessionManager {
 
-
-
     /**
-     * creating a hashmap that stores game session data
-     * the key is a string(session id)
-     * the value is a string(playerID)
+     * Creating a hashmap that stores game session data.
+     * The key is a string (session id)
+     * The value is a string (player username)
      **/
     private final Map<String, String> activeSessions;
 
     /**
-     * constructor
-     * initializes the activeSession hashmap when object of GameSessionManager is created
+     * Constructor - initializes the activeSessions hashmap when
+     * an object of GameSessionManager is created.
      */
     public GameSessionManager() {
         activeSessions = new HashMap<>();
     }
 
     /**
-     * @param sessionID
-     * @param player    the session(sessionID) gets stored in activeSessions, which links the session id to the player
+     * Starts a game session.
+     *
+     * @param sessionID the session id
+     * @param player    the player whose username is stored as the session identifier
      */
     public void startSession(String sessionID, Player player) {
-        activeSessions.put(sessionID, String.valueOf(player.getPlayerID()));
-        System.out.println("Game session has started for player" + player.getPlayerID());
+        activeSessions.put(sessionID, player.getUsername());
+        System.out.println("Game session has started for player " + player.getUsername());
     }
 
     /**
-     * @param sessionID checks to see if the session first exists, if it exists then removes the sessionID from the active Sessions
+     * Ends a session by its id. If the session exists, it will be removed from the activeSessions map.
+     *
+     * @param sessionID the session id to remove
      */
     public void endSession(String sessionID) {
         if (activeSessions.containsKey(sessionID)) {
-            System.out.println("Game session has ended for Player" + activeSessions.get(sessionID));
+            System.out.println("Game session has ended for player " + activeSessions.get(sessionID));
             activeSessions.remove(sessionID);
         } else {
             System.out.println("Game session not found");
         }
     }
 
+    /**
+     * Retrieves the player's username associated with the session id.
+     *
+     * @param sessionID the session id
+     * @return the player's username or null if not found
+     */
     public String getPlayerIDBySession(String sessionID) {
         return activeSessions.get(sessionID);
     }
 }
-
-
-
-
