@@ -60,7 +60,12 @@ public class TicTacToeController {
 
     private Timeline timeline;
 
+    private Timeline countdownTimeline;
+
     private boolean gameEnded = false;
+
+    @FXML
+    private Label timerLabel;
 
     public void setAIBot(boolean AIBot) {
         this.AIBot = AIBot;
@@ -225,34 +230,57 @@ public class TicTacToeController {
         if (gameEnded) return;
 
         isPlayerXTurn = !isPlayerXTurn;
+
         if (isPlayerXTurn) {
             turnLabel.setText("Player 1's Turn");
         } else {
             turnLabel.setText("Player 2's Turn");
         }
-        timeline = new Timeline(new KeyFrame(Duration.seconds(10),
-                event -> {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
-                        Scene scene = new Scene(fxmlLoader.load(), 700, 450);
-                        scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
 
-                        Stage stage = new Stage();
-                        stage.setScene(scene);
-                        stage.setTitle("OMG Platform");
-                        stage.show();
+        if (timeline != null) {
+            timeline.stop();
+        }
 
-                        Stage currentStage = (Stage) button.getScene().getWindow();
-                        currentStage.close();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-        ));
+        if (countdownTimeline != null) {
+            countdownTimeline.stop();
+        }
+
+        final int[] timeLeft = {10};
+        timerLabel.setText("Time: " + timeLeft[0]);
+
+        // Timer for losing after countdown
+        timeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
+            if (gameEnded) return;
+            gameEnded = true;
+
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+                scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("OMG Platform");
+                stage.show();
+
+                Stage currentStage = (Stage) button.getScene().getWindow();
+                currentStage.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }));
         timeline.setCycleCount(1);
         timeline.play();
 
+        // Countdown label update every second
+        countdownTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            timeLeft[0]--;
+            timerLabel.setText("Time: " + timeLeft[0]);
+        }));
+        countdownTimeline.setCycleCount(10);
+        countdownTimeline.play();
     }
+
 
     private void disableAllButtons() {
         for (Button b : buttonPositionMap.keySet()) {
