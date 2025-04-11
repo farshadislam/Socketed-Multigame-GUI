@@ -329,8 +329,8 @@ public class QueueMatchMaker{
 //                            Matchmaking.connectPlayers(match);
 
                             // Update each player's Last5Matches
-                            player1.getLast5MatchesObject().update(game,player2); //Player 1's Last5Matches Updated
-                            player2.getLast5MatchesObject().update(game,player1); //Player 2's Last5Matches Updated
+                            player1.getLast5MatchesObject().update(game,player2.getUsername()); //Player 1's Last5Matches Updated
+                            player2.getLast5MatchesObject().update(game,player1.getUsername()); //Player 2's Last5Matches Updated
                         }
                     }
                 }

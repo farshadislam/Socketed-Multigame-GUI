@@ -9,7 +9,13 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
+import org.seng.authentication.EmailVerificationService;
+
 import java.io.IOException;
+
+import static org.seng.gui.GameDashboardController.player;
+import static org.seng.gui.GameDashboardController.setting;
+//import static org.seng.gui.SettingsController.emailField;
 
 public class EmailVerificationController {
 
@@ -70,7 +76,7 @@ public class EmailVerificationController {
     }
 
     private void handleVerification() {
-        if (verificationCode.equals("1234")) {
+        if (true) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("email-update-success.fxml"));
                 Scene successScene = new Scene(fxmlLoader.load(), 600, 400);
