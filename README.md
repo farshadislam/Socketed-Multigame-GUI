@@ -6,7 +6,7 @@
 - open the GUI folder under src/main/java/org/seng find the file called HelloApplication
 - run it and either create your own account or use some of the [existing ones](./database.txt).
 - once there select whatever game you want and play it, be it against a bot or a player
-
+- If you are creating an account make sure to have at least 5 letters for username, and if you run into any issues there is always a help button. 
 ### Game Objectives:
   - *Checkers*:
     - to win one must best the opponent by taking every single piece from them, you can move only on black tiles, and to take a piece there must be an empty tile behind it
