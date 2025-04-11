@@ -154,8 +154,8 @@ public class GamesPageController {
                     width = 825;
                     height = 600;
                 } else {
-                    width = 900;
-                    height = 600;
+                    width = 750;
+                    height = 550;
                 }
 
                 Scene scene = new Scene(loader.load(), width, height);
