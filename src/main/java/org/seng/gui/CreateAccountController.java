@@ -204,10 +204,16 @@ public class CreateAccountController {
         alert.setTitle("Input Requirements");
         alert.setHeaderText("Please follow these rules for account creation:");
         alert.setContentText(
-                "• **Username:** At least 5 characters, no whitespaces, only certain special characters allowed.\n" +
-                        "• **Email:** Must end with @gmail.com. Prefix must follow the same rules as username.\n" +
-                        "• **Password:** At least 8 characters, no whitespaces, only certain special characters allowed."
+                "• Username:\tAt least 5 characters, no whitespaces,\n" +
+                        "            only certain special characters allowed.\n\n" +
+                        "• Email:\tMust end with @gmail.com,\n" +
+                        "            prefix must follow the same rules as username.\n\n" +
+                        "• Password:\tAt least 8 characters, no whitespaces,\n" +
+                        "            only certain special characters allowed."
         );
+
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        alert.getDialogPane().getStyleClass().add("custom-alert");
 
         alert.showAndWait();
     }
