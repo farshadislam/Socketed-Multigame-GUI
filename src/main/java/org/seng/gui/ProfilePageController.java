@@ -126,6 +126,7 @@ public class ProfilePageController {
             Scene dashboardScene = new Scene(fxmlLoader.load(), 700, 450);
             dashboardScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
             Stage stage = (Stage) backIcon.getScene().getWindow();
+            stage.setTitle("Game Dashboard");
             stage.setScene(dashboardScene);
             stage.show();
         } catch (Exception ex) {
