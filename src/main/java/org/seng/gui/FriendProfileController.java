@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import java.io.IOException;
 
 public class FriendProfileController {
 
@@ -19,19 +20,20 @@ public class FriendProfileController {
     @FXML private Label friendTiesLabel;
     @FXML private Label friendMatchesLabel;
     @FXML private Label friendProfileTitleText;
-
     @FXML private ImageView backIcon;
-
+    @FXML private Button challengePlayerButton;  // Must match fx:id in FXML
     @FXML private TableView<FriendGameStat> friendGameStatsTable;
     @FXML private TableColumn<FriendGameStat, String> friendGameColumn;
     @FXML private TableColumn<FriendGameStat, String> friendWinsColumn;
     @FXML private TableColumn<FriendGameStat, String> friendLossesColumn;
     @FXML private TableColumn<FriendGameStat, String> friendTiesColumn;
-
     @FXML private TableView<FriendGameHistory> friendGameHistoryTable;
     @FXML private TableColumn<FriendGameHistory, String> friendHistoryGameColumn;
     @FXML private TableColumn<FriendGameHistory, String> friendResultColumn;
     @FXML private TableColumn<FriendGameHistory, String> friendOpponentColumn;
+
+    // Field to store the current (logged in) user's username.
+    private String currentUsername;
 
     @FXML
     public void initialize() {
@@ -54,6 +56,12 @@ public class FriendProfileController {
         friendOpponentColumn.setCellValueFactory(data -> data.getValue().opponentProperty());
     }
 
+    // This method is used to set the logged in user's username.
+    public void setCurrentUsername(String username) {
+        this.currentUsername = username;
+    }
+
+    // Populate the profile UI with friend's data.
     public void setProfileData(String name, String lastOnline, int wins, int losses, int ties) {
         friendNameLabel.setText(name);
         friendLastOnlineLabel.setText(lastOnline);
@@ -78,6 +86,35 @@ public class FriendProfileController {
         ));
     }
 
+    @FXML
+    public void onChallengePlayerClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/seng/gui/FriendWaitingRoom.fxml"));
+            Scene waitingScene = new Scene(loader.load(), 700, 517);
+
+            FriendWaitingRoomController waitingController = loader.getController();
+
+            String userNameToPass;
+            if (currentUsername != null && !currentUsername.isEmpty()) {
+                userNameToPass = currentUsername;
+            } else if (GameDashboardController.player != null) {
+                userNameToPass = GameDashboardController.player.getUsername();
+            } else {
+                userNameToPass = "Player";
+                System.err.println("Warning: Username not set, using default 'Player'");
+            }
+
+            String challengedFriendName = friendNameLabel.getText();
+            waitingController.init(userNameToPass, challengedFriendName);
+            waitingScene.getStylesheets().add(getClass().getResource("/org/seng/gui/waiting-room.css").toExternalForm());
+
+            Stage stage = (Stage) challengePlayerButton.getScene().getWindow();
+            stage.setScene(waitingScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void goBack() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("search-profile.fxml"));
@@ -87,7 +124,7 @@ public class FriendProfileController {
             stage.setTitle("Search Profiles");
             stage.setScene(scene);
             stage.show();
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }

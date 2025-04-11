@@ -1,2 +1,3 @@
 alice,alice@gmail.com,alice1234,X,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,NONE,-,NONE,-,NONE,-,NONE,-,NONE,-
 talha,talhae@gmail.com,talha1234,X,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,NONE,-,NONE,-,NONE,-,NONE,-,NONE,-
+merp,alice@gmail.com,merp1234,X,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,NONE,-,NONE,-,NONE,-,NONE,-,NONE,-

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml/1"
+           fx:id="rootPane"
+           fx:controller="org.seng.gui.FriendWaitingRoomController"
+           stylesheets="@waiting-room.css"
+           styleClass="friend-waiting-bg"
+           prefWidth="700" prefHeight="550">
+
+    <VBox alignment="CENTER" spacing="30">
+
+        <VBox styleClass="waiting-card" alignment="CENTER" spacing="28">
+
+            <Label text="Friend Waiting Room" styleClass="waiting-title"/>
+
+            <HBox alignment="CENTER" spacing="60">
+                <VBox alignment="CENTER" spacing="6">
+                    <ImageView fx:id="yourAvatarImage"
+                               fitWidth="80" fitHeight="80"
+                               preserveRatio="true"
+                               styleClass="avatar-image"/>
+                    <Label text="You:" styleClass="fw-label"/>
+                    <Label fx:id="yourNameLabel" styleClass="fw-value"/>
+                </VBox>
+
+                <Label text="VS" styleClass="fw-vs"/>
+
+                <VBox alignment="CENTER" spacing="6">
+                    <ImageView fx:id="friendAvatarImage"
+                               fitWidth="80" fitHeight="80"
+                               preserveRatio="true"
+                               styleClass="avatar-image"/>
+                    <Label text="Friend:" styleClass="fw-label"/>
+                    <Label fx:id="friendNameLabel" styleClass="fw-value"/>
+                </VBox>
+            </HBox>
+
+            <VBox alignment="CENTER" spacing="14">
+                <Label text="Select Game Mode:" styleClass="fw-label" />
+                <ComboBox fx:id="gameModeComboBox"
+                          styleClass="fw-combobox"
+                          promptText="Choose a game..."/>
+
+                <Button fx:id="startGameButton"
+                        text="Challenge Friend!"
+                        onAction="#onStartGameClicked"
+                        styleClass="primary-button"/>
+            </VBox>
+
+            <Label fx:id="statusLabel" styleClass="fw-status" text="Waiting for opponent..."/>
+
+        </VBox>
+
+
+        <Button text="Back"
+                onAction="#onBackClicked"
+                styleClass="secondary-button"/>
+    </VBox>
+</StackPane>
