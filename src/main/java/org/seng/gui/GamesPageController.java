@@ -152,7 +152,7 @@ public class GamesPageController {
                     height = 450;
                 } else if (gameType == GameType.CONNECT4) {
                     width = 825;
-                    height = 600;
+                    height = 525;
                 } else {
                     width = 750;
                     height = 550;

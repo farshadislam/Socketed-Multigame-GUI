@@ -393,6 +393,14 @@ public class TicTacToeController {
         Button noButton = new Button("No");
 
         yesButton.setOnAction(e -> {
+            if (timeline != null) {
+                timeline.stop();
+            }
+            if (countdownTimeline != null) {
+                countdownTimeline.stop();
+            }
+            gameEnded = true;
+
             dialogStage.close();
             openToGameDashboard();
         });

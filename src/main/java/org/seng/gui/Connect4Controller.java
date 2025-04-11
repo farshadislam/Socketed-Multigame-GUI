@@ -28,6 +28,7 @@ public class Connect4Controller {
     @FXML private FlowPane board;
     @FXML private Label player1Label;
     @FXML private Label player2Label;
+    @FXML private Label timerLabel;
 
     private static final int ROWS = 6;
     private static final int COLS = 7;
@@ -38,6 +39,7 @@ public class Connect4Controller {
     public Button[][] boardButtons = new Button[ROWS][COLS];
     private boolean AIBot;
     private Timeline timeline;
+    private Timeline countdownTimeline;
     public void setAIBot(boolean AIBot) {
         this.AIBot = AIBot;
     }
@@ -83,6 +85,12 @@ public class Connect4Controller {
         Button noButton = new Button("No");
 
         yesButton.setOnAction(e -> {
+            if (timeline != null) {
+                timeline.stop();
+            }
+            if (countdownTimeline != null) {
+                countdownTimeline.stop();
+            }
             dialogStage.close();
             openToGameDashboard();
         });
@@ -244,7 +252,7 @@ public class Connect4Controller {
                 if (!isPlayerOneTurn && AIBot) {
                     new Thread(() -> {
                         try {
-                            Thread.sleep(500);
+                            Thread.sleep(1000);
                         } catch (InterruptedException ignored) {}
                         javafx.application.Platform.runLater(this::makeAIMove);
                     }).start();
@@ -301,11 +309,9 @@ public class Connect4Controller {
     }
 
     private void updatePlayerTurnIndicator(Button button) {
-        // Reset styles
+        // Reset label styles
         player1Label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
         player2Label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
-
-        // Stop any ongoing pulse animations
         stopPulse(player1Pulse);
         stopPulse(player2Pulse);
         player1Label.setScaleX(1);
@@ -313,35 +319,55 @@ public class Connect4Controller {
         player2Label.setScaleX(1);
         player2Label.setScaleY(1);
 
-        // Set style + pulse for current player's turn
+        // Highlight active player
         if (isPlayerOneTurn) {
-            player1Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #00F0FF;");
+            player1Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #00F0FF; -fx-font-weight: bold");
             player1Pulse = applyPulseAnimation(player1Label);
         } else {
-            player2Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #da77f2;");
+            player2Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #00F0FF; -fx-font-weight: bold");
             player2Pulse = applyPulseAnimation(player2Label);
         }
-        timeline = new Timeline(new KeyFrame(Duration.seconds(10),
-                event -> {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
-                        Scene scene = new Scene(fxmlLoader.load(), 700, 450);
-                        scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
 
-                        Stage stage = new Stage();
-                        stage.setScene(scene);
-                        stage.setTitle("OMG Platform");
-                        stage.show();
+        // Stop existing timers
+        if (timeline != null) {
+            timeline.stop();
+        }
+        if (countdownTimeline != null) {
+            countdownTimeline.stop();
+        }
 
-                        Stage currentStage = (Stage) button.getScene().getWindow();
-                        currentStage.close();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-        ));
+        // Countdown display
+        final int[] timeLeft = {10};
+        timerLabel.setText("Time: " + timeLeft[0]);
+
+        // Main timer: trigger loss after 10s
+        timeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+                scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("OMG Platform");
+                stage.show();
+
+                Stage currentStage = (Stage) button.getScene().getWindow();
+                currentStage.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }));
         timeline.setCycleCount(1);
         timeline.play();
+
+        // Countdown updater: update label each second
+        countdownTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            timeLeft[0]--;
+            timerLabel.setText("Time: " + timeLeft[0]);
+        }));
+        countdownTimeline.setCycleCount(10);
+        countdownTimeline.play();
     }
 
     private ScaleTransition applyPulseAnimation(Label label) {
