@@ -4,10 +4,7 @@
 
 ### *Instructions:*
 - open the GUI folder under src/main/java/org/seng find the file called HelloApplication
-- run it and either create your own account or use some of the existing ones:
-   - username: Wissal password: Wissal1234
-   - username: password:
-   - username: password:
+- run it and either create your own account or use some of the [existing ones](./database.txt).
 - once there select whatever game you want and play it, be it against a bot or a player
 
 ### Game Objectives:
