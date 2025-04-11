@@ -55,6 +55,7 @@ public class CheckersBoardController {
 
 
     private boolean isPlayerBTurn = true; // black goes first
+    private boolean canMultiCapture = false;
     private Button selectedPiece = null;
     private Button capturedPiece = null;
     private Image redPieceImage;
@@ -187,43 +188,62 @@ public class CheckersBoardController {
                 selectPiece(clickedButton);
             }
         }
+        else if (canMultiCapture) {
+            if (isValidJump(selectedPiece, clickedButton)) {
+                Button newPosition = capturePiece(selectedPiece, clickedButton, capturedPiece);
+
+                if (checkMultiCapture(newPosition)) {
+                    canMultiCapture = true;
+                    deselectPiece();
+                    selectPiece(newPosition);
+                }
+                else {
+                    canMultiCapture = false;
+                    deselectPiece();
+                    togglePlayerTurn();
+                }
+            }
+
+        }
         else { // if a piece is already selected it tries to move it
             // if clicking on the same piece, deselect it
             if (clickedButton == selectedPiece) {
                 deselectPiece();
             }
+
             //if clicking on empty square it tries to move the piece
             else if (isValidMove(selectedPiece, clickedButton)) {
                 movePiece(selectedPiece, clickedButton);
                 deselectPiece();
                 togglePlayerTurn(); // piece is moved, switch player turn
-                // todo: check win
             }
+
+
             // jump moves that capture an opponent's piece
             else if (isValidJump(selectedPiece, clickedButton)) {
-                capturePiece(selectedPiece, clickedButton, capturedPiece);
-                deselectPiece(); // THEY CANNOT DESELECT PIECE
-                togglePlayerTurn(); // to be removed if we implement multi-jumps
+                Button newPosition = capturePiece(selectedPiece, clickedButton, capturedPiece);
 
-                // cannot do while loop
-                // boolean: two conditions - a piece has been captured AND there are still more pieces that can be captured
-                //
-                // if (piece has been captured AND there are still more pieces that can be captured : TRUE)
-                //
-                // else (there has been a piece captured but no more moves left)
-                //      deselectPiece();
-                //      togglePlayerTurn();
-
-                // check again if player can make a capture in which case player gets another turn. if not then switch player's turn
-
-                // todo: check win
+                if (checkMultiCapture(newPosition)) {
+                    canMultiCapture = true;
+                    deselectPiece();
+                    selectPiece(newPosition);
+                }
+                else {
+                    canMultiCapture = false;
+                    deselectPiece();
+                    togglePlayerTurn();
+                }
             }
+
             // if clicking on another piece it selects that one instead, but make sure it's the correct colour
             else if (clickedButton.getGraphic() != null && isPlayerPiece(clickedButton)){
                 deselectPiece();
                 selectPiece(clickedButton);
             }
         }
+
+        // todo: check win
+        // todo: check tie
     }
 
     private void selectPiece(Button button) {
@@ -354,6 +374,27 @@ public class CheckersBoardController {
 
         return true;
     }
+
+    // fromSpot is the new position to check multi-capture from
+    public boolean checkMultiCapture(Button fromSpot) {
+        // call isValidJump from the new position in four different directions (2 diagonal: top right/left, bottom right/left)
+        int row = getRow(fromSpot);
+        int col = getCol(fromSpot);
+
+        if ((row - 2 >= 0 && col - 2 >= 0) && isValidJump(fromSpot, buttonBoard[col-2][row-2])) { // top right
+            return true;
+        }
+        else if ((row + 2 < 8 && col - 2 >= 0) && isValidJump(fromSpot, buttonBoard[col-2][row+2])) { // top left
+            return true;
+        }
+        else if ((row - 2 >= 0 && col + 2 < 8) && isValidJump(fromSpot, buttonBoard[col+2][row-2])) { // bottom right
+            return true;
+        }
+        else if ((row + 2 < 8 && col + 2 < 8) && isValidJump(fromSpot, buttonBoard[col+2][row+2])) { // bottom left
+            return true;
+        }
+        return false;
+    }
 //
 //    //everything under here is experimental
 //    //this function is checking if there is capturable pieces from a certain spot and gives a list
@@ -400,14 +441,6 @@ public class CheckersBoardController {
 
 
 private int getRow(Button spot) {
-        Button[][] buttonBoard = {{a1, a2, a3, a4, a5, a6, a7, a8},
-        {b1, b2, b3, b4, b5, b6, b7, b8},
-        {c1, c2, c3, c4, c5, c6, c7, c8},
-        {d1, d2, d3, d4, d5, d6, d7, d8},
-        {e1, e2, e3, e4, e5, e6, e7, e8},
-        {f1, f2, f3, f4, f5, f6, f7, f8},
-        {g1, g2, g3, g4, g5, g6, g7, g8},
-        {h1, h2, h3, h4, h5, h6, h7, h8}};
 
         for (int i = 0; i < buttonBoard.length; i++) {
             for (int j = 0; j < buttonBoard[i].length; j++) {
@@ -421,14 +454,6 @@ private int getRow(Button spot) {
     }
 
     private int getCol(Button spot) {
-        Button[][] buttonBoard = {{a1, a2, a3, a4, a5, a6, a7, a8},
-                {b1, b2, b3, b4, b5, b6, b7, b8},
-                {c1, c2, c3, c4, c5, c6, c7, c8},
-                {d1, d2, d3, d4, d5, d6, d7, d8},
-                {e1, e2, e3, e4, e5, e6, e7, e8},
-                {f1, f2, f3, f4, f5, f6, f7, f8},
-                {g1, g2, g3, g4, g5, g6, g7, g8},
-                {h1, h2, h3, h4, h5, h6, h7, h8}};
 
         for (int i = 0; i < buttonBoard.length; i++) {
             for (int j = 0; j < buttonBoard[i].length; j++) {
@@ -491,10 +516,10 @@ private int getRow(Button spot) {
         return capturedPiece;
     }
 
-    // moves piece two diagonals and captures opponent piece
-    private void capturePiece(Button from, Button to, Button capturedPiece) {
+    // moves piece two diagonals and captures opponent piece and returns new position of piece that jumps
+    private Button capturePiece(Button from, Button to, Button capturedPiece) {
         // remove captured piece from board
-        capturedPiece.setGraphic(null);
+        getCapturePiece().setGraphic(null);
 
         // moves piece from one spot (button) to another
         to.setGraphic(from.getGraphic());
@@ -511,6 +536,8 @@ private int getRow(Button spot) {
                 placePiece(to, redKingPieceImage);
             }
         }
+
+        return to;
     }
 
     private void placePiece(Button button, Image pieceImage) {
