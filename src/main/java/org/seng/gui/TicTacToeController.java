@@ -60,6 +60,8 @@ public class TicTacToeController {
 
     private Timeline timeline;
 
+    private boolean gameEnded = false;
+
     public void setAIBot(boolean AIBot) {
         this.AIBot = AIBot;
     }
@@ -117,6 +119,8 @@ public class TicTacToeController {
     }
 
     private void handleMove(int row, int col, Button button) {
+        if (gameEnded) return;
+
         if (timeline != null) {
             timeline.stop();
         }
@@ -162,6 +166,11 @@ public class TicTacToeController {
     }
 
     private void checkWin(Button sourceButton) {
+        if (gameEnded) return;
+        gameEnded = true;
+
+        if (timeline != null) timeline.stop();
+
         try {
             FXMLLoader fxmlLoader;
             Scene scene;
@@ -191,6 +200,11 @@ public class TicTacToeController {
     }
 
     private void checkTie(Button tieButton){
+        if (gameEnded) return;
+        gameEnded = true;
+
+        if (timeline != null) timeline.stop();
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("tiePage.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 700, 450);
@@ -208,6 +222,8 @@ public class TicTacToeController {
     }
 
     private void togglePlayerTurn(Button button) {
+        if (gameEnded) return;
+
         isPlayerXTurn = !isPlayerXTurn;
         if (isPlayerXTurn) {
             turnLabel.setText("Player 1's Turn");
