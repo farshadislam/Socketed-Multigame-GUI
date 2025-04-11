@@ -30,6 +30,7 @@ public class Player {
         this.username = username.toLowerCase();
         this.email = email.toLowerCase();
         this.password = password;
+        this.symbol = 'X'; // initial symbol
         this.Connect4Stats = new connect4Stats(username);
         this.CheckersStats = new checkersStats(username);
         this.TicTacToeStats = new ticTacToeStats(username);
