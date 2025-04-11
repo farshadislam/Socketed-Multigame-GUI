@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SettingsTest {
     private Player player; // create player object for testing
-    private Settings settings;
+   private Settings settings;
     CredentialsDatabase database;
 
     // initialize the player and settings before each test
@@ -303,6 +303,19 @@ public class SettingsTest {
         assertEquals("updated@email.com", player.getEmail());
     }
 
+    //invalid code format
+    @Test
+    public void testVerifyCodeInvalidFormat(){
+        player.setVerificationCode("1234");
+        assertFalse(settings.verifyEmailCodeForNewEmail("updated@email.com", "abcd"));
+    }
+
+    @Test
+    public void testVerifyCodeInalidFormat2(){
+        player.setVerificationCode("1234");
+        assertFalse(settings.verifyEmailCodeForNewEmail("updated@email.com", "123"));
+    }
+
     @Test
     public void logoutTest(){
         LoginPage newLogin = settings.logout();
@@ -311,3 +324,4 @@ public class SettingsTest {
         assertNotNull(newLogin);
     }
 }
+
