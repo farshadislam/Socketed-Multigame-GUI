@@ -20,7 +20,7 @@ public class EmailVerificationServiceTest {
     public void testGenerateVerificationCode() {
         String code = EmailVerificationService.generateVerificationCode();
         assertNotNull(code);
-        assertFalse(code.matches("\\d{4}"), "Code should be 4-digit number");
+        assertTrue(code.matches("\\d{4}"));
     }
 
     @Test
