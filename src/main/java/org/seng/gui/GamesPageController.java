@@ -167,6 +167,9 @@ public class GamesPageController {
                 } else if (gameType == GameType.TICTACTOE && "Computer".equals(playMode)) {
                     TicTacToeController controller = loader.getController();
                     controller.setAIBot(true);
+                } else if (gameType == GameType.CHECKERS && "Computer".equals(playMode)) {
+                    CheckersBoardController controller = loader.getController();
+                    controller.setAIBot(true);
                 }
 
                 Stage stage = (Stage) checkersIcon.getScene().getWindow();

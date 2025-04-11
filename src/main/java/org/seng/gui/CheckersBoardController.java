@@ -56,6 +56,9 @@ public class CheckersBoardController {
     @FXML
     private FlowPane board;
 
+    @FXML private Label turnLabel;
+
+    @FXML private Label timerLabel;
 
     private boolean isPlayerBTurn = true; // black goes first
     private boolean canMultiCapture = false;
@@ -69,12 +72,11 @@ public class CheckersBoardController {
     private Button[][] buttonBoard;
 
     private Timeline timeline;
-
+    private Timeline countdownTimeline;
     private Image redPieceImage;
     private Image blackPieceImage;
     private Image redKingPieceImage;
     private Image blackKingPieceImage;
-
 
 
     @FXML
@@ -571,28 +573,89 @@ public class CheckersBoardController {
     }
 
     private void togglePlayerTurn(Button button) {
+        boolean win = checkCheckersWin();
+
+        if (win) {
+            if (isPlayerBTurn) {
+                openWinningPage(button);
+            } else {
+                openLosingPage(button);
+            }
+            return;
+        }
+
         isPlayerBTurn = !isPlayerBTurn;
-        timeline = new Timeline(new KeyFrame(Duration.seconds(10),
-                event -> {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
-                        Scene scene = new Scene(fxmlLoader.load(), 700, 450);
-                        scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
 
-                        Stage stage = new Stage();
-                        stage.setScene(scene);
-                        stage.setTitle("OMG Platform");
-                        stage.show();
+        // Cancel previous timers if any
+        if (timeline != null) timeline.stop();
+        if (countdownTimeline != null) countdownTimeline.stop();
 
-                        Stage currentStage = (Stage) button.getScene().getWindow();
-                        currentStage.close();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-        ));
+        if (!isPlayerBTurn && AIBot) {
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1000); // brief pause
+                } catch (InterruptedException ignored) {}
+
+                javafx.application.Platform.runLater(this::makeAIMove);
+            }).start();
+            return;
+        }
+
+        // Start countdown (15 seconds)
+        final int[] timeLeft = {15};
+        timerLabel.setText("Time: " + timeLeft[0]);
+
+        timeline = new Timeline(new KeyFrame(Duration.seconds(15), event -> {
+            openLosingPage(button);
+        }));
         timeline.setCycleCount(1);
         timeline.play();
+
+        countdownTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            timeLeft[0]--;
+            timerLabel.setText("Time: " + timeLeft[0]);
+        }));
+        countdownTimeline.setCycleCount(15);
+        countdownTimeline.play();
+    }
+
+
+    private void makeAIMove() {
+        // Go through every piece on the board, find valid moves
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Button piece = buttonBoard[row][col];
+                if (piece.getGraphic() != null && isPlayerPiece(piece)) { // is AI's piece
+                    for (int i = -1; i <= 1; i += 2) {
+                        for (int j = -1; j <= 1; j += 2) {
+                            int newRow = row + i;
+                            int newCol = col + j;
+
+                            if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+                                Button target = buttonBoard[newRow][newCol];
+                                if (isValidMove(piece, target)) {
+                                    movePiece(piece, target);
+                                    togglePlayerTurn(target);
+                                    return;
+                                }
+                            }
+
+                            // Check for jumps
+                            int jumpRow = row + i * 2;
+                            int jumpCol = col + j * 2;
+                            if (jumpRow >= 0 && jumpRow < 8 && jumpCol >= 0 && jumpCol < 8) {
+                                Button jumpTarget = buttonBoard[jumpRow][jumpCol];
+                                if (isValidJump(piece, jumpTarget)) {
+                                    capturePiece(piece, jumpTarget, capturedPiece);
+                                    togglePlayerTurn(jumpTarget);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
@@ -708,9 +771,17 @@ public class CheckersBoardController {
         Button noButton = new Button("No");
 
         yesButton.setOnAction(e -> {
+            if (timeline != null) {
+                timeline.stop();
+            }
+            if (countdownTimeline != null) {
+                countdownTimeline.stop();
+            }
+
             dialogStage.close();
             openToGameDashboard();
         });
+
         noButton.setOnAction(e -> dialogStage.close());
 
         HBox buttons = new HBox(10, yesButton, noButton);
@@ -719,19 +790,17 @@ public class CheckersBoardController {
         VBox layout = new VBox(15, message, buttons);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
-        layout.getStyleClass().add("quit-background"); // ⭐ Add style class
+        layout.getStyleClass().add("quit-background");
 
         Scene scene = new Scene(layout, 300, 150);
-        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); // ⭐ Load your CSS
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm());
 
         dialogStage.setScene(scene);
 
-        Stage currentStage = (Stage) board.getScene().getWindow(); // 'board' is your main pane
+        Stage currentStage = (Stage) board.getScene().getWindow();
         dialogStage.initOwner(currentStage);
-
-        dialogStage.setX(currentStage.getX() + currentStage.getWidth() / 2 - 150); // 150 = half of popup width
-        dialogStage.setY(currentStage.getY() + currentStage.getHeight() / 2 - 100);  // 75 = half of popup height
-
+        dialogStage.setX(currentStage.getX() + currentStage.getWidth() / 2 - 150);
+        dialogStage.setY(currentStage.getY() + currentStage.getHeight() / 2 - 100);
         dialogStage.show();
     }
 
@@ -754,6 +823,43 @@ public class CheckersBoardController {
             e.printStackTrace();
         }
     }
+
+    private void openWinningPage(Button sourceButton) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) sourceButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void openLosingPage(Button sourceButton) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+            scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("OMG Platform");
+            stage.show();
+
+            Stage currentStage = (Stage) sourceButton.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
 
