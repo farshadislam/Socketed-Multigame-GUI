@@ -13,7 +13,7 @@
     <VBox alignment="CENTER" spacing="20.0"
           AnchorPane.topAnchor="100.0" AnchorPane.leftAnchor="0.0"
           AnchorPane.rightAnchor="0.0">
-        <Label fx:id="tieLabel" styleClass="lostOutline-text" text="IT'S A TIE!" textFill="#ffd800">
+        <Label fx:id="loseLabel" styleClass="lostOutline-text" text="IT'S A TIE!" textFill="#ffd800">
             <font>
                 <Font name="Arial Rounded MT Bold" size="64.0" />
             </font>
