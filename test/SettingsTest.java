@@ -286,5 +286,20 @@ public class SettingsTest {
         assertEquals(connect4, player.getConnect4Stats());
     }
 
+    // deleting an account
+    @Test
+    public void testDeleteAccount(){
+        database.addNewPlayer(player.getUsername(), player);
+        assertTrue(settings.deleteAccount());
+        assertFalse(database.usernameLookup(player.getUsername()));
+    }
+
+    // verifying the code for new emails
+    @Test
+    public void testVerifyCodeForNewEmail(){
+        player.setVerificationCode("1234");
+        assertTrue(settings.verifyEmailCodeForNewEmail("updated@email.com", "1234"));
+        assertEquals("updated@email.com", player.getEmail());
+    }
 
 }

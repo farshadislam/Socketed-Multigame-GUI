@@ -16,7 +16,6 @@ public class LoginPage {
         EMAIL_FORMAT_WRONG,
         PASSWORD_FORMAT_WRONG,
         VERIFICATION_CODE_SENT,
-        USERNAME_NOT_FOUND,
         ERROR
     }
 
