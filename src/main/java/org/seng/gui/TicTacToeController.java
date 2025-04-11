@@ -8,17 +8,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import org.seng.gamelogic.tictactoe.*;
+import org.seng.gamelogicTest.tictactoe.*;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -26,8 +24,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import javax.swing.Timer;
-import org.seng.gui.*;
 
 public class TicTacToeController {
 
