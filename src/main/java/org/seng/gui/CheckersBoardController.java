@@ -1,5 +1,7 @@
 package org.seng.gui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +68,8 @@ public class CheckersBoardController {
     private Button capturedPiece = null;
     private Button[][] buttonBoard;
 
+    private Timeline timeline;
+
     private Image redPieceImage;
     private Image blackPieceImage;
     private Image redKingPieceImage;
@@ -94,8 +99,7 @@ public class CheckersBoardController {
         Button[] row8 = {h1, h2, h3, h4, h5, h6, h7, h8};
         buttonBoard = new Button[][]{row1, row2, row3, row4, row5, row6, row7, row8};
 
-        isPlayerBTurn = false;
-        togglePlayerTurn();
+        isPlayerBTurn = true;
     }
 
     private void setupPieces() {
@@ -268,6 +272,9 @@ public class CheckersBoardController {
 
 
     private void handleButtonClick(int row, int col, Button clickedButton) {
+        if (timeline != null) {
+            timeline.stop();
+        }
         // if no piece is selected it tries to select one
         if (selectedPiece == null) { // if there is no piece selected
             if (clickedButton.getGraphic() != null && isPlayerPiece(clickedButton)) { // if the button has a piece
@@ -286,7 +293,7 @@ public class CheckersBoardController {
                 else {
                     canMultiCapture = false;
                     deselectPiece();
-                    togglePlayerTurn();
+                    togglePlayerTurn(clickedButton);
                 }
             }
 
@@ -301,7 +308,7 @@ public class CheckersBoardController {
             else if (isValidMove(selectedPiece, clickedButton)) {
                 movePiece(selectedPiece, clickedButton);
                 deselectPiece();
-                togglePlayerTurn(); // piece is moved, switch player turn
+                togglePlayerTurn(clickedButton); // piece is moved, switch player turn
             }
 
 
@@ -317,7 +324,7 @@ public class CheckersBoardController {
                 else {
                     canMultiCapture = false;
                     deselectPiece();
-                    togglePlayerTurn();
+                    togglePlayerTurn(clickedButton);
                 }
             }
 
@@ -566,8 +573,29 @@ public class CheckersBoardController {
         button.setGraphic(imageView);
     }
 
-    private void togglePlayerTurn() {
+    private void togglePlayerTurn(Button button) {
         isPlayerBTurn = !isPlayerBTurn;
+        timeline = new Timeline(new KeyFrame(Duration.seconds(10),
+                event -> {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
+                        Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+                        scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
+
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.setTitle("OMG Platform");
+                        stage.show();
+
+                        Stage currentStage = (Stage) button.getScene().getWindow();
+                        currentStage.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+        ));
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     private final String CHAT_LOG_PATH = "chatlog.txt";
