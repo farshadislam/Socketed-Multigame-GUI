@@ -143,7 +143,22 @@ public class GamesPageController {
 
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-                Scene scene = new Scene(loader.load(), 700, 450);
+
+                int width;
+                int height;
+
+                if (gameType == GameType.TICTACTOE) {
+                    width = 700;
+                    height = 450;
+                } else if (gameType == GameType.CONNECT4) {
+                    width = 825;
+                    height = 600;
+                } else {
+                    width = 900;
+                    height = 600;
+                }
+
+                Scene scene = new Scene(loader.load(), width, height);
                 scene.getStylesheets().add(getClass().getResource(cssFile).toExternalForm());
 
                 if (gameType == GameType.CONNECT4 && "Computer".equals(playMode)) {
@@ -152,7 +167,6 @@ public class GamesPageController {
                 } else if (gameType == GameType.TICTACTOE && "Computer".equals(playMode)) {
                     TicTacToeController controller = loader.getController();
                     controller.setAIBot(true);
-
                 }
 
                 Stage stage = (Stage) checkersIcon.getScene().getWindow();
@@ -162,6 +176,7 @@ public class GamesPageController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
     }
 

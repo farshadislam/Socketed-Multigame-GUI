@@ -60,15 +60,28 @@
 
            </children>
       </FlowPane>
-      <Button fx:id="inGameChatButton" layoutX="776.0" layoutY="533.0" mnemonicParsing="false" onAction="#openChat" prefHeight="48.0" prefWidth="96.0" styleClass="option-button" text="Chat" textFill="#8e2de2" />
-      <MenuButton layoutX="730.0" layoutY="23.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="154.0" textFill="aliceblue" text="Settings" styleClass="menu-bar">
-        <items>
-          <MenuItem fx:id="helpOption" mnemonicParsing="false" onAction="#howToPlayDescription" text="Help" />
-          <MenuItem fx:id="quitOption" mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
-        </items>
-      </MenuButton>
-      <Label fx:id="connect4Label" layoutX="302.0" layoutY="23.0" styleClass="connect4-label" text="Connect 4" />
-      <Label fx:id="player1Label" layoutX="96.0" layoutY="300.0" text="Player 1" />
-      <Label fx:id="player2Label" layoutX="662.0" layoutY="300.0" text="Player 2" />
+       <Button fx:id="inGameChatButton"
+               text="Chat"
+               onAction="#openChat"
+               styleClass="option-button"
+               textFill="#8e2de2"
+               prefWidth="96.0" prefHeight="48.0"
+               AnchorPane.bottomAnchor="20.0"
+               AnchorPane.rightAnchor="20.0"/>
+       <MenuButton fx:id="settingsMenu"
+                   text="Settings"
+                   textFill="aliceblue"
+                   styleClass="menu-bar"
+                   prefWidth="154.0" prefHeight="59.0"
+                   AnchorPane.topAnchor="20.0"
+                   AnchorPane.rightAnchor="20.0">
+           <items>
+               <MenuItem fx:id="helpOption" text="Help" onAction="#howToPlayDescription"/>
+               <MenuItem fx:id="quitOption" text="Quit" onAction="#handleQuit"/>
+           </items>
+       </MenuButton>
+       <Label fx:id="connect4Label" layoutX="302.0" layoutY="23.0" styleClass="connect4-label" text="Connect 4" />
+      <Label fx:id="player1Label" layoutX="96.0" layoutY="300.0" text="Player 1" style="-fx-font-weight: bold" />
+      <Label fx:id="player2Label" layoutX="662.0" layoutY="300.0" text="Player 2" style="-fx-font-weight: bold"/>
    </children>
 </AnchorPane>
