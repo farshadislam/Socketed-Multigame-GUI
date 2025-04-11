@@ -9,18 +9,6 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
-import org.seng.gamelogic.checkers.AIBotCheckers;
-import org.seng.gamelogic.checkers.CheckersBoard;
-import org.seng.gamelogic.checkers.CheckersGame;
-import org.seng.gamelogic.checkers.CheckersPlayer;
-import org.seng.gamelogic.connectfour.AIBotConnectFour;
-import org.seng.gamelogic.connectfour.ConnectFourBoard;
-import org.seng.gamelogic.connectfour.ConnectFourGame;
-import org.seng.gamelogic.connectfour.ConnectFourPlayer;
-import org.seng.gamelogic.tictactoe.AIBotTicTacToe;
-import org.seng.gamelogic.tictactoe.TicTacToeBoard;
-import org.seng.gamelogic.tictactoe.TicTacToeGame;
-import org.seng.gamelogic.tictactoe.TicTacToePlayer;
 import org.seng.networking.SocketGameClient;
 import org.seng.networking.leaderboard_matchmaking.GameType;
 

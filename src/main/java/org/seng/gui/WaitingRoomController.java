@@ -13,26 +13,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.seng.gamelogic.checkers.AIBotCheckers;
-import org.seng.gamelogic.checkers.CheckersBoard;
-import org.seng.gamelogic.checkers.CheckersGame;
-import org.seng.gamelogic.checkers.CheckersPlayer;
-import org.seng.gamelogic.connectfour.AIBotConnectFour;
-import org.seng.gamelogic.connectfour.ConnectFourBoard;
-import org.seng.gamelogic.connectfour.ConnectFourGame;
-import org.seng.gamelogic.connectfour.ConnectFourPlayer;
-import org.seng.gamelogic.tictactoe.AIBotTicTacToe;
-import org.seng.gamelogic.tictactoe.TicTacToeBoard;
-import org.seng.gamelogic.tictactoe.TicTacToeGame;
-import org.seng.gamelogic.tictactoe.TicTacToePlayer;
-import org.seng.networking.Player;
 import org.seng.networking.SocketGameClient;
 import org.seng.networking.leaderboard_matchmaking.GameType;
 
 import java.io.IOException;
 import java.net.URL;
-
-import static org.seng.networking.leaderboard_matchmaking.GameType.*;
 
 public class WaitingRoomController {
 
