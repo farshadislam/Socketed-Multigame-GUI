@@ -13,6 +13,7 @@ import java.io.IOException;
 public class CredentialsDatabase {
     private final HashMap<String, Player> playerCredentials;
     private final String outputFile = "output.txt";
+    public boolean wasSaved;
 
     public CredentialsDatabase() {
         // Initializing the HashMap
@@ -125,6 +126,7 @@ public class CredentialsDatabase {
                         + history.getPlayerAt(4));
                 writer.newLine();
             }
+        wasSaved = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
