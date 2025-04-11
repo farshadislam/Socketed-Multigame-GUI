@@ -205,27 +205,26 @@ public class CredentialsDatabase {
         }
     }
 
-
     public void updateKey(String oldUsername, String newUsername) {
         String oldKey = oldUsername.toLowerCase();
         String newKey = newUsername.toLowerCase();
 
         // Check if old username exists and new one doesn't
-        if (!playerCredentials.containsKey(oldUsername)){
+        if (!playerCredentials.containsKey(oldKey)) {
             return;
         }
-        if (playerCredentials.containsKey(newUsername)){
+        if (playerCredentials.containsKey(newKey)) {
             return;
         }
 
-        // Get the player object
+        // Get and remove the player object from oldKey
         Player player = playerCredentials.remove(oldKey);
 
         // Update the player's username field
-        player.setUsername(newKey);
+        player.setUsername(newUsername); // Store original case if needed
 
-        // Re-insert with the new username as the key
+        // Insert back into the map with the new key
         playerCredentials.put(newKey, player);
-
     }
+
 }

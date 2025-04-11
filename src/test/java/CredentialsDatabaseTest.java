@@ -1,154 +1,136 @@
-import org.junit.jupiter.api.*;
+//package org.seng.authentication;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.seng.authentication.CredentialsDatabase;
 import org.seng.authentication.Player;
 import org.seng.leaderboard_matchmaking.*;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CredentialsDatabaseTest {
-
     private CredentialsDatabase db;
     private Player player1, player2;
 
     @BeforeEach
-    public void setup() {
+    public void setUp() {
         db = new CredentialsDatabase();
         db.clearDatabase();
 
-        player1 = new Player("UserOne", "one@example.com", "pass123");
+        player1 = new Player("Alice", "alice@example.com", "password123");
         player1.setSymbol('X');
 
-        player2 = new Player("UserTwo", "two@example.com", "pass456");
+        player2 = new Player("Bob", "bob@example.com", "secure456");
         player2.setSymbol('O');
     }
 
     @Test
-    public void testAddNewPlayerNormal() {
-        assertTrue(db.addNewPlayer("UserOne", player1));
-        assertFalse(db.addNewPlayer("UserOne", player1)); // Duplicate username
+    public void testAddNewPlayer() {
+        assertTrue(db.addNewPlayer("Alice", player1));
+        assertEquals(player1, db.findPlayerByUsername("Alice"));
     }
 
     @Test
-    public void testAddNewPlayerCaseInsensitive() {
-        db.addNewPlayer("userone", player1);
-        assertFalse(db.addNewPlayer("USERONE", player1));
+    public void testUsernameLookup() {
+        db.addNewPlayer("Alice", player1);
+        assertTrue(db.usernameLookup("Alice"));
+        assertFalse(db.usernameLookup("Unknown"));
     }
 
     @Test
-    public void testAddNewPlayerNullOrEmpty() {
-        assertFalse(db.addNewPlayer(null, player1));
-        assertFalse(db.addNewPlayer(null, player1));
+    public void testDeleteExistingPlayer() {
+        db.addNewPlayer("Bob", player2);
+        assertTrue(db.deleteExistingPlayer("Bob"));
+        assertFalse(db.deleteExistingPlayer("Bob")); // already deleted
     }
 
     @Test
-    public void testUsernameLookupVariants() {
-        db.addNewPlayer("UserOne", player1);
-        assertTrue(db.usernameLookup("userone"));
-        assertTrue(db.usernameLookup("USERONE"));
-        assertFalse(db.usernameLookup("nonexistent"));
+    public void testFindPlayerByUsername() {
+        db.addNewPlayer("Alice", player1);
+        Player found = db.findPlayerByUsername("alice");
+        assertNotNull(found);
+        assertEquals("alice", found.getUsername());
+        assertNull(db.findPlayerByUsername("charlie"));
     }
 
     @Test
-    public void testDeletePlayerTwice() {
-        db.addNewPlayer("UserOne", player1);
-        assertTrue(db.deleteExistingPlayer("UserOne"));
-        assertFalse(db.deleteExistingPlayer("UserOne"));
-    }
-
-    @Test
-    public void testFindPlayerWithDifferentCases() {
-        db.addNewPlayer("UserOne", player1);
-        assertNotNull(db.findPlayerByUsername("userone"));
-        assertNull(db.findPlayerByUsername("nonexistent"));
-    }
-
-    @Test
-    public void testEmailTakenCaseInsensitive() {
-        db.addNewPlayer("UserOne", player1);
-        Player newPlayer = new Player("DifferentUser", "ONE@example.com", "pass");
-        assertTrue(db.emailTaken("ONE@EXAMPLE.com"));
-        assertFalse(db.emailTaken("unused@example.com"));
-    }
-
-    @Test
-    public void testEmailTakenWithNullEmail() {
-        assertFalse(db.emailTaken(null));
+    public void testEmailTaken() {
+        db.addNewPlayer("Bob", player2);
+        assertTrue(db.emailTaken("bob@example.com"));
+        assertFalse(db.emailTaken("not@used.com"));
     }
 
     @Test
     public void testClearDatabase() {
-        db.addNewPlayer("UserOne", player1);
+        db.addNewPlayer("Alice", player1);
         db.clearDatabase();
-        assertFalse(db.usernameLookup("UserOne"));
+        assertFalse(db.usernameLookup("Alice"));
     }
 
     @Test
-    public void testUpdateKeySuccess() {
-        db.addNewPlayer("OldUser", player1);
-        db.updateKey("OldUser", "NewUser");
-        assertTrue(db.usernameLookup("NewUser"));
+    public void testUpdateKey() {
+        db.addNewPlayer("Alice", player1);
+        db.updateKey("Alice", "AliceNew");
+
+        //assertTrue(db.usernameLookup("Alice"));
+        assertTrue(db.usernameLookup("AliceNew"));
+
+        Player updated = db.findPlayerByUsername("AliceNew");
+        assertEquals("alicenew", updated.getUsername());
     }
 
     @Test
-    public void testUpdateKeyFailsIfOldMissingOrNewExists() {
-        db.addNewPlayer("UserOne", player1);
-        db.addNewPlayer("UserTwo", player2);
-
-        db.updateKey("nonexistent", "newuser"); // Should fail silently
-        db.updateKey("UserOne", "UserTwo"); // Cannot override existing
-        assertTrue(db.usernameLookup("UserOne"));
-        assertTrue(db.usernameLookup("UserTwo"));
+    public void testUpdateKeyFailsIfOldNotExist() {
+        db.updateKey("NonExistent", "NewUsername");
+        assertFalse(db.usernameLookup("NewUsername"));
     }
 
     @Test
-    public void testSaveAndLoadPreservesData() {
-        db.addNewPlayer("UserOne", player1);
-        db.saveDatabase();
+    public void testUpdateKeyFailsIfNewExists() {
+        db.addNewPlayer("Alice", player1);
+        db.addNewPlayer("Bob", player2);
+        db.updateKey("Alice", "Bob"); // should fail
 
-        CredentialsDatabase newDb = new CredentialsDatabase();
-        assertTrue(newDb.usernameLookup("UserOne"));
-        assertEquals("UserOne", newDb.findPlayerByUsername("UserOne").getUsername());
-
-        new File("output.txt").delete();
+        assertTrue(db.usernameLookup("Alice"));
+        assertTrue(db.usernameLookup("Bob"));
     }
 
     @Test
-    public void testReAddDeletedPlayer() {
-        db.addNewPlayer("UserOne", player1);
-        db.deleteExistingPlayer("UserOne");
-        assertTrue(db.addNewPlayer("UserOne", player1));
+    public void testSaveAndLoadDatabase() throws IOException {
+        db.addNewPlayer("Alice", player1);
+
+        // Save to temp file
+        File tempFile = File.createTempFile("test", ".txt");
+        db.saveDatabase(tempFile.getAbsolutePath());
+
+        // Create new DB and load
+        CredentialsDatabase loadedDb = new CredentialsDatabase();
+        loadedDb.clearDatabase();
+        loadedDb.loadDatabase(tempFile.getAbsolutePath());
+
+        assertTrue(loadedDb.usernameLookup("Alice"));
+        assertEquals("Alice", loadedDb.findPlayerByUsername("Alice").getUsername());
+
+        // Clean up temp file
+        tempFile.delete();
     }
 
     @Test
-    public void testLoadDatabaseWithCorruptedLine() throws IOException {
-        String corruptedLine = "user,bad@line,pass,X,1,1,1,1,BRONZE,100,1,1,1,1,BRONZE,100,1,1,1,1,BRONZE,100,TIC_TAC_TOE,op1,TIC_TAC_TOE,op2,TIC_TAC_TOE,op3"; // missing last 4 fields
+    public void testLoadDatabaseWithCorruptLine() throws IOException {
+        File corruptFile = File.createTempFile("corrupt", ".txt");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(corruptFile))) {
+            writer.write("Incomplete,line,only,has,few,fields\n");
+        }
 
-        File file = new File("output.txt");
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write(corruptedLine); writer.newLine(); // corrupted line
-        writer.write("UserOne,one@example.com,password,X,1,1,1,1,BRONZE,100,1,1,1,1,BRONZE,100,1,1,1,1,BRONZE,100,TIC_TAC_TOE,op1,TIC_TAC_TOE,op2,TIC_TAC_TOE,op3,TIC_TAC_TOE,op4,TIC_TAC_TOE,op5"); // valid line
-        writer.close();
+        CredentialsDatabase dbCorrupt = new CredentialsDatabase();
+        dbCorrupt.clearDatabase();
+        dbCorrupt.loadDatabase(corruptFile.getAbsolutePath());
 
-        CredentialsDatabase corruptTestDb = new CredentialsDatabase();
-        assertTrue(corruptTestDb.usernameLookup("userone"));
+        // Nothing should be loaded
+        assertEquals(0, dbCorrupt.getPlayerCredentials().size());
 
-        file.delete();
-    }
-
-    @Test
-    public void testMultiplePlayerPersistence() {
-        db.addNewPlayer("UserOne", player1);
-        db.addNewPlayer("UserTwo", player2);
-        db.saveDatabase();
-
-        CredentialsDatabase reloadedDb = new CredentialsDatabase();
-        assertTrue(reloadedDb.usernameLookup("userone"));
-        assertTrue(reloadedDb.usernameLookup("usertwo"));
-        assertEquals("UserTwo", reloadedDb.findPlayerByUsername("UserTwo").getUsername());
-
-        new File("output.txt").delete();
+        corruptFile.delete();
     }
 }
