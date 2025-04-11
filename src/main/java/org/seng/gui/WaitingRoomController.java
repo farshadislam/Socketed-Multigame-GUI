@@ -316,7 +316,7 @@ public class WaitingRoomController {
 
         // this doesn't proceed until the scene is ready
         if (readyButton.getScene() == null || readyButton.getScene().getWindow() == null) {
-            System.out.println("[WaitingRoom DEBUG] scene/window not ready, retrying loadGameScene...");
+//            System.out.println("[WaitingRoom DEBUG] scene/window not ready, retrying loadGameScene...");
             Platform.runLater(this::loadGameScene);  // this attempts to load the scene again
             return;  // this exit until the scene is fully ready
         }
@@ -406,9 +406,9 @@ public class WaitingRoomController {
             // this is to tell server this client is leaving the waiting room
             try {
                 client.sendMessage("WAITING_ROOM_CLOSED");  // this sends a message indicating the waiting room is done
-                System.out.println("[WaitingRoom DEBUG] sent waiting_room_closed ack.");
+                System.out.println("[WaitingRoom DEBUG] sent waiting_room_closed acknowledgement.");
             } catch (IOException ex) {
-                System.err.println("[WaitingRoom DEBUG] failed to send waiting_room_closed ack.");
+                System.err.println("[WaitingRoom DEBUG] failed to send waiting_room_closed acknowledgement.");
                 ex.printStackTrace();
             }
 
