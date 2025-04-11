@@ -84,6 +84,7 @@ public class FriendProfileController {
             Scene scene = new Scene(loader.load(), 700, 450);
             scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
             Stage stage = (Stage) backIcon.getScene().getWindow();
+            stage.setTitle("Search Profiles");
             stage.setScene(scene);
             stage.show();
         } catch (Exception ex) {

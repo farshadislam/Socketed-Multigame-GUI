@@ -72,7 +72,23 @@ public class GameDashboardController {
 
     @FXML
     public void openProfilePage() {
-        openNewPage("profile-page.fxml", "Your Profile");
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile-page.fxml"));
+            Scene newScene = new Scene(fxmlLoader.load(), 700, 550);
+            newScene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.setTitle("Your Profile");
+            stage.setScene(newScene);
+
+            // Close current window
+            Stage currentStage = (Stage) viewStatsPane.getScene().getWindow();
+            currentStage.close();
+
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML

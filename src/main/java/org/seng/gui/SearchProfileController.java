@@ -69,7 +69,7 @@ public class SearchProfileController {
                 FriendProfileController controller = loader.getController();
                 controller.setProfileData(selected, "Last Online: 2 hours ago", 3, 2, 0);
 
-                Scene scene = new Scene(root, 700, 450);
+                Scene scene = new Scene(root, 700, 550);
                 scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
 
                 Stage stage = (Stage) viewProfileButton.getScene().getWindow();
@@ -85,11 +85,12 @@ public class SearchProfileController {
 
         private void goBack () {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
-                Scene scene = new Scene(loader.load(), 700, 450);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("profile-page.fxml"));
+                Scene scene = new Scene(loader.load(), 700, 550);
                 scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
 
                 Stage stage = (Stage) backIcon.getScene().getWindow();
+                stage.setTitle("Your Profile");
                 stage.setScene(scene);
                 stage.show();
             } catch (Exception ex) {
