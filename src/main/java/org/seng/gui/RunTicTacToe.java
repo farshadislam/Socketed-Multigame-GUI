@@ -12,7 +12,7 @@ public class RunTicTacToe extends Application {
     public void start(Stage stage) throws IOException {
         Font.loadFont(getClass().getResourceAsStream("/org/seng/gui/fonts/Monoton-Regular.ttf"), 64);
 
-       FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("tictactoe.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("tictactoe.fxml"));
         //FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("profile-page.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load(), 700, 450);
@@ -20,7 +20,6 @@ public class RunTicTacToe extends Application {
         // Load style sheet
         scene.getStylesheets().add(getClass().getResource("tictactoestyles.css").toExternalForm());
         //scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
-        scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
         //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
         stage.setTitle("OMG Platform");

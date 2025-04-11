@@ -296,7 +296,7 @@ public class SettingsController {
         alert.setHeaderText("Are you sure you want to delete your account?");
         alert.setContentText("This action cannot be undone.");
         setting.deleteAccount();
-        database.saveDatabase();
+        database.saveDatabase("");
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
@@ -318,6 +318,31 @@ public class SettingsController {
                     ex.printStackTrace();
                 }
             }
+
+
         });
+
+
     }
+
+
+    @FXML
+    public void openInstructions() {
+        // For example, show a simple Alert with instructions, or open a modal dialog.
+        Alert instructionsAlert = new Alert(Alert.AlertType.INFORMATION);
+        instructionsAlert.setTitle("Instructions");
+        instructionsAlert.setHeaderText("Network / Multiplayer Instructions");
+        instructionsAlert.setContentText(
+                "It is default set so that 2 users can run “Hello Application” " +
+                        "on the same device and play locally. This is through the localhost. " +
+                        "The server must be run first in “SocketGameServer.java”.\n\n" +
+                        "For remote play on separate devices in the same network, " +
+                        "the host runs the server normally, and the second player changes " +
+                        "the 'localhost' address to the host’s IPv4.\n\n" +
+                        "These changes are made in the code where “localhost” is referenced."
+        );
+        instructionsAlert.showAndWait();
+    }
+
+
 }

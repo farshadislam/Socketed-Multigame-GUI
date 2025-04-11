@@ -6,14 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Last5Matches {
-
-
     // Main 2D ArrayList holding last 5 matches, each match is another internal ArrayList holding gametype and player
     // Note, the oldest match is at index 0, and latest match is index 4, because we append/add new matches
     private final List<List<Object>> matchHistory;
 
     public Last5Matches() {
         this.matchHistory = new ArrayList<>();
+
+        // Initialize with 5 placeholder entries using GameType.NONE and "-" for username
+        for (int i = 0; i < 5; i++) {
+            List<Object> placeholderMatch = new ArrayList<>();
+            placeholderMatch.add(GameType.NONE); // assuming GameType has NONE
+            placeholderMatch.add("-");
+            matchHistory.add(placeholderMatch);
+        }
     }
 
     /**
@@ -21,16 +27,16 @@ public class Last5Matches {
      * If the list is full (5), it removes the oldest match before adding.
      *
      * @param gameType The type of the game played.
-     * @param opponent The opponent Player object.
+     * @param opponentUsername The opponent Player object.
      */
-    public void update(GameType gameType, Player opponent) {
+    public void update(GameType gameType, String opponentUsername) {
         int MAX_SIZE = 5;
         if (matchHistory.size() == MAX_SIZE) {
             matchHistory.remove(0); // Remove oldest match
         }
         List<Object> newMatch = new ArrayList<>();
         newMatch.add(gameType);
-        newMatch.add(opponent);
+        newMatch.add(opponentUsername);
         matchHistory.add(newMatch);
     }
 
@@ -55,6 +61,44 @@ public class Last5Matches {
             throw new IndexOutOfBoundsException("Invalid match index.");
         }
         return new ArrayList<>(matchHistory.get(index));
+    }
+
+    /**
+     * Returns the GameType at the specified index in the match history.
+     *
+     * @param index The index of the match.
+     * @return The GameType object.
+     */
+    public GameType getGameTypeAt(int index) {
+        if (index < 0 || index >= matchHistory.size()) {
+            throw new IndexOutOfBoundsException("Invalid match index.");
+        }
+
+        Object obj = matchHistory.get(index).get(0); // GameType is at index 0
+        if (obj instanceof GameType) {
+            return (GameType) obj;
+        } else {
+            throw new IllegalStateException("Unexpected object type for GameType.");
+        }
+    }
+
+    /**
+     * Returns the opponent's username at the specified index in the match history.
+     *
+     * @param index The index of the match.
+     * @return The opponent's username (String).
+     */
+    public String getPlayerAt(int index) {
+        if (index < 0 || index >= matchHistory.size()) {
+            throw new IndexOutOfBoundsException("Invalid match index.");
+        }
+
+        Object obj = matchHistory.get(index).get(1); // Username is stored as String at index 1
+        if (obj instanceof String) {
+            return (String) obj;
+        } else {
+            throw new IllegalStateException("Unexpected object type for opponent username.");
+        }
     }
 
     /**

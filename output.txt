@@ -1,5 +1,2 @@
-jane_smith,jane@example.com,password456,K,35,18,12,8,PLATINUM,1450,45,25,15,10,DIAMOND,1600,40,20,15,5,GOLD,1500
-wissal,wissal@gmai.com,wissal1234,Y,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0
-john_doe,john@example.com,password123,J,30,15,5,10,SILVER,1300,40,20,25,15,PLATINUM,1400,50,25,15,10,BRONZE,1200
-sam_brown,sam@example.com,password789,L,50,25,15,10,GOLD,1350,55,30,18,12,SILVER,1250,60,30,20,10,BRONZE,1100
-maham,maham@gmail.com,maham1234,R,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0
+alice,alice@gmail.com,alice1234,X,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,NONE,-,NONE,-,NONE,-,NONE,-,NONE,-
+talha,talhae@gmail.com,talha1234,X,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,NONE,-,NONE,-,NONE,-,NONE,-,NONE,-

@@ -2,7 +2,6 @@ package org.seng.networking.test;
 
 import org.junit.jupiter.api.Test;
 import org.seng.networking.GameSessionManager;
-import org.seng.networking.Player;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

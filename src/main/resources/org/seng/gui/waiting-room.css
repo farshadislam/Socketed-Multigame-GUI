@@ -39,10 +39,13 @@
     -fx-border-width: 1;
 }
 
-.player-avatar {
-    -fx-fill: #eeeeee;
-    -fx-stroke: #a855f7;
-    -fx-stroke-width: 3;
+/* Add styles for the image-based avatars */
+.player-avatar-image {
+    -fx-border-color: #a855f7;
+    -fx-border-width: 3;
+    -fx-border-radius: 45;
+    -fx-background-radius: 45;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 
 .player-name {

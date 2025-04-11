@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Ellipse?>
+
+<AnchorPane fx:id="rootPane"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.seng.gui.ComingSoonController"
+            stylesheets="@coming-soon.css"
+            prefWidth="700" prefHeight="450">
+
+    <StackPane styleClass="root-gradient"
+               AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+               AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <Ellipse fx:id="ellipseBg"
+                 centerX="350" centerY="225"
+                 radiusX="380" radiusY="280"
+                 styleClass="ellipse-bg" />
+
+        <StackPane fx:id="clayCard"
+                   maxWidth="480" maxHeight="320"
+                   styleClass="clay-card">
+
+            <VBox alignment="CENTER" spacing="20">
+
+                <Label fx:id="titleLabel"
+                       text="Coming Soon"
+                       styleClass="coming-title" />
+
+                <Label fx:id="subtitleLabel"
+                       text="But we have online Tic-Tac-Toe! Thank you for playing!"
+                       styleClass="coming-subtitle"
+                       textAlignment="CENTER"
+                       wrapText="true"
+                       maxWidth="340" />
+
+                <Button fx:id="returnButton"
+                        text="Return to Dashboard"
+                        styleClass="return-button"
+                        onAction="#handleReturn"/>
+            </VBox>
+
+        </StackPane>
+    </StackPane>
+</AnchorPane>

@@ -1,17 +1,15 @@
 package org.seng.authentication;
-import javafx.css.Match;
+import org.seng.networking.Match;
 import org.seng.leaderboard_matchmaking.*;
 import org.seng.leaderboard_matchmaking.Rank;
-
-//import org.seng.leaderboard.matchmaking.Last5Matches;
 import org.seng.leaderboard_matchmaking.GameType;
-
+import org.seng.leaderboard_matchmaking.Last5Matches;
+import org.seng.networking.SocketGameHandler;
 
 import java.util.List;
 import java.util.Objects;
 
 public class Player {
-    // create fields for all the methods
     private String username;
     private String email;
     private String password;
@@ -21,9 +19,8 @@ public class Player {
     private checkersStats CheckersStats;
     private String verificationCode;
     private Last5Matches last5Matches;
-
-//    //last 5 matches field
-//    private Last5Matches last5Matches;
+    private SocketGameHandler socketHandler;
+    private Match currentMatch;
 
     /**
      * Constructor that also sets initial wins for each game.
@@ -36,12 +33,11 @@ public class Player {
         this.username = username.toLowerCase();
         this.email = email.toLowerCase();
         this.password = password;
+        this.symbol = 'X'; // initial symbol
         this.Connect4Stats = new connect4Stats(username);
         this.CheckersStats = new checkersStats(username);
         this.TicTacToeStats = new ticTacToeStats(username);
         this.last5Matches = new Last5Matches();
-        //initializing the constructor
-//        this.last5Matches = new Last5Matches();
     }
 
     // setters and getters
@@ -111,9 +107,6 @@ public class Player {
         return this.verificationCode;
     }
 
-
-//    Adding totals from playerStats, since we are planning to remove it
-
     public int getTotalGamesPlayed() {
         connect4Stats Connect4Stats = this.Connect4Stats;
         ticTacToeStats TicTacToeStats = this.TicTacToeStats;
@@ -142,7 +135,6 @@ public class Player {
         return Connect4Stats.get_ties() + TicTacToeStats.get_ties() + CheckersStats.get_ties();
     }
 
-
     /**
      * override method for equals
      * @param object the object being used for comparing
@@ -163,14 +155,24 @@ public class Player {
         return Objects.equals(username, player.username) && Objects.equals(email, player.email);
     }
 
-//    public Last5Matches getLast5MatchesObject(){
-//        return this.last5Matches;
-//    }
-//
-//
-//    public List<Object> getLastMatchAt(int index){
-//        return last5Matches.getLastMatchAt(index);
-//    }
-//
+    public void setSocketHandler(SocketGameHandler handler) {
+        this.socketHandler = handler;
+    }
+
+    public SocketGameHandler getSocketHandler() {
+        return socketHandler;
+
+    }
+    public Match getCurrentMatch() {
+        return currentMatch;
+    }
+
+    public void setCurrentMatch(Match match) {
+        this.currentMatch = match;
+    }
+
+
+
+
 }
 

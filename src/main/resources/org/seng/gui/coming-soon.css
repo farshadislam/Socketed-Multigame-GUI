@@ -1,0 +1,60 @@
+
+.root-gradient {
+    -fx-background-color: radial-gradient(
+            center 50% 50%, radius 150%,
+            #2e00f3 0%,
+            #57366D 100%
+    );
+}
+
+.ellipse-bg {
+    -fx-fill: radial-gradient(
+            center 50% 50%, radius 100%,
+            rgba(255,255,255,0.15), rgba(255,255,255,0.0)
+    );
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 40, 0.2, 5, 10);
+}
+
+
+.clay-card {
+    -fx-background-color: #B296FF;
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-pref-width: 480;
+    -fx-pref-height: 320;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0.2, 8, 8);
+}
+
+.coming-title {
+    -fx-font-family: "Nunito ExtraBold", "Segoe UI", sans-serif;
+    -fx-font-size: 38px;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 4, 0.3, 2, 2);
+}
+
+.coming-subtitle {
+    -fx-font-family: "Nunito", "Segoe UI", sans-serif;
+    -fx-font-size: 15px;
+    -fx-text-fill: #4a4a4a;
+    -fx-text-alignment: center;
+}
+
+.return-button {
+    -fx-font-family: "Nunito Semibold", sans-serif;
+    -fx-font-size: 16px;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 10 20;
+    -fx-background-radius: 25;
+    -fx-background-color: linear-gradient(to bottom right, #b76dfb, #a354fa);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.25, 3, 3);
+    -fx-cursor: hand;
+}
+.return-button:hover {
+    -fx-background-color: linear-gradient(to bottom right, #c87afb, #b76dfb);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.30), 12, 0.3, 3, 3);
+}
+.return-button:pressed {
+    -fx-background-color: linear-gradient(to bottom right, #9f5af9, #8f4fff);
+    -fx-translate-y: 1;
+}

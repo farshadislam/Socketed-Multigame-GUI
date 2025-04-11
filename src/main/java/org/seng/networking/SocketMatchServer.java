@@ -1,5 +1,6 @@
 package org.seng.networking;
 
+import org.seng.leaderboard_matchmaking.matchmaking.QueueMatchMaker;
 import org.seng.networking.leaderboard_matchmaking.GameType;
 
 import java.io.*;
@@ -7,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.seng.authentication.Player;
+import java.io.*;
 
 // this class is the actual multiplayer game server that accepts player connections
 // and handles matchmaking them into games using the queue
@@ -17,8 +20,8 @@ public class SocketMatchServer {
     // this is a thread pool so we can run lots of clients at once (if many different pairs wanna play)
     private ExecutorService pool = Executors.newCachedThreadPool();
 
-    private final Matchmaking matchmaking = Matchmaking.getInstance(); // our matchmaking system
-    private final NetworkingManager netManager = NetworkingManager.getInstance(); // manage active users
+    private final Matchmaking matchmaking = Matchmaking.getInstance(); // this is our matchmaking system
+    private final NetworkingManager netManager = NetworkingManager.getInstance(); // this tracks who's connected
 
     // this sets up the server socket on the port we pass in
     public SocketMatchServer(int port) throws IOException {
@@ -51,8 +54,8 @@ public class SocketMatchServer {
             out.flush();
             String username = in.readLine();
 
-            // connect player to system
-            netManager.connectPlayer(username); // ✅ mark this player as connected
+            // this marks this player as connected in the network manager
+            netManager.connectPlayer(username); // this tracks that the player has joined
 
             // next it then asks them what game they want to play
             out.write("Select game:\n1. Checkers\n2. Connect Four\n3. Tic Tac Toe\nYour choice: ");
@@ -61,48 +64,61 @@ public class SocketMatchServer {
             GameType selectedGame;
 
             // this maps the input to an actual GameType
-            switch (choice) {
-                case "1": selectedGame = GameType.CHECKERS; break;
-                case "2": selectedGame = GameType.CONNECT4; break;
-                case "3": selectedGame = GameType.TICTACTOE; break;
-                default:  selectedGame = GameType.CHECKERS; break; // this is default just in case
+            if (choice.equals("1")) {
+                selectedGame = GameType.CHECKERS;
+            } else if (choice.equals("2")) {
+                selectedGame = GameType.CONNECT4;
+            } else if (choice.equals("3")) {
+                selectedGame = GameType.TICTACTOE;
+            } else {
+                selectedGame = GameType.CHECKERS; // this defaults to Checkers if invalid input
             }
 
             // this creates a new player object from the input username
-            Player newPlayer = new Player(username, "");
+            Player newPlayer = new Player(username, "", "");
+
+            // this creates the actual handler connection to the client socket
             SocketGameHandler handler = new SocketGameHandler(clientSocket, username);
-            handler.setGameType(selectedGame);
-            newPlayer.setSocketHandler(handler);
+            handler.setGameType(selectedGame); // this saves the game mode they picked
+            newPlayer.setSocketHandler(handler); // this stores the handler in their player obj
 
             // try to join matchmaking system
             Match match = matchmaking.joinQueue(newPlayer, selectedGame);
 
+            // this leaves he method is no match yet
             if (match == null) {
-                // this means they’re still waiting
                 System.out.println(username + " is waiting for opponent...");
                 return;
             }
 
-            // this means opponent already existed in queue
-            Player opponent;
+            // this identifies the opponent from the match object
+            Player opponent = null;
             if (match.getPlayer1().equals(newPlayer)) {
                 opponent = match.getPlayer2();
             } else {
                 opponent = match.getPlayer1();
             }
 
-            // hook up both socket handlers to each other
+            // this then hooks up both handlers
             opponent.getSocketHandler().setOpponent(handler);
             handler.setOpponent(opponent.getSocketHandler());
 
-            // this notifies both players of match success
-            netManager.notifyPlayersMatched(newPlayer, opponent, match); // ✅ uses NetworkingManager!
+            // this checks both player roles based on match order
+            boolean isNewPlayerOne = match.getPlayer1().equals(newPlayer);
 
-            // this start threads for both players
+            // this sends the role assignment, and newPlayer's handler is handler
+            handler.sendOpponentInfo(opponent.getUsername(), isNewPlayerOne);
+            opponent.getSocketHandler().sendOpponentInfo(newPlayer.getUsername(), !isNewPlayerOne);
+
+            // this notifies players in the correct order preserving player status *
+            netManager.notifyPlayersMatched(match.getPlayer1(), match.getPlayer2(), match);
+
+            // this launches both handlers.
             pool.execute(opponent.getSocketHandler());
             pool.execute(handler);
 
         } catch (IOException e) {
+            // this prints out what went wrong if something failed
             System.err.println("Failed to handle new player: " + e.getMessage());
         }
     }
@@ -115,10 +131,16 @@ public class SocketMatchServer {
 
     public static void main(String[] args) {
         try {
+            // this instantiates and starts the matchmaking loop immediately
+            QueueMatchMaker matchMaker = new QueueMatchMaker();
+            matchMaker.startMatchmakingLoop();
+
+            // this then creates and starts the match server
             SocketMatchServer server = new SocketMatchServer(12345);
-            server.start(); // this starts accepting connections
+            server.start();
         } catch (IOException e) {
             System.err.println("Error starting server: " + e.getMessage());
         }
     }
+
 }

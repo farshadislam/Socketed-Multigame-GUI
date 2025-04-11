@@ -1,6 +1,9 @@
 package org.seng.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,11 +12,25 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
+import org.seng.gamelogic.checkers.AIBotCheckers;
+import org.seng.gamelogic.checkers.CheckersBoard;
+import org.seng.gamelogic.checkers.CheckersGame;
+import org.seng.gamelogic.checkers.CheckersPlayer;
+import org.seng.gamelogic.connectfour.AIBotConnectFour;
+import org.seng.gamelogic.connectfour.ConnectFourBoard;
+import org.seng.gamelogic.connectfour.ConnectFourGame;
+import org.seng.gamelogic.connectfour.ConnectFourPlayer;
+import org.seng.gamelogic.tictactoe.AIBotTicTacToe;
+import org.seng.gamelogic.tictactoe.TicTacToeBoard;
+import org.seng.gamelogic.tictactoe.TicTacToeGame;
+import org.seng.gamelogic.tictactoe.TicTacToePlayer;
 import org.seng.networking.SocketGameClient;
 import org.seng.networking.leaderboard_matchmaking.GameType;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
+import org.seng.leaderboard_matchmaking.matchmaking.QueueMatchMaker;
 
 public class GamesPageController {
 
@@ -23,7 +40,7 @@ public class GamesPageController {
     @FXML
     private ToggleButton playComputerButton, playOnlineButton;
 
-    private String playMode = "Computer"; // default is local mode
+    private String playMode = "Computer";
 
     @FXML
     public void initialize() {
@@ -101,31 +118,84 @@ public class GamesPageController {
 
     private void handleGameClick(GameType gameType) {
         if ("Online".equals(playMode)) {
-            try {
-                // generate random name for this user
-                String username = "Player_" + UUID.randomUUID().toString().substring(0, 5);
+            Alert modeChoice = new Alert(Alert.AlertType.CONFIRMATION);
+            modeChoice.setTitle("Multiplayer Setup");
+            modeChoice.setHeaderText("Do you want to host or join a game?");
+            modeChoice.setContentText("Choose your option:");
+            ButtonType hostButton = new ButtonType("Host Game");
+            ButtonType joinButton = new ButtonType("Join Game");
+            modeChoice.getButtonTypes().setAll(hostButton, joinButton);
+            Optional<ButtonType> result = modeChoice.showAndWait();
 
-                // connect to multiplayer game server
-                SocketGameClient client = new SocketGameClient("10.13.180.57", 12345);
-                client.sendMessage(username); // tell server our name
-                client.sendMessage(getGameChoiceNumber(gameType)); // tell server what game we picked
+            if (result.isPresent()) {
+                String hostIP = "localhost";
 
-                // load the waiting room UI
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/seng/gui/waiting-room.fxml"));
-                Scene scene = new Scene(loader.load(), 700, 450);
-                scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+                if (result.get() == hostButton) {
+                    try {
+                        new Thread(() -> {
+                            try {
+                                org.seng.leaderboard_matchmaking.matchmaking.QueueMatchMaker matchMaker = new org.seng.leaderboard_matchmaking.matchmaking.QueueMatchMaker();
+                                matchMaker.startMatchmakingLoop();
+                                org.seng.networking.SocketMatchServer server = new org.seng.networking.SocketMatchServer(12345);
+                                server.start();
+                            } catch (IOException e) {
+                                System.err.println("Failed to start server: " + e.getMessage());
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    hostIP = "localhost";
 
-                // give that controller the needed info
-                WaitingRoomController controller = loader.getController();
-                controller.init(username, gameType, client);
+                } else if (result.get() == joinButton) {
+                    TextInputDialog ipDialog = new TextInputDialog("192.168.0.x");
+                    ipDialog.setTitle("Join Game");
+                    ipDialog.setHeaderText("Enter Host IP Address");
+                    ipDialog.setContentText("IP Address:");
 
-                // switch to waiting room
-                Stage stage = (Stage) checkersIcon.getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+                    Optional<String> ipResult = ipDialog.showAndWait();
+                    if (ipResult.isPresent()) {
+                        hostIP = ipResult.get().trim();
+                    } else {
+                        System.out.println("No IP entered. Cancelled join.");
+                        return;
+                    }
+                }
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                String username;
+                if (GameDashboardController.player != null) {
+                    username = GameDashboardController.player.getUsername();
+                } else {
+                    username = "Player_" + UUID.randomUUID().toString().substring(0, 5);
+                }
+
+                try {
+                    // Connect to server
+                    SocketGameClient client = new SocketGameClient(hostIP, 12345);
+                    client.sendMessage(username);
+                    client.sendMessage(getGameChoiceNumber(gameType));
+
+                    if (gameType == GameType.TICTACTOE) {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/seng/gui/waiting-room.fxml"));
+                        Scene scene = new Scene(loader.load(), 700, 450);
+                        scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+                        WaitingRoomController controller = loader.getController();
+                        controller.init(username, gameType, client);
+                        Stage stage = (Stage) checkersIcon.getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+                    } else {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/seng/gui/coming-soon.fxml"));
+                        Scene scene = new Scene(loader.load(), 700, 450);
+                        scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
+                        Stage stage = (Stage) checkersIcon.getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
         } else {
@@ -179,7 +249,6 @@ public class GamesPageController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 

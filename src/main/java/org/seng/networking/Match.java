@@ -2,7 +2,9 @@ package org.seng.networking;
 
 import org.seng.networking.leaderboard_matchmaking.GameType;
 import java.util.*;
+import org.seng.authentication.Player;
 
+import java.io.*;
 /**
  * this class represents one single match between 2 players
  * doesn't actually run the game logic anymore — that's handled somewhere else (like the GUI/game logic package)
