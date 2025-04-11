@@ -179,7 +179,6 @@ public class SettingsController {
             ex.printStackTrace();
         }
         setting.changeEmail(emailField.getText());
-        System.out.println(player.getEmail());
     }
 
     @FXML
@@ -293,7 +292,7 @@ public class SettingsController {
                 ex.printStackTrace();
             }
         }
-        database.saveDatabase();
+        database.saveDatabase("output.txt");
     }
 
     @FXML
@@ -325,6 +324,6 @@ public class SettingsController {
             }
         });
         setting.deleteAccount();
-        database.saveDatabase();
+        database.saveDatabase("output.txt");
     }
 }

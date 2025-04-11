@@ -95,6 +95,7 @@ public class GameDashboardController {
     @FXML
     public void handleLogout() {
         showLogoutConfirmation();
+        database.saveDatabase("output.txt");
     }
 
     private void showLogoutConfirmation() {
@@ -132,7 +133,6 @@ public class GameDashboardController {
     public void openSettings() {
         // Initializing the Setting object
         setting = new Settings(player, database);
-        System.out.println("success");
         animateGear();
     }
 

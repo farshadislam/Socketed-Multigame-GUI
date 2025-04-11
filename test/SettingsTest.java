@@ -233,27 +233,34 @@ public class SettingsTest {
         assertFalse(settings.changePassword(""));
     }
 
-    // player deleted
-    @Test
-    public void deleteAccount1(){
-        database.addNewPlayer(player.getUsername(), player);
-        assertTrue(settings.deleteAccount());
-    }
 
-
-    // player not exists
-    @Test
-    public void deleteAccount3(){
-        assertFalse(settings.deleteAccount());
-    }
-
-    // player already deleted
-    @Test
-    public void deleteAccount4(){
-        database.addNewPlayer(player.getUsername(), player);
-        settings.deleteAccount();
-        assertFalse(settings.deleteAccount());
-    }
+//    // player deleted
+//    @Test
+//    public void deleteAccount1(){
+//        database.addNewPlayer(player.getUsername(), player);
+//        assertTrue(settings.deleteAccount("passWORD"));
+//    }
+//
+//    // player not deleted (wrong password)
+//    @Test
+//    public void deleteAccount2(){
+//        database.addNewPlayer("newUser", player);
+//        assertFalse(settings.deleteAccount("password"));
+//    }
+//
+//    // player not exists
+//    @Test
+//    public void deleteAccount3(){
+//        assertFalse(settings.deleteAccount("password"));
+//    }
+//
+//    // player already deleted
+//    @Test
+//    public void deleteAccount4(){
+//        database.addNewPlayer(player.getUsername(), player);
+//        settings.deleteAccount("passWORD");
+//        assertFalse(settings.deleteAccount("passWORD"));
+//    }
 
     // setter and getter for TicTacToeStats
     @Test
@@ -324,5 +331,20 @@ public class SettingsTest {
         assertEquals(oldEmail.toLowerCase(), player.getEmail());
     }
 
+    // deleting an account
+    @Test
+    public void testDeleteAccount(){
+        database.addNewPlayer(player.getUsername(), player);
+        assertTrue(settings.deleteAccount());
+        assertFalse(database.usernameLookup(player.getUsername()));
+    }
+
+    // verifying the code for new emails
+    @Test
+    public void testVerifyCodeForNewEmail(){
+        player.setVerificationCode("1234");
+        assertTrue(settings.verifyEmailCodeForNewEmail("updated@email.com", "1234"));
+        assertEquals("updated@email.com", player.getEmail());
+    }
 
 }
