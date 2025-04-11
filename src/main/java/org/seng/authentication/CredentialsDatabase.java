@@ -11,14 +11,11 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class CredentialsDatabase {
+    private final HashMap<String, Player> playerCredentials;
+    private final String outputFile = "output.txt";
+    public boolean wasSaved;
 
-    // Creating a HashMap field that will store the information of the player
-    private HashMap<String, Player> playerCredentials;
-
-
-    // Creating a constructor
     public CredentialsDatabase() {
-
         // Initializing the HashMap
         this.playerCredentials = new HashMap<>();
 
@@ -74,9 +71,8 @@ public class CredentialsDatabase {
         playerCredentials.clear();
     }
 
-
-    public void saveDatabase() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))) {
+    public void saveDatabase(String filepath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
 
             // Iterating over the keys in HashMap
             for (String username : playerCredentials.keySet()) {
@@ -86,6 +82,7 @@ public class CredentialsDatabase {
                 connect4Stats connect4 = player.getConnect4Stats();
                 checkersStats checkers = player.getCheckersStats();
                 ticTacToeStats ticTacToe = player.getTicTacToeStats();
+                Last5Matches history = player.getLast5MatchesObject();
 
                 writer.write(player.getUsername() + ","
                         + player.getEmail() + ","
@@ -114,31 +111,52 @@ public class CredentialsDatabase {
                         + checkers.getLosses() + ","
                         + checkers.get_ties() + ","
                         + checkers.getRank().name() + ","  // Store enum as name
-                        + checkers.getMMR());
+                        + checkers.getMMR() + ","
+
+                        // Saving the last 5 matches
+                        + history.getGameTypeAt(0).name() + ","
+                        + history.getPlayerAt(0) + ","
+                        + history.getGameTypeAt(1).name() + ","
+                        + history.getPlayerAt(1) + ","
+                        + history.getGameTypeAt(2).name() + ","
+                        + history.getPlayerAt(2) + ","
+                        + history.getGameTypeAt(3).name() + ","
+                        + history.getPlayerAt(3) + ","
+                        + history.getGameTypeAt(4).name() + ","
+                        + history.getPlayerAt(4));
                 writer.newLine();
             }
+        wasSaved = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     public void loadDatabase(String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
 
             while ((line = reader.readLine()) != null) {
+                // Skip empty lines or lines with only whitespace
+                if (line.trim().isEmpty()) continue;
+
                 // Split and trim the line using a comma
                 String[] words = line.split(",");
 
+                // Check if the line contains enough fields (should be 32 entries total)
+                if (words.length < 32) {
+                    System.out.println("Skipped corrupt or incomplete line: " + line);
+                    continue;
+                }
+
                 // Creating the Player object
                 Player player = new Player(words[0].trim(), words[1].trim(), words[2].trim());
-
                 player.setSymbol(words[3].trim().charAt(0));
 
                 connect4Stats connect4 = player.getConnect4Stats();
                 checkersStats checkers = player.getCheckersStats();
                 ticTacToeStats ticTacToe = player.getTicTacToeStats();
+                Last5Matches match_history = player.getLast5MatchesObject();
 
                 try {
                     // Setting fields for Connect4
@@ -164,16 +182,24 @@ public class CredentialsDatabase {
                     ticTacToe.setTies(Integer.parseInt(words[19].trim()));
                     ticTacToe.setRank(Rank.valueOf(words[20].trim().toUpperCase()));
                     ticTacToe.setMMR(Integer.parseInt(words[21].trim()));
+
+                    // Setting Fields for last 5 matches
+                    match_history.update(GameType.valueOf(words[22].trim()), words[23].trim());
+                    match_history.update(GameType.valueOf(words[24].trim()), words[25].trim());
+                    match_history.update(GameType.valueOf(words[26].trim()), words[27].trim());
+                    match_history.update(GameType.valueOf(words[28].trim()), words[29].trim());
+                    match_history.update(GameType.valueOf(words[30].trim()), words[31].trim());
+
                 } catch (NumberFormatException e) {
                     System.out.println("Error parsing integer values in line: " + line);
                     e.printStackTrace();
                 } catch (IllegalArgumentException e) {
-                    System.out.println("Error parsing rank in line: " + line);
+                    System.out.println("Error parsing rank or game type in line: " + line);
                     e.printStackTrace();
                 }
 
                 // Adding the Player to the playerCredentials database
-                playerCredentials.put(player.getUsername(), player);
+                playerCredentials.put(player.getUsername().toLowerCase(), player);
             }
         } catch (IOException e) {
             System.out.println("Error reading file: " + fileName);
@@ -181,30 +207,26 @@ public class CredentialsDatabase {
         }
     }
 
-    public boolean updateKey(String oldUsername, String newUsername) {
+    public void updateKey(String oldUsername, String newUsername) {
         String oldKey = oldUsername.toLowerCase();
         String newKey = newUsername.toLowerCase();
 
         // Check if old username exists and new one doesn't
-        if (!playerCredentials.containsKey(oldUsername)){
-            return false;
+        if (!playerCredentials.containsKey(oldKey)) {
+            return;
         }
-        if (playerCredentials.containsKey(newUsername)){
-            return false;
+        if (playerCredentials.containsKey(newKey)) {
+            return;
         }
 
-        // Get the player object
+        // Get and remove the player object from oldKey
         Player player = playerCredentials.remove(oldKey);
 
         // Update the player's username field
-        player.setUsername(newKey);
+        player.setUsername(newUsername); // Store original case if needed
 
-        // Re-insert with the new username as the key
+        // Insert back into the map with the new key
         playerCredentials.put(newKey, player);
-
-        return true;
     }
-
-
 
 }

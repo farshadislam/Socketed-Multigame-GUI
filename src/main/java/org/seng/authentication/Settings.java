@@ -33,17 +33,17 @@ public class Settings {
         this.database = database;
     }
 
-//    /**
-//     * method for deleting account
-//     * @param password the password for the account
-//     * @return true if the account is deleted, false otherwise
-//     */
-//    public boolean deleteAccount(String password){
-//        if (player.getPassword().equals(password)){
-//           return database.deleteExistingPlayer(player.getUsername());
-//        }
-//        return false;
-//    }
+    /**
+     * method for deleting account
+     * @param password the password for the account
+     * @return true if the account is deleted, false otherwise
+     */
+    public boolean deleteAccount(String password){
+        if (player.getPassword().equals(password)){
+           return database.deleteExistingPlayer(player.getUsername());
+        }
+        return false;
+    }
 
     /**
      * method for deleting account
@@ -131,22 +131,6 @@ public class Settings {
         return false;
     }
 
-//    /**
-//     * method for changing password
-//     * @param password current password being used
-//     * @param newPassword new password they want to use
-//     * @return true if the password was changed, false otherwise
-//     */
-//    public boolean changePassword(String password, String newPassword) {
-//        if (player.getPassword().equals(password)) {
-//            if (newPassword != null && !(newPassword.isEmpty()) && verifyPasswordFormat(newPassword)) {
-//                player.setPassword(newPassword);
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-
     /**
      * method for changing password
      * @param newPassword new password they want to use
@@ -169,7 +153,7 @@ public class Settings {
      * @return the login page
      */
     public LoginPage logout(){
-        database.saveDatabase();
+        database.saveDatabase("output.txt");
         return new LoginPage(database);
     }
 
