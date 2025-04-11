@@ -21,4 +21,7 @@ public class TemporaryPlayerStorage {
     public static void removePlayer(String username) {
         unverifiedPlayers.remove(username.toLowerCase());
     }
+    public static void clear() {
+        unverifiedPlayers.clear();
+    }
 }
