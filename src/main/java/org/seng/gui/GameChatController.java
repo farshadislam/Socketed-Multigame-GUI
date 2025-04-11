@@ -60,8 +60,6 @@ public class GameChatController {
         Platform.runLater(() -> addMessage(msg, false));
     }
 
-
-
     @FXML
     public void sendMessage() {
         String text = messageField.getText().trim();

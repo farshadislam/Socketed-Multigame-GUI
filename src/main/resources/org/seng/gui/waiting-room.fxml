@@ -5,23 +5,16 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 
 <StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.seng.gui.WaitingRoomController" styleClass="waiting-room-bg" prefWidth="700" prefHeight="450">
     <BorderPane>
         <!-- HEADER -->
         <top>
-            <VBox alignment="CENTER" spacing="8" styleClass="header-box">
+            <VBox alignment="CENTER" spacing="8">
                 <padding><Insets top="30" bottom="15"/></padding>
-
-                <Label text="WAITING ROOM" styleClass="waiting-title">
-                    <effect><DropShadow color="#000000AA" radius="10" spread="0.2"/></effect>
-                </Label>
-
+                <Label text="WAITING ROOM" styleClass="waiting-title"/>
                 <Label fx:id="gameTypeLabel" text="Game Mode: ..." styleClass="game-mode-label"/>
-
-                <!-- Progress Section -->
                 <StackPane alignment="CENTER">
                     <ProgressBar fx:id="matchProgressBar" prefWidth="320" progress="0.0" styleClass="sleek-progress-bar"/>
                     <Label fx:id="matchTimer" text="00:00" styleClass="progress-time"/>
@@ -29,54 +22,60 @@
             </VBox>
         </top>
 
-        <!-- CENTER: PLAYER CARDS -->
+        <!-- CENTER: PLAYER CARDS + VS -->
         <center>
-            <HBox alignment="CENTER" spacing="60">
-                <!-- PLAYER 1 -->
-                <VBox alignment="CENTER" spacing="10" styleClass="player-card">
-                    <!-- Replace Circle with ImageView for avatar -->
-                    <ImageView fx:id="player1Avatar" fitWidth="90" fitHeight="90" styleClass="player-avatar-image" preserveRatio="true"/>
-                    <Label fx:id="player1Name" text="Player 1" styleClass="player-name"/>
-                    <HBox alignment="CENTER" spacing="6">
-                        <Circle fx:id="player1StatusIndicator" radius="6" styleClass="status-indicator"/>
-                        <Label fx:id="player1Status" text="Loaded" styleClass="status-text"/>
-                    </HBox>
-                    <Label fx:id="player1ReadyStatus" text="Ready: No" styleClass="ready-status"/>
-                </VBox>
+            <VBox alignment="CENTER" spacing="25">
+                <HBox alignment="CENTER" spacing="60">
+                    <!-- PLAYER 1 -->
+                    <VBox alignment="CENTER" spacing="10" styleClass="player-card" prefWidth="200">
+                        <ImageView fx:id="player1Avatar" fitWidth="90" fitHeight="90" styleClass="player-avatar-image" preserveRatio="true" smooth="true"/>
+                        <Label fx:id="player1Name" text="Player 1" styleClass="player-name"/>
+                        <HBox alignment="CENTER" spacing="6">
+                            <Circle fx:id="player1StatusIndicator" radius="6" styleClass="status-indicator"/>
+                            <Label fx:id="player1Status" text="Loaded" styleClass="status-text"/>
+                        </HBox>
+                        <Label fx:id="player1ReadyStatus" text="Ready: No" styleClass="ready-status"/>
+                    </VBox>
 
-                <!-- VS and TIMER -->
-                <VBox alignment="CENTER" spacing="8">
-                    <Label text="VS" styleClass="vs-text"/>
-                </VBox>
+                    <!-- VS Text -->
+                    <VBox alignment="CENTER">
+                        <Label text="VS" styleClass="vs-text"/>
+                    </VBox>
 
-                <!-- PLAYER 2 -->
-                <VBox alignment="CENTER" spacing="10" styleClass="player-card">
-                    <!-- Replace Circle with ImageView for avatar -->
-                    <ImageView fx:id="player2Avatar" fitWidth="90" fitHeight="90" styleClass="player-avatar-image" preserveRatio="true"/>
-                    <Label fx:id="player2Name" text="Player 2" styleClass="player-name"/>
-                    <HBox alignment="CENTER" spacing="6">
-                        <Circle fx:id="player2StatusIndicator" radius="6" styleClass="status-indicator"/>
-                        <Label fx:id="player2Status" text="Waiting..." styleClass="status-text"/>
-                    </HBox>
-                    <Label fx:id="player2ReadyStatus" text="Ready: No" styleClass="ready-status"/>
-                </VBox>
-            </HBox>
+                    <!-- PLAYER 2 -->
+                    <VBox alignment="CENTER" spacing="10" styleClass="player-card" prefWidth="200">
+                        <ImageView fx:id="player2Avatar" fitWidth="90" fitHeight="90" styleClass="player-avatar-image" preserveRatio="true" smooth="true"/>
+                        <Label fx:id="player2Name" text="Player 2" styleClass="player-name"/>
+                        <HBox alignment="CENTER" spacing="6">
+                            <Circle fx:id="player2StatusIndicator" radius="6" styleClass="status-indicator"/>
+                            <Label fx:id="player2Status" text="Waiting..." styleClass="status-text"/>
+                        </HBox>
+                        <Label fx:id="player2ReadyStatus" text="Ready: No" styleClass="ready-status"/>
+                    </VBox>
+                </HBox>
+            </VBox>
         </center>
 
         <!-- BOTTOM ACTIONS -->
+        <!-- BOTTOM ACTIONS -->
+        <!-- BOTTOM ACTIONS -->
         <bottom>
-            <VBox alignment="CENTER" spacing="20">
-                <padding><Insets top="20" bottom="25"/></padding>
+            <VBox alignment="CENTER" spacing="10">
+                <!-- Reduce the bottom padding significantly to pull everything upward -->
+                <padding><Insets top="0" bottom="5"/></padding>
 
+                <!-- Optional: reduce the READY button’s spacing too if you want it tighter -->
                 <Button fx:id="readyButton" text="READY" onAction="#onReadyClicked" styleClass="primary-button"/>
 
                 <Label fx:id="systemMessage" text="Waiting for both players..." styleClass="system-msg"/>
 
                 <HBox alignment="CENTER" spacing="15">
-                    <Button fx:id="chatButton" text="Open Chat" styleClass="secondary-button"/>
+                    <Button fx:id="chatButton" text="Open Chat" onAction="#onOpenChatClicked" styleClass="secondary-button"/>
                     <Button fx:id="leaveButton" text="Leave Match" onAction="#onLeaveClicked" styleClass="danger-button"/>
                 </HBox>
             </VBox>
         </bottom>
+
+
     </BorderPane>
 </StackPane>
