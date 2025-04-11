@@ -66,7 +66,7 @@ public class AIBotConnectFour extends ConnectFourPlayer {
         return new ConnectFourMove(this, column, row);
     }
 
-    private static Chip charToChip(char symbol) {
+    public static Chip charToChip(char symbol) {
         if (symbol == 'b') {
             return Chip.BLUE;
         } else if (symbol == 'y') {
@@ -75,7 +75,7 @@ public class AIBotConnectFour extends ConnectFourPlayer {
         return Chip.EMPTY;
     }
 
-    private static char chipToChar(Chip chip) {
+    public static char chipToChar(Chip chip) {
         if (chip == Chip.BLUE) {
             return 'b';
         } else if (chip == Chip.YELLOW) {

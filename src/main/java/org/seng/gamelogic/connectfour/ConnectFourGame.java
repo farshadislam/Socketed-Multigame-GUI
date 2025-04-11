@@ -1,7 +1,5 @@
 package org.seng.gamelogic.connectfour;
 
-import org.seng.gamelogic.checkers.AIBotCheckers;
-
 import java.util.ArrayList;
 import java.util.List;
 

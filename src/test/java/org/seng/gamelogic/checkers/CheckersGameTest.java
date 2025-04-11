@@ -2,8 +2,6 @@ package org.seng.gamelogic.checkers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.seng.gamelogic.connectfour.ConnectFourBoard;
-import org.seng.gamelogic.connectfour.ConnectFourPlayer;
 
 import java.lang.reflect.Method;
 

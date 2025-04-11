@@ -3,7 +3,6 @@ package org.seng.gamelogic.tictactoe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import org.seng.gamelogic.tictactoe.*;
 
 public class TicTacToeGameTest {
 

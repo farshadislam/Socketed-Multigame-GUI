@@ -1,7 +1,6 @@
 package org.seng.gamelogic.checkers;
 
 import org.seng.authentication.Player;
-import org.seng.gamelogic.checkers.CheckersBoard;
 
 /**
  * Represents a player in a Checkers game.
