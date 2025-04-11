@@ -17,9 +17,16 @@ public class Connect4ControllerTest {
     }
 
     @Test
-    void handleColumnClickTest() {
+    void handleColumnClickTestOne() {
         controller.isPlayerOneTurn = true;
         controller.handleColumnClick(new Button(), 2);
         assertTrue(controller.boardButtons[5][1].getStyle() == "-fx-background-color: #00F0FF;");
+    }
+
+    @Test
+    void handleColumnClickTestTwo() {
+        controller.isPlayerOneTurn = false;
+        controller.handleColumnClick(new Button(), 3);
+        assertTrue(controller.boardButtons[5][2].getStyle() == "-fx-background-color: #da77f2;");
     }
 }
