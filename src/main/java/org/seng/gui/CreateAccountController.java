@@ -30,17 +30,20 @@ public class CreateAccountController {
     @FXML
     private Button reqInfo;
 
-
+    // Called automatically after FXML components are loaded
     @FXML
     public void initialize() {
+        // Set actions for buttons
         registerButton.setOnAction(e -> handleRegistration());
         backButton.setOnAction(e -> returnToLogin());
+
+        // Set focus to the back button on startup
         Platform.runLater(() -> {
             backButton.requestFocus();
         });
     }
 
-
+    // Handles the registration logic, including validation and redirection
     private void handleRegistration() {
         String username = usernameField.getText();
         String email = emailField.getText();
@@ -48,35 +51,47 @@ public class CreateAccountController {
         String confirmPassword = confirmPasswordField.getText();
         boolean hasError = false;
 
+        // Check if passwords match
         if (!password.equals(confirmPassword)) {
             displayPasswordsMatchingError();
             return;
         }
+
+        // Validate password format
         if (!HelloApplication.loginPage.verifyPasswordFormat(password)) {
             displayPasswordsFormatError();
             hasError = true;
         }
-        if (!HelloApplication.loginPage.verifyEmailFormat(email))   {
+
+        // Validate email format
+        if (!HelloApplication.loginPage.verifyEmailFormat(email)) {
             displayEmailFormatError();
             hasError = true;
         }
-        if (!HelloApplication.loginPage.verifyUsernameFormat(username)){
+
+        // Validate username format
+        if (!HelloApplication.loginPage.verifyUsernameFormat(username)) {
             displayUsernameFormatError();
             hasError = true;
         }
-        // If any field has an error, stop the registration process
+
+        // Stop registration if any validation failed
         if (hasError) {
             return;
         }
 
-        LoginPage.State state = HelloApplication.loginPage.register(username,email,password);
+        // Attempt to register the user
+        LoginPage.State state = HelloApplication.loginPage.register(username, email, password);
         System.out.println(state);
-        if(state == LoginPage.State.VERIFICATION_CODE_SENT)   {
+
+        // If registration succeeded, move to verification page
+        if (state == LoginPage.State.VERIFICATION_CODE_SENT) {
             openVerificationPage(username);
         }
     }
 
-    private void displayUsernameFormatError(){
+    // Show error for invalid username format
+    private void displayUsernameFormatError() {
         usernameField.getStyleClass().add("error-prompt");
         usernameField.setPromptText("Please enter a valid username!");
         usernameField.clear();
@@ -89,7 +104,8 @@ public class CreateAccountController {
         pause.play();
     }
 
-    private void displayEmailFormatError(){
+    // Show error for invalid email format
+    private void displayEmailFormatError() {
         emailField.getStyleClass().add("error-prompt");
         emailField.setPromptText("Please enter a valid email!");
         emailField.clear();
@@ -102,6 +118,7 @@ public class CreateAccountController {
         pause.play();
     }
 
+    // Show error for invalid password format
     private void displayPasswordsFormatError() {
         passwordField.getStyleClass().add("error-prompt");
         confirmPasswordField.getStyleClass().add("error-prompt");
@@ -120,6 +137,7 @@ public class CreateAccountController {
         pause.play();
     }
 
+    // Show error if passwords do not match
     private void displayPasswordsMatchingError() {
         passwordField.getStyleClass().add("error-prompt");
         confirmPasswordField.getStyleClass().add("error-prompt");
@@ -138,6 +156,7 @@ public class CreateAccountController {
         pause.play();
     }
 
+    // Navigates back to the welcome (login) page
     private void returnToLogin() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("welcome-page.fxml"));
@@ -148,6 +167,7 @@ public class CreateAccountController {
             stage.setTitle("OMG Platform");
             stage.show();
 
+            // Close current window
             Stage currentStage = (Stage) backButton.getScene().getWindow();
             currentStage.close();
         } catch (IOException ex) {
@@ -155,6 +175,7 @@ public class CreateAccountController {
         }
     }
 
+    // Opens the email verification page after successful registration
     private void openVerificationPage(String username) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("create-account-verification.fxml"));
@@ -163,10 +184,13 @@ public class CreateAccountController {
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setTitle("Verify Your Email");
+
+            // Pass the username to the verification controller
             CreateAccountVerificationController controller = fxmlLoader.getController();
             controller.setUsername(username);
             stage.show();
 
+            // Close current window
             Stage currentStage = (Stage) registerButton.getScene().getWindow();
             currentStage.close();
         } catch (IOException ex) {
@@ -174,6 +198,7 @@ public class CreateAccountController {
         }
     }
 
+    // Displays an alert dialog with input format requirements
     public void reqClick(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Input Requirements");
