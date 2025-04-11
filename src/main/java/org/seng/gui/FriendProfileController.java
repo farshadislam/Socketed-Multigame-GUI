@@ -1,5 +1,6 @@
 package org.seng.gui;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -28,10 +29,11 @@ public class FriendProfileController {
     @FXML private TableColumn<FriendGameStat, String> friendWinsColumn;
     @FXML private TableColumn<FriendGameStat, String> friendLossesColumn;
     @FXML private TableColumn<FriendGameStat, String> friendTiesColumn;
+    @FXML private TableColumn<FriendGameStat, String> friendrankColumn;
+    @FXML private TableColumn<FriendGameStat, String> friendmmrColumn;
 
     @FXML private TableView<FriendGameHistory> friendGameHistoryTable;
     @FXML private TableColumn<FriendGameHistory, String> friendHistoryGameColumn;
-    @FXML private TableColumn<FriendGameHistory, String> friendResultColumn;
     @FXML private TableColumn<FriendGameHistory, String> friendOpponentColumn;
 
     @FXML
@@ -45,13 +47,15 @@ public class FriendProfileController {
 
         backIcon.setOnMouseClicked(event -> goBack());
 
+        // Set up TableColumn for FriendGameStat properties
         friendGameColumn.setCellValueFactory(data -> data.getValue().gameProperty());
-        friendWinsColumn.setCellValueFactory(data -> data.getValue().winsProperty());
-        friendLossesColumn.setCellValueFactory(data -> data.getValue().lossesProperty());
-        friendTiesColumn.setCellValueFactory(data -> data.getValue().tiesProperty());
+        friendWinsColumn.setCellValueFactory(data -> data.getValue().winsProperty().asString());
+        friendLossesColumn.setCellValueFactory(data -> data.getValue().lossesProperty().asString());
+        friendTiesColumn.setCellValueFactory(data -> data.getValue().tiesProperty().asString());
+        friendrankColumn.setCellValueFactory(data -> data.getValue().rankProperty());
+        friendmmrColumn.setCellValueFactory(data -> data.getValue().mmrProperty().asString());
 
         friendHistoryGameColumn.setCellValueFactory(data -> data.getValue().gameProperty());
-        friendResultColumn.setCellValueFactory(data -> data.getValue().resultProperty());
         friendOpponentColumn.setCellValueFactory(data -> data.getValue().opponentProperty());
     }
 
@@ -65,20 +69,17 @@ public class FriendProfileController {
         friendProfileTitleText.setText(name + "'s Profile");
 
         friendGameStatsTable.setItems(FXCollections.observableArrayList(
-//                new ProfilePageController.GameStat("Checkers", String.valueOf(friend.getCheckersStats().getRank()), friend.getCheckersStats().getMMR(), friend.getCheckersStats().getWins(), friend.getCheckersStats().getLosses(), friend.getCheckersStats().get_ties()),
-//                new ProfilePageController.GameStat("Tic Tac Toe", String.valueOf(friend.getTicTacToeStats().getRank()), friend.getTicTacToeStats().getMMR(), friend.getTicTacToeStats().get_wins(), friend.getTicTacToeStats().getLosses(), friend.getTicTacToeStats().get_ties()),
-//                new ProfilePageController.GameStat("Connect 4", String.valueOf(friend.getConnect4Stats().getRank()), friend.getConnect4Stats().getMMR(), friend.getConnect4Stats().get_wins(), friend.getConnect4Stats().getLosses(), friend.getConnect4Stats().get_ties())
-                new FriendGameStat("Checkers", "2", "1", "0"),
-                new FriendGameStat("Tic Tac Toe", "3", "1", "1"),
-                new FriendGameStat("Connect 4", "0", "1", "0")
+                new FriendGameStat("Checkers", String.valueOf(friend.getCheckersStats().getRank()), friend.getCheckersStats().getMMR(), friend.getCheckersStats().getWins(), friend.getCheckersStats().getLosses(), friend.getCheckersStats().get_ties()),
+                new FriendGameStat("Tic Tac Toe", String.valueOf(friend.getTicTacToeStats().getRank()), friend.getTicTacToeStats().getMMR(), friend.getTicTacToeStats().get_wins(), friend.getTicTacToeStats().getLosses(), friend.getTicTacToeStats().get_ties()),
+                new FriendGameStat("Connect 4", String.valueOf(friend.getConnect4Stats().getRank()), friend.getConnect4Stats().getMMR(), friend.getConnect4Stats().get_wins(), friend.getConnect4Stats().getLosses(), friend.getConnect4Stats().get_ties())
         ));
 
         friendGameHistoryTable.setItems(FXCollections.observableArrayList(
-                new FriendGameHistory("Checkers", "Loss", "Online"),
-                new FriendGameHistory("Tic Tac Toe", "Win", "BOT"),
-                new FriendGameHistory("Connect 4", "Tie", "BOT"),
-                new FriendGameHistory("Tic Tac Toe", "Loss", "Online"),
-                new FriendGameHistory("Checkers", "Win", "BOT")
+                new FriendGameHistory(String.valueOf(friend.getLast5MatchesObject().getGameTypeAt(0)), friend.getLast5MatchesObject().getPlayerAt(0)),
+                new FriendGameHistory(String.valueOf(friend.getLast5MatchesObject().getGameTypeAt(1)), friend.getLast5MatchesObject().getPlayerAt(1)),
+                new FriendGameHistory(String.valueOf(friend.getLast5MatchesObject().getGameTypeAt(2)), friend.getLast5MatchesObject().getPlayerAt(2)),
+                new FriendGameHistory(String.valueOf(friend.getLast5MatchesObject().getGameTypeAt(3)), friend.getLast5MatchesObject().getPlayerAt(3)),
+                new FriendGameHistory(String.valueOf(friend.getLast5MatchesObject().getGameTypeAt(4)), friend.getLast5MatchesObject().getPlayerAt(4))
         ));
     }
 
@@ -98,36 +99,43 @@ public class FriendProfileController {
 
     public static class FriendGameStat {
         private final SimpleStringProperty game;
-        private final SimpleStringProperty wins;
-        private final SimpleStringProperty losses;
-        private final SimpleStringProperty ties;
+        private final SimpleIntegerProperty wins;
+        private final SimpleIntegerProperty losses;
+        private final SimpleIntegerProperty ties;
+        private final SimpleStringProperty rank;
+        private final SimpleIntegerProperty mmr;
 
-        public FriendGameStat(String game, String wins, String losses, String ties) {
+        public FriendGameStat(String game, String rank, int mmr, int wins, int losses, int ties) {
             this.game = new SimpleStringProperty(game);
-            this.wins = new SimpleStringProperty(wins);
-            this.losses = new SimpleStringProperty(losses);
-            this.ties = new SimpleStringProperty(ties);
+            this.wins = new SimpleIntegerProperty(wins);
+            this.losses = new SimpleIntegerProperty(losses);
+            this.ties = new SimpleIntegerProperty(ties);
+            this.rank = new SimpleStringProperty(rank);
+            this.mmr = new SimpleIntegerProperty(mmr);
         }
 
         public SimpleStringProperty gameProperty() { return game; }
-        public SimpleStringProperty winsProperty() { return wins; }
-        public SimpleStringProperty lossesProperty() { return losses; }
-        public SimpleStringProperty tiesProperty() { return ties; }
+        public SimpleIntegerProperty winsProperty() { return wins; }
+        public SimpleIntegerProperty lossesProperty() { return losses; }
+        public SimpleIntegerProperty tiesProperty() { return ties; }
+        public SimpleStringProperty rankProperty() {
+            return rank;
+        }
+        public SimpleIntegerProperty mmrProperty() {
+            return mmr;
+        }
     }
 
     public static class FriendGameHistory {
         private final SimpleStringProperty game;
-        private final SimpleStringProperty result;
         private final SimpleStringProperty opponent;
 
-        public FriendGameHistory(String game, String result, String opponent) {
+        public FriendGameHistory(String game, String opponent) {
             this.game = new SimpleStringProperty(game);
-            this.result = new SimpleStringProperty(result);
             this.opponent = new SimpleStringProperty(opponent);
         }
 
         public SimpleStringProperty gameProperty() { return game; }
-        public SimpleStringProperty resultProperty() { return result; }
         public SimpleStringProperty opponentProperty() { return opponent; }
     }
 }

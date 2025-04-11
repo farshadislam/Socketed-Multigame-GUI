@@ -56,6 +56,8 @@
             <TableView fx:id="friendGameStatsTable" prefHeight="120">
                 <columns>
                     <TableColumn fx:id="friendGameColumn" text="Game" />
+                    <TableColumn fx:id="friendrankColumn" text="Rank" />
+                    <TableColumn fx:id="friendmmrColumn" text="MMR" />
                     <TableColumn fx:id="friendWinsColumn" text="Wins" />
                     <TableColumn fx:id="friendLossesColumn" text="Losses" />
                     <TableColumn fx:id="friendTiesColumn" text="Ties" />
@@ -66,7 +68,6 @@
             <TableView fx:id="friendGameHistoryTable" prefHeight="150.0" prefWidth="680.0">
                 <columns>
                     <TableColumn fx:id="friendHistoryGameColumn" text="Game" />
-                    <TableColumn fx:id="friendResultColumn" text="Result" />
                     <TableColumn fx:id="friendOpponentColumn" text="Opponent Type" />
                 </columns>
             </TableView>

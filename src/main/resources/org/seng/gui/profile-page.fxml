@@ -35,10 +35,10 @@
             </HBox>
 
             <HBox spacing="15">
-                <Label fx:id="myWinsLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label fx:id="myLossesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label fx:id="myTiesLabel" style="-fx-text-fill: #1d0e4d;" text="0" />
-                <Label fx:id="myTotalGamesLabel" />
+                <Label fx:id="myTotalGamesLabel" text="Total Matches:" />
+                <Label fx:id="myWinsLabel" style="-fx-text-fill: #1d0e4d;" text="Wins:" />
+                <Label fx:id="myLossesLabel" style="-fx-text-fill: #1d0e4d;" text="Losses:" />
+                <Label fx:id="myTiesLabel" style="-fx-text-fill: #1d0e4d;" text="Ties:" />
             </HBox>
 
             <Label text="Game Stats" style="-fx-font-weight: bold;" />
@@ -57,7 +57,6 @@
             <TableView fx:id="gameHistoryTable" prefHeight="150">
                 <columns>
                     <TableColumn fx:id="historyGameColumn" text="Game" />
-                    <TableColumn fx:id="resultColumn" text="Result" />
                     <TableColumn fx:id="opponentColumn" text="Opponent Type" />
                 </columns>
             </TableView>

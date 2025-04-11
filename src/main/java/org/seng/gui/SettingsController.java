@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,7 +31,10 @@ public class SettingsController {
     private Label contentTitle, usernameError, emailError, passwordError;
 
     @FXML
-    private TextField usernameField, emailField;
+    private TextField usernameField;
+
+    @FXML
+    private TextField emailField;
 
     @FXML
     private VBox manageAccountArea, networkConnectivityArea;
@@ -174,6 +178,8 @@ public class SettingsController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        setting.changeEmail(emailField.getText());
+        System.out.println(player.getEmail());
     }
 
     @FXML
@@ -287,6 +293,7 @@ public class SettingsController {
                 ex.printStackTrace();
             }
         }
+        database.saveDatabase();
     }
 
     @FXML
@@ -295,8 +302,6 @@ public class SettingsController {
         alert.setTitle("Delete Account");
         alert.setHeaderText("Are you sure you want to delete your account?");
         alert.setContentText("This action cannot be undone.");
-        setting.deleteAccount();
-        database.saveDatabase();
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
@@ -319,5 +324,7 @@ public class SettingsController {
                 }
             }
         });
+        setting.deleteAccount();
+        database.saveDatabase();
     }
 }
