@@ -6,9 +6,8 @@ import org.seng.authentication.Player;
 import java.io.*;
 import java.net.Socket;
 
-// this class handles a single client connection in the multiplayer game server.
-// it receives and processes messages from a client (such as readiness, moves, etc.)
-// and, when appropriate, it forwards messages (for example, move commands) to the opponent.
+// this class handles a single client connection in the game server
+// it receives and processes messages from a client
 public class SocketGameHandler implements Runnable {
 
     // this is the socket connection with the client
@@ -31,7 +30,7 @@ public class SocketGameHandler implements Runnable {
     // this tracks if the client is closed by sending the target message
     private boolean waitingRoomClosed = false;
 
-    // this constructor sets up the socket connection and I/O streams and stores the player's name.
+    // this constructor sets up the socket connection and I/O streams and stores the playerss name
     public SocketGameHandler(Socket socket, String playerName) throws IOException {
         this.socket = socket;
         this.playerName = playerName;
@@ -39,7 +38,7 @@ public class SocketGameHandler implements Runnable {
         this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
     }
 
-    // this sets the opponents SocketGameHandler when players are matched.
+    // this sets the opponents SocketGameHandler when players are matched
     public void setOpponent(SocketGameHandler opponent) {
         this.opponent = opponent;
     }
@@ -109,7 +108,7 @@ public class SocketGameHandler implements Runnable {
             while ((line = in.readLine()) != null) {
                 System.out.println("[DEBUG SERVER] " + playerName + " says: " + line);
 
-                // this marks the it as raady and notifies the opponent if the client sends ready
+                // this marks  it as raady and notifies the opponent if the client sends ready
                 if (line.equalsIgnoreCase("READY")) {
                     setReady(true);
                     System.out.println("[DEBUG SERVER] " + playerName + " is now ready.");
@@ -134,14 +133,13 @@ public class SocketGameHandler implements Runnable {
                 // this forwards tic-tac-toe messages, to both clients if both waiting rooms have been closed
                 else if (line.startsWith("MOVE:TICTACTOE:")) {
                     if (opponent != null) {
-                        if (this.isWaitingRoomClosed() && opponent.isWaitingRoomClosed()) {
-                            System.out.println("[DEBUG SERVER] Forwarding move: " + line + " to opponent of " + playerName);
-                            opponent.sendMessage(line);
-                        } else {
-                            System.out.println("[DEBUG SERVER] Received move but waiting room not closed on both ends. Ignoring move: " + line);
-                        }
+                        System.out.println("[DEBUG SERVER] Forwarding move: " + line + " to opponent of " + playerName);
+                        opponent.sendMessage(line);
+                    } else {
+                        System.out.println("[DEBUG SERVER] No opponent found for move: " + line);
                     }
                 }
+
                 // these are for any other messages
                 else {
                     if (opponent != null) {
@@ -153,7 +151,7 @@ public class SocketGameHandler implements Runnable {
         } catch (IOException e) {
             System.err.println("[DEBUG SERVER] Connection error with " + playerName + ": " + e.getMessage());
         } finally {
-            // this disconnects the player using the NetworkingManager
+            // this disconnects the player using the networkingManager
             NetworkingManager.getInstance().disconnectPlayer(playerName);
         }
     }
