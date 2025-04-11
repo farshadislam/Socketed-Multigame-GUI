@@ -34,8 +34,8 @@ public class Connect4Controller {
     private ScaleTransition player1Pulse;
     private ScaleTransition player2Pulse;
     private final String CHAT_LOG_PATH = "chatlog.txt";
-    private boolean isPlayerOneTurn = true;
-    private Button[][] boardButtons = new Button[ROWS][COLS];
+    public boolean isPlayerOneTurn = true;
+    public Button[][] boardButtons = new Button[ROWS][COLS];
     private boolean AIBot;
     private Timeline timeline;
     public void setAIBot(boolean AIBot) {
@@ -210,7 +210,7 @@ public class Connect4Controller {
         alert.showAndWait();
     }
 
-    private void handleColumnClick(Button button, int col) {
+    public void handleColumnClick(Button button, int col) {
         if (timeline != null) {
             timeline.stop();
         }
