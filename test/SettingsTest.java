@@ -302,4 +302,18 @@ public class SettingsTest {
         assertEquals("updated@email.com", player.getEmail());
     }
 
+    //invalid code format
+    @Test
+    public void testVerifyCodeInvalidFormat(){
+        player.setVerificationCode("1234");
+        assertFalse(settings.verifyEmailCodeForNewEmail("updated@email.com", "abcd"));
+    }
+
+    @Test
+    public void testVerifyCodeInalidFormat2(){
+        player.setVerificationCode("1234");
+        assertFalse(settings.verifyEmailCodeForNewEmail("updated@email.com", "123"));
+    }
+
+
 }
