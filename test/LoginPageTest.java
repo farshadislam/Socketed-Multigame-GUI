@@ -12,6 +12,7 @@ public class LoginPageTest {
     public void setUp() {
         database = new CredentialsDatabase(); // creates a fresh, clean database each time
         loginPage = new LoginPage(database);
+        TemporaryPlayerStorage.clear();
     }
 
     //Correct username and password
@@ -297,5 +298,31 @@ public class LoginPageTest {
         boolean result = loginPage.changePassword("player1", "wrongpassword", "newpassword");
         assertFalse(result);
     }
+
+    //Accepting any 4 digit code
+    @Test
+    public void verifyEmailCodeForRegisterTest1(){
+        loginPage.register("varisha","useless101@gmail.com","ilovehamna");
+        boolean result = loginPage.verifyEmailCodeForRegister("varisha", "1234");
+        assertTrue(result);
+    }
+
+    //Player is null
+    @Test
+    public void verifyEmailCodeForRegisterTest2(){
+        boolean result = loginPage.verifyEmailCodeForRegister("player1", "1234");
+        assertFalse(result);
+    }
+
+    //Entering the correct verification code
+    @Test
+    public void verifyEmailCodeForRegisterTest3() {
+        loginPage.register("varisha", "useless101@gmail.com", "ilovehamna");
+        Player player = TemporaryPlayerStorage.getPlayer("varisha");
+        String code = player.getVerificationCode();
+        boolean result = loginPage.verifyEmailCodeForRegister("varisha", code);
+        assertTrue(result);
+    }
+
 
 }

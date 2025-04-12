@@ -9,8 +9,12 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
+import org.seng.authentication.Player;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.seng.gui.HelloApplication.database;
 
 public class SearchProfileController {
 
@@ -24,21 +28,24 @@ public class SearchProfileController {
     private ImageView backIcon;
 
 
-    private final List<String> allProfiles = new ArrayList<String>() {{
-        add("JoyThief22");
-        add("FishEnjoyer2");
-        add("notAMinor66");
-    }};
+    private final List<String> AllProfiles = new ArrayList<String>();
+
+    public void transferPlayersToAllProfiles(List<String> AllProfiles) {
+        for (String key : database.getPlayerCredentials().keySet()) {
+            AllProfiles.add(key);
+        }
+    }
 
     @FXML
-    public void initialize() {
+    public void initialize(){
+        transferPlayersToAllProfiles(AllProfiles);
         resultsList.setItems(FXCollections.observableArrayList());
         searchField.textProperty().addListener((obs, oldText, newText) -> {
             if (newText == null || newText.trim().isEmpty()) {
                 resultsList.setItems(FXCollections.observableArrayList());
             } else {
                 List<String> matches = new ArrayList<>();
-                for (String name : allProfiles) {
+                for (String name : AllProfiles) {
                     if (name.toLowerCase().contains(newText.toLowerCase().trim())) {
                         matches.add(name);
                     }
@@ -61,15 +68,16 @@ public class SearchProfileController {
     }
     private void openProfile() {
         String selected = resultsList.getSelectionModel().getSelectedItem();
+        Player friend = database.findPlayerByUsername(selected);
         if (selected != null) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("friend-profile.fxml"));
                 Parent root = loader.load();
 
                 FriendProfileController controller = loader.getController();
-                controller.setProfileData(selected, "Last Online: 2 hours ago", 3, 2, 0);
+                controller.setProfileData(selected, "Last Online: 2 hours ago", friend.getTotalWins(), friend.getTotalLosses(), friend.getTotalTies(), friend);
 
-                Scene scene = new Scene(root, 700, 550);
+                Scene scene = new Scene(root, 700, 450);
                 scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
 
                 Stage stage = (Stage) viewProfileButton.getScene().getWindow();
@@ -85,12 +93,11 @@ public class SearchProfileController {
 
         private void goBack () {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("profile-page.fxml"));
-                Scene scene = new Scene(loader.load(), 700, 550);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("game-dashboard.fxml"));
+                Scene scene = new Scene(loader.load(), 700, 450);
                 scene.getStylesheets().add(getClass().getResource("basic-styles.css").toExternalForm());
 
                 Stage stage = (Stage) backIcon.getScene().getWindow();
-                stage.setTitle("Your Profile");
                 stage.setScene(scene);
                 stage.show();
             } catch (Exception ex) {

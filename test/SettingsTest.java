@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.seng.authentication.CredentialsDatabase;
+import org.seng.authentication.LoginPage;
 import org.seng.authentication.Player;
 import org.seng.authentication.Settings;
 import org.seng.leaderboard_matchmaking.checkersStats;
@@ -127,6 +128,13 @@ public class SettingsTest {
         assertFalse(settings.changeUsername("new user"));
     }
 
+    @Test
+    public void testChangeUsername13(){
+        database.addNewPlayer("newUser", player);
+        assertTrue(settings.changeUsername("new_user.name"));
+    }
+
+
     // valid email
     @Test
     public void testChangeEmail1(){
@@ -221,11 +229,11 @@ public class SettingsTest {
         assertFalse(settings.changePassword(""));
     }
 
-//    // wrong password
-//    @Test
-//    public void testChangePassword6(){
-//        assertTrue(settings.changePassword("heysoulsister"));
-//    }
+    // wrong password
+    @Test
+    public void testChangePassword6(){
+        assertTrue(settings.changePassword("heysoulsister"));
+    }
 
     // both empty password
     @Test
@@ -234,33 +242,33 @@ public class SettingsTest {
     }
 
 
-//    // player deleted
-//    @Test
-//    public void deleteAccount1(){
-//        database.addNewPlayer(player.getUsername(), player);
-//        assertTrue(settings.deleteAccount("passWORD"));
-//    }
-//
-//    // player not deleted (wrong password)
-//    @Test
-//    public void deleteAccount2(){
-//        database.addNewPlayer("newUser", player);
-//        assertFalse(settings.deleteAccount("password"));
-//    }
-//
-//    // player not exists
-//    @Test
-//    public void deleteAccount3(){
-//        assertFalse(settings.deleteAccount("password"));
-//    }
-//
-//    // player already deleted
-//    @Test
-//    public void deleteAccount4(){
-//        database.addNewPlayer(player.getUsername(), player);
-//        settings.deleteAccount("passWORD");
-//        assertFalse(settings.deleteAccount("passWORD"));
-//    }
+    // player deleted
+    @Test
+    public void deleteAccount1(){
+        database.addNewPlayer(player.getUsername(), player);
+        assertTrue(settings.deleteAccount("passWORD"));
+    }
+
+    // player not deleted (wrong password)
+    @Test
+    public void deleteAccount2(){
+        database.addNewPlayer("newUser", player);
+        assertFalse(settings.deleteAccount("password"));
+    }
+
+    // player not exists
+    @Test
+    public void deleteAccount3(){
+        assertFalse(settings.deleteAccount("password"));
+    }
+
+    // player already deleted
+    @Test
+    public void deleteAccount4(){
+        database.addNewPlayer(player.getUsername(), player);
+        settings.deleteAccount("passWORD");
+        assertFalse(settings.deleteAccount("passWORD"));
+    }
 
     // setter and getter for TicTacToeStats
     @Test
@@ -286,5 +294,86 @@ public class SettingsTest {
         assertEquals(connect4, player.getConnect4Stats());
     }
 
+    // valid email code
+    @Test
+    void testVerifyEmailCodeForNewEmail1() {
+        String oldEmail = "oldEmail@example.com";
+        String newEmail = "newEmail@example.com";
+        String verificationCode = "1234";
 
+        player.setEmail(oldEmail);
+        player.setVerificationCode("1234");
+
+        boolean result = settings.verifyEmailCodeForNewEmail(newEmail, verificationCode);
+        assertTrue(result);
+        assertEquals(newEmail.toLowerCase(), player.getEmail());
+    }
+
+    // invalid email code
+    @Test
+    void testVerifyEmailCodeForNewEmail2() {
+        String oldEmail = "oldEmail@example.com";
+        String newEmail = "newEmail@example.com";
+        String verificationCode = "abcd";
+
+        player.setEmail(oldEmail);
+        player.setVerificationCode("1234");
+
+        boolean result = settings.verifyEmailCodeForNewEmail(newEmail, verificationCode);
+        assertFalse(result);
+        assertEquals(oldEmail.toLowerCase(), player.getEmail());
+    }
+
+    // invalid email code too short
+    @Test
+    void testVerifyEmailCodeForNewEmail3() {
+        String oldEmail = "oldEmail@example.com";
+        String newEmail = "newEmail@example.com";
+        String verificationCode = "12";
+
+        player.setEmail(oldEmail);
+        player.setVerificationCode("1234");
+
+        boolean result = settings.verifyEmailCodeForNewEmail(newEmail, verificationCode);
+        assertFalse(result);
+        assertEquals(oldEmail.toLowerCase(), player.getEmail());
+    }
+
+    // deleting an account
+    @Test
+    public void testDeleteAccount(){
+        database.addNewPlayer(player.getUsername(), player);
+        assertTrue(settings.deleteAccount());
+        assertFalse(database.usernameLookup(player.getUsername()));
+    }
+
+    // verifying the code for new emails
+    @Test
+    public void testVerifyCodeForNewEmail(){
+        player.setVerificationCode("1234");
+        assertTrue(settings.verifyEmailCodeForNewEmail("updated@email.com", "1234"));
+        assertEquals("updated@email.com", player.getEmail());
+    }
+
+    //invalid code format
+    @Test
+    public void testVerifyCodeInvalidFormat(){
+        player.setVerificationCode("1234");
+        assertFalse(settings.verifyEmailCodeForNewEmail("updated@email.com", "abcd"));
+    }
+
+    @Test
+    public void testVerifyCodeInalidFormat2(){
+        player.setVerificationCode("1234");
+        assertFalse(settings.verifyEmailCodeForNewEmail("updated@email.com", "123"));
+    }
+
+    @Test
+    public void logoutTest(){
+        LoginPage newLogin = settings.logout();
+
+        assertTrue(database.wasSaved);
+        assertNotNull(newLogin);
+    }
 }
+

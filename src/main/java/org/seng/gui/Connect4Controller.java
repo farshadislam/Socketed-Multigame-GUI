@@ -1,8 +1,6 @@
 package org.seng.gui;
 
-import javafx.animation.KeyFrame;
 import javafx.animation.ScaleTransition;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -19,31 +17,24 @@ import javafx.util.Duration;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class Connect4Controller {
     @FXML private FlowPane board;
     @FXML private Label player1Label;
     @FXML private Label player2Label;
-    @FXML private Label timerLabel;
 
     private static final int ROWS = 6;
     private static final int COLS = 7;
     private ScaleTransition player1Pulse;
     private ScaleTransition player2Pulse;
     private final String CHAT_LOG_PATH = "chatlog.txt";
-    public boolean isPlayerOneTurn = true;
-    public Button[][] boardButtons = new Button[ROWS][COLS];
-    private boolean AIBot;
-    private Timeline timeline;
-    private Timeline countdownTimeline;
-    public void setAIBot(boolean AIBot) {
-        this.AIBot = AIBot;
-    }
-
+    private boolean isPlayerOneTurn = true;
+    private Button[][] boardButtons = new Button[ROWS][COLS];
 
     @FXML
     public void initialize() {
@@ -53,25 +44,12 @@ public class Connect4Controller {
                 Button btn = (Button) board.getChildren().get(buttonIndex++);
                 int finalCol = col;
                 boardButtons[row][col] = btn;
-                btn.setOnAction(e -> handleColumnClick(btn, finalCol));
+                btn.setOnAction(e -> handleColumnClick(finalCol));
             }
         }
         clearChatHistory();
-        player1Label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
-        player2Label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
-
-        // Stop any ongoing pulse animations
-        stopPulse(player1Pulse);
-        stopPulse(player2Pulse);
-        player1Label.setScaleX(1);
-        player1Label.setScaleY(1);
-        player2Label.setScaleX(1);
-        player2Label.setScaleY(1);
-
-        player1Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #00F0FF;");
-        player1Pulse = applyPulseAnimation(player1Label);
+        updatePlayerTurnIndicator();
     }
-
     @FXML
     private void handleQuit() {
         Stage dialogStage = new Stage();
@@ -85,12 +63,6 @@ public class Connect4Controller {
         Button noButton = new Button("No");
 
         yesButton.setOnAction(e -> {
-            if (timeline != null) {
-                timeline.stop();
-            }
-            if (countdownTimeline != null) {
-                countdownTimeline.stop();
-            }
             dialogStage.close();
             openToGameDashboard();
         });
@@ -102,10 +74,10 @@ public class Connect4Controller {
         VBox layout = new VBox(15, message, buttons);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
-        layout.getStyleClass().add("quit-background"); //
+        layout.getStyleClass().add("quit-background"); // ⭐ Add style class
 
         Scene scene = new Scene(layout, 300, 150);
-        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); //
+        scene.getStylesheets().add(getClass().getResource("connectfourstyles.css").toExternalForm()); // ⭐ Load your CSS
 
         dialogStage.setScene(scene);
 
@@ -218,100 +190,28 @@ public class Connect4Controller {
         alert.showAndWait();
     }
 
-    public void handleColumnClick(Button button, int col) {
-        if (timeline != null) {
-            timeline.stop();
-        }
+    private void handleColumnClick(int col) {
         for (int row = ROWS - 1; row >= 0; row--) {
             Button cell = boardButtons[row][col];
             if (cell.getStyle().isEmpty()) {
                 if (isPlayerOneTurn) {
                     cell.setStyle("-fx-background-color: #00F0FF;"); // Cyan
-                    if (checkWinner(row, col)) {
-                        checkWin(cell);
-                        return;
-                    }
-                    if (boardFull()) {
-                        checkTie(cell);
-                        return;
-                    }
                 } else {
                     cell.setStyle("-fx-background-color: #da77f2;"); // Yellow
-                    if (checkWinner(row, col)) { // winningPage.fxml connected
-                        checkWin(cell);
-                        return;
-                    }
-                    if (boardFull()) {
-                        checkTie(cell);
-                        return;
-                    }
                 }
                 isPlayerOneTurn = !isPlayerOneTurn; // Switch turns
-                updatePlayerTurnIndicator(button);
-
-                if (!isPlayerOneTurn && AIBot) {
-                    new Thread(() -> {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException ignored) {}
-                        javafx.application.Platform.runLater(this::makeAIMove);
-                    }).start();
-                }
+                updatePlayerTurnIndicator();
                 break;
             }
         }
     }
 
-    private void checkWin(Button sourceButton) {
-        try {
-            FXMLLoader fxmlLoader;
-            Scene scene;
-            if (AIBot) {
-                if (isPlayerOneTurn) {
-                    fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
-                } else {
-                    fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
-                }
-            } else {
-                fxmlLoader = new FXMLLoader(getClass().getResource("winningPage.fxml"));
-            }
-
-            scene = new Scene(fxmlLoader.load(), 700, 450);
-            scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
-
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("OMG Platform");
-            stage.show();
-
-            Stage currentStage = (Stage) sourceButton.getScene().getWindow();
-            currentStage.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void checkTie(Button tieButton){
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("tiePage.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 700, 450);
-            scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("OMG Platform");
-            stage.show();
-
-            Stage currentStage = (Stage) tieButton.getScene().getWindow();
-            currentStage.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void updatePlayerTurnIndicator(Button button) {
-        // Reset label styles
+    private void updatePlayerTurnIndicator() {
+        // Reset styles
         player1Label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
         player2Label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+
+        // Stop any ongoing pulse animations
         stopPulse(player1Pulse);
         stopPulse(player2Pulse);
         player1Label.setScaleX(1);
@@ -319,55 +219,14 @@ public class Connect4Controller {
         player2Label.setScaleX(1);
         player2Label.setScaleY(1);
 
-        // Highlight active player
+        // Set style + pulse for current player's turn
         if (isPlayerOneTurn) {
-            player1Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #00F0FF; -fx-font-weight: bold");
+            player1Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #00F0FF;");
             player1Pulse = applyPulseAnimation(player1Label);
         } else {
-            player2Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #00F0FF; -fx-font-weight: bold");
+            player2Label.setStyle("-fx-font-size: 24px; -fx-text-fill: #da77f2;");
             player2Pulse = applyPulseAnimation(player2Label);
         }
-
-        // Stop existing timers
-        if (timeline != null) {
-            timeline.stop();
-        }
-        if (countdownTimeline != null) {
-            countdownTimeline.stop();
-        }
-
-        // Countdown display
-        final int[] timeLeft = {10};
-        timerLabel.setText("Time: " + timeLeft[0]);
-
-        // Main timer: trigger loss after 10s
-        timeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("losingPage.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 700, 450);
-                scene.getStylesheets().add(getClass().getResource("checkerstyles.css").toExternalForm());
-
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.setTitle("OMG Platform");
-                stage.show();
-
-                Stage currentStage = (Stage) button.getScene().getWindow();
-                currentStage.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }));
-        timeline.setCycleCount(1);
-        timeline.play();
-
-        // Countdown updater: update label each second
-        countdownTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            timeLeft[0]--;
-            timerLabel.setText("Time: " + timeLeft[0]);
-        }));
-        countdownTimeline.setCycleCount(10);
-        countdownTimeline.play();
     }
 
     private ScaleTransition applyPulseAnimation(Label label) {
@@ -395,106 +254,5 @@ public class Connect4Controller {
             e.printStackTrace();
         }
     }
-
-    public boolean checkWinner(int row, int col) {
-        for (int i = 0; i < ROWS; i++) { //make sure i and j are within the borders of the board
-            for (int j = 0; j < COLS; j++) {
-                Button cell = boardButtons[row][col];
-                if (cell.getStyle().isEmpty()) {
-                    continue; //in case its empty
-                }
-                //this is just error protection, if teh board is a 4x4 for example i dont want to try to access a position 5 or something (probably a better way to do this)
-                if (j + 3 < COLS && cell.getStyle() == boardButtons[i][j].getStyle() &&
-                        cell.getStyle() == boardButtons[i][j+1].getStyle() && cell.getStyle() == boardButtons[i][j+2].getStyle() &&  cell.getStyle() == boardButtons[i][j+3].getStyle()) {
-                    return true;
-                }
-
-                // error checking for row
-                if (i + 3 < ROWS && cell.getStyle() == boardButtons[i][j].getStyle() &&
-                        cell.getStyle() == boardButtons[i+1][j].getStyle() &&  cell.getStyle() == boardButtons[i+2][j].getStyle() && cell.getStyle() == boardButtons[i+3][j].getStyle()) {
-                    return true;
-                }
-
-                //error checking for diagonal (topleft-bottomright)
-                if (i + 3 < ROWS && j + 3 < COLS && cell.getStyle() == boardButtons[i][j].getStyle()
-                        && cell.getStyle() == boardButtons[i+1][j+1].getStyle() && cell.getStyle() == boardButtons[i+2][j+2].getStyle() && cell.getStyle() == boardButtons[i+3][j+3].getStyle()) {
-                    return true;
-                }
-
-                // error checking for diagonal (topright-bottomleft)
-                if (i + 3 < ROWS && j - 3 >= 0  && cell.getStyle() == boardButtons[i][j].getStyle()
-                        && cell.getStyle() == boardButtons[i+1][j-1].getStyle() &&  cell.getStyle() == boardButtons[i+2][j-2].getStyle() && cell.getStyle() == boardButtons[i+3][j-3].getStyle()) {
-                    return true;
-                }
-            }
-        }
-        return false; // no winner found
-    }
-
-    public boolean boardFull() {
-        for (int rowCounter = 0; rowCounter < ROWS; rowCounter++) {
-            for (int colCounter = 0; colCounter < COLS; colCounter++) {
-                if (boardButtons[rowCounter][colCounter].getStyle().isEmpty()) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private void makeAIMove() {
-        Integer column = findNextMove();
-        if (column != null) {
-            handleColumnClick(boardButtons[0][column], column);
-        }
-    }
-
-    private Integer findNextMove() {
-        List<Integer> availableColumns = new ArrayList<>();
-        for (int col = 0; col < COLS; col++) {
-            if (boardButtons[0][col].getStyle().isEmpty()) { // top cell = empty means column is available
-                availableColumns.add(col);
-            }
-        }
-
-        if (availableColumns.isEmpty()) {
-            return null;
-        }
-
-        return availableColumns.get((int) (Math.random() * availableColumns.size())); // Pick a random column
-    }
-
-/*    public boolean AIBotMove() {
-        if (this.board != board) {
-            System.out.println("Board mismatch");
-            return false;
-        }
-        if (game == null || game.currentPlayer != this) {
-            return false;
-        }
-
-        Integer column = findNextMove(board);
-        if (column != null) {
-            if (board.dropPiece(column, this)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Integer findNextMove() {
-        List<Integer> availableColumns = new ArrayList<>();
-        for (int col = 0; col < ConnectFourBoard.COL_COUNT; col++) {
-            if (!board.columnFull(col)) {
-                availableColumns.add(col);
-            }
-        }
-
-        if (availableColumns.isEmpty()) {
-            return null;
-        }
-
-        return availableColumns.get(random.nextInt(availableColumns.size()));
-    }*/
 }
 

@@ -1,3 +1,0 @@
-Hani,hamna@gmail.com,hamna1234,B,10,0,10,0,BRONZE,8,20,0,20,0,BRONZE,2,15,0,15,0,BRONZE,8
-Maham,maham@gmail.com,maham1234,Y,4,4,0,0,GOLD,3,3,3,0,0,GOLD,2,2,2,0,0,GOLD,2
-Wissal,wissal@gmail.com,wissal1234,O,4,4,0,0,GOLD,3,3,3,0,0,GOLD,2,2,2,0,0,GOLD,2

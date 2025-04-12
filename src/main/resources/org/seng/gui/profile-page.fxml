@@ -8,7 +8,7 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.seng.gui.ProfilePageController"
-            prefWidth="700" prefHeight="800"
+            prefWidth="700" prefHeight="700"
             styleClass="gradient-background">
 
     <children>
@@ -29,37 +29,34 @@
                 </StackPane>
 
                 <VBox spacing="5">
-                    <Label fx:id="usernameLabel" style="-fx-font-size: 18px; -fx-font-weight: bold" textFill="white" />
-                    <Label fx:id="lastOnlineLabel" textFill="white" />
+                    <Label fx:id="usernameLabel" style="-fx-font-size: 18px;" />
+                    <Label fx:id="lastOnlineLabel" />
                 </VBox>
             </HBox>
 
             <HBox spacing="15">
-                <Label text="Total Matches:" textFill="white" style="-fx-font-weight: bold" />
-                <Label fx:id="myTotalGamesLabel" textFill="white"/>
-                <Label text="Wins:" textFill="white" style="-fx-font-weight: bold"/>
-                <Label fx:id="myWinsLabel" textFill="white"/>
-                <Label text="Losses:" textFill="white" style="-fx-font-weight: bold"/>
-                <Label fx:id="myLossesLabel" textFill="white"/>
-                <Label text="Ties:" textFill="white" style="-fx-font-weight: bold"/>
-                <Label fx:id="myTiesLabel" textFill="white"/>
+                <Label fx:id="myTotalGamesLabel" text="Total Matches:" />
+                <Label fx:id="myWinsLabel" style="-fx-text-fill: #1d0e4d;" text="Wins:" />
+                <Label fx:id="myLossesLabel" style="-fx-text-fill: #1d0e4d;" text="Losses:" />
+                <Label fx:id="myTiesLabel" style="-fx-text-fill: #1d0e4d;" text="Ties:" />
             </HBox>
 
-            <Label text="Game Stats" style="-fx-font-weight: bold;" textFill="white"/>
+            <Label text="Game Stats" style="-fx-font-weight: bold;" />
             <TableView fx:id="gameStatsTable" prefHeight="120">
                 <columns>
-                    <TableColumn fx:id="gameColumn" text="Game" />
-                    <TableColumn fx:id="winsColumn" text="Wins" />
-                    <TableColumn fx:id="lossesColumn" text="Losses" />
-                    <TableColumn fx:id="tiesColumn" text="Ties" />
+                    <TableColumn fx:id="gameColumn" prefWidth="180" text="Game" />
+                    <TableColumn fx:id="rankColumn" prefWidth="100" text="Rank" />
+                    <TableColumn fx:id="mmrColumn" prefWidth="100" text="MMR" />
+                    <TableColumn fx:id="winsColumn" prefWidth="100" text="Wins" />
+                    <TableColumn fx:id="lossesColumn" prefWidth="100" text="Losses" />
+                    <TableColumn fx:id="tiesColumn" prefWidth="100" text="Ties" />
                 </columns>
             </TableView>
 
-            <Label text="Game History" style="-fx-font-weight: bold;" textFill="white"/>
+            <Label text="Game History" style="-fx-font-weight: bold;" />
             <TableView fx:id="gameHistoryTable" prefHeight="150">
                 <columns>
                     <TableColumn fx:id="historyGameColumn" text="Game" />
-                    <TableColumn fx:id="resultColumn" text="Result" />
                     <TableColumn fx:id="opponentColumn" text="Opponent Type" />
                 </columns>
             </TableView>

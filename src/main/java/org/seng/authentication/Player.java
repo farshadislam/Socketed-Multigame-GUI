@@ -1,10 +1,9 @@
 package org.seng.authentication;
-import org.seng.networking.Match;
+import javafx.css.Match;
 import org.seng.leaderboard_matchmaking.*;
 import org.seng.leaderboard_matchmaking.Rank;
 import org.seng.leaderboard_matchmaking.GameType;
 import org.seng.leaderboard_matchmaking.Last5Matches;
-import org.seng.networking.SocketGameHandler;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,8 +18,6 @@ public class Player {
     private checkersStats CheckersStats;
     private String verificationCode;
     private Last5Matches last5Matches;
-    private SocketGameHandler socketHandler;
-    private Match currentMatch;
 
     /**
      * Constructor that also sets initial wins for each game.
@@ -154,25 +151,5 @@ public class Player {
         // cast object into Player object and compare
         return Objects.equals(username, player.username) && Objects.equals(email, player.email);
     }
-
-    public void setSocketHandler(SocketGameHandler handler) {
-        this.socketHandler = handler;
-    }
-
-    public SocketGameHandler getSocketHandler() {
-        return socketHandler;
-
-    }
-    public Match getCurrentMatch() {
-        return currentMatch;
-    }
-
-    public void setCurrentMatch(Match match) {
-        this.currentMatch = match;
-    }
-
-
-
-
 }
 
