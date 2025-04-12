@@ -270,4 +270,133 @@ public class SocketGameHandlerTest {
         opponentClient.close();
         opponentServer.close();
     }
+    @Test
+    void testForwardMessageToOpponent() throws Exception {
+        // Setup opponent
+        Socket opponentClient = new Socket("localhost", serverSocket.getLocalPort());
+        Socket opponentServer = serverSocket.accept();
+        BufferedReader opponentIn = new BufferedReader(new InputStreamReader(opponentClient.getInputStream()));
+        SocketGameHandler opponent = new SocketGameHandler(opponentServer, "Player2");
+
+        handler.setOpponent(opponent);
+        opponent.setOpponent(handler);
+
+        new Thread(opponent).start();
+
+        // Clear welcome messages
+        clientIn.readLine(); clientIn.readLine();
+        opponentIn.readLine(); opponentIn.readLine();
+
+        // Send general chat message
+        clientOut.write("Hello opponent!");
+        clientOut.newLine();
+        clientOut.flush();
+
+        Thread.sleep(100);
+        assertEquals("Player1: Hello opponent!", opponentIn.readLine());
+
+        opponentClient.close();
+        opponentServer.close();
+    }
+
+    @Test
+    void testForwardTicTacToeMove() throws Exception {
+        // Setup opponent
+        Socket opponentClient = new Socket("localhost", serverSocket.getLocalPort());
+        Socket opponentServer = serverSocket.accept();
+        BufferedReader opponentIn = new BufferedReader(new InputStreamReader(opponentClient.getInputStream()));
+        SocketGameHandler opponent = new SocketGameHandler(opponentServer, "Player2");
+
+        handler.setOpponent(opponent);
+        opponent.setOpponent(handler);
+
+        new Thread(opponent).start();
+
+        // Clear welcome messages
+        clientIn.readLine(); clientIn.readLine();
+        opponentIn.readLine(); opponentIn.readLine();
+
+        clientOut.write("MOVE:TICTACTOE:2,2");
+        clientOut.newLine();
+        clientOut.flush();
+
+        Thread.sleep(100);
+        assertEquals("MOVE:TICTACTOE:2,2", opponentIn.readLine());
+
+        opponentClient.close();
+        opponentServer.close();
+    }
+
+    @Test
+    void testBothReadyTriggersStartGame() throws Exception {
+        // Setup opponent
+        Socket opponentClient = new Socket("localhost", serverSocket.getLocalPort());
+        Socket opponentServer = serverSocket.accept();
+        BufferedReader opponentIn = new BufferedReader(new InputStreamReader(opponentClient.getInputStream()));
+        BufferedWriter opponentOut = new BufferedWriter(new OutputStreamWriter(opponentClient.getOutputStream()));
+
+        SocketGameHandler opponent = new SocketGameHandler(opponentServer, "Player2");
+        handler.setOpponent(opponent);
+        opponent.setOpponent(handler);
+
+        new Thread(opponent).start();
+
+        // Clear welcome messages
+        clientIn.readLine(); clientIn.readLine();
+        opponentIn.readLine(); opponentIn.readLine();
+
+        // Send READY from both
+        clientOut.write("READY");
+        clientOut.newLine();
+        clientOut.flush();
+
+        opponentOut.write("READY");
+        opponentOut.newLine();
+        opponentOut.flush();
+
+        Thread.sleep(200);
+        String startMsg1 = clientIn.readLine();
+        String startMsg2 = opponentIn.readLine();
+
+        assertEquals("START_GAME", startMsg1);
+        assertEquals("START_GAME", startMsg2);
+
+        opponentClient.close();
+        opponentServer.close();
+    }
+
+    @Test
+    void testWaitingRoomCloseTrigger() throws Exception {
+        // Setup opponent
+        Socket opponentClient = new Socket("localhost", serverSocket.getLocalPort());
+        Socket opponentServer = serverSocket.accept();
+        SocketGameHandler opponent = new SocketGameHandler(opponentServer, "Player2");
+
+        handler.setOpponent(opponent);
+        opponent.setOpponent(handler);
+
+        // Close this side
+        clientIn.readLine(); clientIn.readLine();
+        clientOut.write("WAITING_ROOM_CLOSED");
+        clientOut.newLine();
+        clientOut.flush();
+
+        Thread.sleep(100);
+        assertTrue(handler.isWaitingRoomClosed());
+
+        opponentClient.close();
+        opponentServer.close();
+    }
+
+    @Test
+    void testMessageWithoutOpponentDoesNotCrash() throws Exception {
+        clientIn.readLine(); clientIn.readLine();
+        clientOut.write("MOVE:TICTACTOE:0,0");
+        clientOut.newLine();
+        clientOut.flush();
+
+        Thread.sleep(50); // Should not crash
+        assertTrue(true); // no crash = pass
+    }
+
 }
