@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.seng.gui.InstructionsDialogController"
+           prefWidth="600" prefHeight="400"
+           styleClass="instructions-root">
+
+    <VBox alignment="CENTER" spacing="20" maxWidth="500" maxHeight="350"
+          styleClass="instructions-card">
+
+        <Label text="Instructions" styleClass="instructions-title" />
+
+        <Label fx:id="instructionsText"
+               wrapText="true"
+               maxWidth="400"
+               styleClass="instructions-body"
+               text="It is default set so that 2 users can run 'Hello Application'
+                     on the same device and play locally...
+                     [Add your entire instructions text here]." />
+
+        <Button text="Close" styleClass="instructions-close-btn"
+                onAction="#handleClose"/>
+    </VBox>
+</StackPane>

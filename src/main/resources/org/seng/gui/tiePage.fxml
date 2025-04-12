@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<AnchorPane prefHeight="600.0" prefWidth="900.0" styleClass="gradient-background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.seng.gui.TiePageController">
+    <Pane fx:id="trophyIconPane" style="-fx-background-color: transparent;" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+
+    <StackPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <VBox alignment="CENTER" spacing="40.0">
+            <Label fx:id="tieLabel" styleClass="lostOutline-text" text="IT'S A TIE!" textFill="#ffd800">
+                <font>
+                    <Font name="Arial Rounded MT Bold" size="64.0" />
+                </font>
+            </Label>
+            <HBox alignment="CENTER" spacing="40.0">
+                <Button fx:id="returnLobby" mnemonicParsing="false" prefHeight="65.0" prefWidth="179.0" styleClass="option-button" text="Return to Dashboard" />
+                <Button fx:id="rematch" mnemonicParsing="false" prefHeight="65.0" prefWidth="140.0" styleClass="option-button" text="New Game" />
+            </HBox>
+        </VBox>
+    </StackPane>
+</AnchorPane>
+

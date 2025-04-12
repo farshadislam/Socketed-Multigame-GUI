@@ -1,0 +1,1 @@
+alice,alice@gmail.com,alice1234,X,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,0,0,0,0,BRONZE,0,NONE,-,NONE,-,NONE,-,NONE,-,NONE,-
