@@ -42,8 +42,3 @@
   -  then there is an option to manage the account (change username, password, email)
   -  player could search for their friend on this platform, and if they exist in the system under that said username one could add them as a friend,
   -  there is a back button, and prompt which asks the user if they want to quit in case it was a misclick,
-
-
-
-
-## [***Contributors***](./team.md)
